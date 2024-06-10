@@ -114,7 +114,11 @@ inline MicrophysicalProcess auto create_microphysics(const Config &config,
   // const MicrophysicalProcess auto coal = CollCoal(
   //            tsteps.get_collstep(), &step2realtime, coalprob);
 
-  return cond;  // >> coal;
+  // const NullMicrophysicalProcess auto nullmicrophys = NullMicrophysicalProcess{};
+
+  // return nullmicrophys;
+  return cond;
+  // return cond >> coal;
 }
 
 template <typename Store>
