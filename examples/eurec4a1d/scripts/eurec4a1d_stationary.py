@@ -24,6 +24,7 @@ data and plots precipitation example given constant
 import os
 import sys
 import shutil
+import math
 import numpy as np
 import yaml
 from pathlib import Path
@@ -44,19 +45,8 @@ if "sdm_pysd_env312" not in sys.prefix:
         str(path2CLEO / "examples/exampleplotting/")
     )  # for imports from example plotting package
 
-
-rawdirectory.mkdir(exist_ok=True, parents=True)
-
 # %%
 
-with open(cloud_observation_filepath, "r") as f:
-    cloud_observation_config = yaml.safe_load(f)
-
-
-from pySD.sdmout_src import (
-    pyzarr,
-    pysetuptxt,
-)
 from pySD import editconfigfile
 from pySD.gbxboundariesbinary_src import read_gbxboundaries as rgrid
 from pySD.gbxboundariesbinary_src import create_gbxboundaries as cgrid
@@ -101,8 +91,16 @@ constsfile = path2CLEO / "libs/cleoconstants.hpp"
 binpath = path2build / "bin/"
 sharepath = path2build / "share/"
 
+rawdirectory.mkdir(exist_ok=True, parents=True)
+
 # create the raw directory for the individual cloud observation.
 # Here the output data will be stored.
+
+# CREATE A CONFIG FILE TO BE UPDATED
+with open(configfile, "r") as f:
+    updated_configfile = yaml.safe_load(f)
+
+
 with open(cloud_observation_filepath, "r") as f:
     cloud_observation_config = yaml.safe_load(f)
 
@@ -113,33 +111,31 @@ cloud_id = cloud_observation_config["cloud"]["cloud_id"]
 rawdirectory_individual = rawdirectory / f"{identification_type}_{cloud_id}"
 rawdirectory_individual.mkdir(exist_ok=True)
 
-# copy the cloud config file to the raw directory and use it
-shutil.copy(cloud_observation_config, rawdirectory_individual)
+config_dir = rawdirectory_individual / "config"
+config_dir.mkdir(exist_ok=True)
 
+# copy the cloud config file to the raw directory and use it
+shutil.copy(cloud_observation_filepath, config_dir)
+cloud_observation_filepath = config_dir / cloud_observation_filepath.name
 
 # copy the config file to the raw directory and use it
-shutil.copy(configfile, rawdirectory_individual)
+shutil.copy(configfile, config_dir)
+configfile = config_dir / configfile.name
 
-configfile = rawdirectory_individual / configfile.name
 
 sharepath_individual = rawdirectory_individual / "share"
 sharepath_individual.mkdir(exist_ok=True)
 
 
-# CREATE A CONFIG FILE TO BE UPDATED
-with open(configfile, "r") as f:
-    updated_configfile = yaml.safe_load(f)
-
 # path and file names for output data
 updated_configfile["outputdata"].update(
-    setup_filename=str(rawdirectory_individual / "eurec4a1d_setup.txt"),
-    stats_filename=str(rawdirectory_individual / "eurec4a1d_stats.txt"),
+    setup_filename=str(config_dir / "eurec4a1d_setup.txt"),
+    stats_filename=str(config_dir / "eurec4a1d_stats.txt"),
     zarrbasedir=str(rawdirectory_individual / "eurec4a1d_sol.zarr"),
 )
 
 setupfile = updated_configfile["outputdata"]["setup_filename"]
 dataset = updated_configfile["outputdata"]["zarrbasedir"]
-
 
 updated_configfile["coupled_dynamics"].update(
     **dict(
@@ -258,6 +254,7 @@ numconc = np.sum(scalefacs)
 
 updated_configfile["boundary_conditions"].update(
     COORD3LIM=COORD3LIM,  # SDs added to domain with coord3 >= COORD3LIM [m]
+    newnsupers=npergbx,  # number of new super-droplets per gridbox
     MINRADIUS=MINRADIUS,  # minimum radius of new super-droplets [m]
     MAXRADIUS=MAXRADIUS,  # maximum radius of new super-droplets [m]
     NUMCONC_a=scalefacs[0],  # number conc. of 1st droplet lognormal dist [m^-3]
@@ -310,13 +307,19 @@ for line in grid_info:
         grid_dimensions = np.array(
             line.split(":")[-1].replace(" ", "").split("x"), dtype=int
         )
-        total_number_gridboxeds = int(np.prod(grid_dimensions))
+        total_number_gridboxes = int(np.prod(grid_dimensions))
         break
 
+# Update the max number of superdroplets
+renew_timesteps = (
+    updated_configfile["timesteps"]["T_END"]
+    / updated_configfile["timesteps"]["MOTIONTSTEP"]
+)
+# add 1000 to ensure enough space for new SDs
+max_number_supers = int(math.ceil(renew_timesteps * npergbx + 1000))
 # get the total number of gridboxes
 updated_configfile["domain"].update(
-    nspacedims=1,
-    ngbxs=total_number_gridboxeds,
+    nspacedims=1, ngbxs=total_number_gridboxes, maxnsupers=max_number_supers
 )
 
 # update the config file
@@ -326,19 +329,19 @@ editconfigfile.edit_config_params(str(configfile), updated_configfile)
 
 ### ----- write thermodynamics binaries ----- ###
 thermodyngen = thermogen.ConstHydrostaticLapseRates(
-    configfile,
-    constsfile,
-    PRESS0,
-    TEMP0,
-    qvap0,
-    COORD3LIM,
-    TEMPlapses,
-    qvaplapses,
-    qcond,
-    WVEL,
-    None,
-    None,
-    Wlength,
+    configfile=configfile,
+    constsfile=constsfile,
+    PRESS0=PRESS0,
+    TEMP0=TEMP0,
+    qvap0=qvap0,
+    Zbase=COORD3LIM,
+    TEMPlapses=TEMPlapses,
+    qvaplapses=qvaplapses,
+    qcond=qcond,
+    WMAX=WVEL,
+    UVEL=None,
+    VVEL=None,
+    Wlength=Wlength,
 )
 cthermo.write_thermodynamics_binary(
     thermofile, thermodyngen, configfile, constsfile, gridfile
@@ -394,7 +397,7 @@ savefigpath = (
     str(rawdirectory_individual / "figures") + "/"
 )  # directory for saving figures
 
-SDgbxs2plt = total_number_gridboxeds - 1
+SDgbxs2plt = total_number_gridboxes - 1
 
 ### ----- show (and save) plots of binary file data ----- ###
 if isfigures[0]:
@@ -432,28 +435,3 @@ os.system(executable + " " + str(configfile))
 print("===============================")
 ### ---------------------------------------------------------------- ###
 ### ---------------------------------------------------------------- ###
-
-
-# %%
-### ---------------------------------------------------------------- ###
-### ---------------- CONVERT OUTPUT TO REGULAR ARRAY --------------- ###
-### ---------------------------------------------------------------- ###
-print("===============================")
-print("Converting output to regular array")
-OUTPUT_FILEPATH = rawdirectory_individual / "full_dataset.nc"
-# OUTPUT_FILEPATH = '/home/m/m301096/CLEO/data/output/raw/no_aerosols/cluster_18/clusters_18/full_dataset.nc'
-### ----------------------- INPUT PARAMETERS ----------------------- ###
-### --- essential paths and filenames --- ###
-
-# read in constants and intial setup from setup .txt file
-config = pysetuptxt.get_config(setupfile, nattrs=3, isprint=False)
-consts = pysetuptxt.get_consts(setupfile, isprint=False)
-# Create a first simple dataset to have the coordinates for later netcdf creation
-sddata = pyzarr.get_supers(str(dataset), consts)
-lagrange = sddata.to_Dataset(check_indices_uniqueness=True)
-lagrange.to_netcdf(OUTPUT_FILEPATH)
-print("===============================")
-### ---------------------------------------------------------------- ###
-### ---------------------------------------------------------------- ###
-
-# %%
