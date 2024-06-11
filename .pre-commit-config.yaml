@@ -21,9 +21,23 @@ repos:
     -   id: conventional-pre-commit
         stages: [commit-msg]
         args: []
-- repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.1.4 # Ruff version.
-  hooks:
-    - id: ruff # Run the linter for Python.
-      args: ["--ignore=E402"]  # Ignore E402 error "Module level import not at top of file"
-    - id: ruff-format # Run the formatter for Python.
+-   repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.4 # Ruff version.
+    hooks:
+      - id: ruff # Run the linter for Python.
+        args: ["--ignore=E402"]  # Ignore E402 error "Module level import not at top of file"
+      - id: ruff-format # Run the formatter for Python.
+
+  # Use black to clean code in python and jupyter notebook cells
+-   repo: https://github.com/psf/black
+    rev: 23.3.0
+    hooks:
+      - id: black
+        files: examples/eurec4a1d
+        args: [--config=./pyproject.toml]
+
+# -   repo: meta
+#     hooks:
+#     -   id: identity
+#         name: identity (filtered)
+#         # files: ^web\/(modules\/custom|themes\/my_theme)\/.+.php$
