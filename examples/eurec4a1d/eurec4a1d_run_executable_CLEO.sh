@@ -46,9 +46,16 @@ cloud_config_directory=${path2sdmeurec4a}data/model/input/new_subset/
 ### ---------- Setup for the EUREC4A1D model ---------- ###
 
 # --- stationary version, with super droplet creation at domain top by boundarz conditions
-path2build=${path2builds}build_eurec4a1D_stationary_condensation/
 
-rawdirectory=${path2data}stationary_condensation/
+# NO PHYSICS
+path2build=${path2builds}build_eurec4a1D_stationary_no_physics/
+rawdirectory=${path2data}stationary_no_physics/
+
+# # CONDENSTATION
+# path2build=${path2builds}build_eurec4a1D_stationary_condensation_v2/
+# rawdirectory=${path2data}stationary_condensation/
+
+
 
 pythonscript=${path2eurec4a1d}scripts/eurec4a1d_run_executable.py
 
@@ -82,7 +89,7 @@ echo "---------------------------"
 # cd ${path2build} && make clean
 
 # ${path2CLEO}/scripts/bash/compile_cleo.sh ${cleoenv} ${buildtype} ${path2build} "${executables}"
-# # ### ---------------------------------------------------- ###
+# ### ---------------------------------------------------- ###
 
 ### --------- run model through Python script ---------- ###
 export OMP_PROC_BIND=spread
