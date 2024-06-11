@@ -188,8 +188,10 @@ cloud_altitude = cloud_observation_config["cloud"]["altitude"][0]
 # only use integer precision
 cloud_altitude = int(cloud_altitude)
 
-cloud_bottom = cloud_altitude - 100
-cloud_top = cloud_altitude + 100
+cloud_thickness = 100
+
+cloud_bottom = cloud_altitude - cloud_thickness / 2
+cloud_top = cloud_altitude + cloud_thickness / 2
 vertical_resolution = 20
 
 # zgrid       = [0, cloud_top, vertical_resolution]      # evenly spaced zhalf coords [zmin, zmax, zdelta] [m]
