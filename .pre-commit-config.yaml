@@ -28,13 +28,13 @@ repos:
         args: ["--ignore=E402"]  # Ignore E402 error "Module level import not at top of file"
       - id: ruff-format # Run the formatter for Python.
 
-  # Use black to clean code in python and jupyter notebook cells
--   repo: https://github.com/psf/black
-    rev: 23.3.0
-    hooks:
-      - id: black
-        files: examples/eurec4a1d
-        args: [--config=./pyproject.toml]
+#   # Use black to clean code in python and jupyter notebook cells
+# -   repo: https://github.com/psf/black
+#     rev: 23.3.0
+#     hooks:
+#       - id: black
+#         files: examples/eurec4a1d
+#         args: [--config=./pyproject.toml]
 
 # -   repo: meta
 #     hooks:
