@@ -2,7 +2,6 @@ import os
 import sys
 from pathlib import Path
 import yaml
-import subprocess
 
 print(f"Enviroment: {sys.prefix}")
 
@@ -10,6 +9,12 @@ path2CLEO = Path(sys.argv[1])
 path2build = Path(sys.argv[2])
 cloud_observation_filepath = Path(sys.argv[3])
 rawdirectory = Path(sys.argv[4])
+
+print(f"path2CLEO: {path2CLEO}")
+print(f"path2build: {path2build}")
+print(f"cloud_observation_filepath: {cloud_observation_filepath}")
+print(f"rawdirectory: {rawdirectory}")
+
 
 with open(cloud_observation_filepath, "r") as f:
     cloud_observation_config = yaml.safe_load(f)
@@ -37,12 +42,4 @@ executable = str(path2build) + "/examples/eurec4a1d/src/eurec4a1D"
 print("Executable: " + executable)
 print("Config file: " + str(config_file))
 os.system(executable + " " + str(config_file))
-
-proc = subprocess.Popen(
-    args=[executable + " " + str(config_file)],
-    stdout=subprocess.PIPE,
-)
-
-(out, err) = proc.communicate()
-
 print("===============================")
