@@ -338,8 +338,8 @@ editconfigfile.edit_config_params(str(config_file), eurec4a1d_config)
 
 ### ----- write thermodynamics binaries ----- ###
 thermodynamics_generator = thermogen.ConstHydrostaticLapseRates(
-    config_file=config_file,
-    constants_file=constants_file,
+    configfile=config_file,
+    constsfile=constants_file,
     PRESS0=pressure_bottom,
     TEMP0=temperature_bottom,
     qvap0=specific_humidity_bottom,
