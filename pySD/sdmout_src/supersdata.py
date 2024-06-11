@@ -501,7 +501,7 @@ class SupersAttribute:
         """
         return f"{self.name} ({self.units})\n{self.data.typestr}"
 
-    def __add__(self, other):
+    def __add__(self, other, new_name: Union[str, None] = None) -> "SupersAttribute":
         """
         This method overloads the + operator.
         It performs element-wise addition of the data attribute with another object.
@@ -510,16 +510,24 @@ class SupersAttribute:
         ----------
         other : object
             The object to be added to the data attribute.
+        new_name : str, optional
+            The new name of the attribute.
+            Default is None. If None, the original name is used.
 
         Returns
         -------
         SupersAttribute
             A new SupersAttribute object with the result of the addition.
         """
+
+        if new_name is None:
+            new_name = self.name
+
         if isinstance(other, SupersAttribute):
             new_data = self.data + other.data
         else:
             new_data = self.data + other
+
         return SupersAttribute(
             name=self.name,
             data=new_data,
@@ -527,7 +535,7 @@ class SupersAttribute:
             metadata=self.metadata,
         )
 
-    def __sub__(self, other):
+    def __sub__(self, other, new_name: Union[str, None] = None) -> "SupersAttribute":
         """
         This method overloads the - operator.
         It performs element-wise subtraction of the data attribute with another object.
@@ -536,16 +544,24 @@ class SupersAttribute:
         ----------
         other : object
             The object to be subtracted from the data attribute.
+        new_name : str, optional
+            The new name of the attribute.
+            Default is None. If None, the original name is used.
 
         Returns
         -------
         SupersAttribute
             A new SupersAttribute object with the result of the subtraction.
         """
+
+        if new_name is None:
+            new_name = self.name
+
         if isinstance(other, SupersAttribute):
             new_data = self.data - other.data
         else:
             new_data = self.data - other
+
         return SupersAttribute(
             name=self.name,
             data=new_data,
@@ -553,7 +569,7 @@ class SupersAttribute:
             metadata=self.metadata,
         )
 
-    def __mul__(self, other):
+    def __mul__(self, other, new_name: Union[str, None] = None) -> "SupersAttribute":
         """
         This method overloads the * operator.
         It performs element-wise multiplication of the data attribute with another object.
@@ -562,24 +578,39 @@ class SupersAttribute:
         ----------
         other : object
             The object to be multiplied with the data attribute.
+        new_name : str, optional
+            The new name of the attribute.
+            Default is None. If None, the original name is used.
 
         Returns
         -------
         SupersAttribute
             A new SupersAttribute object with the result of the multiplication.
         """
+
+        if new_name is None:
+            new_name = self.name
+
         if isinstance(other, SupersAttribute):
             new_data = self.data * other.data
+            if other.units != "":
+                new_units = self.units + " * " + other.units
+            else:
+                new_units = self.units
         else:
             new_data = self.data * other
+            new_units = self.units
+
         return SupersAttribute(
             name=self.name,
             data=new_data,
-            units=self.units,
+            units=new_units,
             metadata=self.metadata,
         )
 
-    def __truediv__(self, other):
+    def __truediv__(
+        self, other, new_name: Union[str, None] = None
+    ) -> "SupersAttribute":
         """
         This method overloads the / operator.
         It performs element-wise division of the data attribute by another object.
@@ -588,24 +619,37 @@ class SupersAttribute:
         ----------
         other : object
             The object to divide the data attribute by.
+        new_name : str, optional
+            The new name of the attribute.
+            Default is None. If None, the original name is used.
 
         Returns
         -------
         SupersAttribute
             A new SupersAttribute object with the result of the division.
         """
+
+        if new_name is None:
+            new_name = self.name
+
         if isinstance(other, SupersAttribute):
             new_data = self.data / other.data
+            if other.units != "":
+                new_units = self.units + " / " + other.units
+            else:
+                new_units = self.units
         else:
             new_data = self.data / other
+            new_units = self.units
+
         return SupersAttribute(
             name=self.name,
             data=new_data,
-            units=self.units,
+            units=new_units,
             metadata=self.metadata,
         )
 
-    def __pow__(self, other):
+    def __pow__(self, other, new_name: Union[str, None] = None) -> "SupersAttribute":
         """
         This method overloads the ** operator.
         It performs element-wise exponentiation of the data attribute by another object.
@@ -614,22 +658,41 @@ class SupersAttribute:
         ----------
         other : object
             The object to exponentiate the data attribute by.
+        new_name : str, optional
+            The new name of the attribute.
+            Default is None. If None, the original name is used.
 
         Returns
         -------
         SupersAttribute
             A new SupersAttribute object with the result of the exponentiation.
         """
+        if new_name is None:
+            new_name = self.name
+
         if isinstance(other, SupersAttribute):
             new_data = self.data**other.data
+            if other.units != "":
+                new_units = self.units + " ^ " + other.units
+            else:
+                new_units = self.units
         else:
-            new_data = self.data**other
+            new_data = self.data / other
+            new_units = self.units
+
         return SupersAttribute(
             name=self.name,
             data=new_data,
-            units=self.units,
+            units=new_units,
             metadata=self.metadata,
         )
+
+    def flatten(self):
+        """
+        This function flattens the data of the attribute.
+        The data is flattened and stored in the attribute data.
+        """
+        self.data = ak.flatten(self.data, axis=None)
 
     def attribute_to_indexer(
         self: "SupersAttribute", new_name: Union[str, None] = None
@@ -976,6 +1039,14 @@ class SupersIndexer(SupersAttribute):
             The string representation of the attribute.
         """
         return f"{self.name} ({self.units})\ncoord: {self.coord}\n{self.data.typestr}\n{self.digitized_data.typestr}"
+
+    def flatten(self):
+        """
+        This function flattens the data of the attribute.
+        The data is flattened and stored in the attribute data.
+        """
+        self.data = ak.flatten(self.data, axis=None)
+        self.digitized_data = ak.flatten(self.digitized_data, axis=None)
 
     def bin_attribute_by_counts(
         self: "SupersAttribute", counts: ak.Array
@@ -1457,7 +1528,10 @@ class SupersDataNew(SuperdropProperties):
         )
         self.set_attribute(attribute=time_attribute)
 
-    def set_indexes(self, indexes=Tuple["SupersIndexer", "SupersIndexerBinned"]):
+    def set_indexes(
+        self,
+        indexes=Tuple["SupersIndexer", "SupersIndexerBinned", "SupersIndexerUnique"],
+    ):
         """
         This function sets the indexes of the superdroplets dataset.
         The indexes are stored in the attribute indexes as a tuple.
@@ -1558,28 +1632,6 @@ class SupersDataNew(SuperdropProperties):
 
         return result
 
-    def index_by_attribute(self, attribute: Union["SupersAttribute"]):
-        """
-        This function indexes all attributes of the superdroplets dataset by one attribute.
-        The attribute used for indexing is provided by the index_name.
-        It will be converted to an indexer
-
-        Note
-        ----
-        For the binning of the data, the ``digitzied_data`` value of the indexer is used.
-        Depending on the dimensionality of the data, the digitized data is done using the numpy digitize function or the sdtracing.ak_digitize_2D or sdtracing.ak_digitize_3D function.
-
-
-        Parameters
-        ----------
-        index : SupersAttribute
-            The attribute to be used as a new index.
-
-        """
-
-        index = SupersIndexer.attribute_to_indexer(attribute)
-        self.index_by_indexer(index=index)
-
     def index_by_indexer(self, index: Union["SupersAttribute"]):
         """
         This function indexes all attributes of the superdroplets dataset by one attribute.
@@ -1632,6 +1684,15 @@ class SupersDataNew(SuperdropProperties):
             attr.bin_attribute_by_counts(counts=counts)
 
         self.add_index(index=index)
+
+    def flatten(self):
+        """
+        This function flattens the data of the attributes.
+        The data is flattened and stored in the attribute data.
+        """
+        for attr_name in self.attributes:
+            self[attr_name].flatten()
+        self.set_indexes(indexes=[])
 
     def attribute_to_DataArray(self, attribute_name):
         """
@@ -1788,3 +1849,66 @@ class SupersDataNew(SuperdropProperties):
             name=attribute.name,
             attrs=attribute.metadata,
         )
+
+
+class SupersDataSimple(SupersDataNew):
+    """
+    The class is used to store the superdroplets dataset.
+    It is a subclass of the SuperdropProperties class.
+
+    It contains the following attributes:
+    - ds (xr.Dataset): The superdroplets dataset.
+    - raggedcount (np.ndarray): The ragged count variable.
+    - attributes (dict): The attributes of the superdroplets dataset.
+        - The keys are the names of the attributes.
+        - The values are SupersAttribute objects.
+
+    Note
+    ----
+    The attributes are stored in the attribute attributes.
+    A list of the attribute names is provided in the attribute ``attribute_names``.
+    It contains the following variables:
+    - sdId
+    - sdgbxindex
+    - xi
+    - radius
+    - msol
+    - coord3
+    - coord1
+    - coord2
+
+    The variable time is stored in the attribute time and is created by a seperate constructor function set_time.
+
+    """
+
+    def __init__(self, attributes):
+        """
+        The constructor of the class uses the data
+        This function extracts the attributes of the superdroplets dataset and stores them in a SupersDataIndexed object.
+
+        Parameters
+        ----------
+        dataset : os.PathLike or xr.Dataset
+            The path to the superdroplets dataset or the dataset itself.
+        consts : dict
+            The constants of the superdroplets dataset.
+        """
+
+        self.attributes = dict()
+        self.make_attributes(attributes)
+        self.set_indexes(indexes=[])
+
+    def make_attributes(self, attributes: list):
+        """
+        This function sets the attributes of the superdroplets dataset.
+        The attributes are stored in the attribute attributes.
+
+        Parameters
+        ----------
+        attribute_names : list
+            The names of the attributes to be stored.
+        """
+
+        # set all attribtes
+        for attribute in attributes:
+            self.set_attribute(attribute)
