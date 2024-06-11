@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=eurec4a1d
+#SBATCH --job-name=eurec4a1d_run_executable_CLEO
 #SBATCH --partition=gpu
 #SBATCH --gpus=4
 #SBATCH --nodes=1
@@ -9,8 +9,8 @@
 #SBATCH --mail-user=nils-ole.niebaumy@mpimet.mpg.de
 #SBATCH --mail-type=FAIL
 #SBATCH --account=mh1126
-#SBATCH --output=./logfiles/eurec4a1d_run_out.%j.out
-#SBATCH --error=./logfiles/eurec4a1d_run_err.%j.out
+#SBATCH --output=./logfiles/eurec4a1d_run_executable_CLEO.%j_out.out
+#SBATCH --error=./logfiles/eurec4a1d_run_executable_CLEO.%j_err.out
 
 ### ---------------------------------------------------- ###
 ### ------------------ Input Parameters ---------------- ###

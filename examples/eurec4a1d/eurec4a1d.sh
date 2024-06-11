@@ -9,8 +9,8 @@
 #SBATCH --mail-user=nils-ole.niebaumy@mpimet.mpg.de
 #SBATCH --mail-type=FAIL
 #SBATCH --account=mh1126
-#SBATCH --output=./logfiles/eurec4a1d_out.%j.out
-#SBATCH --error=./logfiles/eurec4a1d_err.%j.out
+#SBATCH --output=./logfiles/eurec4a1d.%j_out.out
+#SBATCH --error=./logfiles/eurec4a1d.%j_err.out
 
 ### ---------------------------------------------------- ###
 ### ------------------ Input Parameters ---------------- ###
@@ -37,7 +37,7 @@ path2eurec4a1d=${path2CLEO}examples/eurec4a1d/
 
 # cloud type
 path2sdmeurec4a=${HOME}/repositories/sdm-eurec4a/
-cloud_config_directory=${path2sdmeurec4a}data/model/input/new/
+cloud_config_directory=${path2sdmeurec4a}data/model/input/new_subset/
 # cloud_observation_configfile=${path2sdmeurec4a}data/model/input/new/clusters_18.yaml
 # cloud_observation_configfile=${cloud_config_directory}clusters_18.yaml
 

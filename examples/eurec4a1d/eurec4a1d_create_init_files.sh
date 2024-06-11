@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=eurec4a1d_preparation
+#SBATCH --job-name=eurec4a1d_create_init_files
 #SBATCH --partition=compute
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=128
@@ -8,8 +8,8 @@
 #SBATCH --mail-user=nils-ole.niebaumy@mpimet.mpg.de
 #SBATCH --mail-type=FAIL
 #SBATCH --account=mh1126
-#SBATCH --output=./logfiles/eurec4a1d_prepare_out.%j.out
-#SBATCH --error=./logfiles/eurec4a1d_prepare_err.%j.out
+#SBATCH --output=./logfiles/eurec4a1d_create_init_files.%j_out.out
+#SBATCH --error=./logfiles/eurec4a1d_create_init_files.%j_err.out
 
 
 ### ---------------------------------------------------- ###
@@ -32,7 +32,7 @@ executables="eurec4a1D"
 
 path2CLEO=${HOME}/CLEO/
 path2builds=${path2CLEO}builds/
-path2data=${path2CLEO}data/newoutput/
+path2data=${path2CLEO}data/output_v1.0/
 path2eurec4a1d=${path2CLEO}examples/eurec4a1d/
 
 # cloud type
