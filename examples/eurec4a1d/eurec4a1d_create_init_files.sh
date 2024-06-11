@@ -83,7 +83,7 @@ echo "---------------------------"
 ### ---------------------------------------------------- ###
 
 for cloud_configfile in ${cloud_config_directory}/*.yaml; do
-    echo "============================="
+    echo "::::::::::::::::::::::::::::::::::::"
     echo "New config files."
     echo "Prepare eurec4a1d config files with: ${cloud_configfile}"
 
@@ -96,6 +96,7 @@ for cloud_configfile in ${cloud_config_directory}/*.yaml; do
         echo "ERROR: in ${cloud_configfile}"
         echo "============================="
     }
+    echo "::::::::::::::::::::::::::::::::::::"
 done
 
 ### ---------------------------------------------------- ###

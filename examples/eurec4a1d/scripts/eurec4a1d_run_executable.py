@@ -21,7 +21,7 @@ cloud_id = cloud_observation_config["cloud"]["cloud_id"]
 rawdirectory_individual = rawdirectory / f"{identification_type}_{cloud_id}"
 config_dir = rawdirectory_individual / "config"
 
-config_file = config_dir / "eureca1d_config.yaml"
+config_file = config_dir / "eurec4a1d_config.yaml"
 dataset_file_str = str(rawdirectory_individual / "eurec4a1d_sol.zarr")
 
 with open(config_file, "r") as f:

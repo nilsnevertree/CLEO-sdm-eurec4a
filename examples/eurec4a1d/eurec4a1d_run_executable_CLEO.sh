@@ -32,7 +32,7 @@ executables="eurec4a1D"
 
 path2CLEO=${HOME}/CLEO/
 path2builds=${path2CLEO}builds/
-path2data=${path2CLEO}data/newoutput/
+path2data=${path2CLEO}data/output_v1.0/
 path2eurec4a1d=${path2CLEO}examples/eurec4a1d/
 
 # cloud type
