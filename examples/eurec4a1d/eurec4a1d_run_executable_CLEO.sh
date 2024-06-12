@@ -51,13 +51,13 @@ cloud_config_directory=${path2sdmeurec4a}data/model/input/new/
 # path2build=${path2builds}build_eurec4a1D_stationary_no_physics/
 # rawdirectory=${path2data}stationary_no_physics/
 
-# CONDENSTATION
-path2build=${path2builds}build_eurec4a1D_stationary_condensation/
-rawdirectory=${path2data}stationary_condensation/
+# # CONDENSTATION
+# path2build=${path2builds}build_eurec4a1D_stationary_condensation/
+# rawdirectory=${path2data}stationary_condensation/
 
-# # COLLISION AND CONDENSTATION
-# path2build=${path2builds}build_eurec4a1D_stationary_collision_condensation/
-# rawdirectory=${path2data}stationary_collision_condensation/
+# COLLISION AND CONDENSTATION
+path2build=${path2builds}build_eurec4a1D_stationary_collision_condensation/
+rawdirectory=${path2data}stationary_collision_condensation/
 
 
 
