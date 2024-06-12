@@ -32,7 +32,7 @@ executables="eurec4a1D"
 
 path2CLEO=${HOME}/CLEO/
 path2builds=${path2CLEO}builds/
-path2data=${path2CLEO}data/output_v1.0/
+path2data=${path2CLEO}data/output_v2.0/
 path2eurec4a1d=${path2CLEO}examples/eurec4a1d/
 
 # cloud type
@@ -44,17 +44,17 @@ cloud_config_directory=${path2sdmeurec4a}data/model/input/selected_clouds_lwc/
 
 # --- stationary version, with super droplet creation at domain top by boundarz conditions
 
-# NO PHYSICS
-path2build=${path2builds}build_eurec4a1D_stationary_no_physics/
-rawdirectory=${path2data}stationary_no_physics/
+# # NO PHYSICS
+# path2build=${path2builds}build_eurec4a1D_stationary_no_physics/
+# rawdirectory=${path2data}stationary_no_physics/
 
 # # CONDENSTATION
 # path2build=${path2builds}build_eurec4a1D_stationary_condensation/
 # rawdirectory=${path2data}stationary_condensation/
 
-# # COLLISION AND CONDENSTATION
-# path2build=${path2builds}build_eurec4a1D_stationary_collision_condensation/
-# rawdirectory=${path2data}stationary_collision_condensation/
+# COLLISION AND CONDENSTATION
+path2build=${path2builds}build_eurec4a1D_stationary_collision_condensation/
+rawdirectory=${path2data}stationary_collision_condensation/
 
 
 pythonscript=${path2eurec4a1d}scripts/eurec4a1d_stationary.py
