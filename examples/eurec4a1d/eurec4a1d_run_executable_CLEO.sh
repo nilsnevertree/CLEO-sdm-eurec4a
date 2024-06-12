@@ -37,7 +37,7 @@ path2eurec4a1d=${path2CLEO}examples/eurec4a1d/
 
 # cloud type
 path2sdmeurec4a=${HOME}/repositories/sdm-eurec4a/
-cloud_config_directory=${path2sdmeurec4a}data/model/input/new_subset/
+cloud_config_directory=${path2sdmeurec4a}data/model/input/new/
 # cloud_observation_configfile=${path2sdmeurec4a}data/model/input/new/clusters_18.yaml
 # cloud_observation_configfile=${cloud_config_directory}clusters_18.yaml
 
@@ -52,8 +52,13 @@ path2build=${path2builds}build_eurec4a1D_stationary_no_physics/
 rawdirectory=${path2data}stationary_no_physics/
 
 # # CONDENSTATION
-# path2build=${path2builds}build_eurec4a1D_stationary_condensation_v2/
+# path2build=${path2builds}build_eurec4a1D_stationary_condensation/
 # rawdirectory=${path2data}stationary_condensation/
+
+# # COLLISION AND CONDENSTATION
+# path2build=${path2builds}build_eurec4a1D_stationary_collision_condensation/
+# rawdirectory=${path2data}stationary_collision_condensation/
+
 
 
 
@@ -89,7 +94,7 @@ echo "---------------------------"
 # cd ${path2build} && make clean
 
 # ${path2CLEO}/scripts/bash/compile_cleo.sh ${cleoenv} ${buildtype} ${path2build} "${executables}"
-# ### ---------------------------------------------------- ###
+### ---------------------------------------------------- ###
 
 ### --------- run model through Python script ---------- ###
 export OMP_PROC_BIND=spread

@@ -37,17 +37,25 @@ path2eurec4a1d=${path2CLEO}examples/eurec4a1d/
 
 # cloud type
 path2sdmeurec4a=${HOME}/repositories/sdm-eurec4a/
-cloud_config_directory=${path2sdmeurec4a}data/model/input/new_subset/
-# cloud_observation_configfile=${path2sdmeurec4a}data/model/input/new/clusters_18.yaml
-# cloud_observation_configfile=${cloud_config_directory}clusters_18.yaml
+cloud_config_directory=${path2sdmeurec4a}data/model/input/selected_clouds_lwc/
 
-# Use the stationary or evolving version of the model
 
 ### ---------- Setup for the EUREC4A1D model ---------- ###
 
 # --- stationary version, with super droplet creation at domain top by boundarz conditions
-path2build=${path2builds}build_eurec4a1D_stationary_condensation/
-rawdirectory=${path2data}stationary_condensation/
+
+# NO PHYSICS
+path2build=${path2builds}build_eurec4a1D_stationary_no_physics/
+rawdirectory=${path2data}stationary_no_physics/
+
+# # CONDENSTATION
+# path2build=${path2builds}build_eurec4a1D_stationary_condensation/
+# rawdirectory=${path2data}stationary_condensation/
+
+# # COLLISION AND CONDENSTATION
+# path2build=${path2builds}build_eurec4a1D_stationary_collision_condensation/
+# rawdirectory=${path2data}stationary_collision_condensation/
+
 
 pythonscript=${path2eurec4a1d}scripts/eurec4a1d_stationary.py
 configfile=${path2eurec4a1d}src/config/eurec4a1d_config_stationary.yaml
@@ -67,8 +75,6 @@ configfile=${path2eurec4a1d}src/config/eurec4a1d_config_stationary.yaml
 ### ------------------ Load Modules -------------------- ###
 cleoenv=/work/mh1126/m300950/cleoenv
 python=${cleoenv}/bin/python3
-spack load cmake@3.23.1%gcc
-module load python3/2022.01-gcc-11.2.0
 source activate ${cleoenv}
 ### ---------------------------------------------------- ###
 
