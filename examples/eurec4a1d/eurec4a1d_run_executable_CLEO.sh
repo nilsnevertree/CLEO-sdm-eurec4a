@@ -3,9 +3,9 @@
 #SBATCH --partition=gpu
 #SBATCH --gpus=4
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=64
+#SBATCH --ntasks-per-node=128
 #SBATCH --mem=30G
-#SBATCH --time=01:30:00
+#SBATCH --time=04:30:00
 #SBATCH --mail-user=nils-ole.niebaumy@mpimet.mpg.de
 #SBATCH --mail-type=FAIL
 #SBATCH --account=mh1126
@@ -32,12 +32,12 @@ executables="eurec4a1D"
 
 path2CLEO=${HOME}/CLEO/
 path2builds=${path2CLEO}builds/
-path2data=${path2CLEO}data/output_v2.0/
+path2data=${path2CLEO}data/output_v3.0/
 path2eurec4a1d=${path2CLEO}examples/eurec4a1d/
 
 # cloud type
 path2sdmeurec4a=${HOME}/repositories/sdm-eurec4a/
-cloud_config_directory=${path2sdmeurec4a}data/model/input/new/
+cloud_config_directory=${path2sdmeurec4a}data/model/input/output_v3.0/
 # cloud_observation_configfile=${path2sdmeurec4a}data/model/input/new/clusters_18.yaml
 # cloud_observation_configfile=${cloud_config_directory}clusters_18.yaml
 
@@ -51,13 +51,13 @@ cloud_config_directory=${path2sdmeurec4a}data/model/input/new/
 # path2build=${path2builds}build_eurec4a1D_stationary_no_physics/
 # rawdirectory=${path2data}stationary_no_physics/
 
-# # CONDENSTATION
-# path2build=${path2builds}build_eurec4a1D_stationary_condensation/
-# rawdirectory=${path2data}stationary_condensation/
+# CONDENSTATION
+path2build=${path2builds}build_eurec4a1D_stationary_condensation/
+rawdirectory=${path2data}stationary_condensation/
 
-# COLLISION AND CONDENSTATION
-path2build=${path2builds}build_eurec4a1D_stationary_collision_condensation/
-rawdirectory=${path2data}stationary_collision_condensation/
+# # COLLISION AND CONDENSTATION
+# path2build=${path2builds}build_eurec4a1D_stationary_collision_condensation/
+# rawdirectory=${path2data}stationary_collision_condensation/
 
 
 
@@ -86,37 +86,37 @@ echo "pythonscript: ${pythonscript}"
 echo "---------------------------"
 ### ---------------------------------------------------- ###
 
-# ## ---------------------- build CLEO ------------------ ###
-# ${path2CLEO}/scripts/bash/build_cleo.sh ${buildtype} ${path2CLEO} ${path2build}
-# ### ---------------------------------------------------- ###
-
-# ### --------- compile executable(s) from scratch ---------- ###
-# cd ${path2build} && make clean
-
-# ${path2CLEO}/scripts/bash/compile_cleo.sh ${cleoenv} ${buildtype} ${path2build} "${executables}"
+## ---------------------- build CLEO ------------------ ###
+${path2CLEO}/scripts/bash/build_cleo.sh ${buildtype} ${path2CLEO} ${path2build}
 ### ---------------------------------------------------- ###
+
+### --------- compile executable(s) from scratch ---------- ###
+cd ${path2build} && make clean
+
+${path2CLEO}/scripts/bash/compile_cleo.sh ${cleoenv} ${buildtype} ${path2build} "${executables}"
+## ---------------------------------------------------- ###
 
 ### --------- run model through Python script ---------- ###
 export OMP_PROC_BIND=spread
 export OMP_PLACES=threads
 
-for cloud_configfile in ${cloud_config_directory}/*.yaml; do
-    echo "::::::::::::::::::::::::::::::::::::::::::::"
-    echo "============================================"
-    echo "RUNNING CLEO EXECUTABLE"
-    echo "with ${cloud_configfile}"
-    echo "============================================"
+# for cloud_configfile in ${cloud_config_directory}/*.yaml; do
+#     echo "::::::::::::::::::::::::::::::::::::::::::::"
+#     echo "============================================"
+#     echo "RUNNING CLEO EXECUTABLE"
+#     echo "with ${cloud_configfile}"
+#     echo "============================================"
 
-    script_args="${cloud_configfile} ${rawdirectory}"
-    {
-        ${python}  ${pythonscript} ${path2CLEO} ${path2build} ${script_args}
-    } || {
-        echo "============================================"
-        echo "ERROR: in ${cloud_configfile}"
-        echo "============================================"
-    }
+#     script_args="${cloud_configfile} ${rawdirectory}"
+#     {
+#         ${python}  ${pythonscript} ${path2CLEO} ${path2build} ${script_args}
+#     } || {
+#         echo "============================================"
+#         echo "ERROR: in ${cloud_configfile}"
+#         echo "============================================"
+#     }
 
-done
+# done
 
 
 ### ---------------------------------------------------- ###
