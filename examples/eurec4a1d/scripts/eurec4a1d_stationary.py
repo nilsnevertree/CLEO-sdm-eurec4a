@@ -182,24 +182,29 @@ thermodynamics_file = eurec4a1d_config["coupled_dynamics"]["thermo"]
 ### --- SETTING UP THERMODYNAMICS AND SUPERDROPLET INITIAL SETUP --- ###
 ### ---------------------------------------------------------------- ###
 
+vertical_resolution = 20
+cloud_thickness = 100
 
 ### --- settings for 1-D gridbox boundaries --- ###
 cloud_altitude = cloud_observation_config["cloud"]["altitude"][0]
 # only use integer precision
 cloud_altitude = int(cloud_altitude)
 
-cloud_thickness = 100
 
 cloud_bottom = cloud_altitude - cloud_thickness / 2
 cloud_top = cloud_altitude + cloud_thickness / 2
-vertical_resolution = 20
+
 
 # zgrid       = [0, cloud_top, vertical_resolution]      # evenly spaced zhalf coords [zmin, zmax, zdelta] [m]
 # zgrid contains the boundaries of the gridboxes
 # make sure to include the cloud bottom
-zgrid = np.arange(0, cloud_bottom + vertical_resolution, vertical_resolution)
+zgrid = np.arange(0, cloud_bottom, vertical_resolution)
 # add the cloud top as the upper boundary for the top gridbox
-zgrid = np.append(zgrid, cloud_top)
+z_cloud_base = np.max(zgrid)
+z_cloud_top = z_cloud_base + cloud_thickness
+zgrid = np.append(zgrid, z_cloud_top)
+# set the boundary to spawn new superdroplets to 1m above the cloud bottom, to make sure only in the top domain.
+z_boundary_respawn = float(z_cloud_base)  # [m]
 
 xgrid = np.array([0, 20])  # array of xhalf coords [m]
 ygrid = np.array([0, 20])  # array of yhalf coords [m]
@@ -212,7 +217,10 @@ specific_humidity_params = cloud_observation_config["thermodynamics"][
 ]["parameters"]
 
 ### --- settings for 1-D Thermodynamics --- ###
-pressure_bottom = 101315  # [Pa]
+pressure_bottom = cloud_observation_config["thermodynamics"]["pressure"].get(
+    "f_0", [101315]
+)[0]  # [Pa]
+pressure_bottom = int(pressure_bottom)
 temperature_bottom = air_temperature_params["f_0"][0]  # [K]
 temperature_lapse_rate = (
     np.array(air_temperature_params["slopes"]) * -1e3
@@ -230,8 +238,6 @@ w_length = (
 z_split_temp = air_temperature_params["x_split"]  # [m]
 z_split_qvap = specific_humidity_params["x_split"]  # [m]
 
-# create the base of the cloud as the mean of the two splits
-boundary_superdroplet_spawning = int(cloud_bottom - vertical_resolution)  # [m]
 
 ### --- settings for initial superdroplets --- ###
 sd_per_gridbox = eurec4a1d_config["initsupers"][
@@ -260,7 +266,7 @@ number_concentration = np.sum(scale_factors)
 ### ---------------------------------------------------------------- ###
 
 eurec4a1d_config["boundary_conditions"].update(
-    COORD3LIM=boundary_superdroplet_spawning,  # SDs added to domain with coord3 >= boundary_superdroplet_spawning [m]
+    COORD3LIM=z_boundary_respawn,  # SDs added to domain with coord3 >= z_boundary_respawn [m]
     newnsupers=sd_per_gridbox,  # number of new super-droplets per gridbox
     MINRADIUS=radius_minimum,  # minimum radius of new super-droplets [m]
     MAXRADIUS=radius_maximum,  # maximum radius of new super-droplets [m]
@@ -345,7 +351,7 @@ thermodynamics_generator = thermogen.ConstHydrostaticLapseRates(
     PRESS0=pressure_bottom,
     TEMP0=temperature_bottom,
     qvap0=specific_humidity_bottom,
-    Zbase=boundary_superdroplet_spawning,
+    Zbase=z_boundary_respawn,
     TEMPlapses=temperature_lapse_rate,
     qvaplapses=specific_humidity_lapse_rate,
     qcond=liquid_water_content,
@@ -364,7 +370,7 @@ cthermo.write_thermodynamics_binary(
 
 ### ----- write initial superdroplets binary ----- ###
 number_superdroplets = crdgens.nsupers_at_domain_top(
-    grid_file, constants_file, sd_per_gridbox, boundary_superdroplet_spawning
+    grid_file, constants_file, sd_per_gridbox, z_boundary_respawn
 )
 
 # get total number of superdroplets
