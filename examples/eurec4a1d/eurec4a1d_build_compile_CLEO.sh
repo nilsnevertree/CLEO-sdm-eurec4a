@@ -41,11 +41,11 @@ path2eurec4a1d=${path2CLEO}examples/eurec4a1d/
 
 # --- stationary version, with super droplet creation at domain top by boundarz conditions
 
-# # NO PHYSICS
-# path2build=${path2builds}build_eurec4a1D_stationary_no_physics/
+# NO PHYSICS
+path2build=${path2builds}build_eurec4a1D_stationary_no_physics/
 
-# CONDENSTATION
-path2build=${path2builds}build_eurec4a1D_stationary_condensation/
+# # CONDENSTATION
+# path2build=${path2builds}build_eurec4a1D_stationary_condensation/
 
 # # COLLISION AND CONDENSTATION
 # path2build=${path2builds}build_eurec4a1D_stationary_collision_condensation/

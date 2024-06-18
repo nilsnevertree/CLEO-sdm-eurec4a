@@ -107,27 +107,27 @@ inline auto create_movement(const Config &config, const Timesteps &tsteps,
 // ------------------------------
 // Null Micorphysical Process
 // ------------------------------
-// inline MicrophysicalProcess auto create_microphysics(const Config &config,
-//                                                      const Timesteps &tsteps) {
-//   const MicrophysicalProcess auto null = NullMicrophysicalProcess{};
-//   return null;
-// };
-
-// ------------------------------
-// Condensation only
-// ------------------------------
 inline MicrophysicalProcess auto create_microphysics(const Config &config,
                                                      const Timesteps &tsteps) {
-  const auto c = config.get_condensation();
-  const MicrophysicalProcess auto cond =
-      Condensation(tsteps.get_condstep(), &step2dimlesstime, c.do_alter_thermo, c.niters, c.rtol,
-                  c.atol, c.SUBTSTEP, &realtime2dimless);
-  return cond;
+  const MicrophysicalProcess auto null = NullMicrophysicalProcess{};
+  return null;
 };
 
-// ------------------------------
-// Condensation and Coalescence
-// ------------------------------
+// // ------------------------------
+// // Condensation only
+// // ------------------------------
+// inline MicrophysicalProcess auto create_microphysics(const Config &config,
+//                                                      const Timesteps &tsteps) {
+//   const auto c = config.get_condensation();
+//   const MicrophysicalProcess auto cond =
+//       Condensation(tsteps.get_condstep(), &step2dimlesstime, c.do_alter_thermo, c.niters, c.rtol,
+//                   c.atol, c.SUBTSTEP, &realtime2dimless);
+//   return cond;
+// };
+
+// // ------------------------------
+// // Condensation and Coalescence
+// // ------------------------------
 // inline MicrophysicalProcess auto create_microphysics(const Config &config,
 //                                                      const Timesteps &tsteps) {
 //   const auto c = config.get_condensation();
