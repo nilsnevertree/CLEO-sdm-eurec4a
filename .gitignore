@@ -5,14 +5,16 @@
 # *.ipynb
 *.gif
 *.tar.gz
+
 .vscode
 .ipynb_checkpoints
 .DS_Store
 __pycache__
 .clang-format
+
 build*/
-bin
 docs/source/_autosummary
-examples/examplesolutions/
+examples/examplesolutions
+roughpaper/scratch/share
 *.egg-info/*
 data

@@ -4,12 +4,12 @@
  *
  * ----- CLEO -----
  * File: main.cpp
- * Project: roughpaper
+ * Project: scratch
  * Created Date: Monday 29th January 2024
  * Author: Clara Bayley (CB)
  * Additional Contributors:
  * -----
- * Last Modified: Friday 19th April 2024
+ * Last Modified: Friday 21st June 2024
  * Modified By: CB
  * -----
  * License: BSD 3-Clause "New" or "Revised" License
@@ -24,6 +24,7 @@
 #include <concepts>
 #include <iostream>
 
+#include "./cleotypes_sizes.hpp"
 #include "cartesiandomain/cartesianmaps.hpp"
 #include "cartesiandomain/createcartesianmaps.hpp"
 #include "cartesiandomain/null_boundary_conditions.hpp"
@@ -171,10 +172,12 @@ inline auto create_sdm(const Config &config, const Timesteps &tsteps, Dataset<St
 }
 
 int main(int argc, char *argv[]) {
+  print_type_sizes(argc, argv);
+
   Kokkos::Timer kokkostimer;
 
   /* Read input parameters from configuration file(s) */
-  const Config config("/home/m/m300950/CLEO/roughpaper/share/config.yaml");
+  const Config config("/home/m/m300950/CLEO/roughpaper/scratch/share/config.yaml");
   const Timesteps tsteps(config.get_timesteps());
 
   /* Create zarr store for writing output to storage */
@@ -206,6 +209,8 @@ int main(int argc, char *argv[]) {
   std::cout << "-------------------------------\n"
                "Total Program Duration: "
             << ttot << "s \n-------------------------------\n";
+
+  return 0;
 }
-/* ---------------------------------------------------------------------------------------------- */
-/* ---------------------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------------*/
+/* ----------------------------------------------------------------------------------------------*/

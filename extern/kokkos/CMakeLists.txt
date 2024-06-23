@@ -16,17 +16,17 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC") # Kokkos needs -fPIC flag
 FetchContent_MakeAvailable(Kokkos)
 set(CMAKE_CXX_FLAGS "${FLAGS_B4}")
 
-message(STATUS "Kokkos installation in: ${CMAKE_BINARY_DIR}/_deps/Kokkos")
+message(STATUS "Kokkos installation in: ${CMAKE_CURRENT_BINARY_DIR}")
 
 # print information about compilers for C++ (and possibly CUDA)
 if(${Kokkos_ENABLE_CUDA})
   message(STATUS "Using Kokkos nvcc wrapper (see: \
 https://kokkos.org/kokkos-core-wiki/ProgrammingGuide/Compiling.html?highlight=wrapper#building-for-cuda)")
   message(STATUS "CXX compiler: ${CMAKE_CXX_COMPILER}")
-  message(STATUS "CC compiler: ${CMAKE_CC_COMPILER}")
+  message(STATUS "CC compiler: ${CMAKE_C_COMPILER}")
   message(STATUS "wrapper default (C++) compiler: ${NVCC_WRAPPER_DEFAULT_COMPILER}")
   message(STATUS "wrapper CUDA compiler: ${CUDA_ROOT}/bin/nvcc")
 else()
   message(STATUS "CXX compiler: ${CMAKE_CXX_COMPILER}")
-  message(STATUS "CC compiler: ${CMAKE_CC_COMPILER}")
+  message(STATUS "CC compiler: ${CMAKE_C_COMPILER}")
 endif()

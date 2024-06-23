@@ -9,7 +9,7 @@
  * Author: Clara Bayley (CB)
  * Additional Contributors:
  * -----
- * Last Modified: Friday 19th April 2024
+ * Last Modified: Friday 21st June 2024
  * Modified By: CB
  * -----
  * License: BSD 3-Clause "New" or "Revised" License
@@ -28,9 +28,9 @@
 #include <string>
 #include <vector>
 
-#include "./copyfiles2txt.hpp"
-#include "./optional_config_params.hpp"
-#include "./required_config_params.hpp"
+#include "initialise/copyfiles2txt.hpp"
+#include "initialise/optional_config_params.hpp"
+#include "initialise/required_config_params.hpp"
 
 /**
  * @brief Struct storing configuration parameters read from a YAML file.
@@ -82,6 +82,8 @@ struct Config {
     return optional.condensation;
   }
 
+  OptionalConfigParams::BreakupParams get_breakup() const { return optional.breakup; }
+
   OptionalConfigParams::InitSupersFromBinaryParams get_initsupersfrombinary() const {
     return optional.initsupersfrombinary;
   }
@@ -93,6 +95,8 @@ struct Config {
   OptionalConfigParams::FromFileDynamicsParams get_fromfiledynamics() const {
     return optional.fromfiledynamics;
   }
+
+  OptionalConfigParams::YacDynamicsParams get_yac_dynamics() const { return optional.yac_dynamics; }
 
   OptionalConfigParams::AddSupersAtDomainTopParams get_addsupersatdomaintop() const {
     return optional.addsupersatdomaintop;

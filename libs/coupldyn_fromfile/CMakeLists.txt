@@ -8,7 +8,8 @@ set(LIBNAME "coupldyn_fromfile")
 message("${LIBNAME} LIBRARY_SOURCE_DIR: ${CMAKE_CURRENT_SOURCE_DIR}")
 
 # explicitly set library executables path to /lib in top level of build tree
-set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
+set(LIB_BINARY_DIR ${CLEO_BINARY_DIR}/lib)
+
 
 # Add executables and create library target
 set(SOURCES
@@ -19,8 +20,8 @@ set(SOURCES
 add_library("${LIBNAME}" STATIC ${SOURCES})
 
 # Add directories for target library
-target_include_directories(${LIBNAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
-target_include_directories(${LIBNAME} PRIVATE "${CMAKE_SOURCE_DIR}/libs") # CLEO libs directory
+#target_include_directories(${LIBNAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
+target_include_directories(${LIBNAME} PRIVATE "${CLEO_SOURCE_DIR}/libs") # CLEO libs directory
 
 # Link libraries to target library
 set(LINKLIBS initialise gridboxes superdrops)
@@ -31,6 +32,7 @@ target_link_libraries("${LIBNAME}" PUBLIC ${LINKLIBS})
 
 # set C++ properties for target
 set_target_properties(${LIBNAME} PROPERTIES
+  LIBRARY_OUTPUT_DIRECTORY ${LIB_BINARY_DIR}
   CMAKE_CXX_STANDARD_REQUIRED ON
   CMAKE_CXX_EXTENSIONS ON
   CXX_STANDARD 20)

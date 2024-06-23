@@ -9,7 +9,7 @@
  * Author: Clara Bayley (CB)
  * Additional Contributors:
  * -----
- * Last Modified: Saturday 4th May 2024
+ * Last Modified: Tuesday 18th June 2024
  * Modified By: CB
  * -----
  * License: BSD 3-Clause "New" or "Revised" License
@@ -48,6 +48,7 @@
 #include "observers/nsupers_observer.hpp"
 #include "observers/observers.hpp"
 #include "observers/runstats_observer.hpp"
+#include "observers/sdmmonitor/monitor_condensation_observer.hpp"
 #include "observers/state_observer.hpp"
 #include "observers/streamout_observer.hpp"
 #include "observers/superdrops_observer.hpp"
@@ -105,25 +106,16 @@ inline auto create_movement(const Config &config, const Timesteps &tsteps,
 }
 
 // ------------------------------
-// Null Micorphysical Process
+// Condensation only
 // ------------------------------
 inline MicrophysicalProcess auto create_microphysics(const Config &config,
                                                      const Timesteps &tsteps) {
-  const MicrophysicalProcess auto null = NullMicrophysicalProcess{};
-  return null;
+  const auto c = config.get_condensation();
+  const MicrophysicalProcess auto cond =
+      Condensation(tsteps.get_condstep(), &step2dimlesstime, c.do_alter_thermo, c.maxniters, c.rtol,
+                   c.atol, c.MINSUBTSTEP, &realtime2dimless);
+  return cond;
 };
-
-// // ------------------------------
-// // Condensation only
-// // ------------------------------
-// inline MicrophysicalProcess auto create_microphysics(const Config &config,
-//                                                      const Timesteps &tsteps) {
-//   const auto c = config.get_condensation();
-//   const MicrophysicalProcess auto cond =
-//       Condensation(tsteps.get_condstep(), &step2dimlesstime, c.do_alter_thermo, c.niters, c.rtol,
-//                   c.atol, c.SUBTSTEP, &realtime2dimless);
-//   return cond;
-// };
 
 // // ------------------------------
 // // Condensation and Coalescence
@@ -139,6 +131,16 @@ inline MicrophysicalProcess auto create_microphysics(const Config &config,
 //              tsteps.get_collstep(), &step2realtime, coalprob);
 //   return cond >> coal;
 // }
+
+// ------------------------------
+// Null Micorphysical Process
+// ------------------------------
+inline MicrophysicalProcess auto create_microphysics(const Config &config,
+                                                     const Timesteps &tsteps) {
+  const MicrophysicalProcess auto null = NullMicrophysicalProcess{};
+  return null;
+};
+
 
 template <typename Store>
 inline Observer auto create_superdrops_observer(const unsigned int interval,
@@ -192,6 +194,7 @@ inline Observer auto create_observer(const Config &config, const Timesteps &tste
 
   const Observer auto obs_cond = MonitorCondensationObserver(obsstep, dataset, maxchunk, ngbxs);
 
+<<<<<<< HEAD
   return obs_cond
         >> obs_sd
         >> obs_gbx
@@ -201,6 +204,9 @@ inline Observer auto create_observer(const Config &config, const Timesteps &tste
         >> obs_time
         >> obs_streamout
         >> obs_stats;
+=======
+  return obs_cond >> obssd >> obsgbx >> obs6 >> obs5 >> obs3 >> obs2 >> obs1 >> obs0;
+>>>>>>> 6e092c6475db4364703c05d82843cc96d2e10f3f
 }
 
 template <typename Store>

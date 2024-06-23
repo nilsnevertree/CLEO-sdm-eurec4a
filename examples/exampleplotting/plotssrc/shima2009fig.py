@@ -6,7 +6,7 @@ Created Date: Friday 17th November 2023
 Author: Clara Bayley (CB)
 Additional Contributors:
 -----
-Last Modified: Monday 15th April 2024
+Last Modified: Sunday 16th June 2024
 Modified By: CB
 -----
 License: BSD 3-Clause "New" or "Revised" License
@@ -39,6 +39,7 @@ def plot_validation_figure(
     n_a,
     r_a,
     smoothsig,
+    xlims=[10, 5000],
     savename="",
     withgol=False,
 ):
@@ -49,7 +50,7 @@ def plot_validation_figure(
     non_nanradius = ak.nan_to_none(sddata["radius"])
     rspan = [ak.min(non_nanradius), ak.max(non_nanradius)]
 
-    fig, ax, ax_err = setup_validation_figure(witherr=witherr)
+    fig, ax, ax_err = setup_validation_figure(witherr, xlims)
 
     for n in range(len(tplt)):
         ind = np.argmin(abs(time - tplt[n]))
@@ -64,9 +65,10 @@ def plot_validation_figure(
 
         radius = selsddata["radius"][n]
         xi = selsddata["xi"][n]
-        hist, hcens = plot_massdens_distrib(
-            ax, rspan, nbins, domainvol, xi, radius, sddata, smoothsig, tlab, c
+        hist, hcens = calc_massdens_distrib(
+            rspan, nbins, domainvol, xi, radius, sddata, smoothsig
         )
+        ax.plot(hcens, hist, label=tlab, color=c)
 
         if witherr:
             golsol, hcens = golovin_analytical(
@@ -87,7 +89,7 @@ def plot_validation_figure(
     return fig, ax
 
 
-def setup_validation_figure(witherr):
+def setup_validation_figure(witherr, xlims):
     if witherr:
         gd = dict(height_ratios=[5, 1])
         fig, [ax, ax_err] = plt.subplots(
@@ -96,7 +98,6 @@ def setup_validation_figure(witherr):
     else:
         fig, ax = plt.subplots(ncols=1, nrows=1, figsize=(8, 6))
 
-    xlims = [10, 5000]
     ax.set_xscale("log")
     ax.set_xlim(xlims)
     ax.set_xlabel("radius, r, /\u03BCm")
@@ -162,16 +163,12 @@ def plot_golovin_analytical_solution(ax, hcens, golsol, n, c):
     return ax
 
 
-def plot_massdens_distrib(
-    ax, rspan, nbins, domainvol, xi, radius, sddata, smoothsig, tlab, c
-):
+def calc_massdens_distrib(rspan, nbins, domainvol, xi, radius, sddata, smoothsig):
     m_asif_water = sddata.vol(radius) * sddata.RHO_L  # superdrops mass as if water [g]
     weights = xi * m_asif_water * 1000 / domainvol  # real droplets [g/m^3]
 
     hist, hedges, hcens = logr_distribution(
         rspan, nbins, radius, weights, perlogR=True, smooth=smoothsig
     )
-
-    ax.plot(hcens, hist, label=tlab, color=c)
 
     return hist, hcens

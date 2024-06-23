@@ -9,7 +9,7 @@
  * Author: Clara Bayley (CB)
  * Additional Contributors:
  * -----
- * Last Modified: Wednesday 22nd May 2024
+ * Last Modified: Friday 21st June 2024
  * Modified By: CB
  * -----
  * License: BSD 3-Clause "New" or "Revised" License
@@ -32,8 +32,8 @@
 #include <unordered_map>
 #include <vector>
 
-#include "./xarray_metadata.hpp"
-#include "./zarr_array.hpp"
+#include "zarr/xarray_metadata.hpp"
+#include "zarr/zarr_array.hpp"
 
 /**
  * @brief Write attributes string to a store under a .zattrs key.
@@ -47,7 +47,7 @@
  * @tparam Store The type of the store object where the metadata will be written.
  * @param store The store object where the metadata will be written.
  * @param name The name under which the .zarray key will be stored in the store.
- * @param metadata The metadata to write for the .zarray key.
+ * @param attrs The metadata to write for the .zarray key.
  */
 template <typename Store>
 inline void write_zattrs_json(Store& store, std::string_view name, std::string_view attrs) {
