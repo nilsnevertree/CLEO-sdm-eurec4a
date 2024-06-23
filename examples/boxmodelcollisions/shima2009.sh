@@ -20,18 +20,19 @@
 ### ---------------------------------------------------- ###
 buildtype="cuda"
 path2CLEO=${HOME}/CLEO/
-path2build=${HOME}/CLEO/build_shima2009/
-executables="golcolls longcolls lowlistcolls"
+path2build=${HOME}/CLEO/build_colls0D/
+enableyac=false
+executables="golcolls longcolls"
 
 pythonscript=${path2CLEO}/examples/boxmodelcollisions/shima2009.py
 configfile=${path2CLEO}/examples/boxmodelcollisions/shima2009_config.yaml
-script_args="${configfile} golovin long lowlist"
+script_args="${configfile} golovin long1 long2"
 ### ---------------------------------------------------- ###
 ### ---------------------------------------------------- ###
 ### ---------------------------------------------------- ###
 
 ### ---------- build, compile and run example ---------- ###
 ${path2CLEO}/examples/run_example.sh \
-  ${buildtype} ${path2CLEO} ${path2build} \
+  ${buildtype} ${path2CLEO} ${path2build} ${enableyac} \
   "${executables}" ${pythonscript} "${script_args}"
 ### ---------------------------------------------------- ###

@@ -9,7 +9,7 @@
  * Author: Clara Bayley (CB)
  * Additional Contributors:
  * -----
- * Last Modified: Monday 27th May 2024
+ * Last Modified: Friday 21st June 2024
  * Modified By: CB
  * -----
  * License: BSD 3-Clause "New" or "Revised" License
@@ -19,8 +19,8 @@
  * Header file for main.cpp to run the CLEO super-droplet model (SDM).
  */
 
-#ifndef SRC_MAIN_IMPL_HPP_
-#define SRC_MAIN_IMPL_HPP_
+#ifndef ROUGHPAPER_SRC_MAIN_IMPL_HPP_
+#define ROUGHPAPER_SRC_MAIN_IMPL_HPP_
 
 #include <Kokkos_Core.hpp>
 #include <cmath>
@@ -50,7 +50,8 @@
 #include "observers/nsupers_observer.hpp"
 #include "observers/observers.hpp"
 #include "observers/runstats_observer.hpp"
-#include "observers/sdmmonitor/monitor_condensation.hpp"
+#include "observers/sdmmonitor/monitor_condensation_observer.hpp"
+#include "observers/sdmmonitor/monitor_massmoments_observer.hpp"
 #include "observers/state_observer.hpp"
 #include "observers/streamout_observer.hpp"
 #include "observers/superdrops_observer.hpp"
@@ -113,8 +114,8 @@ inline Motion<CartesianMaps> auto create_motion(const unsigned int motionstep) {
 }
 
 inline auto create_boundary_conditions(const Config &config) {
-  return AddSupersAtDomainTop(config.get_addsupersatdomaintop());
-  // return NullBoundaryConditions{};
+  // return AddSupersAtDomainTop(config.get_addsupersatdomaintop());
+  return NullBoundaryConditions{};
 }
 
 template <GridboxMaps GbxMaps>
@@ -130,13 +131,13 @@ inline MicrophysicalProcess auto config_condensation(const Config &config,
                                                      const Timesteps &tsteps) {
   const auto c = config.get_condensation();
 
-  return Condensation(tsteps.get_condstep(), &step2dimlesstime, c.do_alter_thermo, c.niters, c.rtol,
-                      c.atol, c.SUBTSTEP, &realtime2dimless);
+  return Condensation(tsteps.get_condstep(), &step2dimlesstime, c.do_alter_thermo, c.maxniters,
+                      c.rtol, c.atol, c.MINSUBTSTEP, &realtime2dimless);
 }
 
 inline MicrophysicalProcess auto config_collisions(const Config &config, const Timesteps &tsteps) {
   // const PairProbability auto collprob = LongHydroProb();
-  // // const NFragments auto nfrags = ConstNFrags(5.0);
+  // // const NFragments auto nfrags = ConstNFrags(config.get_breakup().constnfrags.nfrags);
   // const NFragments auto nfrags = CollisionKineticEnergyNFrags{};
   // // const CoalBuReFlag auto coalbure_flag = SUCoalBuReFlag{};
   // const CoalBuReFlag auto coalbure_flag = TSCoalBuReFlag{};
@@ -148,7 +149,7 @@ inline MicrophysicalProcess auto config_collisions(const Config &config, const T
   // return colls;
 
   // const PairProbability auto buprob = LowListBuProb();
-  // const NFragments auto nfrags = ConstNFrags(5.0);
+  // const NFragments auto nfrags = ConstNFrags(config.get_breakup().constnfrags.nfrags);
   // const MicrophysicalProcess auto bu = CollBu(tsteps.get_collstep(),
   //                                             &step2realtime,
   //                                             buprob,
@@ -206,8 +207,10 @@ template <typename Store>
 inline Observer auto create_sdmmonitor_observer(const unsigned int interval,
                                                 Dataset<Store> &dataset, const size_t maxchunk,
                                                 const size_t ngbxs) {
-  const Observer auto monitor_cond = CondensationObserver(interval, dataset, maxchunk, ngbxs);
-  return monitor_cond;
+  const Observer auto obs_cond = MonitorCondensationObserver(interval, dataset, maxchunk, ngbxs);
+  const Observer auto obs_massmoms = MonitorMassMomentsObserver(interval, dataset, maxchunk, ngbxs);
+
+  return obs_cond >> obs_massmoms;
 }
 
 template <typename Store>
@@ -251,4 +254,4 @@ inline auto create_sdm(const Config &config, const Timesteps &tsteps, Dataset<St
   return SDMMethods(couplstep, gbxmaps, microphys, movesupers, obs);
 }
 
-#endif  // SRC_MAIN_IMPL_HPP_
+#endif  // ROUGHPAPER_SRC_MAIN_IMPL_HPP_

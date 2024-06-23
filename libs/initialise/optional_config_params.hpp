@@ -9,7 +9,7 @@
  * Author: Clara Bayley (CB)
  * Additional Contributors:
  * -----
- * Last Modified: Wednesday 1st May 2024
+ * Last Modified: Tuesday 18th June 2024
  * Modified By: CB
  * -----
  * License: BSD 3-Clause "New" or "Revised" License
@@ -60,12 +60,20 @@ struct OptionalConfigParams {
   struct CondensationParams {
     void set_params(const YAML::Node& config);
     void print_params() const;
-    bool do_alter_thermo = false;          /**< true = cond/evap alters the thermodynamic state */
-    unsigned int niters = NaNVals::uint(); /**< suggested no. iterations of Newton Raphson Method */
-    double SUBTSTEP = NaNVals::dbl();      /**< smallest subtimestep in cases of substepping [s] */
-    double rtol = NaNVals::dbl();          /**< relative tolerance for implicit Euler integration */
-    double atol = NaNVals::dbl();          /**< abolute tolerance for implicit Euler integration */
+    bool do_alter_thermo = false;        /**< true = cond/evap alters the thermodynamic state */
+    size_t maxniters = NaNVals::sizet(); /**< maximum no. iterations of Newton Raphson Method */
+    double MINSUBTSTEP = NaNVals::dbl(); /**< minimum subtimestep in cases of substepping [s] */
+    double rtol = NaNVals::dbl();        /**< relative tolerance for implicit Euler integration */
+    double atol = NaNVals::dbl();        /**< abolute tolerance for implicit Euler integration */
   } condensation;
+
+  struct BreakupParams {
+    void set_params(const YAML::Node& config);
+    void print_params() const;
+    struct ConstNFragsParams {
+      double nfrags = NaNVals::dbl(); /**< average no. of fragments per droplet breakup */
+    } constnfrags;
+  } breakup;
 
   /*** Super-Droplet Initialisation Parameters ***/
   struct InitSupersFromBinaryParams {
@@ -107,6 +115,15 @@ struct OptionalConfigParams {
     double rtol = NaNVals::dbl(); /**< relative tolerance for integration of [P, T, qv, qc] ODEs */
     double atol = NaNVals::dbl(); /**< absolute tolerances for integration of [P, T, qv, qc] ODEs */
   } cvodedynamics;
+
+  struct YacDynamicsParams {
+    void set_params(const YAML::Node& config);
+    void print_params() const;
+    double lower_longitude = NaNVals::dbl();
+    double upper_longitude = NaNVals::dbl();
+    double lower_latitude = NaNVals::dbl();
+    double upper_latitude = NaNVals::dbl();
+  } yac_dynamics;
 
   /*** Bounday Conditions Parameters ***/
   struct AddSupersAtDomainTopParams {

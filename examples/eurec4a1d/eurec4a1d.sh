@@ -12,7 +12,12 @@
 #SBATCH --output=./logfiles/eurec4a1d.%j_out.out
 #SBATCH --error=./logfiles/eurec4a1d.%j_err.out
 
+<<<<<<< HEAD
 ### ---------------------------------------------------- ###
+=======
+# TODO(all): python script(s) for example
+
+>>>>>>> 6e092c6475db4364703c05d82843cc96d2e10f3f
 ### ------------------ Input Parameters ---------------- ###
 ### ------ You MUST edit these lines to set your ------- ###
 ### ----- environment, build type, directories, the ---- ###
@@ -28,10 +33,12 @@ echo "git branch: $(git symbolic-ref --short HEAD)"
 echo "============================================"
 
 buildtype="cuda"
+path2CLEO=${HOME}/CLEO/
+path2build=${HOME}/CLEO/build_eurec4a1D/
+enableyac=false
+
 executables="eurec4a1D"
 
-path2CLEO=${HOME}/CLEO/
-path2builds=${path2CLEO}builds/
 path2data=${path2CLEO}data/newoutput/
 path2eurec4a1d=${path2CLEO}examples/eurec4a1d/
 
@@ -63,13 +70,17 @@ configfile=${path2eurec4a1d}src/config/eurec4a1d_config_stationary.yaml
 ### ---------------------------------------------------- ###
 
 
-
 ### ------------------ Load Modules -------------------- ###
 cleoenv=/work/mh1126/m300950/cleoenv
 python=${cleoenv}/bin/python3
 spack load cmake@3.23.1%gcc
 module load python3/2022.01-gcc-11.2.0
 source activate ${cleoenv}
+
+### ---------- build, compile and run example ---------- ###
+${path2CLEO}/examples/run_example.sh \
+  ${buildtype} ${path2CLEO} ${path2build} ${enableyac} \
+  "${executables}" ${pythonscript} "${script_args}"
 ### ---------------------------------------------------- ###
 
 ### -------------------- print inputs ------------------ ###

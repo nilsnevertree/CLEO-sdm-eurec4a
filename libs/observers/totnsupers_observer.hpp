@@ -9,7 +9,7 @@
  * Author: Clara Bayley (CB)
  * Additional Contributors:
  * -----
- * Last Modified: Saturday 25th May 2024
+ * Last Modified: Friday 21st June 2024
  * Modified By: CB
  * -----
  * License: BSD 3-Clause "New" or "Revised" License
@@ -29,9 +29,9 @@
 #include <memory>
 
 #include "../kokkosaliases.hpp"
-#include "./consttstep_observer.hpp"
-#include "./observers.hpp"
 #include "gridboxes/gridbox.hpp"
+#include "observers/consttstep_observer.hpp"
+#include "observers/observers.hpp"
 #include "superdrops/sdmmonitor.hpp"
 #include "zarr/buffer.hpp"
 #include "zarr/dataset.hpp"
@@ -123,7 +123,6 @@ class DoTotNsupersObs {
  * @param interval Observation timestep.
  * @param dataset Dataset to write time data to.
  * @param maxchunk Maximum number of elements in a chunk (1-D vector size).
- * @param step2dimlesstime Function to convert model timesteps to real time (assumed seconds).
  * @return Constructed type satisfying observer concept.
  */
 template <typename Store>

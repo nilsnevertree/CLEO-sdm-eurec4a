@@ -3,13 +3,13 @@
  *
  *
  * ----- CLEO -----
- * File: monitor_condensation.hpp
+ * File: monitor_condensation_observer.hpp
  * Project: sdmmonitor
  * Created Date: Wednesday 8th May 2024
  * Author: Clara Bayley (CB)
  * Additional Contributors:
  * -----
- * Last Modified: Monday 27th May 2024
+ * Last Modified: Friday 21st June 2024
  * Modified By: CB
  * -----
  * License: BSD 3-Clause "New" or "Revised" License
@@ -20,17 +20,17 @@
  * microphysical process in each gridbox a constant interval at the start of each timestep.
  */
 
-#ifndef LIBS_OBSERVERS_SDMMONITOR_MONITOR_CONDENSATION_HPP_
-#define LIBS_OBSERVERS_SDMMONITOR_MONITOR_CONDENSATION_HPP_
+#ifndef LIBS_OBSERVERS_SDMMONITOR_MONITOR_CONDENSATION_OBSERVER_HPP_
+#define LIBS_OBSERVERS_SDMMONITOR_MONITOR_CONDENSATION_OBSERVER_HPP_
 
 #include <Kokkos_Core.hpp>
 #include <concepts>
 #include <memory>
 
 #include "../../kokkosaliases.hpp"
-#include "../consttstep_observer.hpp"
-#include "../observers.hpp"
-#include "./do_sdmmonitor_obs.hpp"
+#include "observers/consttstep_observer.hpp"
+#include "observers/observers.hpp"
+#include "observers/sdmmonitor/do_sdmmonitor_obs.hpp"
 
 /* struct satisfies SDMMonitor concept for use in do_sdmmonitor_obs to make observer */
 struct MonitorCondensation {
@@ -54,7 +54,23 @@ struct MonitorCondensation {
    * @param totmass_condensed Mass condensed in one gridbox during one microphysical timestep
    */
   KOKKOS_FUNCTION
-  void monitor_microphysics(const TeamMember& team_member, const double totmass_condensed) const;
+  void monitor_condensation(const TeamMember& team_member, const double totmass_condensed) const;
+
+  /**
+   * @brief Placeholder function to obey SDMMonitor concept does nothing.
+   *
+   * @param team_member Kokkkos team member in TeamPolicy parallel loop over gridboxes
+   * @param supers (sub)View of all the superdrops in one gridbox during one microphysical timestep
+   */
+  KOKKOS_FUNCTION
+  void monitor_microphysics(const TeamMember& team_member, const viewd_constsupers supers) const {}
+
+  /**
+   * @brief Placeholder function to obey SDMMonitor concept does nothing.
+   *
+   * @param d_gbxs The view of gridboxes in device memory.
+   */
+  void monitor_motion(const viewd_constgbx d_gbxs) const {}
 
   /**
    * @brief Constructor for MonitorCondensation
@@ -74,11 +90,13 @@ struct MonitorCondensation {
  * @param interval Observation timestep.
  * @param dataset Dataset to write time data to.
  * @param maxchunk Maximum number of elements in a chunk (1-D vector size).
+ * @param ngbxs The number of gridboxes.
  * @return Constructed type satisfying observer concept.
  */
 template <typename Store>
-inline Observer auto CondensationObserver(const unsigned int interval, Dataset<Store>& dataset,
-                                          const size_t maxchunk, const size_t ngbxs) {
+inline Observer auto MonitorCondensationObserver(const unsigned int interval,
+                                                 Dataset<Store>& dataset, const size_t maxchunk,
+                                                 const size_t ngbxs) {
   using Mo = MonitorCondensation;
   const auto name = std::string_view("massdelta_cond");
   const auto units = std::string_view("g");
@@ -92,4 +110,4 @@ inline Observer auto CondensationObserver(const unsigned int interval, Dataset<S
   return ConstTstepObserver(interval, do_obs);
 }
 
-#endif  //  LIBS_OBSERVERS_SDMMONITOR_MONITOR_CONDENSATION_HPP_
+#endif  //  LIBS_OBSERVERS_SDMMONITOR_MONITOR_CONDENSATION_OBSERVER_HPP_

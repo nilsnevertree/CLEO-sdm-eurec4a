@@ -9,7 +9,7 @@
  * Author: Clara Bayley (CB)
  * Additional Contributors:
  * -----
- * Last Modified: Wednesday 1st May 2024
+ * Last Modified: Friday 21st June 2024
  * Modified By: CB
  * -----
  * License: BSD 3-Clause "New" or "Revised" License
@@ -49,6 +49,11 @@ void OptionalConfigParams::set_microphysics(const YAML::Node &config) {
     condensation.set_params(config);
     condensation.print_params();
   }
+
+  if (node["breakup"]) {
+    breakup.set_params(config);
+    breakup.print_params();
+  }
 }
 
 void OptionalConfigParams::set_initsupers(const YAML::Node &config) {
@@ -71,6 +76,9 @@ void OptionalConfigParams::set_coupled_dynamics(const YAML::Node &config) {
   } else if (type == "cvode") {
     cvodedynamics.set_params(config);
     cvodedynamics.print_params();
+  } else if (type == "yac") {
+    yac_dynamics.set_params(config);
+    yac_dynamics.print_params();
   } else {
     throw std::invalid_argument("unknown coupled_dynamics 'type': " + type);
   }
@@ -91,16 +99,27 @@ void OptionalConfigParams::CondensationParams::set_params(const YAML::Node &conf
   const YAML::Node node = config["microphysics"]["condensation"];
 
   do_alter_thermo = node["do_alter_thermo"].as<bool>();
-  niters = node["niters"].as<unsigned int>();
-  SUBTSTEP = node["SUBTSTEP"].as<double>();
+  maxniters = node["maxniters"].as<size_t>();
+  MINSUBTSTEP = node["MINSUBTSTEP"].as<double>();
   rtol = node["rtol"].as<double>();
   atol = node["atol"].as<double>();
 }
 
 void OptionalConfigParams::CondensationParams::print_params() const {
   std::cout << "\n-------- Condensation Configuration Parameters --------------"
-            << "\ndo_alter_thermo: " << do_alter_thermo << "\nniters: " << niters
-            << "\nSUBSTEP: " << SUBTSTEP << "\nrtol: " << rtol << "\natol: " << atol
+            << "\ndo_alter_thermo: " << do_alter_thermo << "\nmaxniters: " << maxniters
+            << "\nMINSUBSTEP: " << MINSUBTSTEP << "\nrtol: " << rtol << "\natol: " << atol
+            << "\n---------------------------------------------------------\n";
+}
+
+void OptionalConfigParams::BreakupParams::set_params(const YAML::Node &config) {
+  const YAML::Node node = config["microphysics"]["breakup"]["constnfrags"];
+  constnfrags.nfrags = node["nfrags"].as<double>();
+}
+
+void OptionalConfigParams::BreakupParams::print_params() const {
+  std::cout << "\n-------- Breakup Configuration Parameters --------------"
+            << "\nConstNFrags nfrags: " << constnfrags.nfrags
             << "\n---------------------------------------------------------\n";
 }
 
@@ -144,8 +163,10 @@ void OptionalConfigParams::FromFileDynamicsParams::set_params(const YAML::Node &
   switch (nspacedims) {
     case 3:  // 3-D model
       vvel = fspath_from_yaml("vvel");
+      [[fallthrough]];
     case 2:  // 3-D or 2-D model
       uvel = fspath_from_yaml("uvel");
+      [[fallthrough]];
     case 1:  // 3-D, 2-D or 1-D model
       wvel = fspath_from_yaml("wvel");
   }
@@ -179,6 +200,24 @@ void OptionalConfigParams::CvodeDynamicsParams::print_params() const {
             << "\nngbxs: " << ngbxs << "\nP_init: " << P_init << "\nTEMP_init: " << TEMP_init
             << "\nrelh_init: " << relh_init << "\nW_avg: " << W_avg << "\nTAU_half: " << TAU_half
             << "\nrtol: " << rtol << "\natol: " << atol
+            << "\n---------------------------------------------------------\n";
+}
+
+void OptionalConfigParams::YacDynamicsParams::set_params(const YAML::Node &config) {
+  const YAML::Node node = config["coupled_dynamics"];
+
+  assert((node["type"].as<std::string>() == "yac"));
+
+  lower_longitude = node["lower_longitude"].as<double>();
+  upper_longitude = node["upper_longitude"].as<double>();
+  lower_latitude = node["lower_latitude"].as<double>();
+  upper_latitude = node["upper_latitude"].as<double>();
+}
+
+void OptionalConfigParams::YacDynamicsParams::print_params() const {
+  std::cout << "\n-------- YacDynamics Configuration Parameters --------------"
+            << "\nlower_longitude: " << lower_longitude << "\nupper_longitude: " << upper_longitude
+            << "\nlower_latitude: " << lower_latitude << "\nupper_latitude: " << upper_latitude
             << "\n---------------------------------------------------------\n";
 }
 

@@ -9,7 +9,7 @@
  * Author: Clara Bayley (CB)
  * Additional Contributors:
  * -----
- * Last Modified: Friday 19th April 2024
+ * Last Modified: Sunday 16th June 2024
  * Modified By: CB
  * -----
  * License: BSD 3-Clause "New" or "Revised" License
@@ -49,6 +49,8 @@
 #include "runcleo/couplingcomms.hpp"
 #include "runcleo/runcleo.hpp"
 #include "runcleo/sdmmethods.hpp"
+#include "superdrops/collisions/breakup.hpp"
+#include "superdrops/collisions/breakup_nfrags.hpp"
 #include "superdrops/collisions/coalescence.hpp"
 #include "superdrops/collisions/lowlistprob.hpp"
 #include "superdrops/microphysicalprocess.hpp"
@@ -78,9 +80,16 @@ inline auto create_movement(const CartesianMaps &gbxmaps) {
 
 inline MicrophysicalProcess auto create_microphysics(const Config &config,
                                                      const Timesteps &tsteps) {
-  const PairProbability auto prob = LowListCoalProb();
-  const MicrophysicalProcess auto colls = CollCoal(tsteps.get_collstep(), &step2realtime, prob);
-  return colls;
+  const auto c = config.get_breakup();
+  const PairProbability auto buprob = LowListBuProb();
+  const NFragments auto nfrags = ConstNFrags(c.constnfrags.nfrags);
+  const MicrophysicalProcess auto bu =
+      CollBu(tsteps.get_collstep(), &step2realtime, buprob, nfrags);
+
+  const PairProbability auto coalprob = LowListCoalProb();
+  const MicrophysicalProcess auto coal = CollCoal(tsteps.get_collstep(), &step2realtime, coalprob);
+
+  return coal >> bu;
 }
 
 template <typename Store>

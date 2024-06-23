@@ -8,10 +8,14 @@ set(LIBNAME "coupldyn_yac")
 message("${LIBNAME} LIBRARY_SOURCE_DIR: ${CMAKE_CURRENT_SOURCE_DIR}")
 
 # explicitly set library executables path to /lib in top level of build tree
-set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
+set(LIB_BINARY_DIR ${CLEO_BINARY_DIR}/lib)
 
-find_package(MPI)
-find_package(YAC)
+
+message(STATUS "Using YAC installation from: ${YAC_ROOT}")
+message(STATUS "Using YAXT installation from: ${YAXT_ROOT}")
+
+find_package(MPI REQUIRED)
+find_package(YAC REQUIRED)
 
 # Add executables and create library target
 set(SOURCES
@@ -23,8 +27,9 @@ add_library("${LIBNAME}" STATIC ${SOURCES})
 enable_language(C)
 
 # Add directories for target library
-target_include_directories(${LIBNAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}" ${YAC_C_INCLUDE_DIR})
-target_include_directories(${LIBNAME} PRIVATE "${CMAKE_SOURCE_DIR}/libs") # CLEO libs directory
+# target_include_directories(${LIBNAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
+target_include_directories(${LIBNAME} PRIVATE ${YAC_C_INCLUDE_DIR}) # YAC source directory
+target_include_directories(${LIBNAME} PRIVATE "${CLEO_SOURCE_DIR}/libs") # CLEO libs directory
 
 # Link libraries to target library
 set(LINKLIBS initialise gridboxes superdrops)
@@ -36,6 +41,7 @@ target_link_libraries("${LIBNAME}" PRIVATE YAC::YAC MPI::MPI_CXX)
 
 # set C++ properties for target
 set_target_properties(${LIBNAME} PROPERTIES
+  LIBRARY_OUTPUT_DIRECTORY ${LIB_BINARY_DIR}
   CMAKE_CXX_STANDARD_REQUIRED ON
   CMAKE_CXX_EXTENSIONS ON
   CXX_STANDARD 20)

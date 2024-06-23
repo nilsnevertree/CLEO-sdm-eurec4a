@@ -19,8 +19,8 @@ jobs:
 
     - name: Build YAXT
       run: |
-        curl -s -L https://swprojects.dkrz.de/redmine/attachments/download/529/yaxt-0.10.0.tar.gz | tar xvz
-        cd yaxt-0.10.0
+        curl -s -L https://swprojects.dkrz.de/redmine/attachments/download/534/yaxt-0.11.1.tar.gz | tar xvz
+        cd yaxt-0.11.1
         ./configure --without-regard-for-quality --without-example-programs --without-perf-programs --with-pic \
         --prefix=$HOME/yaxt
         make -j 4
@@ -28,8 +28,8 @@ jobs:
 
     - name: Build YAC
       run: |
-        curl -s -L https://gitlab.dkrz.de/dkrz-sw/yac/-/archive/v3.2.0_a_p2/yac-v3.2.0_a_p2.tar.gz | tar xvz
-        cd yac-v3.2.0_a_p2
+        curl -s -L https://gitlab.dkrz.de/dkrz-sw/yac/-/archive/v3.2.0_b_p1/yac-v3.2.0_b_p1.tar.gz | tar xvz
+        cd yac-v3.2.0_b_p1
         ./configure CFLAGS="-fPIC" CC=mpicc FC=mpif90 --disable-mpi-checks --with-yaxt-root=${HOME}/yaxt \
         --prefix=$HOME/yac
         make -j 4
@@ -41,7 +41,7 @@ jobs:
         cmake \
         -DCMAKE_C_COMPILER=gcc \
         -DCMAKE_CXX_COMPILER=g++ \
-        -DKokkos_ARCH_NATIVE=ON \
+        -DCMAKE_CXX_FLAGS="-Werror -Wall -pedantic -O3" \
         -DKokkos_ENABLE_SERIAL=ON \
         -DENABLE_YAC_COUPLING=ON \
         -DYAXT_ROOT=${HOME}/yaxt \
@@ -60,6 +60,12 @@ jobs:
 
     - name: Build example lowlistcolls
       run: cd build && make lowlistcolls
+
+    - name: Build example szakallurbichcolls
+      run: cd build && make szakallurbichcolls
+
+    - name: Build example testikstraubcolls
+      run: cd build && make testikstraubcolls
 
     - name: Build example const2D
       run: cd build && make const2D
