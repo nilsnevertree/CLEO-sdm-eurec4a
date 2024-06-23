@@ -24,6 +24,7 @@ data and plots precipitation example given constant
 import os
 import sys
 import shutil
+import math
 import numpy as np
 import yaml
 from pathlib import Path
@@ -34,9 +35,9 @@ print(f"Enviroment: {sys.prefix}")
 path2CLEO = Path(sys.argv[1])
 path2build = Path(sys.argv[2])
 path2home = Path(sys.argv[3])
-configfile = Path(sys.argv[4])
-cloud_observation_filepath = Path(sys.argv[5])
-rawdirectory = Path(sys.argv[6])
+origin_config_file = Path(sys.argv[4])
+origin_cloud_observation_file = Path(sys.argv[5])
+raw_dir = Path(sys.argv[6])
 
 if "sdm_pysd_env312" not in sys.prefix:
     sys.path.append(str(path2CLEO))  # for imports from pySD package
@@ -44,19 +45,8 @@ if "sdm_pysd_env312" not in sys.prefix:
         str(path2CLEO / "examples/exampleplotting/")
     )  # for imports from example plotting package
 
-
-rawdirectory.mkdir(exist_ok=True, parents=True)
-
 # %%
 
-with open(cloud_observation_filepath, "r") as f:
-    cloud_observation_config = yaml.safe_load(f)
-
-
-from pySD.sdmout_src import (
-    pyzarr,
-    pysetuptxt,
-)
 from pySD import editconfigfile
 from pySD.gbxboundariesbinary_src import read_gbxboundaries as rgrid
 from pySD.gbxboundariesbinary_src import create_gbxboundaries as cgrid
@@ -97,89 +87,94 @@ class Capturing(list):
 ### --- essential paths and filenames --- ###
 # path and filenames for creating initial SD conditions
 
-constsfile = path2CLEO / "libs/cleoconstants.hpp"
-binpath = path2build / "bin/"
-sharepath = path2build / "share/"
+constants_file = path2CLEO / "libs/cleoconstants.hpp"
+bin_path = path2build / "bin/"
+share_path = path2build / "share/"
+
+raw_dir.mkdir(exist_ok=True, parents=True)
 
 # create the raw directory for the individual cloud observation.
 # Here the output data will be stored.
-with open(cloud_observation_filepath, "r") as f:
+
+# CREATE A CONFIG FILE TO BE UPDATED
+with open(origin_config_file, "r") as f:
+    eurec4a1d_config = yaml.safe_load(f)
+
+
+with open(origin_cloud_observation_file, "r") as f:
     cloud_observation_config = yaml.safe_load(f)
 
 
 identification_type = cloud_observation_config["cloud"]["identification_type"]
 cloud_id = cloud_observation_config["cloud"]["cloud_id"]
 
-rawdirectory_individual = rawdirectory / f"{identification_type}_{cloud_id}"
-rawdirectory_individual.mkdir(exist_ok=True)
+raw_individual_dir = raw_dir / f"{identification_type}_{cloud_id}"
+raw_individual_dir.mkdir(exist_ok=True)
+
+config_dir = raw_individual_dir / "config"
+config_dir.mkdir(exist_ok=True)
 
 # copy the cloud config file to the raw directory and use it
-shutil.copy(cloud_observation_config, rawdirectory_individual)
+config_file = config_dir / "eurec4a1d_config.yaml"
+cloud_observation_file = config_dir / "cloud_config.yaml"
+
+shutil.copy(origin_config_file, config_file)
+shutil.copy(origin_cloud_observation_file, cloud_observation_file)
 
 
-# copy the config file to the raw directory and use it
-shutil.copy(configfile, rawdirectory_individual)
+share_path_individual = raw_individual_dir / "share"
+share_path_individual.mkdir(exist_ok=True)
 
-configfile = rawdirectory_individual / configfile.name
-
-sharepath_individual = rawdirectory_individual / "share"
-sharepath_individual.mkdir(exist_ok=True)
-
-
-# CREATE A CONFIG FILE TO BE UPDATED
-with open(configfile, "r") as f:
-    updated_configfile = yaml.safe_load(f)
 
 # path and file names for output data
-updated_configfile["outputdata"].update(
-    setup_filename=str(rawdirectory_individual / "eurec4a1d_setup.txt"),
-    stats_filename=str(rawdirectory_individual / "eurec4a1d_stats.txt"),
-    zarrbasedir=str(rawdirectory_individual / "eurec4a1d_sol.zarr"),
+eurec4a1d_config["outputdata"].update(
+    setup_filename=str(config_dir / "eurec4a1d_setup.txt"),
+    stats_filename=str(config_dir / "eurec4a1d_stats.txt"),
+    zarrbasedir=str(raw_individual_dir / "eurec4a1d_sol.zarr"),
 )
 
-setupfile = updated_configfile["outputdata"]["setup_filename"]
-dataset = updated_configfile["outputdata"]["zarrbasedir"]
+setup_file = eurec4a1d_config["outputdata"]["setup_filename"]
+dataset_file = eurec4a1d_config["outputdata"]["zarrbasedir"]
 
-
-updated_configfile["coupled_dynamics"].update(
+eurec4a1d_config["coupled_dynamics"].update(
     **dict(
         type="fromfile",  # type of coupled dynamics to configure
         press=str(
-            sharepath_individual / "eurec4a1d_dimlessthermo_press.dat"
+            share_path_individual / "eurec4a1d_dimlessthermo_press.dat"
         ),  # binary filename for pressure
         temp=str(
-            sharepath_individual / "eurec4a1d_dimlessthermo_temp.dat"
+            share_path_individual / "eurec4a1d_dimlessthermo_temp.dat"
         ),  # binary filename for temperature
         qvap=str(
-            sharepath_individual / "eurec4a1d_dimlessthermo_qvap.dat"
+            share_path_individual / "eurec4a1d_dimlessthermo_qvap.dat"
         ),  # binary filename for vapour mixing ratio
         qcond=str(
-            sharepath_individual / "eurec4a1d_dimlessthermo_qcond.dat"
+            share_path_individual / "eurec4a1d_dimlessthermo_qcond.dat"
         ),  # binary filename for liquid mixing ratio
         wvel=str(
-            sharepath_individual / "eurec4a1d_dimlessthermo_wvel.dat"
+            share_path_individual / "eurec4a1d_dimlessthermo_wvel.dat"
         ),  # binary filename for vertical (coord3) velocity
         thermo=str(
-            sharepath_individual / "eurec4a1d_dimlessthermo.dat"
+            share_path_individual / "eurec4a1d_dimlessthermo.dat"
         ),  # binary filename for thermodynamic profiles
     )
 )
 
-updated_configfile["inputfiles"].update(
+eurec4a1d_config["inputfiles"].update(
     grid_filename=str(
-        sharepath_individual / "eurec4a1d_ddimlessGBxboundaries.dat"
+        share_path_individual / "eurec4a1d_ddimlessGBxboundaries.dat"
     ),  # binary filename for initialisation of GBxs / GbxMaps
     constants_filename=str(
         path2CLEO / "libs/cleoconstants.hpp"
     ),  # filename for constants
 )
-updated_configfile["initsupers"].update(
-    initsupers_filename=str(sharepath_individual / "eurec4a1d_dimlessSDsinit.dat")
+eurec4a1d_config["initsupers"].update(
+    initsupers_filename=str(share_path_individual / "eurec4a1d_dimlessSDsinit.dat")
 )
 
-gridfile = updated_configfile["inputfiles"]["grid_filename"]
-initSDsfile = updated_configfile["initsupers"]["initsupers_filename"]
-thermofile = updated_configfile["coupled_dynamics"]["thermo"]
+grid_file = eurec4a1d_config["inputfiles"]["grid_filename"]
+init_superdroplets_file = eurec4a1d_config["initsupers"]["initsupers_filename"]
+thermodynamics_file = eurec4a1d_config["coupled_dynamics"]["thermo"]
 
 
 # %%
@@ -187,19 +182,29 @@ thermofile = updated_configfile["coupled_dynamics"]["thermo"]
 ### --- SETTING UP THERMODYNAMICS AND SUPERDROPLET INITIAL SETUP --- ###
 ### ---------------------------------------------------------------- ###
 
+vertical_resolution = 20
+cloud_thickness = 100
 
 ### --- settings for 1-D gridbox boundaries --- ###
 cloud_altitude = cloud_observation_config["cloud"]["altitude"][0]
 # only use integer precision
 cloud_altitude = int(cloud_altitude)
 
-cloud_bottom = cloud_altitude - 100
-cloud_top = cloud_altitude + 100
-vertical_resolution = 20
+
+cloud_bottom = cloud_altitude - cloud_thickness / 2
+cloud_top = cloud_altitude + cloud_thickness / 2
+
 
 # zgrid       = [0, cloud_top, vertical_resolution]      # evenly spaced zhalf coords [zmin, zmax, zdelta] [m]
+# zgrid contains the boundaries of the gridboxes
+# make sure to include the cloud bottom
 zgrid = np.arange(0, cloud_bottom, vertical_resolution)
-zgrid = np.append(zgrid, np.mean([cloud_bottom, cloud_top]))
+# add the cloud top as the upper boundary for the top gridbox
+z_cloud_base = np.max(zgrid)
+z_cloud_top = z_cloud_base + cloud_thickness
+zgrid = np.append(zgrid, z_cloud_top)
+# set the boundary to spawn new superdroplets to 1m above the cloud bottom, to make sure only in the top domain.
+z_boundary_respawn = float(z_cloud_base)  # [m]
 
 xgrid = np.array([0, 20])  # array of xhalf coords [m]
 ygrid = np.array([0, 20])  # array of yhalf coords [m]
@@ -212,60 +217,69 @@ specific_humidity_params = cloud_observation_config["thermodynamics"][
 ]["parameters"]
 
 ### --- settings for 1-D Thermodynamics --- ###
-PRESS0 = 101315  # [Pa]
-TEMP0 = air_temperature_params["f_0"][0]  # [K]
-TEMPlapses = (
+pressure_bottom = cloud_observation_config["thermodynamics"]["pressure"].get(
+    "f_0", [101315]
+)[0]  # [Pa]
+pressure_bottom = int(pressure_bottom)
+temperature_bottom = air_temperature_params["f_0"][0]  # [K]
+temperature_lapse_rate = (
     np.array(air_temperature_params["slopes"]) * -1e3
 )  # -1e3 due to conversion from dT/dz [K/m] to -dT/dz [K/km]
-qvap0 = specific_humidity_params["f_0"][0]  # [Kg/Kg]
-qvaplapses = (
+specific_humidity_bottom = specific_humidity_params["f_0"][0]  # [Kg/Kg]
+specific_humidity_lapse_rate = (
     np.array(specific_humidity_params["slopes"]) * -1e6
 )  # -1e6 due to conversion from dvap/dz [kg/kg m^-1] to -dvap/dz [g/Kg km^-1]
-qcond = 0.0  # [Kg/Kg]
-WVEL = 0.0  # [m/s]
-Wlength = (
-    0  # [m] use constant W (Wlength=0.0), or sinusoidal 1-D profile below cloud base
+liquid_water_content = 0.0  # [Kg/Kg]
+w_maximum = 0.0  # [m/s]
+w_length = (
+    0  # [m] use constant W (w_length=0.0), or sinusoidal 1-D profile below cloud base
 )
 
 z_split_temp = air_temperature_params["x_split"]  # [m]
 z_split_qvap = specific_humidity_params["x_split"]  # [m]
 
-# create the base of the cloud as the mean of the two splits
-COORD3LIM = int(cloud_bottom - vertical_resolution)  # [m]
 
 ### --- settings for initial superdroplets --- ###
-npergbx = updated_configfile["initsupers"][
+sd_per_gridbox = eurec4a1d_config["initsupers"][
     "initnsupers"
 ]  # number of superdroplets per gridbox
 
 # initial superdroplet radii (and implicitly solute masses)
-MINRADIUS = 1e-7
-MAXRADIUS = 1e-3
-rspan = [MINRADIUS, MAXRADIUS]  # min and max range of radii to sample [m]
+radius_minimum = 1e-7
+radius_maximum = 1e-3
+radius_span = [
+    radius_minimum,
+    radius_maximum,
+]  # min and max range of radii to sample [m]
 
 # initial superdroplet attributes
 psd_params = cloud_observation_config["particle_size_distribution"]["parameters"]
 
 # settings for initial superdroplet multiplicies with ATR and Aerosol from Lohmann et. al 2016 Fig. 5.5
-geomeans = psd_params["geometric_means"]
-geosigs = psd_params["geometric_sigmas"]
-scalefacs = psd_params["scale_factors"]
-numconc = np.sum(scalefacs)
+geometric_means = psd_params["geometric_means"]
+geometric_sigmas = psd_params["geometric_sigmas"]
+scale_factors = psd_params["scale_factors"]
+number_concentration = np.sum(scale_factors)
 
 ### ---------------------------------------------------------------- ###
 ### UPDATE THE BOUNDARY CONDITIONS FOR THE CONFIG FILE ###
 ### ---------------------------------------------------------------- ###
 
-updated_configfile["boundary_conditions"].update(
-    COORD3LIM=COORD3LIM,  # SDs added to domain with coord3 >= COORD3LIM [m]
-    MINRADIUS=MINRADIUS,  # minimum radius of new super-droplets [m]
-    MAXRADIUS=MAXRADIUS,  # maximum radius of new super-droplets [m]
-    NUMCONC_a=scalefacs[0],  # number conc. of 1st droplet lognormal dist [m^-3]
-    GEOMEAN_a=geomeans[0],  # geometric mean radius of 1st lognormal dist [m]
-    geosigma_a=geosigs[0],  # geometric standard deviation of 1st lognormal dist
-    NUMCONC_b=scalefacs[1],  # number conc. of 2nd droplet lognormal dist [m^-3]
-    GEOMEAN_b=geomeans[1],  # geometric mean radius of 2nd lognormal dist [m]
-    geosigma_b=geosigs[1],  # geometric standard deviation of 2nd lognormal dist
+eurec4a1d_config["boundary_conditions"].update(
+    COORD3LIM=z_boundary_respawn,  # SDs added to domain with coord3 >= z_boundary_respawn [m]
+    newnsupers=sd_per_gridbox,  # number of new super-droplets per gridbox
+    MINRADIUS=radius_minimum,  # minimum radius of new super-droplets [m]
+    MAXRADIUS=radius_maximum,  # maximum radius of new super-droplets [m]
+    NUMCONC_a=scale_factors[0],  # number conc. of 1st droplet lognormal dist [m^-3]
+    GEOMEAN_a=geometric_means[0],  # geometric mean radius of 1st lognormal dist [m]
+    geosigma_a=geometric_sigmas[
+        0
+    ],  # geometric standard deviation of 1st lognormal dist
+    NUMCONC_b=scale_factors[1],  # number conc. of 2nd droplet lognormal dist [m^-3]
+    GEOMEAN_b=geometric_means[1],  # geometric mean radius of 2nd lognormal dist [m]
+    geosigma_b=geometric_sigmas[
+        1
+    ],  # geometric standard deviation of 2nd lognormal dist
 )
 
 
@@ -276,7 +290,7 @@ updated_configfile["boundary_conditions"].update(
 ### ----- MODIFY THE CONFIG FILE PRIOR TO CREATING INPUT FILES ----- ###
 ### ---------------------------------------------------------------- ###
 
-editconfigfile.edit_config_params(str(configfile), updated_configfile)
+editconfigfile.edit_config_params(str(config_file), eurec4a1d_config)
 
 ### ---------------------------------------------------------------- ###
 ### ---------------------------------------------------------------- ###
@@ -292,17 +306,17 @@ if path2CLEO == path2build:
     raise ValueError("build directory cannot be CLEO")
 else:
     Path(path2build).mkdir(exist_ok=True)
-    Path(sharepath).mkdir(exist_ok=True)
-    Path(binpath).mkdir(exist_ok=True)
-os.system("rm " + gridfile)
-os.system("rm " + initSDsfile)
-os.system("rm " + thermofile[:-4] + "*")
+    Path(share_path).mkdir(exist_ok=True)
+    Path(bin_path).mkdir(exist_ok=True)
+os.system("rm " + grid_file)
+os.system("rm " + init_superdroplets_file)
+os.system("rm " + thermodynamics_file[:-4] + "*")
 
 
 ### ----- write gridbox boundaries binary ----- ###
-cgrid.write_gridboxboundaries_binary(gridfile, zgrid, xgrid, ygrid, constsfile)
+cgrid.write_gridboxboundaries_binary(grid_file, zgrid, xgrid, ygrid, constants_file)
 with Capturing() as grid_info:
-    rgrid.print_domain_info(constsfile, gridfile)
+    rgrid.print_domain_info(constants_file, grid_file)
 
 for line in grid_info:
     print(line)
@@ -310,69 +324,94 @@ for line in grid_info:
         grid_dimensions = np.array(
             line.split(":")[-1].replace(" ", "").split("x"), dtype=int
         )
-        total_number_gridboxeds = int(np.prod(grid_dimensions))
+        total_number_gridboxes = int(np.prod(grid_dimensions))
         break
 
+# Update the max number of superdroplets
+renew_timesteps = (
+    eurec4a1d_config["timesteps"]["T_END"]
+    / eurec4a1d_config["timesteps"]["MOTIONTSTEP"]
+)
+# add 1000 to ensure enough space for new SDs
+max_number_supers = int(math.ceil(renew_timesteps * sd_per_gridbox + 1000))
 # get the total number of gridboxes
-updated_configfile["domain"].update(
-    nspacedims=1,
-    ngbxs=total_number_gridboxeds,
+eurec4a1d_config["domain"].update(
+    nspacedims=1, ngbxs=total_number_gridboxes, maxnsupers=max_number_supers
 )
 
 # update the config file
-editconfigfile.edit_config_params(str(configfile), updated_configfile)
+editconfigfile.edit_config_params(str(config_file), eurec4a1d_config)
 
 # %%
 
 ### ----- write thermodynamics binaries ----- ###
-thermodyngen = thermogen.ConstHydrostaticLapseRates(
-    configfile,
-    constsfile,
-    PRESS0,
-    TEMP0,
-    qvap0,
-    COORD3LIM,
-    TEMPlapses,
-    qvaplapses,
-    qcond,
-    WVEL,
-    None,
-    None,
-    Wlength,
+thermodynamics_generator = thermogen.ConstHydrostaticLapseRates(
+    configfile=config_file,
+    constsfile=constants_file,
+    PRESS0=pressure_bottom,
+    TEMP0=temperature_bottom,
+    qvap0=specific_humidity_bottom,
+    Zbase=z_boundary_respawn,
+    TEMPlapses=temperature_lapse_rate,
+    qvaplapses=specific_humidity_lapse_rate,
+    qcond=liquid_water_content,
+    WMAX=w_maximum,
+    UVEL=None,
+    VVEL=None,
+    Wlength=w_length,
 )
 cthermo.write_thermodynamics_binary(
-    thermofile, thermodyngen, configfile, constsfile, gridfile
+    thermodynamics_file,
+    thermodynamics_generator,
+    config_file,
+    constants_file,
+    grid_file,
 )
 
 ### ----- write initial superdroplets binary ----- ###
-nsupers = crdgens.nsupers_at_domain_top(gridfile, constsfile, npergbx, COORD3LIM)
+number_superdroplets = crdgens.nsupers_at_domain_top(
+    grid_file, constants_file, sd_per_gridbox, z_boundary_respawn
+)
 
 # get total number of superdroplets
-total_nsupers = int(np.sum(list(nsupers.values())))
-updated_configfile["initsupers"].update(initnsupers=total_nsupers)
+total_number_superdroplets = int(np.sum(list(number_superdroplets.values())))
+eurec4a1d_config["initsupers"].update(initnsupers=total_number_superdroplets)
 # update the config file
-editconfigfile.edit_config_params(str(configfile), updated_configfile)
+editconfigfile.edit_config_params(str(config_file), eurec4a1d_config)
 
 
 # create initial superdroplets coordinates
-coord3gen = crdgens.SampleCoordGen(True)  # sample coord3 randomly
-coord1gen = None  # do not generate superdroplet coord2s
-coord2gen = None  # do not generate superdroplet coord2s
+corrd3_generator = crdgens.SampleCoordGen(True)  # sample coord3 randomly
+corrd1_generator = None  # do not generate superdroplet coord2s
+corrd2_generator = None  # do not generate superdroplet coord2s
 
 # create initial superdroplets attributes
-xiprobdist = probdists.LnNormal(geomeans, geosigs, scalefacs)
-radiigen = rgens.SampleLog10RadiiGen(rspan)
+xi_prob_distribution = probdists.LnNormal(
+    geometric_means, geometric_sigmas, scale_factors
+)
+radii_generator = rgens.SampleLog10RadiiGen(radius_span)
 
 # create uniform dry radii
 monodryr = 1e-9  # all SDs have this same dryradius [m]
-dryradiigen = rgens.MonoAttrGen(monodryr)
+dry_radii_generator = rgens.MonoAttrGen(monodryr)
 
 # write initial superdroplets binary
 initattrsgen = attrsgen.AttrsGenerator(
-    radiigen, dryradiigen, xiprobdist, coord3gen, coord1gen, coord2gen
+    radii_generator,
+    dry_radii_generator,
+    xi_prob_distribution,
+    corrd3_generator,
+    corrd1_generator,
+    corrd2_generator,
 )
 csupers.write_initsuperdrops_binary(
-    initSDsfile, initattrsgen, configfile, constsfile, gridfile, nsupers, numconc
+    init_superdroplets_file,
+    initattrsgen,
+    config_file,
+    constants_file,
+    grid_file,
+    number_superdroplets,
+    number_concentration,
 )
 # ### ---------------------------------------------------------------- ###
 ### ---------------------------------------------------------------- ###
@@ -381,7 +420,7 @@ csupers.write_initsuperdrops_binary(
 ### --------- MODIFY THE CONFIG FILE PRIOR TO RUNNING CLEO --------- ###
 ### ---------------------------------------------------------------- ###
 
-editconfigfile.edit_config_params(str(configfile), updated_configfile)
+editconfigfile.edit_config_params(str(config_file), eurec4a1d_config)
 
 ### ---------------------------------------------------------------- ###
 ### ---------------------------------------------------------------- ###
@@ -390,26 +429,29 @@ editconfigfile.edit_config_params(str(configfile), updated_configfile)
 ### ---------------------------------------------------------------- ###
 
 isfigures = [True, True]  # booleans for [making, saving] initialisation figures
-savefigpath = (
-    str(rawdirectory_individual / "figures") + "/"
-)  # directory for saving figures
+figure_dir = str(raw_individual_dir / "figures") + "/"  # directory for saving figures
 
-SDgbxs2plt = total_number_gridboxeds - 1
+SDgbxs2plt = total_number_gridboxes - 1
 
 ### ----- show (and save) plots of binary file data ----- ###
 if isfigures[0]:
     if isfigures[1]:
-        Path(savefigpath).mkdir(exist_ok=True)
-    rgrid.plot_gridboxboundaries(constsfile, gridfile, savefigpath, isfigures[1])
+        Path(figure_dir).mkdir(exist_ok=True)
+    rgrid.plot_gridboxboundaries(constants_file, grid_file, figure_dir, isfigures[1])
     rthermo.plot_thermodynamics(
-        constsfile, configfile, gridfile, thermofile, savefigpath, isfigures[1]
+        constants_file,
+        config_file,
+        grid_file,
+        thermodynamics_file,
+        figure_dir,
+        isfigures[1],
     )
     rsupers.plot_initGBxs_distribs(
-        configfile,
-        constsfile,
-        initSDsfile,
-        gridfile,
-        savefigpath,
+        config_file,
+        constants_file,
+        init_superdroplets_file,
+        grid_file,
+        figure_dir,
         isfigures[1],
         SDgbxs2plt,
     )
@@ -417,43 +459,18 @@ if isfigures[0]:
 ### ---------------------------------------------------------------- ###
 
 
-### ---------------------------------------------------------------- ###
-### ---------------------- RUN CLEO EXECUTABLE --------------------- ###
-### ---------------------------------------------------------------- ###
-print("===============================")
-print("Running CLEO executable")
-os.chdir(path2build)
-os.system("pwd")
-os.system("rm -rf " + dataset)  # delete any existing dataset
-executable = str(path2build) + "/examples/eurec4a1d/src/eurec4a1D"
-print("Executable: " + executable)
-print("Config file: " + str(configfile))
-os.system(executable + " " + str(configfile))
-print("===============================")
-### ---------------------------------------------------------------- ###
-### ---------------------------------------------------------------- ###
-
-
-# %%
-### ---------------------------------------------------------------- ###
-### ---------------- CONVERT OUTPUT TO REGULAR ARRAY --------------- ###
-### ---------------------------------------------------------------- ###
-print("===============================")
-print("Converting output to regular array")
-OUTPUT_FILEPATH = rawdirectory_individual / "full_dataset.nc"
-# OUTPUT_FILEPATH = '/home/m/m301096/CLEO/data/output/raw/no_aerosols/cluster_18/clusters_18/full_dataset.nc'
-### ----------------------- INPUT PARAMETERS ----------------------- ###
-### --- essential paths and filenames --- ###
-
-# read in constants and intial setup from setup .txt file
-config = pysetuptxt.get_config(setupfile, nattrs=3, isprint=False)
-consts = pysetuptxt.get_consts(setupfile, isprint=False)
-# Create a first simple dataset to have the coordinates for later netcdf creation
-sddata = pyzarr.get_supers(str(dataset), consts)
-lagrange = sddata.to_Dataset(check_indices_uniqueness=True)
-lagrange.to_netcdf(OUTPUT_FILEPATH)
-print("===============================")
-### ---------------------------------------------------------------- ###
-### ---------------------------------------------------------------- ###
-
-# %%
+# ### ---------------------------------------------------------------- ###
+# ### ---------------------- RUN CLEO EXECUTABLE --------------------- ###
+# ### ---------------------------------------------------------------- ###
+# print("===============================")
+# print("Running CLEO executable")
+# os.chdir(path2build)
+# os.system("pwd")
+# os.system("rm -rf " + dataset_file)  # delete any existing dataset_file
+# executable = str(path2build) + "/examples/eurec4a1d/src/eurec4a1D"
+# print("Executable: " + executable)
+# print("Config file: " + str(config_file))
+# os.system(executable + " " + str(config_file))
+# print("===============================")
+# ### ---------------------------------------------------------------- ###
+# ### ---------------------------------------------------------------- ###

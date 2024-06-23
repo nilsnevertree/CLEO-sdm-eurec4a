@@ -24,63 +24,52 @@
 ### SDM Runtime Parameters ###
 domain:
   nspacedims: 1
-  ngbxs: 34
-  maxnsupers: 32768
+  ngbxs: 10
+  maxnsupers: 10000
 timesteps:
   CONDTSTEP: 0.1
   COLLTSTEP: 1
   MOTIONTSTEP: 2
   COUPLTSTEP: 1200
-  OBSTSTEP: 10
+  OBSTSTEP: 2
   T_END: 1200
 inputfiles:
   constants_filename: /home/m/m301096/CLEO/libs/cleoconstants.hpp
-  grid_filename:
-    /home/m/m301096/CLEO/data/output/raw/stationary_no_collision/clusters_18/share/eurec4a1d_ddimlessGBxboundaries.dat
+  grid_filename: None
 initsupers:
   type: frombinary
-  initsupers_filename:
-    /home/m/m301096/CLEO/data/output/raw/stationary_no_collision/clusters_18/share/eurec4a1d_dimlessSDsinit.dat
-  initnsupers: 256
+  initsupers_filename: None
+  initnsupers: 512
 outputdata:
-  setup_filename:
-    /home/m/m301096/CLEO/data/output/raw/stationary_no_collision/clusters_18/eurec4a1d_setup.txt
-  stats_filename:
-    /home/m/m301096/CLEO/data/output/raw/stationary_no_collision/clusters_18/eurec4a1d_stats.txt
-  zarrbasedir:
-    /home/m/m301096/CLEO/data/output/raw/stationary_no_collision/clusters_18/eurec4a1d_sol.zarr
+  setup_filename: None
+  stats_filename: None
+  zarrbasedir: None
   maxchunk: 2500000
 microphysics:
   condensation:
     do_alter_thermo: false
-    niters: 2
+    niters: 10
     SUBTSTEP: 0.1
-    rtol: 0.0
-    atol: 0.01
+    rtol: 0.03
+    atol: 0.03
 coupled_dynamics:
   type: fromfile
-  press:
-    /home/m/m301096/CLEO/data/output/raw/stationary_no_collision/clusters_18/share/eurec4a1d_dimlessthermo_press.dat
-  temp:
-    /home/m/m301096/CLEO/data/output/raw/stationary_no_collision/clusters_18/share/eurec4a1d_dimlessthermo_temp.dat
-  qvap:
-    /home/m/m301096/CLEO/data/output/raw/stationary_no_collision/clusters_18/share/eurec4a1d_dimlessthermo_qvap.dat
-  qcond:
-    /home/m/m301096/CLEO/data/output/raw/stationary_no_collision/clusters_18/share/eurec4a1d_dimlessthermo_qcond.dat
-  wvel:
-    /home/m/m301096/CLEO/data/output/raw/stationary_no_collision/clusters_18/share/eurec4a1d_dimlessthermo_wvel.dat
-  thermo:
-    /home/m/m301096/CLEO/data/output/raw/stationary_no_collision/clusters_18/share/eurec4a1d_dimlessthermo.dat
+  press: None
+  temp: None
+  qvap: None
+  qcond: None
+  wvel: None
+  thermo: None
 boundary_conditions:
   type: addsupersatdomaintop
-  COORD3LIM: 656
-  newnsupers: 256
+  COORD3LIM: 1000
+  newnsupers: 512
   DRYRADIUS: 1e-09
-  MINRADIUS: 1e-07
-  MAXRADIUS: 0.001
-  NUMCONC_a: 575.2796379127539
-  GEOMEAN_a: 0.0001304169785725949
-  geosigma_a: 1.6746895810382312
-  NUMCONC_b: 64231.0182568868
-  GEOMEAN_b: 2.0697867776705365e-06
-  geosigma_b: 1.6999999990440153
+  MINRADIUS: 0.1
+  MAXRADIUS: 1
+  NUMCONC_a: 1
+  GEOMEAN_a: 1
+  geosigma_a: 1
+  NUMCONC_b: 1
+  GEOMEAN_b: 1
+  geosigma_b: 1

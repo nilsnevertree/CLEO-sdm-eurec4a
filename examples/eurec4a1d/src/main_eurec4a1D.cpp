@@ -53,6 +53,7 @@
 #include "observers/superdrops_observer.hpp"
 #include "observers/time_observer.hpp"
 #include "observers/windvel_observer.hpp"
+#include "observers/sdmmonitor/monitor_condensation.hpp"
 #include "runcleo/coupleddynamics.hpp"
 #include "runcleo/couplingcomms.hpp"
 #include "runcleo/runcleo.hpp"
@@ -103,19 +104,41 @@ inline auto create_movement(const Config &config, const Timesteps &tsteps,
   return MoveSupersInDomain(gbxmaps, motion, boundary_conditions);
 }
 
+// ------------------------------
+// Null Micorphysical Process
+// ------------------------------
 inline MicrophysicalProcess auto create_microphysics(const Config &config,
                                                      const Timesteps &tsteps) {
-  const auto c = config.get_condensation();
-  const MicrophysicalProcess auto cond =
-      Condensation(tsteps.get_condstep(), &step2dimlesstime, c.do_alter_thermo, c.niters, c.rtol,
-                  c.atol, c.SUBTSTEP, &realtime2dimless);
+  const MicrophysicalProcess auto null = NullMicrophysicalProcess{};
+  return null;
+};
 
-  // const PairProbability auto coalprob = LongHydroProb(1.0);
-  // const MicrophysicalProcess auto coal = CollCoal(
-  //            tsteps.get_collstep(), &step2realtime, coalprob);
+// // ------------------------------
+// // Condensation only
+// // ------------------------------
+// inline MicrophysicalProcess auto create_microphysics(const Config &config,
+//                                                      const Timesteps &tsteps) {
+//   const auto c = config.get_condensation();
+//   const MicrophysicalProcess auto cond =
+//       Condensation(tsteps.get_condstep(), &step2dimlesstime, c.do_alter_thermo, c.niters, c.rtol,
+//                   c.atol, c.SUBTSTEP, &realtime2dimless);
+//   return cond;
+// };
 
-  return cond;  // >> coal;
-}
+// // ------------------------------
+// // Condensation and Coalescence
+// // ------------------------------
+// inline MicrophysicalProcess auto create_microphysics(const Config &config,
+//                                                      const Timesteps &tsteps) {
+//   const auto c = config.get_condensation();
+//   const MicrophysicalProcess auto cond =
+//       Condensation(tsteps.get_condstep(), &step2dimlesstime, c.do_alter_thermo, c.niters, c.rtol,
+//                   c.atol, c.SUBTSTEP, &realtime2dimless);
+//   const PairProbability auto coalprob = LongHydroProb(1.0);
+//   const MicrophysicalProcess auto coal = CollCoal(
+//              tsteps.get_collstep(), &step2realtime, coalprob);
+//   return cond >> coal;
+// }
 
 template <typename Store>
 inline Observer auto create_superdrops_observer(const unsigned int interval,
@@ -151,23 +174,33 @@ inline Observer auto create_observer(const Config &config, const Timesteps &tste
   const auto maxchunk = config.get_maxchunk();
   const auto ngbxs = config.get_ngbxs();
 
-  const Observer auto obs0 = RunStatsObserver(obsstep, config.get_stats_filename());
+  const Observer auto obs_stats = RunStatsObserver(obsstep, config.get_stats_filename());
 
-  const Observer auto obs1 = StreamOutObserver(realtime2step(240), &step2realtime);
+  const Observer auto obs_streamout = StreamOutObserver(realtime2step(240), &step2realtime);
 
-  const Observer auto obs2 = TimeObserver(obsstep, dataset, maxchunk, &step2dimlesstime);
+  const Observer auto obs_time = TimeObserver(obsstep, dataset, maxchunk, &step2dimlesstime);
 
-  const Observer auto obs3 = GbxindexObserver(dataset, maxchunk, ngbxs);
+  const Observer auto obs_gindex = GbxindexObserver(dataset, maxchunk, ngbxs);
 
-  const Observer auto obs5 = MassMomentsObserver(obsstep, dataset, maxchunk, ngbxs);
+  const Observer auto obs_mm = MassMomentsObserver(obsstep, dataset, maxchunk, ngbxs);
 
-  const Observer auto obs6 = MassMomentsRaindropsObserver(obsstep, dataset, maxchunk, ngbxs);
+  const Observer auto obs_mm_rain = MassMomentsRaindropsObserver(obsstep, dataset, maxchunk, ngbxs);
 
-  const Observer auto obsgbx = create_gridboxes_observer(obsstep, dataset, maxchunk, ngbxs);
+  const Observer auto obs_gbx = create_gridboxes_observer(obsstep, dataset, maxchunk, ngbxs);
 
-  const Observer auto obssd = create_superdrops_observer(obsstep, dataset, maxchunk);
+  const Observer auto obs_sd = create_superdrops_observer(obsstep, dataset, maxchunk);
 
-  return obssd >> obsgbx >> obs6 >> obs5 >> obs3 >> obs2 >> obs1 >> obs0;
+  const Observer auto obs_cond = MonitorCondensationObserver(obsstep, dataset, maxchunk, ngbxs);
+
+  return obs_cond
+        >> obs_sd
+        >> obs_gbx
+        >> obs_mm_rain
+        >> obs_mm
+        >> obs_gindex
+        >> obs_time
+        >> obs_streamout
+        >> obs_stats;
 }
 
 template <typename Store>
