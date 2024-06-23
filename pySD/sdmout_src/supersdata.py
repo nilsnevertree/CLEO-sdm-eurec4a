@@ -27,6 +27,7 @@ import xarray as xr
 import awkward as ak
 import os
 from typing import Union, Tuple, Callable
+import warnings
 
 from pySD.sdmout_src import sdtracing
 
@@ -1457,6 +1458,7 @@ class SupersDataNew(SuperdropProperties):
         mass_represented = self["mass"] * self["xi"]
         mass_represented.set_name("mass_represented")
         self.set_attribute(mass_represented)
+        self.__update_attributes__()
 
     def tryopen_dataset(self, dataset: Union[os.PathLike, xr.Dataset]) -> xr.Dataset:
         if isinstance(dataset, str):
@@ -1508,6 +1510,20 @@ class SupersDataNew(SuperdropProperties):
         This function sets an attribute of the superdroplets dataset.
         """
         self.attributes[attribute.name] = attribute
+
+    def __update_attributes__(self):
+        """
+        This function updates the attributes of the superdroplets dataset.
+        The attributes are stored in the attribute attributes.
+        """
+
+        temp_attributes = self.attributes
+        self.attributes = {}
+        for name in temp_attributes:
+            attribute = temp_attributes[name]
+            if attribute.name in self.attributes.keys():
+                warnings.warn("Attribute will be overwritten")
+            self.set_attribute(attribute)
 
     def set_time(self):
         """
