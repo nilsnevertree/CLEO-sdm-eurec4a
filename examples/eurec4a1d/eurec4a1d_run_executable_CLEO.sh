@@ -33,8 +33,8 @@ executables="eurec4a1D"
 enableyac=false
 
 # setps to run
-build=true
-compile=true
+build=false
+compile=false
 run=true
 
 # set paths

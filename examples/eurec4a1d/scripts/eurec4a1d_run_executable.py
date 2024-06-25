@@ -56,7 +56,7 @@ if dataset_file_path.is_dir():
 print("===============================")
 print("Executing EUREC4A1D executable")
 
-executable = str(path2build / "/examples/eurec4a1d/src/eurec4a1D")
+executable = str(path2build / "examples/eurec4a1d/src/eurec4a1D")
 print("Executable: " + executable)
 print("Config file: " + str(config_file_path))
 print("Dataset file: " + str(dataset_file_path))
