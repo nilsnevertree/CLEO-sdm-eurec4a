@@ -23,53 +23,66 @@
 
 ### SDM Runtime Parameters ###
 domain:
-  nspacedims: 1
-  ngbxs: 10
-  maxnsupers: 10000
+  nspacedims: 1                                                   # no. of spatial dimensions to model
+  ngbxs: 10                                                       # total number of Gbxs
+  maxnsupers: 10000                                               # maximum number of SDs
+
 timesteps:
-  CONDTSTEP: 0.1
-  COLLTSTEP: 1
-  MOTIONTSTEP: 2
-  COUPLTSTEP: 1200
-  OBSTSTEP: 2
-  T_END: 1200
+  CONDTSTEP: 0.1                                                  # time between SD condensation [s]
+  COLLTSTEP: 1                                                    # time between SD collision [s]
+  MOTIONTSTEP: 2                                                  # time between SDM motion [s]
+  COUPLTSTEP: 1200                                                # time between dynamic couplings [s]
+  OBSTSTEP: 2                                                     # time between SDM observations [s]
+  T_END: 1200                                                     # time span of integration from 0s to T_END [s]
+
+### Initialisation Parameters ###
 inputfiles:
-  constants_filename: /home/m/m301096/CLEO/libs/cleoconstants.hpp
-  grid_filename: None
+  constants_filename: /home/m/m301096/CLEO/libs/cleoconstants.hpp # name of file for values of physical constants
+  grid_filename: None                                             # binary filename for initialisation of GBxs / GbxMaps
+
 initsupers:
-  type: frombinary
-  initsupers_filename: None
-  initnsupers: 512
+  type: frombinary                                                # type of initialisation of super-droplets
+  initsupers_filename: None                                       # binary filename for initialisation of SDs
+  initnsupers: 512                                                # initial no. of super-droplets to initialise
+
+### Output Parameters ###
 outputdata:
-  setup_filename: None
-  stats_filename: None
-  zarrbasedir: None
-  maxchunk: 2500000
+  setup_filename : None                                           # .txt filename to copy configuration to
+  stats_filename : None                                           # .txt file to output runtime statistics to
+  zarrbasedir : None                                              # zarr store base directory
+  maxchunk : 2500000                                              # maximum no. of elements in chunks of zarr store array
+
+### Microphysics Parameters ###
 microphysics:
   condensation:
-    do_alter_thermo: false
-    niters: 10
-    SUBTSTEP: 0.1
-    rtol: 0.03
-    atol: 0.03
+    do_alter_thermo: false                                        # true = cond/evap alters the thermodynamic state
+    maxniters: 10                                                 # maximum no. iterations of Newton Raphson Method
+    MINSUBTSTEP: 0.1                                              # minimum subtimestep in cases of substepping [s]
+    rtol: 0.03                                                    # relative tolerance for implicit Euler integration
+    atol: 0.03                                                    # abolute tolerance for implicit Euler integration
+
+### Coupled Dynamics Parameters ###
 coupled_dynamics:
   type: fromfile
-  press: None
-  temp: None
-  qvap: None
-  qcond: None
-  wvel: None
-  thermo: None
+  press: None                                                     # type of coupled dynamics to configure
+  temp: None                                                      # binary filename for pressure
+  qvap: None                                                      # binary filename for temperature
+  qcond: None                                                     # binary filename for vapour mixing ratio
+  wvel: None                                                      # binary filename for liquid mixing ratio
+  thermo: None                                                    # binary filename for vertical (coord3) velocity
+
+### Bounday Conditions Parameters ###
+
 boundary_conditions:
   type: addsupersatdomaintop
-  COORD3LIM: 1000
-  newnsupers: 512
-  DRYRADIUS: 1e-09
-  MINRADIUS: 0.1
-  MAXRADIUS: 1
-  NUMCONC_a: 1
-  GEOMEAN_a: 1
-  geosigma_a: 1
-  NUMCONC_b: 1
-  GEOMEAN_b: 1
-  geosigma_b: 1
+  COORD3LIM: 1000                                                 # SDs added to domain with coord3 >= COORD3LIM [m]
+  newnsupers: 512                                                 # number SDs to add to each gridbox above COORD3LIM
+  DRYRADIUS: 1e-09                                                # dry radius of new super-droplets (for solute mass) [m]
+  MINRADIUS: 0.1                                                  # minimum radius of new super-droplets [m]
+  MAXRADIUS: 1                                                    # maximum radius of new super-droplets [m]
+  NUMCONC_a: 1                                                    # number conc. of 1st droplet lognormal dist [m^-3]
+  GEOMEAN_a: 1                                                    # geometric mean radius of 1st lognormal dist [m]
+  geosigma_a: 1                                                   # geometric standard deviation of 1st lognormal dist
+  NUMCONC_b: 1                                                    # number conc. of 2nd droplet lognormal dist [m^-3]
+  GEOMEAN_b: 1                                                    # geometric mean radius of 2nd lognormal dist [m]
+  geosigma_b: 1                                                   # geometric standard deviation of 2nd lognormal dist

@@ -42,6 +42,7 @@ path2CLEO=${HOME}/CLEO/
 path2builds=${path2CLEO}builds_eurec4a/
 path2data=${path2CLEO}data/output_v3.1/
 path2eurec4a1d=${path2CLEO}examples/eurec4a1d/
+subdir_pattern=${clusters_}
 
 # python script to run
 pythonscript=${path2eurec4a1d}scripts/eurec4a1d_run_executable.py
@@ -117,17 +118,15 @@ export OMP_PLACES=threads
 
 if [ "$run" = true ]; then
     echo "Run the model with the compiled executables"
-    for cloud_configfile in ${cloud_config_directory}/*.yaml; do
+    for exp_folder in ${rawdirectory}/${subdir_pattern}*; do
         echo "::::::::::::::::::::::::::::::::::::::::::::"
         echo "EXECUTE CLEO EXECUTABLE"
-        echo "with ${cloud_configfile}"
-
-        script_args="${cloud_configfile} ${rawdirectory}"
+        echo "in ${exp_folder}"
         {
-            ${python}  ${pythonscript} ${path2CLEO} ${path2build} ${script_args}
+            ${python}  ${pythonscript} ${path2CLEO} ${path2build} ${exp_folder}
         } || {
             echo "============================================"
-            echo "ERROR: in ${cloud_configfile}"
+            echo "EXCECUTION ERROR: in ${exp_folder}"
             echo "============================================"
         }
         echo "::::::::::::::::::::::::::::::::::::::::::::"
