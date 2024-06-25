@@ -67,6 +67,10 @@
 #include "zarr/dataset.hpp"
 #include "zarr/fsstore.hpp"
 
+// ===================================================
+// COUPLED DYNAMICS
+// ===================================================
+
 inline CoupledDynamics auto create_coupldyn(const Config &config, const CartesianMaps &gbxmaps,
                                             const unsigned int couplstep,
                                             const unsigned int t_end) {
@@ -78,6 +82,10 @@ inline CoupledDynamics auto create_coupldyn(const Config &config, const Cartesia
   return FromFileDynamics(config.get_fromfiledynamics(), couplstep, ndims, nsteps);
 }
 
+// ===================================================
+// INITIAL CONDITIONS
+// ===================================================
+
 inline InitialConditions auto create_initconds(const Config &config) {
   // const InitAllSupersFromBinary initsupers(config.get_initsupersfrombinary());
   const InitSupersFromBinary initsupers(config.get_initsupersfrombinary());
@@ -86,11 +94,19 @@ inline InitialConditions auto create_initconds(const Config &config) {
   return InitConds(initsupers, initgbxs);
 }
 
+// ===================================================
+// GRIDBOXES
+// ===================================================
+
 inline GridboxMaps auto create_gbxmaps(const Config &config) {
   const auto gbxmaps = create_cartesian_maps(config.get_ngbxs(), config.get_nspacedims(),
                                              config.get_grid_filename());
   return gbxmaps;
 }
+
+// ===================================================
+// MOVEMENT
+// ===================================================
 
 inline auto create_movement(const Config &config, const Timesteps &tsteps,
                             const CartesianMaps &gbxmaps) {
@@ -103,6 +119,10 @@ inline auto create_movement(const Config &config, const Timesteps &tsteps,
 
   return MoveSupersInDomain(gbxmaps, motion, boundary_conditions);
 }
+
+// ===================================================
+// MICROPHYSICS
+// ===================================================
 
 // // ------------------------------
 // // Condensation only
@@ -142,6 +162,9 @@ inline MicrophysicalProcess auto create_microphysics(const Config &config,
   return null;
 };
 
+// ===================================================
+// OBSERVERS
+// ===================================================
 
 template <typename Store>
 inline Observer auto create_superdrops_observer(const unsigned int interval,
@@ -205,6 +228,10 @@ inline Observer auto create_observer(const Config &config, const Timesteps &tste
         >> obsstreamout
         >> obsstats;
 }
+
+// ===================================================
+// MAIN SUPER DROPLET MODEL
+// ===================================================
 
 template <typename Store>
 inline auto create_sdm(const Config &config, const Timesteps &tsteps, Dataset<Store> &dataset) {
