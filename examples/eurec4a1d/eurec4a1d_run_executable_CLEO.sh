@@ -35,6 +35,7 @@ enableyac=false
 # setps to run
 build=true
 compile=true
+run=true
 
 # set paths
 path2CLEO=${HOME}/CLEO/
@@ -96,12 +97,15 @@ echo "---------------------------"
 
 ## ---------------------- build CLEO ------------------ ###
 if [ "$build" = true ]; then
+    echo "Build CLEO"
+
     ${path2CLEO}/scripts/bash/build_cleo.sh ${buildtype} ${path2CLEO} ${path2build}
 fi
 ### ---------------------------------------------------- ###
 
 ### --------- compile executable(s) from scratch ------- ###
 if [ "$compile" = true ]; then
+    echo "Compile CLEO"
     cd ${path2build} && make clean
     ${path2CLEO}/scripts/bash/compile_cleo.sh ${cleoenv} ${buildtype} ${path2build} "${executables}"
 fi
@@ -111,22 +115,24 @@ fi
 export OMP_PROC_BIND=spread
 export OMP_PLACES=threads
 
-for cloud_configfile in ${cloud_config_directory}/*.yaml; do
-    echo "::::::::::::::::::::::::::::::::::::::::::::"
-    echo "EXECUTE CLEO EXECUTABLE"
-    echo "with ${cloud_configfile}"
+if [ "$run" = true ]; then
+    echo "Run the model with the compiled executables"
+    for cloud_configfile in ${cloud_config_directory}/*.yaml; do
+        echo "::::::::::::::::::::::::::::::::::::::::::::"
+        echo "EXECUTE CLEO EXECUTABLE"
+        echo "with ${cloud_configfile}"
 
-    script_args="${cloud_configfile} ${rawdirectory}"
-    {
-        ${python}  ${pythonscript} ${path2CLEO} ${path2build} ${script_args}
-    } || {
-        echo "============================================"
-        echo "ERROR: in ${cloud_configfile}"
-        echo "============================================"
-    }
-    echo "::::::::::::::::::::::::::::::::::::::::::::"
-
-done
+        script_args="${cloud_configfile} ${rawdirectory}"
+        {
+            ${python}  ${pythonscript} ${path2CLEO} ${path2build} ${script_args}
+        } || {
+            echo "============================================"
+            echo "ERROR: in ${cloud_configfile}"
+            echo "============================================"
+        }
+        echo "::::::::::::::::::::::::::::::::::::::::::::"
+    done
+fi
 ### ---------------------------------------------------- ###
 
 echo "--------------------------------------------"
