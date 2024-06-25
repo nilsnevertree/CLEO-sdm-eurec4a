@@ -105,17 +105,18 @@ inline auto create_movement(const Config &config, const Timesteps &tsteps,
   return MoveSupersInDomain(gbxmaps, motion, boundary_conditions);
 }
 
-// ------------------------------
-// Condensation only
-// ------------------------------
-inline MicrophysicalProcess auto create_microphysics(const Config &config,
-                                                     const Timesteps &tsteps) {
-  const auto c = config.get_condensation();
-  const MicrophysicalProcess auto cond =
-      Condensation(tsteps.get_condstep(), &step2dimlesstime, c.do_alter_thermo, c.maxniters, c.rtol,
-                   c.atol, c.MINSUBTSTEP, &realtime2dimless);
-  return cond;
-};
+// // ------------------------------
+// // Condensation only
+// // ------------------------------
+// inline MicrophysicalProcess auto create_microphysics(const Config &config,
+//                                                      const Timesteps &tsteps) {
+//   const auto c = config.get_condensation();
+//   const MicrophysicalProcess auto cond =
+//       Condensation(tsteps.get_condstep(), &step2dimlesstime,
+//                    c.do_alter_thermo, c.maxniters, c.rtol,
+//                    c.atol, c.MINSUBTSTEP, &realtime2dimless);
+//   return cond;
+// };
 
 // // ------------------------------
 // // Condensation and Coalescence
@@ -124,8 +125,9 @@ inline MicrophysicalProcess auto create_microphysics(const Config &config,
 //                                                      const Timesteps &tsteps) {
 //   const auto c = config.get_condensation();
 //   const MicrophysicalProcess auto cond =
-//       Condensation(tsteps.get_condstep(), &step2dimlesstime, c.do_alter_thermo, c.niters, c.rtol,
-//                   c.atol, c.SUBTSTEP, &realtime2dimless);
+//       Condensation(tsteps.get_condstep(), &step2dimlesstime,
+//                    c.do_alter_thermo, c.maxniters, c.rtol,
+//                    c.atol, c.MINSUBTSTEP, &realtime2dimless);
 //   const PairProbability auto coalprob = LongHydroProb(1.0);
 //   const MicrophysicalProcess auto coal = CollCoal(
 //              tsteps.get_collstep(), &step2realtime, coalprob);
@@ -176,37 +178,33 @@ inline Observer auto create_observer(const Config &config, const Timesteps &tste
   const auto maxchunk = config.get_maxchunk();
   const auto ngbxs = config.get_ngbxs();
 
-  const Observer auto obs_stats = RunStatsObserver(obsstep, config.get_stats_filename());
+  const Observer auto obsstats = RunStatsObserver(obsstep, config.get_stats_filename());
 
-  const Observer auto obs_streamout = StreamOutObserver(realtime2step(240), &step2realtime);
+  const Observer auto obsstreamout = StreamOutObserver(realtime2step(240), &step2realtime);
 
-  const Observer auto obs_time = TimeObserver(obsstep, dataset, maxchunk, &step2dimlesstime);
+  const Observer auto obstime = TimeObserver(obsstep, dataset, maxchunk, &step2dimlesstime);
 
-  const Observer auto obs_gindex = GbxindexObserver(dataset, maxchunk, ngbxs);
+  const Observer auto obsgindex = GbxindexObserver(dataset, maxchunk, ngbxs);
 
-  const Observer auto obs_mm = MassMomentsObserver(obsstep, dataset, maxchunk, ngbxs);
+  const Observer auto obsmm = MassMomentsObserver(obsstep, dataset, maxchunk, ngbxs);
 
-  const Observer auto obs_mm_rain = MassMomentsRaindropsObserver(obsstep, dataset, maxchunk, ngbxs);
+  const Observer auto obsmmrain = MassMomentsRaindropsObserver(obsstep, dataset, maxchunk, ngbxs);
 
-  const Observer auto obs_gbx = create_gridboxes_observer(obsstep, dataset, maxchunk, ngbxs);
+  const Observer auto obsgbx = create_gridboxes_observer(obsstep, dataset, maxchunk, ngbxs);
 
-  const Observer auto obs_sd = create_superdrops_observer(obsstep, dataset, maxchunk);
+  const Observer auto obssd = create_superdrops_observer(obsstep, dataset, maxchunk);
 
-  const Observer auto obs_cond = MonitorCondensationObserver(obsstep, dataset, maxchunk, ngbxs);
+  const Observer auto obscond = MonitorCondensationObserver(obsstep, dataset, maxchunk, ngbxs);
 
-<<<<<<< HEAD
-  return obs_cond
-        >> obs_sd
-        >> obs_gbx
-        >> obs_mm_rain
-        >> obs_mm
-        >> obs_gindex
-        >> obs_time
-        >> obs_streamout
-        >> obs_stats;
-=======
-  return obs_cond >> obssd >> obsgbx >> obs6 >> obs5 >> obs3 >> obs2 >> obs1 >> obs0;
->>>>>>> 6e092c6475db4364703c05d82843cc96d2e10f3f
+  return obscond
+        >> obssd
+        >> obsgbx
+        >> obsmm_rain
+        >> obsmm
+        >> obsgindex
+        >> obstime
+        >> obsstreamout
+        >> obsstats;
 }
 
 template <typename Store>
