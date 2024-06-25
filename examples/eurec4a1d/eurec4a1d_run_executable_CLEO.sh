@@ -39,7 +39,7 @@ run=true
 
 # set paths
 path2CLEO=${HOME}/CLEO/
-path2builds=${path2CLEO}builds/
+path2builds=${path2CLEO}builds_eurec4a/
 path2data=${path2CLEO}data/output_v3.1/
 path2eurec4a1d=${path2CLEO}examples/eurec4a1d/
 
