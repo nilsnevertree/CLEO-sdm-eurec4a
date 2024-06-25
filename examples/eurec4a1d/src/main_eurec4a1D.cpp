@@ -54,7 +54,6 @@
 #include "observers/superdrops_observer.hpp"
 #include "observers/time_observer.hpp"
 #include "observers/windvel_observer.hpp"
-#include "observers/sdmmonitor/monitor_condensation.hpp"
 #include "runcleo/coupleddynamics.hpp"
 #include "runcleo/couplingcomms.hpp"
 #include "runcleo/runcleo.hpp"
