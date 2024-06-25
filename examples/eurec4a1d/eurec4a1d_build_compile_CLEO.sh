@@ -20,35 +20,53 @@
 ### --------------  python script to run. -------------- ###
 ### ---------------------------------------------------- ###
 
-echo "--------------------------------------------"
+echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
 echo "START RUN"
 date
 echo "git hash: $(git rev-parse HEAD)"
 echo "git branch: $(git symbolic-ref --short HEAD)"
 echo "============================================"
 
+# run parameters
 buildtype="cuda"
 executables="eurec4a1D"
+enableyac=false
 
+# setps to run
+build=true
+compile=true
+
+# set paths
 path2CLEO=${HOME}/CLEO/
 path2builds=${path2CLEO}builds/
+path2data=${path2CLEO}data/output_v3.0/
 path2eurec4a1d=${path2CLEO}examples/eurec4a1d/
 
+# python script to run
+pythonscript=${path2eurec4a1d}scripts/eurec4a1d_run_executable.py
 
-# Use the stationary or evolving version of the model
+
+# ----- Directory for cloud configuration files ------ #
+path2sdmeurec4a=${HOME}/repositories/sdm-eurec4a/
+cloud_config_directory=${path2sdmeurec4a}data/model/input/output_v3.0/
+# ---------------------------------------------------- #
+
+
 
 ### ---------- Setup for the EUREC4A1D model ---------- ###
+# Use the stationary setup of the model
 
-# --- stationary version, with super droplet creation at domain top by boundarz conditions
+# # NO PHYSICS
+# path2build=${path2builds}build_eurec4a1D_stationary_no_physics/
+# rawdirectory=${path2data}stationary_no_physics/
 
-# NO PHYSICS
-path2build=${path2builds}build_eurec4a1D_stationary_no_physics/
-
-# # CONDENSTATION
-# path2build=${path2builds}build_eurec4a1D_stationary_condensation/
+# CONDENSTATION
+path2build=${path2builds}build_eurec4a1D_stationary_condensation/
+rawdirectory=${path2data}stationary_condensation/
 
 # # COLLISION AND CONDENSTATION
 # path2build=${path2builds}build_eurec4a1D_stationary_collision_condensation/
+# rawdirectory=${path2data}stationary_collision_condensation/
 
 ### ---------------------------------------------------- ###
 
@@ -57,6 +75,7 @@ path2build=${path2builds}build_eurec4a1D_stationary_no_physics/
 ### ------------------ Load Modules -------------------- ###
 cleoenv=/work/mh1126/m300950/cleoenv
 python=${cleoenv}/bin/python3
+yacyaxtroot=/work/mh1126/m300950/yac
 spack load cmake@3.23.1%gcc
 module load python3/2022.01-gcc-11.2.0
 source activate ${cleoenv}
@@ -67,28 +86,28 @@ echo "----- Build and compile CLEO -----"
 echo "buildtype:  ${buildtype}"
 echo "path2CLEO: ${path2CLEO}"
 echo "path2build: ${path2build}"
+echo "enableyac: ${enableyac}"
 echo "executables: ${executables}"
+echo "pythonscript: ${pythonscript}"
+echo "rawdirectory: ${rawdirectory}"
+echo "cloud_config_directory: ${cloud_config_directory}"
 echo "---------------------------"
-### ---------------------------------------------------- ###
+### --------------------------------------------------- ###
 
 ## ---------------------- build CLEO ------------------ ###
-${path2CLEO}/scripts/bash/build_cleo.sh ${buildtype} ${path2CLEO} ${path2build}
+if [ "$build" = true ]; then
+    ${path2CLEO}/scripts/bash/build_cleo.sh ${buildtype} ${path2CLEO} ${path2build}
+fi
 ### ---------------------------------------------------- ###
 
-### --------- compile executable(s) from scratch ---------- ###
-cd ${path2build} && make clean
-
-${path2CLEO}/scripts/bash/compile_cleo.sh ${cleoenv} ${buildtype} ${path2build} "${executables}"
-## ---------------------------------------------------- ###
-
-### --------- run model through Python script ---------- ###
-export OMP_PROC_BIND=spread
-export OMP_PLACES=threads
-
-
+### --------- compile executable(s) from scratch ------- ###
+if [ "$compile" = true ]; then
+    cd ${path2build} && make clean
+    ${path2CLEO}/scripts/bash/compile_cleo.sh ${cleoenv} ${buildtype} ${path2build} "${executables}"
+fi
 ### ---------------------------------------------------- ###
 
 echo "--------------------------------------------"
-echo "END RUN"
 date
-echo "============================================"
+echo "END RUN"
+echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"

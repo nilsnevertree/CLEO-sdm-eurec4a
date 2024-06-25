@@ -27,17 +27,21 @@ echo "git hash: $(git rev-parse HEAD)"
 echo "git branch: $(git symbolic-ref --short HEAD)"
 echo "============================================"
 
-buildtype="cuda"
-executables="eurec4a1D"
-
 path2CLEO=${HOME}/CLEO/
 path2builds=${path2CLEO}builds/
 path2data=${path2CLEO}data/output_v3.0/
 path2eurec4a1d=${path2CLEO}examples/eurec4a1d/
 
-# cloud type
+# creation script
+pythonscript=${path2eurec4a1d}scripts/eurec4a1d_stationary.py
+
+# baseline config file
+configfile=${path2eurec4a1d}src/config/eurec4a1d_config_stationary.yaml
+
+# ----- Directory for cloud configuration files ------ #
 path2sdmeurec4a=${HOME}/repositories/sdm-eurec4a/
 cloud_config_directory=${path2sdmeurec4a}data/model/input/output_v3.0/
+# ---------------------------------------------------- #
 
 
 ### ---------- Setup for the EUREC4A1D model ---------- ###
@@ -57,19 +61,7 @@ rawdirectory=${path2data}stationary_condensation/
 # rawdirectory=${path2data}stationary_collision_condensation/
 
 
-pythonscript=${path2eurec4a1d}scripts/eurec4a1d_stationary.py
-configfile=${path2eurec4a1d}src/config/eurec4a1d_config_stationary.yaml
-
-# # --- evolving version, without super droplet creation at domain top
-# path2build=${path2builds}build_eurec4a1D_evolving/
-# pythonscript=${path2eurec4a1d}scripts/eurec4a1d_evolving.py
-# configfile=${path2eurec4a1d}src/config/eurec4a1d_config_evolving.yaml
-# rawdirectory=${path2data}evolving/
-
-# create the script arguments
-# script_args="${HOME} ${configfile} ${cloud_observation_configfile} ${rawdirectory}"
 ### ---------------------------------------------------- ###
-
 
 
 ### ------------------ Load Modules -------------------- ###
@@ -77,6 +69,7 @@ cleoenv=/work/mh1126/m300950/cleoenv
 python=${cleoenv}/bin/python3
 source activate ${cleoenv}
 ### ---------------------------------------------------- ###
+
 
 ### -------------------- print inputs ------------------ ###
 echo "----- Running Example -----"
@@ -88,8 +81,10 @@ echo "pythonscript: ${pythonscript}"
 echo "---------------------------"
 ### ---------------------------------------------------- ###
 
+
+### ------------------ Create input -------------------- ###
 for cloud_configfile in ${cloud_config_directory}/*.yaml; do
-    echo "::::::::::::::::::::::::::::::::::::"
+    echo "::::::::::::::::::::::::::::::::::::::::::::"
     echo "New config files."
     echo "Prepare eurec4a1d config files with: ${cloud_configfile}"
 
@@ -98,18 +93,15 @@ for cloud_configfile in ${cloud_config_directory}/*.yaml; do
         ${python}  ${pythonscript} ${path2CLEO} ${path2build} ${script_args}
 
     } || {
-        echo "============================="
+        echo "============================================"
         echo "ERROR: in ${cloud_configfile}"
-        echo "============================="
+        echo "============================================"
     }
-    echo "::::::::::::::::::::::::::::::::::::"
+    echo "::::::::::::::::::::::::::::::::::::::::::::"
 done
-
-# remove all directories without
-
 ### ---------------------------------------------------- ###
 
 echo "--------------------------------------------"
-echo "END RUN"
 date
-echo "============================================"
+echo "END RUN"
+echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
