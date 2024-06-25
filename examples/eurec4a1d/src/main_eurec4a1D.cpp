@@ -198,7 +198,7 @@ inline Observer auto create_observer(const Config &config, const Timesteps &tste
   return obscond
         >> obssd
         >> obsgbx
-        >> obsmm_rain
+        >> obsmmrain
         >> obsmm
         >> obsgindex
         >> obstime
