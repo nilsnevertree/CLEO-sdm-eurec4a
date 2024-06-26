@@ -16,6 +16,7 @@ This script is used to run the EUREC4A1D executable. It is called by the
 import os
 import sys
 from pathlib import Path
+import time
 import yaml
 import argparse
 import warnings
@@ -52,20 +53,20 @@ with open(config_file_path, "r") as f:
 if dataset_file_path.is_dir():
     warnings.warn(f"Directory {dataset_file_path} already exists. It will be deleted.")
 
-
 print("===============================")
 print("Executing EUREC4A1D executable")
-
 executable = str(path2build / "examples/eurec4a1d/src/eurec4a1D")
 print("Executable: " + executable)
 print("Config file: " + str(config_file_path))
 print("Dataset file: " + str(dataset_file_path))
 print("Try deleting existing dataset file:")
-os.system("rm -rf " + str(dataset_file_path))  # delete any existing dataset
+time.sleep(0.1)
+
+# delete any existing dataset
+os.system("rm -rf " + str(dataset_file_path))
 
 # Run the executable
 os.chdir(str(path2build))
 os.system("pwd")
 os.system(executable + " " + str(config_file_path))
-
 print("===============================")
