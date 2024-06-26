@@ -42,7 +42,7 @@ path2CLEO=${HOME}/CLEO/
 path2builds=${path2CLEO}builds_eurec4a/
 path2data=${path2CLEO}data/output_v3.2/
 path2eurec4a1d=${path2CLEO}examples/eurec4a1d/
-subdir_pattern=${clusters_}
+subdir_pattern=clusters_
 
 # python script to run
 pythonscript=${path2eurec4a1d}scripts/eurec4a1d_run_executable.py
@@ -54,13 +54,13 @@ pythonscript=${path2eurec4a1d}scripts/eurec4a1d_run_executable.py
 # path2build=${path2builds}build_eurec4a1D_stationary_no_physics/
 # rawdirectory=${path2data}stationary_no_physics/
 
-# CONDENSTATION
-path2build=${path2builds}build_eurec4a1D_stationary_condensation/
-rawdirectory=${path2data}stationary_condensation/
+# # CONDENSTATION
+# path2build=${path2builds}build_eurec4a1D_stationary_condensation/
+# rawdirectory=${path2data}stationary_condensation/
 
-# # COLLISION AND CONDENSTATION
-# path2build=${path2builds}build_eurec4a1D_stationary_collision_condensation/
-# rawdirectory=${path2data}stationary_collision_condensation/
+# COLLISION AND CONDENSTATION
+path2build=${path2builds}build_eurec4a1D_stationary_collision_condensation/
+rawdirectory=${path2data}stationary_collision_condensation/
 
 ### ---------------------------------------------------- ###
 

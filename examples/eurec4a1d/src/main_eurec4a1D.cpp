@@ -133,21 +133,8 @@ inline auto create_movement(const Config &config, const Timesteps &tsteps,
 //   return null;
 // };
 
-// ------------------------------
-// Condensation only
-// ------------------------------
-inline MicrophysicalProcess auto create_microphysics(const Config &config,
-                                                     const Timesteps &tsteps) {
-  const auto c = config.get_condensation();
-  const MicrophysicalProcess auto cond =
-      Condensation(tsteps.get_condstep(), &step2dimlesstime,
-                   c.do_alter_thermo, c.maxniters, c.rtol,
-                   c.atol, c.MINSUBTSTEP, &realtime2dimless);
-  return cond;
-};
-
 // // ------------------------------
-// // Condensation and Coalescence
+// // Condensation only
 // // ------------------------------
 // inline MicrophysicalProcess auto create_microphysics(const Config &config,
 //                                                      const Timesteps &tsteps) {
@@ -156,11 +143,24 @@ inline MicrophysicalProcess auto create_microphysics(const Config &config,
 //       Condensation(tsteps.get_condstep(), &step2dimlesstime,
 //                    c.do_alter_thermo, c.maxniters, c.rtol,
 //                    c.atol, c.MINSUBTSTEP, &realtime2dimless);
-//   const PairProbability auto coalprob = LongHydroProb(1.0);
-//   const MicrophysicalProcess auto coal = CollCoal(
-//              tsteps.get_collstep(), &step2realtime, coalprob);
-//   return cond >> coal;
-// }
+//   return cond;
+// };
+
+// ------------------------------
+// Condensation and Coalescence
+// ------------------------------
+inline MicrophysicalProcess auto create_microphysics(const Config &config,
+                                                     const Timesteps &tsteps) {
+  const auto c = config.get_condensation();
+  const MicrophysicalProcess auto cond =
+      Condensation(tsteps.get_condstep(), &step2dimlesstime,
+                   c.do_alter_thermo, c.maxniters, c.rtol,
+                   c.atol, c.MINSUBTSTEP, &realtime2dimless);
+  const PairProbability auto coalprob = LongHydroProb(1.0);
+  const MicrophysicalProcess auto coal = CollCoal(
+             tsteps.get_collstep(), &step2realtime, coalprob);
+  return cond >> coal;
+}
 
 
 // ===================================================
