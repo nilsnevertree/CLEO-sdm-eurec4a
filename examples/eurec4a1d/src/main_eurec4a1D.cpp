@@ -124,6 +124,15 @@ inline auto create_movement(const Config &config, const Timesteps &tsteps,
 // MICROPHYSICS
 // ===================================================
 
+// // ------------------------------
+// // Null Micorphysical Process
+// // ------------------------------
+// inline MicrophysicalProcess auto create_microphysics(const Config &config,
+//                                                      const Timesteps &tsteps) {
+//   const MicrophysicalProcess auto null = NullMicrophysicalProcess{};
+//   return null;
+// };
+
 // ------------------------------
 // Condensation only
 // ------------------------------
@@ -153,14 +162,6 @@ inline MicrophysicalProcess auto create_microphysics(const Config &config,
 //   return cond >> coal;
 // }
 
-// // ------------------------------
-// // Null Micorphysical Process
-// // ------------------------------
-// inline MicrophysicalProcess auto create_microphysics(const Config &config,
-//                                                      const Timesteps &tsteps) {
-//   const MicrophysicalProcess auto null = NullMicrophysicalProcess{};
-//   return null;
-// };
 
 // ===================================================
 // OBSERVERS
