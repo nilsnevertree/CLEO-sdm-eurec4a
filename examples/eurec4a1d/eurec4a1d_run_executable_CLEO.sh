@@ -33,8 +33,8 @@ executables="eurec4a1D"
 enableyac=false
 
 # setps to run
-build=false
-compile=false
+build=true
+compile=true
 run=true
 
 # set paths
@@ -47,24 +47,16 @@ subdir_pattern=${clusters_}
 # python script to run
 pythonscript=${path2eurec4a1d}scripts/eurec4a1d_run_executable.py
 
-
-# ----- Directory for cloud configuration files ------ #
-path2sdmeurec4a=${HOME}/repositories/sdm-eurec4a/
-cloud_config_directory=${path2sdmeurec4a}data/model/input/output_v3.0/
-# ---------------------------------------------------- #
-
-
-
 ### ---------- Setup for the EUREC4A1D model ---------- ###
 # Use the stationary setup of the model
 
-# NO PHYSICS
-path2build=${path2builds}build_eurec4a1D_stationary_no_physics/
-rawdirectory=${path2data}stationary_no_physics/
+# # NO PHYSICS
+# path2build=${path2builds}build_eurec4a1D_stationary_no_physics/
+# rawdirectory=${path2data}stationary_no_physics/
 
-# # CONDENSTATION
-# path2build=${path2builds}build_eurec4a1D_stationary_condensation/
-# rawdirectory=${path2data}stationary_condensation/
+# CONDENSTATION
+path2build=${path2builds}build_eurec4a1D_stationary_condensation/
+rawdirectory=${path2data}stationary_condensation/
 
 # # COLLISION AND CONDENSTATION
 # path2build=${path2builds}build_eurec4a1D_stationary_collision_condensation/
@@ -91,8 +83,6 @@ echo "path2build: ${path2build}"
 echo "enableyac: ${enableyac}"
 echo "executables: ${executables}"
 echo "pythonscript: ${pythonscript}"
-echo "rawdirectory: ${rawdirectory}"
-echo "cloud_config_directory: ${cloud_config_directory}"
 echo "---------------------------"
 ### --------------------------------------------------- ###
 
