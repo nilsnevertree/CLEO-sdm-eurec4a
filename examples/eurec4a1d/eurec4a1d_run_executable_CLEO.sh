@@ -33,8 +33,8 @@ executables="eurec4a1D"
 enableyac=false
 
 # setps to run
-build=true
-compile=true
+build=false
+compile=false
 run=true
 
 # set paths
@@ -58,13 +58,13 @@ cloud_config_directory=${path2sdmeurec4a}data/model/input/output_v3.0/
 ### ---------- Setup for the EUREC4A1D model ---------- ###
 # Use the stationary setup of the model
 
-# # NO PHYSICS
-# path2build=${path2builds}build_eurec4a1D_stationary_no_physics/
-# rawdirectory=${path2data}stationary_no_physics/
+# NO PHYSICS
+path2build=${path2builds}build_eurec4a1D_stationary_no_physics/
+rawdirectory=${path2data}stationary_no_physics/
 
-# CONDENSTATION
-path2build=${path2builds}build_eurec4a1D_stationary_condensation/
-rawdirectory=${path2data}stationary_condensation/
+# # CONDENSTATION
+# path2build=${path2builds}build_eurec4a1D_stationary_condensation/
+# rawdirectory=${path2data}stationary_condensation/
 
 # # COLLISION AND CONDENSTATION
 # path2build=${path2builds}build_eurec4a1D_stationary_collision_condensation/
