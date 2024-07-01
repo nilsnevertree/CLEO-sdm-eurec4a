@@ -96,12 +96,14 @@ echo "---------------------------"
 
 ## ---------------------- build CLEO ------------------ ###
 if [ "$build" = true ]; then
+    echo "Build CLEO"
     ${path2CLEO}/scripts/bash/build_cleo.sh ${buildtype} ${path2CLEO} ${path2build}
 fi
 ### ---------------------------------------------------- ###
 
 ### --------- compile executable(s) from scratch ------- ###
 if [ "$compile" = true ]; then
+    echo "Compile CLEO"
     cd ${path2build} && make clean
     ${path2CLEO}/scripts/bash/compile_cleo.sh ${cleoenv} ${buildtype} ${path2build} "${executables}"
 fi
