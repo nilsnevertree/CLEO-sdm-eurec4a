@@ -12,20 +12,19 @@ This script is used to run the EUREC4A1D executable. It is called by the
     └── eurec4a1d_sol.zarr          <- will be created by the executable
 """
 
+# %%
 
-import os
 import sys
 from pathlib import Path
-import time
 import yaml
 import argparse
-import warnings
+
+from pySD import editconfigfile
+
 
 print(f"Enviroment: {sys.prefix}")
 
 parser = argparse.ArgumentParser()
-parser.add_argument("path2CLEO", type=str, help="Path to CLEO")
-parser.add_argument("path2build", type=str, help="Path to build")
 parser.add_argument(
     "raw_dir_individual",
     type=str,
@@ -33,40 +32,26 @@ parser.add_argument(
 )
 args = parser.parse_args()
 
-path2CLEO = Path(args.path2CLEO)
-path2build = Path(args.path2build)
 raw_dir_individual = Path(args.raw_dir_individual)
-
-
-print(f"path2CLEO: {path2CLEO}")
-print(f"path2build: {path2build}")
 
 
 # Setup paths to the config file and the dataset file
 config_dir = raw_dir_individual / "config"
 config_file_path = config_dir / "eurec4a1d_config.yaml"
-dataset_file_path = raw_dir_individual / "eurec4a1d_sol.zarr"
 
-with open(config_file_path, "r") as f:
+print(f"Config file path: {config_file_path}")
+
+with open(str(config_file_path), "r") as f:
     config_dict = yaml.safe_load(f)
 
-if dataset_file_path.is_dir():
-    warnings.warn(f"Directory {dataset_file_path} already exists. It will be deleted.")
+config_dict["microphysics"]["condensation"] = dict(
+    do_alter_thermo=False,
+    maxniters=100,
+    MINSUBTSTEP=0.01,
+    rtol=0.03,
+    atol=0.03,
+)
 
-print("===============================")
-print("Executing EUREC4A1D executable")
-executable = str(path2build / "examples/eurec4a1d/src/eurec4a1D")
-print("Executable: " + executable)
-print("Config file: " + str(config_file_path))
-print("Dataset file: " + str(dataset_file_path))
-print("Try deleting existing dataset file:")
-time.sleep(0.1)
+editconfigfile.edit_config_params(str(config_file_path), config_dict)
 
-# delete any existing dataset
-os.system("rm -rf " + str(dataset_file_path))
-
-# Run the executable
-os.chdir(str(path2build))
-os.system("pwd")
-os.system(executable + " " + str(config_file_path))
-print("===============================")
+print("Sucessfully updated config file.")
