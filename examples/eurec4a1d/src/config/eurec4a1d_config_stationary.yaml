@@ -31,9 +31,9 @@ timesteps:
   CONDTSTEP: 0.1                                                  # time between SD condensation [s]
   COLLTSTEP: 1                                                    # time between SD collision [s]
   MOTIONTSTEP: 2                                                  # time between SDM motion [s]
-  COUPLTSTEP: 1200                                                # time between dynamic couplings [s]
+  COUPLTSTEP: 2400                                                # time between dynamic couplings [s]
   OBSTSTEP: 2                                                     # time between SDM observations [s]
-  T_END: 1200                                                     # time span of integration from 0s to T_END [s]
+  T_END: 2400                                                     # time span of integration from 0s to T_END [s]
 
 ### Initialisation Parameters ###
 inputfiles:
@@ -43,7 +43,7 @@ inputfiles:
 initsupers:
   type: frombinary                                                # type of initialisation of super-droplets
   initsupers_filename: None                                       # binary filename for initialisation of SDs
-  initnsupers: 512                                                # initial no. of super-droplets to initialise
+  initnsupers: 1024                                                # initial no. of super-droplets to initialise
 
 ### Output Parameters ###
 outputdata:
@@ -76,7 +76,7 @@ coupled_dynamics:
 boundary_conditions:
   type: addsupersatdomaintop
   COORD3LIM: 1000                                                 # SDs added to domain with coord3 >= COORD3LIM [m]
-  newnsupers: 512                                                 # number SDs to add to each gridbox above COORD3LIM
+  newnsupers: 1024                                                 # number SDs to add to each gridbox above COORD3LIM
   DRYRADIUS: 1e-09                                                # dry radius of new super-droplets (for solute mass) [m]
   MINRADIUS: 0.1                                                  # minimum radius of new super-droplets [m]
   MAXRADIUS: 1                                                    # maximum radius of new super-droplets [m]
