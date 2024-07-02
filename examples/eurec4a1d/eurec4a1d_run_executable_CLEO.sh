@@ -33,14 +33,14 @@ executables="eurec4a1D"
 enableyac=false
 
 # setps to run
-build=true
-compile=true
+build=false
+compile=false
 run=true
 
 # set paths
 path2CLEO=${HOME}/CLEO/
 path2builds=${path2CLEO}builds_eurec4a/
-path2data=${path2CLEO}data/output_v3.2/
+path2data=${path2CLEO}data/output_v3.3/
 path2eurec4a1d=${path2CLEO}examples/eurec4a1d/
 subdir_pattern=clusters_
 
