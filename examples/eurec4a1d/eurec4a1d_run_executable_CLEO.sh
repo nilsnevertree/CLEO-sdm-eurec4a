@@ -50,17 +50,17 @@ pythonscript=${path2eurec4a1d}scripts/eurec4a1d_run_executable.py
 ### ---------- Setup for the EUREC4A1D model ---------- ###
 # Use the stationary setup of the model
 
-# NO PHYSICS
-path2build=${path2builds}build_eurec4a1D_stationary_no_physics/
-rawdirectory=${path2data}stationary_no_physics/
+# # NO PHYSICS
+# path2build=${path2builds}build_eurec4a1D_stationary_no_physics/
+# rawdirectory=${path2data}stationary_no_physics/
 
 # # CONDENSTATION
 # path2build=${path2builds}build_eurec4a1D_stationary_condensation/
 # rawdirectory=${path2data}stationary_condensation/
 
-# # COLLISION AND CONDENSTATION
-# path2build=${path2builds}build_eurec4a1D_stationary_collision_condensation/
-# rawdirectory=${path2data}stationary_collision_condensation/
+# COLLISION AND CONDENSTATION
+path2build=${path2builds}build_eurec4a1D_stationary_collision_condensation/
+rawdirectory=${path2data}stationary_collision_condensation/
 
 ### ---------------------------------------------------- ###
 
