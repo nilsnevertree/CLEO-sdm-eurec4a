@@ -43,7 +43,7 @@ inputfiles:
 initsupers:
   type: frombinary                                                # type of initialisation of super-droplets
   initsupers_filename: None                                       # binary filename for initialisation of SDs
-  initnsupers: 1024                                                # initial no. of super-droplets to initialise
+  initnsupers: 2048                                                # initial no. of super-droplets to initialise
 
 ### Output Parameters ###
 outputdata:
@@ -76,7 +76,7 @@ coupled_dynamics:
 boundary_conditions:
   type: addsupersatdomaintop
   COORD3LIM: 1000                                                 # SDs added to domain with coord3 >= COORD3LIM [m]
-  newnsupers: 1024                                                 # number SDs to add to each gridbox above COORD3LIM
+  newnsupers: 2048                                                 # number SDs to add to each gridbox above COORD3LIM
   DRYRADIUS: 1e-09                                                # dry radius of new super-droplets (for solute mass) [m]
   MINRADIUS: 0.1                                                  # minimum radius of new super-droplets [m]
   MAXRADIUS: 1                                                    # maximum radius of new super-droplets [m]
