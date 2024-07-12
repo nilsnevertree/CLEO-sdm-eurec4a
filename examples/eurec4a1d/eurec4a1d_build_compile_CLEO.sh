@@ -38,7 +38,7 @@ compile=true
 
 # set paths
 path2CLEO=${HOME}/CLEO/
-path2build=${path2CLEO}/new_build_eurec4a/
+path2build=${path2CLEO}/build_eurec4a1d/
 
 ### ------------------ Load Modules -------------------- ###
 cleoenv=/work/mh1126/m300950/cleoenv
@@ -50,19 +50,20 @@ source activate ${cleoenv}
 ### ---------------------------------------------------- ###
 
 ### -------------------- print inputs ------------------ ###
-echo "----- Build and compile CLEO -----"
-echo "buildtype:  ${buildtype}"
-echo "path2CLEO: ${path2CLEO}"
-echo "path2build: ${path2build}"
-echo "enableyac: ${enableyac}"
-echo "executables: ${executables}"
-echo "---------------------------"
+echo "============================================"
+echo -e "buildtype: \t${buildtype}"
+echo -e "path2CLEO: \t${path2CLEO}"
+echo -e "path2build: \t${path2build}"
+echo -e "enableyac: \t${enableyac}"
+echo -e "executable: \t${executable}"
+echo "============================================"
 ### --------------------------------------------------- ###
 
 ## ---------------------- build CLEO ------------------ ###
 if [ "$build" = true ]; then
     echo "Build CLEO"
     ${path2CLEO}/scripts/bash/build_cleo.sh ${buildtype} ${path2CLEO} ${path2build}
+    echo "============================================"
 fi
 ### ---------------------------------------------------- ###
 
@@ -71,6 +72,7 @@ if [ "$compile" = true ]; then
     echo "Compile CLEO"
     cd ${path2build} && make clean
     ${path2CLEO}/scripts/bash/compile_cleo.sh ${cleoenv} ${buildtype} ${path2build} "${executables}"
+    echo "============================================"
 fi
 ### ---------------------------------------------------- ###
 
