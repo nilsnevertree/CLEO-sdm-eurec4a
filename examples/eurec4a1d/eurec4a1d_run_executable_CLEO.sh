@@ -16,54 +16,43 @@
 ### ------------------ Input Parameters ---------------- ###
 ### ------ You MUST edit these lines to set your ------- ###
 ### ----- environment, build type, directories, the ---- ###
-### --------- executable(s) to compile and your -------- ###
+### --------- exec(s) to compile and your -------- ###
 ### --------------  python script to run. -------------- ###
 ### ---------------------------------------------------- ###
 
-echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-echo "START RUN"
-date
 echo "git hash: $(git rev-parse HEAD)"
 echo "git branch: $(git symbolic-ref --short HEAD)"
+echo "date: $(date)"
 echo "============================================"
 
 # run parameters
 buildtype="cuda"
-executables="eurec4a1D"
+executables="eurec4a1D_null_microphysics eurec4a1D_condensation eurec4a1D_collision_condensation"
 enableyac=false
 
 # setps to run
-build=true
-compile=true
+build=false
+compile=false
 run=true
 
 # set paths
 path2CLEO=${HOME}/CLEO/
-path2builds=${path2CLEO}builds_eurec4a/
-path2data=${path2CLEO}data/output_v3.2/
-path2eurec4a1d=${path2CLEO}examples/eurec4a1d/
+path2build=${path2CLEO}/build_eurec4a1d/
+path2data=${path2CLEO}/data/output_new_build/
+path2eurec4a1d=${path2CLEO}/examples/eurec4a1d/
 subdir_pattern=clusters_
 
-# python script to run
-pythonscript=${path2eurec4a1d}scripts/eurec4a1d_run_executable.py
+# bash script to run
+run_script=${path2eurec4a1d}/scripts/execute_single_run.sh
 
 ### ---------- Setup for the EUREC4A1D model ---------- ###
-# Use the stationary setup of the model
-
-# # NO PHYSICS
-# path2build=${path2builds}build_eurec4a1D_stationary_no_physics/
-# rawdirectory=${path2data}stationary_no_physics/
-
-# # CONDENSTATION
-# path2build=${path2builds}build_eurec4a1D_stationary_condensation/
-# rawdirectory=${path2data}stationary_condensation/
-
-# COLLISION AND CONDENSTATION
-path2build=${path2builds}build_eurec4a1D_stationary_collision_condensation/
-rawdirectory=${path2data}stationary_collision_condensation/
-
+setup="null_microphysics"
+# setup="condensation"
+# setup="collision_condensation"
+exec="eurec4a1D_${setup}"
+path2exec=${path2build}/examples/eurec4a1d/stationary_${setup}/src/${exec}
+rawdirectory=${path2data}/${setup}/
 ### ---------------------------------------------------- ###
-
 
 
 ### ------------------ Load Modules -------------------- ###
@@ -76,29 +65,32 @@ source activate ${cleoenv}
 ### ---------------------------------------------------- ###
 
 ### -------------------- print inputs ------------------ ###
-echo "----- Build and compile CLEO -----"
-echo "buildtype:  ${buildtype}"
-echo "path2CLEO: ${path2CLEO}"
-echo "path2build: ${path2build}"
-echo "enableyac: ${enableyac}"
-echo "executables: ${executables}"
-echo "pythonscript: ${pythonscript}"
-echo "---------------------------"
+echo "============================================"
+echo -e "buildtype: \t${buildtype}"
+echo -e "path2CLEO: \t${path2CLEO}"
+echo -e "path2build: \t${path2build}"
+echo -e "enableyac: \t${enableyac}"
+echo -e "setup: \t${setup}"
+echo -e "exec: \t${exec}"
+echo -e "path2exec: \t${path2exec}"
+echo -e "run_script: \t${run_script}"
+echo "============================================"
 ### --------------------------------------------------- ###
 
 ## ---------------------- build CLEO ------------------ ###
 if [ "$build" = true ]; then
     echo "Build CLEO"
-
     ${path2CLEO}/scripts/bash/build_cleo.sh ${buildtype} ${path2CLEO} ${path2build}
+    echo "============================================"
 fi
 ### ---------------------------------------------------- ###
 
-### --------- compile executable(s) from scratch ------- ###
+### --------- compile exec(s) from scratch ------- ###
 if [ "$compile" = true ]; then
     echo "Compile CLEO"
     cd ${path2build} && make clean
     ${path2CLEO}/scripts/bash/compile_cleo.sh ${cleoenv} ${buildtype} ${path2build} "${executables}"
+    echo "============================================"
 fi
 ### ---------------------------------------------------- ###
 
@@ -107,24 +99,24 @@ export OMP_PROC_BIND=spread
 export OMP_PLACES=threads
 
 if [ "$run" = true ]; then
-    echo "Run the model with the compiled executables"
-    for exp_folder in ${rawdirectory}/${subdir_pattern}*; do
-        echo "::::::::::::::::::::::::::::::::::::::::::::"
-        echo "EXECUTE CLEO EXECUTABLE"
-        echo "in ${exp_folder}"
+    echo "Execute CLEO exec with the given bash script"
+    for directory_individual in ${rawdirectory}/${subdir_pattern}*; do
+        echo "............................................"
+        echo "Run CLEO exec"
+        echo "in ${directory_individual}"
         {
-            ${python}  ${pythonscript} ${path2CLEO} ${path2build} ${exp_folder}
+            ${run_script} ${path2CLEO} ${path2build} ${directory_individual} ${path2exec}
         } || {
             echo "============================================"
-            echo "EXCECUTION ERROR: in ${exp_folder}"
+            echo "EXCECUTION ERROR: in ${directory_individual}"
             echo "============================================"
         }
-        echo "::::::::::::::::::::::::::::::::::::::::::::"
+        echo "............................................"
     done
+    echo "============================================"
 fi
 ### ---------------------------------------------------- ###
 
 echo "--------------------------------------------"
 date
 echo "END RUN"
-echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
