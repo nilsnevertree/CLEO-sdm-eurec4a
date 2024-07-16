@@ -3,7 +3,6 @@
 #SBATCH --partition=compute
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=8
-#SBATCH --ntasks=16
 #SBATCH --exclusive
 #SBATCH --time=01:00:00
 #SBATCH --mail-user=nils-ole.niebaumy@mpimet.mpg.de
