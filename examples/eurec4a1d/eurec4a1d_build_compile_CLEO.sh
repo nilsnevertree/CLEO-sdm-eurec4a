@@ -29,7 +29,7 @@ echo "============================================"
 
 # run parameters
 buildtype="cuda"
-executables="eurec4a1D_null_microphysics eurec4a1D_condensation eurec4a1D_collision_condensation"
+executables="eurec4a1D_null_microphysics eurec4a1D_condensation eurec4a1D_coalrebu_condensation_small eurec4a1D_coalbure_condensation_large"
 enableyac=false
 
 # setps to run
