@@ -62,10 +62,10 @@ elif [ "${microphysics}" == "collision_condensation" ]; then
     prepare_microphysics_setup "${microphysics}"
 elif [ "${microphysics}" == "coalbure_condensation_small" ]; then
     prepare_microphysics_setup "${microphysics}"
-    breakup_file="${path2eurec4a1d}/src/breakup.yaml"
+    breakup_file="${path2eurec4a1d}/stationary_${microphysics}/src/breakup.yaml"
 elif [ "${microphysics}" == "coalbure_condensation_large" ]; then
     prepare_microphysics_setup "${microphysics}"
-    breakup_file="${path2eurec4a1d}/stationary_${setup}/src/breakup.yaml"
+    breakup_file="${path2eurec4a1d}/stationary_${microphysics}/src/breakup.yaml"
 else
     echo "ERROR: microphysics not found"
     exit 1
