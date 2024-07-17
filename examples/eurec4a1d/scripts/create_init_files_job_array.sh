@@ -113,9 +113,6 @@ elif [ ! -f "$configfile" ]; then
 elif [ ! -f "$cloud_observation_file" ]; then
     echo "Invalid path to cloud config file"
     exit 1
-elif [ ! -d "$rawdirectory" ]; then
-    echo "Invalid path to raw data directory"
-    exit 1
 else
     echo "All paths are valid"
 fi
