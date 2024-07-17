@@ -8,8 +8,8 @@ run_script_path="/home/m/m301096/CLEO/examples/eurec4a1d/scripts/run_CLEO_job_ar
 # microphysics="null_microphysics"
 # microphysics="condensation"
 # microphysics="collision_condensation"
-microphysics="coalbure_condensation_small"
-# microphysics="coalbure_condensation_large"
+# microphysics="coalbure_condensation_small"
+microphysics="coalbure_condensation_large"
 
 
 path2CLEO="/home/m/m301096/CLEO/"
