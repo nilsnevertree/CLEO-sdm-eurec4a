@@ -45,6 +45,7 @@ configfile=${path2eurec4a1d}/default_config/eurec4a1d_config_stationary.yaml
 src_directory=${path2eurec4a1d}/stationary_${setup}/src/
 
 rawdirectory=""
+breakup_file="None"
 
 function prepare_microphysics_setup() {
   local setup=$1
@@ -61,6 +62,10 @@ elif [ "${microphysics}" == "collision_condensation" ]; then
     prepare_microphysics_setup "${microphysics}"
 elif [ "${microphysics}" == "coalrebu_condensation_small" ]; then
     prepare_microphysics_setup "${microphysics}"
+    breakup_file="${path2eurec4a1d}/src/breakup.yaml"
+elif [ "${microphysics}" == "coalrebu_condensation_large" ]; then
+    prepare_microphysics_setup "${microphysics}"
+    breakup_file="${path2eurec4a1d}/src/breakup.yaml"
 else
     echo "ERROR: microphysics not found"
     exit 1
@@ -122,6 +127,7 @@ srun ${python} \
         ${configfile} \
         ${cloud_observation_file} \
         ${rawdirectory} \
+        ${breakup_file} \
 
 echo "--------------------------------------------"
 date

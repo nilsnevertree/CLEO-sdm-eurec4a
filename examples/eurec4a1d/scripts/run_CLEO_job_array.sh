@@ -30,6 +30,7 @@ echo "init microphysics: ${microphysics}"
 echo "init config_directory: ${config_directory}"
 echo "init path2CLEO: ${path2CLEO}"
 echo "init path2data: ${path2data}"
+echo "init path2build: ${path2build}"
 
 # run parameters
 buildtype="cuda"
@@ -43,7 +44,7 @@ run=true
 
 # set paths
 # path2CLEO=${HOME}/CLEO/
-path2build=${path2CLEO}/build_eurec4a1d/
+# path2build=${path2CLEO}/build_eurec4a1d/
 # path2data=${path2CLEO}/data/test/
 path2eurec4a1d=${path2CLEO}/examples/eurec4a1d/
 
