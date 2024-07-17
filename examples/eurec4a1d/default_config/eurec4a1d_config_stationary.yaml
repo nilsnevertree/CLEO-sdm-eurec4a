@@ -24,16 +24,16 @@
 ### SDM Runtime Parameters ###
 domain:
   nspacedims: 1                                                   # no. of spatial dimensions to model
-  ngbxs: 10                                                       # total number of Gbxs
-  maxnsupers: 10000                                               # maximum number of SDs
+  ngbxs: None                                                     # total number of Gbxs
+  maxnsupers: None                                                # maximum number of SDs
 
 timesteps:
   CONDTSTEP: 0.1                                                  # time between SD condensation [s]
   COLLTSTEP: 1                                                    # time between SD collision [s]
   MOTIONTSTEP: 2                                                  # time between SDM motion [s]
-  COUPLTSTEP: 1200                                                # time between dynamic couplings [s]
+  COUPLTSTEP: 3600                                                # time between dynamic couplings [s]
   OBSTSTEP: 2                                                     # time between SDM observations [s]
-  T_END: 1200                                                     # time span of integration from 0s to T_END [s]
+  T_END: 3600                                                     # time span of integration from 0s to T_END [s]
 
 ### Initialisation Parameters ###
 inputfiles:
@@ -43,7 +43,7 @@ inputfiles:
 initsupers:
   type: frombinary                                                # type of initialisation of super-droplets
   initsupers_filename: None                                       # binary filename for initialisation of SDs
-  initnsupers: 512                                                # initial no. of super-droplets to initialise
+  initnsupers: 2048                                               # initial no. of super-droplets to initialise
 
 ### Output Parameters ###
 outputdata:
@@ -75,14 +75,14 @@ coupled_dynamics:
 
 boundary_conditions:
   type: addsupersatdomaintop
-  COORD3LIM: 1000                                                 # SDs added to domain with coord3 >= COORD3LIM [m]
-  newnsupers: 512                                                 # number SDs to add to each gridbox above COORD3LIM
-  DRYRADIUS: 1e-09                                                # dry radius of new super-droplets (for solute mass) [m]
-  MINRADIUS: 0.1                                                  # minimum radius of new super-droplets [m]
-  MAXRADIUS: 1                                                    # maximum radius of new super-droplets [m]
-  NUMCONC_a: 1                                                    # number conc. of 1st droplet lognormal dist [m^-3]
-  GEOMEAN_a: 1                                                    # geometric mean radius of 1st lognormal dist [m]
-  geosigma_a: 1                                                   # geometric standard deviation of 1st lognormal dist
-  NUMCONC_b: 1                                                    # number conc. of 2nd droplet lognormal dist [m^-3]
-  GEOMEAN_b: 1                                                    # geometric mean radius of 2nd lognormal dist [m]
-  geosigma_b: 1                                                   # geometric standard deviation of 2nd lognormal dist
+  COORD3LIM: None                                                    # SDs added to domain with coord3 >= COORD3LIM [m]
+  newnsupers: None                                                   # number SDs to add to each gridbox above COORD3LIM
+  DRYRADIUS: 1e-09                                                   # dry radius of new super-droplets (for solute mass) [m]
+  MINRADIUS: None                                                    # minimum radius of new super-droplets [m]
+  MAXRADIUS: None                                                    # maximum radius of new super-droplets [m]
+  NUMCONC_a: None                                                    # number conc. of 1st droplet lognormal dist [m^-3]
+  GEOMEAN_a: None                                                    # geometric mean radius of 1st lognormal dist [m]
+  geosigma_a: None                                                   # geometric standard deviation of 1st lognormal dist
+  NUMCONC_b: None                                                    # number conc. of 2nd droplet lognormal dist [m^-3]
+  GEOMEAN_b: None                                                    # geometric mean radius of 2nd lognormal dist [m]
+  geosigma_b: None                                                   # geometric standard deviation of 2nd lognormal dist
