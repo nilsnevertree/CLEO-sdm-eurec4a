@@ -44,6 +44,18 @@ print(f"Path to cloud observation file: {origin_cloud_observation_file}")
 raw_dir = Path(sys.argv[4])
 print(f"Path to raw directory: {raw_dir}")
 
+breakup_config_file = sys.argv[5]
+if breakup_config_file in ("None", 0, "0", None, False):
+    breakup_config_file = None
+elif not Path(breakup_config_file).exists():
+    breakup_config_file = None
+    print(
+        f"WARNING: Breakup config file not found: {breakup_config_file}\nBREAKUP WILL NOT BE USED!"
+    )
+else:
+    breakup_config_file = Path(breakup_config_file)
+print(f"Path to breakup config file: {breakup_config_file}")
+
 
 if "sdm_pysd_env312" not in sys.prefix:
     sys.path.append(str(path2CLEO))  # for imports from pySD package
@@ -105,6 +117,12 @@ raw_dir.mkdir(exist_ok=True, parents=True)
 # CREATE A CONFIG FILE TO BE UPDATED
 with open(origin_config_file, "r") as f:
     eurec4a1d_config = yaml.safe_load(f)
+
+# update breakup in eurec4a1d_config file if breakup file is given:
+if breakup_config_file is not None:
+    with open(breakup_config_file, "r") as f:
+        breakup_config = yaml.safe_load(f)
+    eurec4a1d_config["microphysics"].update(breakup_config)
 
 
 with open(origin_cloud_observation_file, "r") as f:

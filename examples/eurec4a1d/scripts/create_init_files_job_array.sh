@@ -11,7 +11,7 @@
 #SBATCH --account=mh1126
 #SBATCH --output=./logfiles/create_init_files/%A/%A_%a_out.out
 #SBATCH --error=./logfiles/create_init_files/%A/%A_%a_err.out
-#SBATCH --array=0-110
+#SBATCH --array=0-1
 
 ### ---------------------------------------------------- ###
 ### ------------------ Input Parameters ---------------- ###
@@ -60,10 +60,10 @@ elif [ "${microphysics}" == "condensation" ]; then
     prepare_microphysics_setup "${microphysics}"
 elif [ "${microphysics}" == "collision_condensation" ]; then
     prepare_microphysics_setup "${microphysics}"
-elif [ "${microphysics}" == "coalrebu_condensation_small" ]; then
+elif [ "${microphysics}" == "coalbure_condensation_small" ]; then
     prepare_microphysics_setup "${microphysics}"
     breakup_file="${path2eurec4a1d}/src/breakup.yaml"
-elif [ "${microphysics}" == "coalrebu_condensation_large" ]; then
+elif [ "${microphysics}" == "coalbure_condensation_large" ]; then
     prepare_microphysics_setup "${microphysics}"
     breakup_file="${path2eurec4a1d}/src/breakup.yaml"
 else
