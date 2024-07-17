@@ -11,7 +11,7 @@
 #SBATCH --account=mh1126
 #SBATCH --output=./logfiles/run_CLEO/%A/%A_%a_out.out
 #SBATCH --error=./logfiles/run_CLEO/%A/%A_%a_err.out
-#SBATCH --array=0-1
+#SBATCH --array=0-110
 
 ### ---------------------------------------------------- ###
 ### ------------------ Input Parameters ---------------- ###
@@ -68,6 +68,10 @@ if [ "${microphysics}" == "null_microphysics" ]; then
 elif [ "${microphysics}" == "condensation" ]; then
     prepare_microphysics_setup "${microphysics}"
 elif [ "${microphysics}" == "collision_condensation" ]; then
+    prepare_microphysics_setup "${microphysics}"
+elif [ "${microphysics}" == "coalrebu_condensation_small" ]; then
+    prepare_microphysics_setup "${microphysics}"
+elif [ "${microphysics}" == "coalrebu_condensation_large" ]; then
     prepare_microphysics_setup "${microphysics}"
 else
     echo "ERROR: microphysics not found"
@@ -131,16 +135,16 @@ echo "============================================"
 
 # make sure paths are directories and executable is a file
 if [ ! -d "$path2CLEO" ]; then
-    echo " (1) Invalid path to CLEO"
+    echo "Invalid path to CLEO"
     exit 1
 elif [ ! -d "$path2build" ]; then
-    echo " (2) Invalid path to build"
+    echo "Invalid path to build"
     exit 1
 elif [ ! -d "$path2inddir" ]; then
-    echo "(3) Invalid path to data directory"
+    echo "Invalid path to data directory"
     exit 1
 elif [ ! -f "$path2exec" ]; then
-    echo "(4) Executable not found: ${path2exec}"
+    echo "Executable not found: ${path2exec}"
     exit 1
 elif [ ! -f "$config_file_path" ]; then
     echo "Config file not found: ${config_file_path}"

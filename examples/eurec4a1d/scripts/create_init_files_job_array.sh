@@ -41,8 +41,8 @@ pythonscript=${path2eurec4a1d}/scripts/eurec4a1d_stationary.py
 # baseline config file
 configfile=${path2eurec4a1d}/default_config/eurec4a1d_config_stationary.yaml
 
-
 ### ---------- Setup for the EUREC4A1D model ---------- ###
+src_directory=${path2eurec4a1d}/stationary_${setup}/src/
 
 rawdirectory=""
 
@@ -58,6 +58,8 @@ if [ "${microphysics}" == "null_microphysics" ]; then
 elif [ "${microphysics}" == "condensation" ]; then
     prepare_microphysics_setup "${microphysics}"
 elif [ "${microphysics}" == "collision_condensation" ]; then
+    prepare_microphysics_setup "${microphysics}"
+elif [ "${microphysics}" == "coalrebu_condensation_small" ]; then
     prepare_microphysics_setup "${microphysics}"
 else
     echo "ERROR: microphysics not found"
@@ -76,6 +78,7 @@ source activate ${condaenv}
 ### ---------------------------------------------------- ###
 files=($(find ${config_directory} -maxdepth 1 -type f -name 'clusters*.yaml' -printf '%P\n' | sort))
 cloud_observation_file=${config_directory}/${files[$SLURM_ARRAY_TASK_ID]}
+
 echo "Number of files: ${#files[@]}"
 echo "Current array task ID: ${SLURM_ARRAY_TASK_ID}"
 echo "Current config file: ${files[${SLURM_ARRAY_TASK_ID}]}"
@@ -87,9 +90,30 @@ echo "path2CLEO: ${path2CLEO}"
 echo "pythonscript: ${pythonscript}"
 echo "base config file: ${configfile}"
 echo "cloud config file: ${cloud_observation_file}"
+echo "breakup file: ${breakup_file}"
 echo "raw data directory: ${rawdirectory}"
 echo "---------------------------"
 ### ---------------------------------------------------- ###
+
+# make sure paths are directories and executable is a file
+if [ ! -d "$path2CLEO" ]; then
+    echo "Invalid path to CLEO"
+    exit 1
+elif [ ! -f "$pythonscript" ]; then
+    echo "Invalid path to python script"
+    exit 1
+elif [ ! -f "$configfile" ]; then
+    echo "Invalid path to config file"
+    exit 1
+elif [ ! -f "$cloud_observation_file" ]; then
+    echo "Invalid path to cloud config file"
+    exit 1
+elif [ ! -d "$rawdirectory" ]; then
+    echo "Invalid path to raw data directory"
+    exit 1
+else
+    echo "All paths are valid"
+fi
 
 
 srun ${python} \
@@ -97,8 +121,7 @@ srun ${python} \
         ${path2CLEO} \
         ${configfile} \
         ${cloud_observation_file} \
-        ${rawdirectory}
-
+        ${rawdirectory} \
 
 echo "--------------------------------------------"
 date
