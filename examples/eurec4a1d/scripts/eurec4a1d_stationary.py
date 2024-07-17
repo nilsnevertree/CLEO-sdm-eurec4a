@@ -33,11 +33,17 @@ from io import StringIO
 print(f"Enviroment: {sys.prefix}")
 
 path2CLEO = Path(sys.argv[1])
-path2build = Path(sys.argv[2])
-path2home = Path(sys.argv[3])
-origin_config_file = Path(sys.argv[4])
-origin_cloud_observation_file = Path(sys.argv[5])
-raw_dir = Path(sys.argv[6])
+print(f"Path to CLEO: {path2CLEO}")
+
+origin_config_file = Path(sys.argv[2])
+print(f"Path to config file: {origin_config_file}")
+
+origin_cloud_observation_file = Path(sys.argv[3])
+print(f"Path to cloud observation file: {origin_cloud_observation_file}")
+
+raw_dir = Path(sys.argv[4])
+print(f"Path to raw directory: {raw_dir}")
+
 
 if "sdm_pysd_env312" not in sys.prefix:
     sys.path.append(str(path2CLEO))  # for imports from pySD package
@@ -88,8 +94,8 @@ class Capturing(list):
 # path and filenames for creating initial SD conditions
 
 constants_file = path2CLEO / "libs/cleoconstants.hpp"
-bin_path = path2build / "bin/"
-share_path = path2build / "share/"
+# bin_path = path2build / "bin/"
+# share_path = path2build / "share/"
 
 raw_dir.mkdir(exist_ok=True, parents=True)
 
@@ -182,8 +188,8 @@ thermodynamics_file = eurec4a1d_config["coupled_dynamics"]["thermo"]
 ### --- SETTING UP THERMODYNAMICS AND SUPERDROPLET INITIAL SETUP --- ###
 ### ---------------------------------------------------------------- ###
 
-vertical_resolution = 20
-cloud_thickness = 100
+dz_cloud = 20
+dz_sub_cloud = 100
 
 ### --- settings for 1-D gridbox boundaries --- ###
 cloud_altitude = cloud_observation_config["cloud"]["altitude"][0]
@@ -191,17 +197,17 @@ cloud_altitude = cloud_observation_config["cloud"]["altitude"][0]
 cloud_altitude = int(cloud_altitude)
 
 
-cloud_bottom = cloud_altitude - cloud_thickness / 2
-cloud_top = cloud_altitude + cloud_thickness / 2
+cloud_bottom = cloud_altitude - dz_sub_cloud / 2
+cloud_top = cloud_altitude + dz_sub_cloud / 2
 
 
-# zgrid       = [0, cloud_top, vertical_resolution]      # evenly spaced zhalf coords [zmin, zmax, zdelta] [m]
+# zgrid       = [0, cloud_top, dz_cloud]      # evenly spaced zhalf coords [zmin, zmax, zdelta] [m]
 # zgrid contains the boundaries of the gridboxes
 # make sure to include the cloud bottom
-zgrid = np.arange(0, cloud_bottom, vertical_resolution)
+zgrid = np.arange(0, cloud_bottom, dz_cloud)
 # add the cloud top as the upper boundary for the top gridbox
 z_cloud_base = np.max(zgrid)
-z_cloud_top = z_cloud_base + cloud_thickness
+z_cloud_top = z_cloud_base + dz_sub_cloud
 zgrid = np.append(zgrid, z_cloud_top)
 # set the boundary to spawn new superdroplets to 1m above the cloud bottom, to make sure only in the top domain.
 z_boundary_respawn = float(z_cloud_base)  # [m]
@@ -217,9 +223,10 @@ specific_humidity_params = cloud_observation_config["thermodynamics"][
 ]["parameters"]
 
 ### --- settings for 1-D Thermodynamics --- ###
+
 pressure_bottom = cloud_observation_config["thermodynamics"]["pressure"].get(
     "f_0", [101315]
-)[0]  # [Pa]
+)[0]  # [Pa] with default value of 101315 Pa
 pressure_bottom = int(pressure_bottom)
 temperature_bottom = air_temperature_params["f_0"][0]  # [K]
 temperature_lapse_rate = (
@@ -302,12 +309,12 @@ editconfigfile.edit_config_params(str(config_file), eurec4a1d_config)
 ### ------------------- BINARY FILES GENERATION--------------------- ###
 ### ---------------------------------------------------------------- ###
 ### --- ensure build, share and bin directories exist --- ###
-if path2CLEO == path2build:
-    raise ValueError("build directory cannot be CLEO")
-else:
-    Path(path2build).mkdir(exist_ok=True)
-    Path(share_path).mkdir(exist_ok=True)
-    Path(bin_path).mkdir(exist_ok=True)
+# if path2CLEO == path2build:
+#     raise ValueError("build directory cannot be CLEO")
+# else:
+#     Path(path2build).mkdir(exist_ok=True)
+#     # Path(share_path).mkdir(exist_ok=True)
+#     # Path(bin_path).mkdir(exist_ok=True)
 os.system("rm " + grid_file)
 os.system("rm " + init_superdroplets_file)
 os.system("rm " + thermodynamics_file[:-4] + "*")
