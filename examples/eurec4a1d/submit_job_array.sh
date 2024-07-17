@@ -12,7 +12,7 @@ run_script_path="/home/m/m301096/CLEO/examples/eurec4a1d/scripts/run_CLEO_job_ar
 microphysics="coalbure_condensation_large"
 
 path2CLEO="/home/m/m301096/CLEO/"
-path2data=${path2CLEO}/data/test_all/
+path2data=${path2CLEO}/data/test/
 path2build=${path2CLEO}/build_eurec4a1d_new/
 config_directory="/home/m/m301096/repositories/sdm-eurec4a/data/model/input/output_v3.0/"
 
