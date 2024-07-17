@@ -8,7 +8,6 @@ script_path="/home/m/m301096/CLEO/examples/eurec4a1d/run_executable_CLEO_array.s
 microphysics="null_microphysics"
 # microphysics="condensation"
 # microphysics="collision_condensation"
-# sed -i "s/microphysics=.*/microphysics=${microphysics}/" "$script_path"
 
 config_directory="/home/m/m301096/repositories/sdm-eurec4a/data/model/input/output_v3.0/"
 path2CLEO="/home/m/m301096/CLEO/"
