@@ -48,10 +48,7 @@ breakup_config_file = sys.argv[5]
 if breakup_config_file in ("None", 0, "0", None, False):
     breakup_config_file = None
 elif not Path(breakup_config_file).exists():
-    breakup_config_file = None
-    print(
-        f"WARNING: Breakup config file not found: {breakup_config_file}\nBREAKUP WILL NOT BE USED!"
-    )
+    raise ValueError(f"Breakup config file not found under: {breakup_config_file}")
 else:
     breakup_config_file = Path(breakup_config_file)
 print(f"Path to breakup config file: {breakup_config_file}")
