@@ -427,7 +427,7 @@ class SupersAttribute:
         else:
             raise ValueError("Data must be an ak.Array or np.ndarray")
 
-    def get_data(self):
+    def get_data(self) -> ak.Array:
         """
         This function returns the data of the attribute.
 
