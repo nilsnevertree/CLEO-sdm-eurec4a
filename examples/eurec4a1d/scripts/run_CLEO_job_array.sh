@@ -11,7 +11,7 @@
 #SBATCH --account=mh1126
 #SBATCH --output=./logfiles/run_CLEO/%A/%A_%a_out.out
 #SBATCH --error=./logfiles/run_CLEO/%A/%A_%a_err.out
-#SBATCH --array=0-1
+#SBATCH --array=0-110
 
 ### ---------------------------------------------------- ###
 ### ------------------ Input Parameters ---------------- ###
