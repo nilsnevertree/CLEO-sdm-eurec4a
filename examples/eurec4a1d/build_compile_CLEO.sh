@@ -29,7 +29,7 @@ echo "============================================"
 
 # run parameters
 buildtype="cuda"
-executables="eurec4a1D"
+executables="eurec4a1D_null_microphysics eurec4a1D_condensation eurec4a1D_collision_condensation eurec4a1D_coalbure_condensation_small eurec4a1D_coalbure_condensation_large"
 enableyac=false
 
 # setps to run
@@ -38,39 +38,7 @@ compile=true
 
 # set paths
 path2CLEO=${HOME}/CLEO/
-path2builds=${path2CLEO}builds/
-path2data=${path2CLEO}data/output_v3.1/
-path2eurec4a1d=${path2CLEO}examples/eurec4a1d/
-
-# python script to run
-pythonscript=${path2eurec4a1d}scripts/eurec4a1d_run_executable.py
-
-
-# ----- Directory for cloud configuration files ------ #
-path2sdmeurec4a=${HOME}/repositories/sdm-eurec4a/
-cloud_config_directory=${path2sdmeurec4a}data/model/input/output_v3.0/
-# ---------------------------------------------------- #
-
-
-
-### ---------- Setup for the EUREC4A1D model ---------- ###
-# Use the stationary setup of the model
-
-# NO PHYSICS
-path2build=${path2builds}build_eurec4a1D_stationary_no_physics/
-rawdirectory=${path2data}stationary_no_physics/
-
-# # CONDENSTATION
-# path2build=${path2builds}build_eurec4a1D_stationary_condensation/
-# rawdirectory=${path2data}stationary_condensation/
-
-# # COLLISION AND CONDENSTATION
-# path2build=${path2builds}build_eurec4a1D_stationary_collision_condensation/
-# rawdirectory=${path2data}stationary_collision_condensation/
-
-### ---------------------------------------------------- ###
-
-
+path2build=${path2CLEO}/build_eurec4a1d_new/
 
 ### ------------------ Load Modules -------------------- ###
 cleoenv=/work/mh1126/m300950/cleoenv
@@ -82,22 +50,20 @@ source activate ${cleoenv}
 ### ---------------------------------------------------- ###
 
 ### -------------------- print inputs ------------------ ###
-echo "----- Build and compile CLEO -----"
-echo "buildtype:  ${buildtype}"
-echo "path2CLEO: ${path2CLEO}"
-echo "path2build: ${path2build}"
-echo "enableyac: ${enableyac}"
-echo "executables: ${executables}"
-echo "pythonscript: ${pythonscript}"
-echo "rawdirectory: ${rawdirectory}"
-echo "cloud_config_directory: ${cloud_config_directory}"
-echo "---------------------------"
+echo "============================================"
+echo -e "buildtype: \t${buildtype}"
+echo -e "path2CLEO: \t${path2CLEO}"
+echo -e "path2build: \t${path2build}"
+echo -e "enableyac: \t${enableyac}"
+echo -e "executable: \t${executable}"
+echo "============================================"
 ### --------------------------------------------------- ###
 
 ## ---------------------- build CLEO ------------------ ###
 if [ "$build" = true ]; then
     echo "Build CLEO"
     ${path2CLEO}/scripts/bash/build_cleo.sh ${buildtype} ${path2CLEO} ${path2build}
+    echo "============================================"
 fi
 ### ---------------------------------------------------- ###
 
@@ -106,6 +72,7 @@ if [ "$compile" = true ]; then
     echo "Compile CLEO"
     cd ${path2build} && make clean
     ${path2CLEO}/scripts/bash/compile_cleo.sh ${cleoenv} ${buildtype} ${path2build} "${executables}"
+    echo "============================================"
 fi
 ### ---------------------------------------------------- ###
 

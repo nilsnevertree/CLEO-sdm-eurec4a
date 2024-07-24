@@ -98,24 +98,19 @@ fi
 export OMP_PROC_BIND=spread
 export OMP_PLACES=threads
 
-if [ "$run" = true ]; then
-    echo "Execute CLEO exec with the given bash script"
-    for directory_individual in ${rawdirectory}/${subdir_pattern}*; do
-        echo "............................................"
-        echo "Run CLEO exec"
-        echo "in ${directory_individual}"
-        {
-            ${run_script} ${path2CLEO} ${path2build} ${directory_individual} ${path2exec}
-        } || {
-            echo "============================================"
-            echo "EXCECUTION ERROR: in ${directory_individual}"
-            echo "============================================"
-        }
-        echo "............................................"
-    done
-    echo "============================================"
-fi
-### ---------------------------------------------------- ###
+### create the mapping of index i to data directory
+
+# get all subdirectories
+subdirs=($(ls -d ${rawdirectory}/${subdir_pattern}*))
+
+# get the number of subdirectories
+nsubdirs=${#subdirs[@]}
+echo "Number of subdirectories: ${nsubdirs}"
+echo "This create a job array with ${nsubdirs} jobs"
+
+# create the job array
+echo "sbatch --array=${i} ${run_script} ${path2CLEO} ${path2build} ${subdirs[i]} ${path2exec}"
+
 
 echo "--------------------------------------------"
 date
