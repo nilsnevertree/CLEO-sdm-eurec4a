@@ -54,12 +54,17 @@ outputdata:
 
 ### Microphysics Parameters ###
 microphysics:
+  # condensation will not be modified
   condensation:
     do_alter_thermo: false                                        # true = cond/evap alters the thermodynamic state
     maxniters: 100                                                # maximum no. iterations of Newton Raphson Method
     MINSUBTSTEP: 0.01                                             # minimum subtimestep in cases of substepping [s]
     rtol: 0.03                                                    # relative tolerance for implicit Euler integration
     atol: 0.03                                                    # abolute tolerance for implicit Euler integration
+  # breakup will be modified by using the breakup.yaml file in the eurec4a1d/<microphysics_setup>/src/ directory
+  breakup:
+    constnfrags:
+      nfrags: 0.0                                                 # average no. of fragments per droplet breakup
 
 ### Coupled Dynamics Parameters ###
 coupled_dynamics:

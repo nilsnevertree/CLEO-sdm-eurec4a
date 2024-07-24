@@ -18,3 +18,5 @@ examples/examplesolutions
 roughpaper/scratch/share
 *.egg-info/*
 data
+
+*build*
