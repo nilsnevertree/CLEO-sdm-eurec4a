@@ -10,12 +10,12 @@
 #SBATCH --mail-type=FAIL
 #SBATCH --account=mh1126
 #SBATCH --output=./logfiles/submit_master/%j_out.out
-#SBATCH --error=./logfiles/_submit_master/%j_err.out
+#SBATCH --error=./logfiles/submit_master/%j_err.out
 # --------------------------------
 # Set the flags to define the steps to run
 # --------------------------------
-create_init=true   # Create the initial files
-run=false          # Run the model
+create_init=false # Create the initial files
+run=true          # Run the model
 
 # --------------------------------
 # Path to python scripts to create the initial files and run the model in the EURC4A1D case
@@ -29,8 +29,8 @@ run_script_path="/home/m/m301096/CLEO/examples/eurec4a1d/scripts/run_CLEO_job_ar
 # microphysics="null_microphysics"
 # microphysics="condensation"
 # microphysics="collision_condensation"
-microphysics="coalbure_condensation_small"
-# microphysics="coalbure_condensation_large"
+# microphysics="coalbure_condensation_small"
+microphysics="coalbure_condensation_large"
 # microphysics="coalbure_condensation_cke"
 
 
@@ -91,9 +91,10 @@ if [ "$run" = true ]; then
     # echo "Directories: ${directories[@]}"
     # job array ranges from 0 - max_number
     number_of_directories=${#directories[@]}
+    number_of_directories=3
     max_number=$(($number_of_directories - 1))
 
-    echo "Number of directories and slurm array: ${#directories[@]}"
+    echo "Number of directories and slurm array: ${number_of_directories}"
 
     # Update --array=0-max_number
     sed -i "s/#SBATCH --array=.*/#SBATCH --array=0-${max_number}/" "$run_script_path"
