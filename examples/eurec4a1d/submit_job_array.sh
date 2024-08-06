@@ -1,10 +1,21 @@
 #!/bin/bash
-
+#SBATCH --job-name=e1d_submit_master
+#SBATCH --partition=compute
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --exclusive
+#SBATCH --time=00:01:00
+#SBATCH --mem=10M
+#SBATCH --mail-user=nils-ole.niebaumy@mpimet.mpg.de
+#SBATCH --mail-type=FAIL
+#SBATCH --account=mh1126
+#SBATCH --output=./logfiles/submit_master/%j_out.out
+#SBATCH --error=./logfiles/_submit_master/%j_err.out
 # --------------------------------
 # Set the flags to define the steps to run
 # --------------------------------
-create_init=false   # Create the initial files
-run=true            # Run the model
+create_init=true   # Create the initial files
+run=false          # Run the model
 
 # --------------------------------
 # Path to python scripts to create the initial files and run the model in the EURC4A1D case
@@ -20,6 +31,7 @@ run_script_path="/home/m/m301096/CLEO/examples/eurec4a1d/scripts/run_CLEO_job_ar
 # microphysics="collision_condensation"
 microphysics="coalbure_condensation_small"
 # microphysics="coalbure_condensation_large"
+# microphysics="coalbure_condensation_cke"
 
 
 # --------------------------------
@@ -54,7 +66,7 @@ if [ "$create_init" = true ]; then
     number_of_files=${#files[@]}
     # job array ranges from 0 - max_number
     max_number=$(($number_of_files - 1))
-    echo "Number of files and slurm array: ${#files[@]}"
+    echo "Number of files and slurm array: ${number_of_files}"
 
     # Update --array=0-max_number
     sed -i "s/#SBATCH --array=.*/#SBATCH --array=0-${max_number}/" "$create_script_path"
