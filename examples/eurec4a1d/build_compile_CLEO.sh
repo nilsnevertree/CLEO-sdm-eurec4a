@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=eurec4a1d_build_compile_CLEO
+#SBATCH --job-name=e1d_build_compile_CLEO
 #SBATCH --partition=gpu
 #SBATCH --gpus=4
 #SBATCH --nodes=1
@@ -9,8 +9,8 @@
 #SBATCH --mail-user=nils-ole.niebaumy@mpimet.mpg.de
 #SBATCH --mail-type=FAIL
 #SBATCH --account=mh1126
-#SBATCH --output=./logfiles/eurec4a1d_build_compile_CLEO.%j_out.out
-#SBATCH --error=./logfiles/eurec4a1d_build_compile_CLEO.%j_err.out
+#SBATCH --output=./logfiles/build_compile_CLEO/%j_out.out
+#SBATCH --error=./logfiles/build_compile_CLEO/%j_err.out
 
 ### ---------------------------------------------------- ###
 ### ------------------ Input Parameters ---------------- ###
@@ -29,7 +29,7 @@ echo "============================================"
 
 # run parameters
 buildtype="cuda"
-executables="eurec4a1D_null_microphysics eurec4a1D_condensation eurec4a1D_collision_condensation eurec4a1D_coalbure_condensation_small eurec4a1D_coalbure_condensation_large"
+executables="eurec4a1D_null_microphysics eurec4a1D_condensation eurec4a1D_collision_condensation eurec4a1D_coalbure_condensation_small eurec4a1D_coalbure_condensation_large eurec4a1D_coalbure_condensation_cke"
 enableyac=false
 
 # setps to run
