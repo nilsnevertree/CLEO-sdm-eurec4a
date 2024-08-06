@@ -138,7 +138,7 @@ inline MicrophysicalProcess auto create_microphysics(const Config &config,
       Condensation(tsteps.get_condstep(), &step2dimlesstime,
                    c_cond.do_alter_thermo, c_cond.maxniters, c_cond.rtol,
                    c_cond.atol, c_cond.MINSUBTSTEP, &realtime2dimless);
-  const auto c_break = config.get_breakup();
+  const auto c_breakup = config.get_breakup();
   const PairProbability auto collprob = LongHydroProb();
   const NFragments auto nfrags = ConstNFrags(c_breakup.constnfrags.nfrags);
   const CoalBuReFlag auto coalbure_flag = TSCoalBuReFlag{};
