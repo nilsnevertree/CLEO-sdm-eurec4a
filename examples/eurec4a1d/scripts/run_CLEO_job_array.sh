@@ -3,8 +3,8 @@
 #SBATCH --partition=gpu
 #SBATCH --gpus=4
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=1
-#SBATCH --mem=5G
+#SBATCH --ntasks-per-node=128
+#SBATCH --mem=10G
 #SBATCH --time=00:10:00
 #SBATCH --mail-user=nils-ole.niebaumy@mpimet.mpg.de
 #SBATCH --mail-type=FAIL
@@ -32,14 +32,6 @@ echo "init path2CLEO: ${path2CLEO}"
 echo "init path2data: ${path2data}"
 echo "init path2build: ${path2build}"
 
-# run parameters
-buildtype="cuda"
-executables="eurec4a1D_null_microphysics eurec4a1D_condensation eurec4a1D_collision_condensation"
-enableyac=false
-
-# setps to run
-build=false
-compile=false
 run=true
 
 # set paths
@@ -159,23 +151,6 @@ if [ -d "$dataset_path" ]; then
     rm -rf ${dataset_path} & echo "Dataset file deleted"
 fi
 echo "============================================"
-
-## ---------------------- build CLEO ------------------ ###
-if [ "$build" = true ]; then
-    echo "Build CLEO"
-    ${path2CLEO}/scripts/bash/build_cleo.sh ${buildtype} ${path2CLEO} ${path2build}
-    echo "============================================"
-fi
-### ---------------------------------------------------- ###
-
-### --------- compile exec(s) from scratch ------- ###
-if [ "$compile" = true ]; then
-    echo "Compile CLEO"
-    cd ${path2build} && make clean
-    ${path2CLEO}/scripts/bash/compile_cleo.sh ${cleoenv} ${buildtype} ${path2build} "${executables}"
-    echo "============================================"
-fi
-### ---------------------------------------------------- ###
 
 ### --------- run model through Python script ---------- ###
 export OMP_PROC_BIND=spread

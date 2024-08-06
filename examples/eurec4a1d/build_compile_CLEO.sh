@@ -3,8 +3,8 @@
 #SBATCH --partition=gpu
 #SBATCH --gpus=4
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=24
-#SBATCH --mem=3G
+#SBATCH --ntasks-per-node=128
+#SBATCH --mem=30G
 #SBATCH --time=00:15:00
 #SBATCH --mail-user=nils-ole.niebaumy@mpimet.mpg.de
 #SBATCH --mail-type=FAIL
