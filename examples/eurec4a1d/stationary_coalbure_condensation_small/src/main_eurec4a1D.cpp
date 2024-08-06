@@ -129,7 +129,7 @@ inline auto create_movement(const Config &config, const Timesteps &tsteps,
 // ===================================================
 
 // ------------------------------
-// Condensation and Coalescence
+// Collision Breakup Rebound and Condensation
 // ------------------------------
 inline MicrophysicalProcess auto create_microphysics(const Config &config,
                                                      const Timesteps &tsteps) {
@@ -139,7 +139,7 @@ inline MicrophysicalProcess auto create_microphysics(const Config &config,
                    c.do_alter_thermo, c.maxniters, c.rtol,
                    c.atol, c.MINSUBTSTEP, &realtime2dimless);
   const PairProbability auto collprob = LongHydroProb();
-  const NFragments auto nfrags = CollisionKineticEnergyNFrags{};
+  const NFragments auto nfrags = ConstNFrags(c.constnfrags.nfrags);
   const CoalBuReFlag auto coalbure_flag = TSCoalBuReFlag{};
   const MicrophysicalProcess auto coalbure =
       CoalBuRe(tsteps.get_collstep(), &step2realtime, collprob, nfrags, coalbure_flag);
