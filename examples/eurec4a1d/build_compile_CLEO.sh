@@ -38,7 +38,7 @@ compile=true
 
 # set paths
 path2CLEO=${HOME}/CLEO/
-path2build=${path2CLEO}/build_eurec4a1d_new/
+path2build=${path2CLEO}/build_eurec4a1d/
 
 ### ------------------ Load Modules -------------------- ###
 cleoenv=/work/mh1126/m300950/cleoenv
