@@ -129,7 +129,7 @@ inline auto create_movement(const Config &config, const Timesteps &tsteps,
 // ===================================================
 
 // ------------------------------
-// Collision Breakup Rebound and Condensation
+// Collision Breakup Rebound and Condensation with nfrags constant from config file
 // ------------------------------
 inline MicrophysicalProcess auto create_microphysics(const Config &config,
                                                      const Timesteps &tsteps) {
