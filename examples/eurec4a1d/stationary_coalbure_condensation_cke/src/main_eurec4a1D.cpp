@@ -133,11 +133,11 @@ inline auto create_movement(const Config &config, const Timesteps &tsteps,
 // ------------------------------
 inline MicrophysicalProcess auto create_microphysics(const Config &config,
                                                      const Timesteps &tsteps) {
-  const auto c = config.get_condensation();
+  const auto c_cond = config.get_condensation();
   const MicrophysicalProcess auto cond =
       Condensation(tsteps.get_condstep(), &step2dimlesstime,
-                   c.do_alter_thermo, c.maxniters, c.rtol,
-                   c.atol, c.MINSUBTSTEP, &realtime2dimless);
+                   c_cond.do_alter_thermo, c_cond.maxniters, c_cond.rtol,
+                   c_cond.atol, c_cond.MINSUBTSTEP, &realtime2dimless);
   const PairProbability auto collprob = LongHydroProb();
   const NFragments auto nfrags = CollisionKineticEnergyNFrags{};
   const CoalBuReFlag auto coalbure_flag = TSCoalBuReFlag{};
