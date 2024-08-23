@@ -89,10 +89,7 @@ for cloud_configfile in ${cloud_config_directory}/*.yaml; do
     echo "Prepare eurec4a1d config files with: ${cloud_configfile}"
 
     script_args="${HOME} ${configfile} ${cloud_configfile} ${rawdirectory}"
-    {
-        ${python}  ${pythonscript} ${path2CLEO} ${path2build} ${script_args}
-
-    } || {
+    srun { ${python}  ${pythonscript} ${path2CLEO} ${path2build} ${script_args}} || {
         echo "============================================"
         echo "ERROR: in ${cloud_configfile}"
         echo "============================================"

@@ -41,9 +41,6 @@ pythonscript=${path2eurec4a1d}/scripts/eurec4a1d_stationary.py
 # baseline config file
 configfile=${path2eurec4a1d}/default_config/eurec4a1d_config_stationary.yaml
 
-### ---------- Setup for the EUREC4A1D model ---------- ###
-src_directory=${path2eurec4a1d}/stationary_${setup}/src/
-
 rawdirectory=""
 breakup_file="None"
 

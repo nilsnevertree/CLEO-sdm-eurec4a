@@ -1,16 +1,16 @@
 #!/bin/bash
-#SBATCH --job-name=eurec4a1d_build_compile_CLEO
+#SBATCH --job-name=e1d_build_compile_CLEO
 #SBATCH --partition=gpu
 #SBATCH --gpus=4
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=128
 #SBATCH --mem=30G
-#SBATCH --time=04:30:00
+#SBATCH --time=00:15:00
 #SBATCH --mail-user=nils-ole.niebaumy@mpimet.mpg.de
 #SBATCH --mail-type=FAIL
 #SBATCH --account=mh1126
-#SBATCH --output=./logfiles/eurec4a1d_build_compile_CLEO.%j_out.out
-#SBATCH --error=./logfiles/eurec4a1d_build_compile_CLEO.%j_err.out
+#SBATCH --output=./logfiles/build_compile_CLEO/%j/%j_out.out
+#SBATCH --error=./logfiles/build_compile_CLEO/%j/%j_err.out
 
 ### ---------------------------------------------------- ###
 ### ------------------ Input Parameters ---------------- ###
@@ -29,7 +29,7 @@ echo "============================================"
 
 # run parameters
 buildtype="cuda"
-executables="eurec4a1D_null_microphysics eurec4a1D_condensation eurec4a1D_collision_condensation eurec4a1D_coalbure_condensation_small eurec4a1D_coalbure_condensation_large"
+executables="eurec4a1D_null_microphysics eurec4a1D_condensation eurec4a1D_collision_condensation eurec4a1D_coalbure_condensation_small eurec4a1D_coalbure_condensation_large eurec4a1D_coalbure_condensation_cke"
 enableyac=false
 
 # setps to run
@@ -38,7 +38,7 @@ compile=true
 
 # set paths
 path2CLEO=${HOME}/CLEO/
-path2build=${path2CLEO}/build_eurec4a1d_new/
+path2build=${path2CLEO}/build_eurec4a1d/
 
 ### ------------------ Load Modules -------------------- ###
 cleoenv=/work/mh1126/m300950/cleoenv
