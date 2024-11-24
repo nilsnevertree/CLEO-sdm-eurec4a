@@ -17,7 +17,6 @@ import os
 import sys
 from pathlib import Path
 import time
-import yaml
 import argparse
 import warnings
 
@@ -41,14 +40,10 @@ raw_dir_individual = Path(args.raw_dir_individual)
 print(f"path2CLEO: {path2CLEO}")
 print(f"path2build: {path2build}")
 
-
 # Setup paths to the config file and the dataset file
 config_dir = raw_dir_individual / "config"
 config_file_path = config_dir / "eurec4a1d_config.yaml"
 dataset_file_path = raw_dir_individual / "eurec4a1d_sol.zarr"
-
-with open(config_file_path, "r") as f:
-    config_dict = yaml.safe_load(f)
 
 if dataset_file_path.is_dir():
     warnings.warn(f"Directory {dataset_file_path} already exists. It will be deleted.")
