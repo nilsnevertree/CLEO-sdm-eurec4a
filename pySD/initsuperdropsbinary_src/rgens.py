@@ -20,9 +20,25 @@ various ways of generatring radii of superdroplets for their initial conditions
 """
 
 import numpy as np
+from typing import Union, Tuple
+class RadiiGenerator:
+    """
+    Base class which return
+    """
 
+    def __init__(self):
+        pass
 
-class MonoAttrGen:
+    def __call__(
+        self,
+        nsupers : int,
+        bin_width : bool = False,
+    ) -> Union[np.ndarray, Tuple[np.ndarray, np.ndarray]] :
+        if bin_width == False:
+            return np.ones(nsupers)
+        else :
+            return np.ones(nsupers), np.ones(nsupers)
+class MonoAttrGen(RadiiGenerator):
     """method to generate superdroplets with an
     attribute all equal to attr0"""
 

@@ -20,9 +20,11 @@ attributes given individual generators
 """
 
 import numpy as np
-from typing import Tuple
+from typing import Tuple, Union
 from ..gbxboundariesbinary_src import read_gbxboundaries as rgrid
-
+from .probdists import ProbabilityDistribution
+from .dryrgens import DryRadiiGenerator
+from .rgens import RadiiGenerator
 
 class AttrsGenerator:
     """class for functions to generate attributes of
@@ -195,7 +197,13 @@ class AttrsGeneratorNils:
     of class"""
 
     def __init__(
-        self, radiigen, dryradiigen, xiprobdist, coord3gen, coord1gen, coord2gen
+        self,
+        radiigen : RadiiGenerator,
+        dryradiigen : DryRadiiGenerator,
+        xiprobdist : ProbabilityDistribution,
+        coord3gen,
+        coord1gen,
+        coord2gen,
     ):
         self.radiigen = radiigen  # generates radius (solute + water)
         self.dryradiigen = dryradiigen  # generates dry radius (-> solute mass)
@@ -217,17 +225,55 @@ class AttrsGeneratorNils:
 
         return msols  # [Kg]
 
-    def multiplicities(self, radii :np.ndarray, NUMCONC : int, samplevol : int, bin_width = Tuple[float, np.ndarray]) -> np.ndarray:
-        """Calculate the multiplicity of the dry radius of each
-        superdroplet given it's probability such that the total number
-        concentration [m^-3] of real droplets in the volume, vol, [m^3]
-        is about 'numconc'. Raise an error if any of the calculated
-        mulitiplicities are zero"""
+    def multiplicities(
+            self,
+            radii :np.ndarray,
+            NUMCONC : int,
+            samplevol : float,
+            bin_width : Union[None, np.ndarray] = None,
+            ) -> np.ndarray:
+        """
+        Calculate the multiplicity of the dry radius of each superdroplet given its probability
+        such that the total number concentration [m^-3] of real droplets in the volume, vol, [m^3]
+        is about 'NUMCONC'. Raise an error if any of the calculated multiplicities are zero.
 
-        prob = self.xiprobdist(radii) * bin_width  # normalised prob distrib
-        xi = prob / np.sum(prob)
-        xi = xi * NUMCONC * samplevol
+        Parameters:
+        -----------
+        radii : np.ndarray
+            Array of radii of the superdroplets.
+        NUMCONC : int
+            Total number concentration of real droplets in the volume.
+        samplevol : float
+            Sample volume in which the droplets are contained.
+        bin_width : Tuple[None, np.ndarray]
+            Bin width corresponding to each radii value.
+            The bin_width is only considered relative.
+            The integral of the distribution `NUMCONC` is still conserved.
+        Returns:
+        --------
+        np.ndarray
+            Array of multiplicities for each superdroplet.
+            dtype is numpy.uint
+        Raises:
+        -------
+        ValueError
+            If any of the calculated multiplicities are zero.
+        """
+
+        # calculate the normalized probability distirbution
+        prob = self.xiprobdist(radii)
+        if bin_width == None:
+            weight = 1
+        elif isinstance(bin_width, np.ndarray) :
+            weight = bin_width * np.sum(bin_width)
+
+        # calculate mulitplicity by the
+        # use bin_width to reorder the distirbution
+        # conserved the NUMCON * samplevol as the multipliciy
+        xi = prob * weight * NUMCONC * samplevol
+        # convert to rint
         xi = np.rint(xi)
+
         if any(xi == 0):
             num = len(xi[xi == 0])
             errmsg = (
@@ -302,21 +348,37 @@ class AttrsGeneratorNils:
 
         print(msg)
 
-    def generate_attributes(self, nsupers, RHO_SOL, NUMCONC, gridboxbounds):
-        """generate superdroplets (SDs) attributes that have dimensions
+    def generate_attributes(
+            self,
+            nsupers : int,
+            RHO_SOL : float,
+            NUMCONC : int,
+            gridboxbounds : Tuple[float, float, float, float, float, float]
+            ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+        """
+        generate superdroplets (SDs) attributes that have dimensions
         by calling the appropraite generating functions"""
 
         gbxvol = rgrid.calc_domainvol(
             gridboxbounds[0:2], gridboxbounds[2:4], gridboxbounds[4:]
         )  # [m^3]
         radii = self.radiigen(nsupers)  # [m]
+
         if isinstance(radii, tuple):
             radii = radii[0]
             bin_width = radii[1]
+        else :
+            radii = radii
+            bin_width = None
 
         mass_solutes = self.mass_solutes(radii, RHO_SOL)  # [Kg]
 
-        multiplicities = self.multiplicities(radii, NUMCONC, gbxvol)
+        multiplicities = self.multiplicities(
+            radii = radii,
+            NUMCONC = NUMCONC,
+            samplevol= gbxvol,
+            bin_width= bin_width,
+            )
 
         multiplicities = multiplicities
 

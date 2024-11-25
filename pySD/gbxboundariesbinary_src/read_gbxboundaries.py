@@ -19,6 +19,7 @@ File Description:
 """
 
 import numpy as np
+from typing import Tuple, Union
 import matplotlib.pyplot as plt
 
 from .create_gbxboundaries import get_COORD0_from_constsfile
@@ -233,7 +234,11 @@ def plot_gridboxboundaries(constsfile, gridfile, binpath, savefig):
     plt.show()
 
 
-def calc_domainvol(zhalf, xhalf, yhalf):
+def calc_domainvol(
+        zhalf : Union[np.ndarray, list, Tuple],
+        xhalf : Union[np.ndarray, list, Tuple],
+        yhalf : Union[np.ndarray, list, Tuple],
+    ) -> float:
     widths = []
     for half in [zhalf, xhalf, yhalf]:
         widths.append(np.amax(half) - np.amin(half))
