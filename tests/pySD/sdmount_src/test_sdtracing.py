@@ -2,7 +2,7 @@ import numpy as np
 import awkward as ak
 import pytest
 
-from pySD.sdmout_src.sdtracing import (
+from ....pySD.sdmout_src.sdtracing import (
     get_awkward_shape,
     ak_digitize_2D,
     ak_digitize_3D,
