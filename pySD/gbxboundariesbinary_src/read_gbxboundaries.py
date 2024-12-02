@@ -100,7 +100,7 @@ def fullcoords_forallgridboxes(gbxbounds, ndims):
     return zfullcoords, xfullcoords, yfullcoords
 
 
-def coords_forgridboxfaces(gbxbounds, ndims, face):
+def coords_forgridboxfaces(gbxbounds, ndims, face) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
     """returns (x,y,z) coordinates of gridboxes faces
     in a particular direction"""
 
@@ -128,6 +128,8 @@ def coords_forgridboxfaces(gbxbounds, ndims, face):
         xfulls = np.tile(np.repeat(xfull, nz), ny)
         yfaces = np.repeat(yhalf, nz * nx)
         return zfulls, xfulls, yfaces
+    else :
+        raise ValueError(f"Face needs to be either, 'x', 'y' or 'z' but is: '{face}'")
 
 
 def read_dimless_gbxboundaries_binary(

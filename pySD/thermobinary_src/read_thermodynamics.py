@@ -21,6 +21,7 @@ File Description:
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import colors
+from typing import Union
 
 from .create_thermodynamics import thermoinputsdict, DimlessThermodynamics
 from .thermogen import saturation_press
@@ -179,9 +180,9 @@ def read_dimless_thermodynamics_binary(thermofile, ndims, ntime, nspacedims):
 
 
 def get_thermodynamics_from_thermofile(
-    thermofile, ndims, inputs=False, constsfile="", configfile=""
+    thermofile, ndims, inputs: Union[bool, dict] = False, constsfile="", configfile=""
 ):
-    if not inputs:
+    if inputs == False:
         inputs = thermoinputsdict(configfile, constsfile)
 
     thermodata = read_dimless_thermodynamics_binary(
