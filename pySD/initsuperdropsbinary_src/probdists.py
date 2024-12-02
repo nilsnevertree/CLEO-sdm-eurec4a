@@ -191,97 +191,208 @@ class LnNormal(ProbabilityDistribution):
         return dn_dlnr
 
 
-class LnNormalMassSpace(ProbabilityDistribution):
+class LogNormal(ProbabilityDistribution):
     """
-    probability of mass concentration by radius following a lognormal distribution.
-    Very similar to the probaility distribution of number concentration given by
-    section 5.2.3 of "An Introduction to clouds from the Microscale to Climate" by Lohmann, Luond and Mahrt.
-    Radii sampled from evenly spaced bins in ln(r).
+    Probability of radius given by a log-normal distribution.
 
-    Parameters:
-    -----------
-    geomeans : list
-        list of geometric means for each mode [m]
+    Attributes
+    ----------
+    geometric_mean : float
+        Geometric mean of the distribution.
+    geometric_std_dev : float
+        Geometric standard deviation of the distribution.
+    scale_factor : float
+        Scale factor for the distribution.
 
-
+    Methods
+    -------
+    __call__(radii: np.ndarray, density: bool = False) -> np.ndarray
+        Returns probability of each radius for a log-normal distribution.
+    log_normal_distribution(t: np.ndarray, geometric_mean: float, geometric_std_dev: float, scale_factor: float) -> np.ndarray
+        Compute the log-normal distribution from geometric mean and geometric standard deviation.
     """
 
     def __init__(
-        self,
-        geomean: float,
-        geosig: float,
-        scalefac: float,
-    ):
-        self.geomean = geomean
-        self.geosig = geosig
-        self.scalefac = scalefac
+            self,
+            geometric_mean : float,
+            geometric_std_dev : float,
+            scale_factor : float,
+        ):
+        self.geometric_mean = geometric_mean
+        self.geometric_std_dev = geometric_std_dev
+        self.scale_factor = scale_factor
 
-    def __call__(self, radii: np.ndarray) -> np.ndarray:
-        """Returns probability of each radius in radii derived
-        from superposition of Logarithmic (in e) Normal Distributions"""
-
-        probs = np.zeros(radii.shape)
-        probs = self.__distribution__(radii, self.scalefac, self.geomean, self.geosig)
-
-        return probs / np.sum(probs)  # normalise so sum(prob) = 1
-
-    def __distribution__(
-        self, radii: np.ndarray, geomean: float, geosig: float, scalefac: float
-    ) -> np.ndarray:
-        """calculate probability of radii given the paramters of a
-        lognormal dsitribution according
-        to the mass concentration probability distribution.
-        This is an own implementation which shall help to constrain the total mass concentration.
-        It help to follow the observed mass concentration distribution closer.
-        It is similar to  equation 5.8 of "An Introduction to clouds from the Microscale to Climate"
-        by Lohmann, Luond and Mahrt,
-
-        BUT following the mass concentration distribution.
-        Thus, to gain the number concentration distribution, we need to transform the probability to mass concentration probability.
-        So we need to multiply by 1/(4/3 * pi * rho * r^3).
-        But because we normalise the probability we can just multiply by r^{-3}.
-
-        When creating the multiplicity of the Super-Droplets, one needs to carefully adjust the scale factor:
-        For this if the scalefactor of the MSD is S, the scale factor of the number concentration distribution is:
-        1/(4/3 * pi * rho) * S, with rho being the density of the material.
+    def __call__(self, radii: np.ndarray, density : bool = False) -> np.ndarray:
+        """
+        Returns probability of each radius for a log-normal distribution.
 
         Parameters
         ----------
         radii : np.ndarray
-            array of radii [m]
-        scalefac : float
-            scale factor for the distribution
-        geomean : float
-            geometric mean of the distribution [m]
-        geosig : float
-            geometric standard deviation of the distribution
+            Array of radii [m].
+        density : bool, optional
+            If True, returns the normalized probability density (default is False).
 
         Returns
         -------
-        result : np.ndarray
-            probability of each radius in radii following the mass concentration probability distribution
-            its units are [m^-3 m^-1]
+        np.ndarray
+            Probability of each radius in radii.
         """
 
-        # we can use the expression based on the Standard normal distribution
-        # to calculate the probability of the mass concentration
-        # we need to transform the probability to mass concentration probability
-        # so we need to multiply by 1/(4/3 * pi * r^3)
-        # but because we normalise the probability we can just multiply by r^{-3}
-
-        sigtilda = np.log(geosig)
-        mutilda = np.log(geomean)
-
-        result = (
-            # adjustment to have the number concentration distribution
-            radii ** {-3}
-            # distribution of the mass concentration
-            * scalefac
-            * 1
-            / (sigtilda * radii)
-            * standard_normal(radii=((np.log(radii) - mutilda) / sigtilda))
+        probs = self.log_normal_distribution(
+            t = radii,
+            geometric_mean = self.geometric_mean,
+            geometric_std_dev = self.geometric_std_dev,
+            scale_factor = self.scale_factor,
         )
-        return result
+
+        if density is True :
+            return probs / np.nansum(probs)
+        else :
+            return probs
+
+    def log_normal_distribution(
+        self,
+        t: np.ndarray,
+        geometric_mean: float,
+        geometric_std_dev: float,
+        scale_factor: float,
+    ) -> np.ndarray:
+        """
+        Compute the log-normal distribution from geometric mean and geometric standard deviation.
+
+        Parameters
+        ----------
+        t : np.ndarray
+            Array of radii [m].
+        geometric_mean : float
+            Geometric mean of the distribution.
+        geometric_std_dev : float
+            Geometric standard deviation of the distribution.
+        scale_factor : float
+            Scale factor for the distribution.
+
+        Returns
+        -------
+        np.ndarray
+            Probability of each radius in radii.
+        """
+
+        sigtilda = np.log(geometric_std_dev)
+        mutilda = np.log(geometric_mean)
+
+        norm = scale_factor / (np.sqrt(2 * np.pi) * t * sigtilda)
+        exponent = -((np.log(t) - mutilda) ** 2) / (2 * sigtilda**2)
+
+        return norm * np.exp(exponent)
+
+
+class DoubleLogNormal(ProbabilityDistribution):
+    """
+    Probability of radius given by the superposition of two log-normal distributions.
+
+    Attributes
+    ----------
+    geometric_mean1 : float
+        Geometric mean of the first log-normal distribution.
+    geometric_mean2 : float
+        Geometric mean of the second log-normal distribution.
+    geometric_std_dev1 : float
+        Geometric standard deviation of the first log-normal distribution.
+    geometric_std_dev2 : float
+        Geometric standard deviation of the second log-normal distribution.
+    scale_factor1 : float
+        Scale factor for the first log-normal distribution.
+    scale_factor2 : float
+        Scale factor for the second log-normal distribution.
+
+    Methods
+    -------
+    log_normal1 : LogNormal
+        Returns the first log-normal distribution.
+    log_normal2 : LogNormal
+        Returns the second log-normal distribution.
+    __call__(radii: np.ndarray, density: bool = False) -> np.ndarray
+        Returns probability of each radius in radii derived from superposition of two log-normal distributions.
+    """
+
+    def __init__(
+            self,
+            geometric_mean1 : float,
+            geometric_mean2 : float,
+            geometric_std_dev1 : float,
+            geometric_std_dev2 : float,
+            scale_factor1 : float,
+            scale_factor2 : float,
+        ):
+
+        self.geometric_mean1 = geometric_mean1
+        self.geometric_mean2 = geometric_mean2
+        self.geometric_std_dev1 = geometric_std_dev1
+        self.geometric_std_dev2 = geometric_std_dev2
+        self.scale_factor1 = scale_factor1
+        self.scale_factor2 = scale_factor2
+
+
+    @property
+    def log_normal1(self) -> LogNormal:
+        """
+        Returns the first log-normal distribution.
+
+        Returns
+        -------
+        LogNormal
+            The first log-normal distribution.
+        """
+        return LogNormal(
+            geometric_mean = self.geometric_mean1,
+            geometric_std_dev = self.geometric_std_dev1,
+            scale_factor= self.scale_factor1,
+        )
+
+    @property
+    def log_normal2(self) -> LogNormal:
+        """
+        Returns the second log-normal distribution.
+
+        Returns
+        -------
+        LogNormal
+            The second log-normal distribution.
+        """
+        return LogNormal(
+            geometric_mean = self.geometric_mean2,
+            geometric_std_dev = self.geometric_std_dev2,
+            scale_factor= self.scale_factor2,
+        )
+
+    def __call__(self, radii: np.ndarray, density : bool = False) -> np.ndarray:
+        """
+        Returns probability of each radius in radii derived from superposition of two log-normal distributions.
+
+        Parameters
+        ----------
+        radii : np.ndarray
+            Array of radii [m].
+        density : bool, optional
+            If True, returns the normalized probability density (default is False).
+
+        Returns
+        -------
+        np.ndarray
+            Probability of each radius in radii.
+        """
+
+        # Density needs to be False for the relation of the two distributions to be correct
+        prob1 = self.log_normal1(radii= radii, density= False)
+        prob2 = self.log_normal2(radii= radii, density= False)
+
+        probs = prob1 + prob2
+
+        if density is True :
+            return probs / np.nansum(probs)
+        else :
+            return probs
 
 
 class ClouddropsHansenGamma(ProbabilityDistribution):
