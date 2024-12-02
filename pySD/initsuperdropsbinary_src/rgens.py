@@ -20,7 +20,7 @@ various ways of generatring radii of superdroplets for their initial conditions
 """
 
 import numpy as np
-from typing import Union, Tuple
+from typing import Union, Tuple, List
 class RadiiGenerator:
     """
     Base class which return
@@ -32,12 +32,9 @@ class RadiiGenerator:
     def __call__(
         self,
         nsupers : int,
-        bin_width : bool = False,
-    ) -> Union[np.ndarray, Tuple[np.ndarray, np.ndarray]] :
-        if bin_width == False:
-            return np.ones(nsupers)
-        else :
-            return np.ones(nsupers), np.ones(nsupers)
+    ) -> np.ndarray :
+        return np.ones(nsupers)
+
 class MonoAttrGen(RadiiGenerator):
     """method to generate superdroplets with an
     attribute all equal to attr0"""
@@ -101,12 +98,12 @@ class SampleLog10RadiiGen:
 
 from typing import Tuple
 
-class SampleLog10RadiiGenNils:
+class SampleLog10RadiiWithBinWidth(RadiiGenerator):
     """method to generate superdroplet radii by randomly
     sampling from bins that are linearly spaced in log10(r)
     between rspan[0] and rspan[1]"""
 
-    def __init__(self, rspan : Tuple[float, float]):
+    def __init__(self, rspan : Union[List[float], Tuple[float, float]]):
         self.rspan = rspan
 
     def __call__(self, nsupers : int) -> Tuple[np.ndarray, np.ndarray]:
@@ -130,6 +127,7 @@ class SampleLog10RadiiGenNils:
             edges = 10 ** log10redgs
             bin_width = edges[1:] - edges[:-1]
             return radii, bin_width  # [m]
+
         else:
             return np.array([]), np.array([])
 
