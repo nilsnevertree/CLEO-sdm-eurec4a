@@ -28,7 +28,7 @@ import awkward as ak
 import os
 from typing import Union, Tuple, Callable
 import warnings
-
+from pathlib import Path
 from pySD.sdmout_src import sdtracing
 
 
@@ -1461,13 +1461,19 @@ class SupersDataNew(SuperdropProperties):
         self.__update_attributes__()
 
     def tryopen_dataset(self, dataset: Union[os.PathLike, xr.Dataset]) -> xr.Dataset:
-        if isinstance(dataset, str):
-            print("supers dataset: ", dataset)
-            return xr.open_dataset(dataset, engine="zarr", consolidated=False)
+        if isinstance(dataset, (str, os.PathLike, Path)):
+            print("supers dataset path: ", dataset)
+            dataset =  xr.open_dataset(dataset, engine="zarr", consolidated=False)
         elif isinstance(dataset, xr.Dataset):
-            return dataset
+            dataset = dataset
         else:
             raise ValueError("dataset must be a path or a xarray dataset")
+
+        # make sure to convert xi to float32 in order to enable the usage of NaN values
+
+        xi_new = dataset['xi'].astype(np.float64)
+        dataset["xi"] = xi_new
+        return dataset
 
     def set_attributes_from_ds(self, attribute_names):
         """
