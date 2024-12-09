@@ -13,3 +13,4 @@ dependencies:
     - pip:
       - sphinx_copybutton
       - sphinxcontrib-bibtex
+      - docutils
