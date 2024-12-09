@@ -489,7 +489,7 @@ if isfigures[0]:
 # os.chdir(path2build)
 # os.system("pwd")
 # os.system("rm -rf " + dataset_file)  # delete any existing dataset_file
-# executable = str(path2build) + "/examples/eurec4a1d/src/eurec4a1D"
+# executable = str(path2build) + "/examples/eurec4a1d/src/eurec4a1d"
 # print("Executable: " + executable)
 # print("Config file: " + str(config_file))
 # os.system(executable + " " + str(config_file))

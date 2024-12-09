@@ -50,7 +50,7 @@ rawdirectory=""
 # function to set the rawdirectory and the exec and path2exec
 function prepare_microphysics_setup() {
   local setup=$1
-  exec="eurec4a1D_${setup}"
+  exec="eurec4a1d_${setup}"
   path2exec="${path2build}/examples/eurec4a1d/stationary_${setup}/src/${exec}"
   rawdirectory="${path2data}/${setup}/"
 }

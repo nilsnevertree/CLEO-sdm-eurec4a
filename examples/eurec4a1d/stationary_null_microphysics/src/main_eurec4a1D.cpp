@@ -94,7 +94,7 @@ inline InitialConditions auto create_initconds(const Config &config) {
   // const InitAllSupersFromBinary initsupers(config.get_initsupersfrombinary());
   const InitSupersFromBinary initsupers(config.get_initsupersfrombinary());
   const InitGbxsNull initgbxs(config.get_ngbxs());
->>>>>>>> main:examples/eurec4a1d/stationary_null_microphysics/src/main_eurec4a1D.cpp
+>>>>>>>> main:examples/eurec4a1d/stationary_null_microphysics/src/main_eurec4a1d.cpp
 
   return InitConds(initsupers, initgbxs);
 }
@@ -198,7 +198,7 @@ inline Observer auto create_observer(const Config &config, const Timesteps &tste
   const Observer auto obsmm = MassMomentsObserver(obsstep, dataset, maxchunk, ngbxs);
 
   const Observer auto obsmmrain = MassMomentsRaindropsObserver(obsstep, dataset, maxchunk, ngbxs);
->>>>>>>> main:examples/eurec4a1d/stationary_null_microphysics/src/main_eurec4a1D.cpp
+>>>>>>>> main:examples/eurec4a1d/stationary_null_microphysics/src/main_eurec4a1d.cpp
 
   const Observer auto obsgbx = create_gridboxes_observer(obsstep, dataset, maxchunk, ngbxs);
 
@@ -218,7 +218,7 @@ inline Observer auto create_observer(const Config &config, const Timesteps &tste
         >> obstime
         >> obsstreamout
         >> obsstats;
->>>>>>>> main:examples/eurec4a1d/stationary_null_microphysics/src/main_eurec4a1D.cpp
+>>>>>>>> main:examples/eurec4a1d/stationary_null_microphysics/src/main_eurec4a1d.cpp
 }
 
 // ===================================================

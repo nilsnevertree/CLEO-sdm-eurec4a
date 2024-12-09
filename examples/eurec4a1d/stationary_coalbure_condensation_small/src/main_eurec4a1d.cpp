@@ -3,7 +3,7 @@
  *
  *
  * ----- CLEO -----
- * File: main_eurec4a1D.cpp
+ * File: main_eurec4a1d.cpp
  * Project: src
  * Created Date: Tuesday 9th April 2024
  * Author: Clara Bayley (CB)
@@ -18,7 +18,7 @@
  * File Description:
  * runs the CLEO super-droplet model (SDM) for eurec4a 1-D rainshaft example.
  * After make/compiling, execute for example via:
- * ./src/eurec4a1D ../src/config/config.yaml
+ * ./src/eurec4a1d ../src/config/config.yaml
  */
 
 #include <Kokkos_Core.hpp>
