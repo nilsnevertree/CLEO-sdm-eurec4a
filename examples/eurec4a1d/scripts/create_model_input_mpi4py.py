@@ -88,7 +88,7 @@ constants_file_path = path2CLEO / "libs/cleoconstants.hpp"
 origin_config_file_path = path2eurec4a1d / "default_config/eurec4a1d_config_stationary.yaml"
 breakup_config_file_path = path2eurec4a1d / "default_config/breakup.yaml"
 
-output_dir_path = path2CLEO / "data/output_v4.1/condensation"
+output_dir_path = path2CLEO / "data/debug_output"
 output_dir_path.mkdir(exist_ok=True, parents=True)
 
 from sdm_eurec4a import RepositoryPath
@@ -270,8 +270,6 @@ identification_type = "cluster"
 
 
 sublist_cloud_ids = np.array_split(shared_cloud_ids, npro)[rank]
-
-
 
 for step, cloud_id in enumerate(sublist_cloud_ids):
 
