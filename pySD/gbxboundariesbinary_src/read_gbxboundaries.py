@@ -19,6 +19,7 @@ File Description:
 """
 
 import numpy as np
+from typing import Tuple, Union
 import matplotlib.pyplot as plt
 
 from .create_gbxboundaries import get_COORD0_from_constsfile
@@ -99,7 +100,7 @@ def fullcoords_forallgridboxes(gbxbounds, ndims):
     return zfullcoords, xfullcoords, yfullcoords
 
 
-def coords_forgridboxfaces(gbxbounds, ndims, face):
+def coords_forgridboxfaces(gbxbounds, ndims, face) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
     """returns (x,y,z) coordinates of gridboxes faces
     in a particular direction"""
 
@@ -127,6 +128,8 @@ def coords_forgridboxfaces(gbxbounds, ndims, face):
         xfulls = np.tile(np.repeat(xfull, nz), ny)
         yfaces = np.repeat(yhalf, nz * nx)
         return zfulls, xfulls, yfaces
+    else :
+        raise ValueError(f"Face needs to be either, 'x', 'y' or 'z' but is: '{face}'")
 
 
 def read_dimless_gbxboundaries_binary(
@@ -233,7 +236,11 @@ def plot_gridboxboundaries(constsfile, gridfile, binpath, savefig):
     plt.show()
 
 
-def calc_domainvol(zhalf, xhalf, yhalf):
+def calc_domainvol(
+        zhalf : Union[np.ndarray, list, Tuple],
+        xhalf : Union[np.ndarray, list, Tuple],
+        yhalf : Union[np.ndarray, list, Tuple],
+    ) -> float:
     widths = []
     for half in [zhalf, xhalf, yhalf]:
         widths.append(np.amax(half) - np.amin(half))

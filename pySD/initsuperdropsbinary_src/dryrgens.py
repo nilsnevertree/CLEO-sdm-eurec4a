@@ -20,8 +20,25 @@ various ways of generating dryradii of
 superdroplets for their initial conditions
 """
 
+import numpy as np
+class DryRadiiGenerator:
+    """
+    method to generate superdroplet dryradii that are uniform
+    """
 
-class ScaledRadiiGen:
+    def __init__(
+        self,
+        dryradii : float
+        ):
+        self.dryradii = dryradii
+
+    def __call__(
+        self,
+        radii : np.ndarray,
+        ) -> np.ndarray :
+        return np.zeros_like(radii) + self.dryradii
+
+class ScaledRadiiGen(DryRadiiGenerator):
     """method to generate superdroplet dryradii that
     are the radii divided by a scale factor 'sf'"""
 

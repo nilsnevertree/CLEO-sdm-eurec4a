@@ -11,25 +11,34 @@
 #SBATCH --account=mh1126
 #SBATCH --output=./logfiles/submit_master/%j_out.out
 #SBATCH --error=./logfiles/submit_master/%j_err.out
+
+### ------------------ Load Modules -------------------- ###
+env=/work/mh1126/m301096/conda/envs/sdm_pysd_env312
+mamba activate ${env}
+python=${env}/bin/python
+
 # --------------------------------
 # Set the flags to define the steps to run
 # --------------------------------
 create_init=false # Create the initial files
 run=true          # Run the model
 
+path2CLEO=${HOME}/CLEO
+
 # --------------------------------
 # Path to python scripts to create the initial files and run the model in the EURC4A1D case
 # --------------------------------
-create_script_path="/home/m/m301096/CLEO/examples/eurec4a1d/scripts/create_init_files_job_array.sh"
-run_script_path="/home/m/m301096/CLEO/examples/eurec4a1d/scripts/run_CLEO_job_array.sh"
+create_script_path=${path2CLEO}/examples/eurec4a1d/scripts/create_init_files_job_array.sh
+run_script_path=${path2CLEO}/examples/eurec4a1d/scripts/run_CLEO_job_array.sh
+
 
 # --------------------------------
 # Set microphysics setup
 # --------------------------------
 # microphysics="null_microphysics"
-# microphysics="condensation"
+microphysics="condensation"
 # microphysics="collision_condensation"
-microphysics="coalbure_condensation_small"
+# microphysics="coalbure_condensation_small"
 # microphysics="coalbure_condensation_large"
 # microphysics="coalbure_condensation_cke"
 
@@ -38,10 +47,10 @@ microphysics="coalbure_condensation_small"
 # Set paths
 # --------------------------------
 path2CLEO="/home/m/m301096/CLEO/"
-path2data=${path2CLEO}/data/output_v3.5/
+path2data=${path2CLEO}/data/output_v4.1/
 path2microphysics=${path2data}/${microphysics}
 path2build=${path2CLEO}/build_eurec4a1d/
-config_directory="/home/m/m301096/repositories/sdm-eurec4a/data/model/input/output_v3.0/"
+# config_directory="/home/m/m301096/repositories/sdm-eurec4a/data/model/input/output_v3.0/"
 
 # --------------------------------
 # Get the number of files in the directory
@@ -53,7 +62,7 @@ echo "path2CLEO: ${path2CLEO}"
 echo "path2data: ${path2data}"
 echo "path2microphysics: ${path2microphysics}"
 echo "path2build: ${path2build}"
-echo "config_directory: ${config_directory}"
+# echo "config_directory: ${config_directory}"
 echo "--------------------------------"
 
 # =================================
@@ -87,10 +96,11 @@ if [ "$run" = true ]; then
     echo "Run CLEO for EUREC4A1D with microphysics: ${microphysics}"
     echo "run_script_path: ${run_script_path}"
 
-    directories=($(find ${path2microphysics} -maxdepth 1 -type d -name 'clusters*' -printf '%P\n' | sort))
+    directories=($(find ${path2microphysics} -maxdepth 1 -type d -name 'cluster*' -printf '%P\n' | sort))
     # echo "Directories: ${directories[@]}"
     # job array ranges from 0 - max_number
     number_of_directories=${#directories[@]}
+    # number_of_directories=8
     max_number=$(($number_of_directories - 1))
 
     echo "Number of directories and slurm array: ${number_of_directories}"

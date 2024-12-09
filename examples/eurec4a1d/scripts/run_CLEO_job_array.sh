@@ -1,17 +1,17 @@
 #!/bin/bash
 #SBATCH --job-name=e1d_run_CLEO
 #SBATCH --partition=gpu
-#SBATCH --gpus=4
+#SBATCH --gpus=1
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --mem=24G
+#SBATCH --mem=10G
 #SBATCH --time=00:15:00
 #SBATCH --mail-user=nils-ole.niebaumy@mpimet.mpg.de
 #SBATCH --mail-type=FAIL
 #SBATCH --account=mh1126
 #SBATCH --output=./logfiles/run_CLEO/%A/%A_%a_out.out
 #SBATCH --error=./logfiles/run_CLEO/%A/%A_%a_err.out
-#SBATCH --array=0-110
+#SBATCH --array=0-127
 
 ### ---------------------------------------------------- ###
 ### ------------------ Input Parameters ---------------- ###
@@ -76,7 +76,7 @@ fi
 # Setup paths depending on current array task ID
 # directories=(${rawdirectory}/${subdir_pattern}*)
 # IMPORANT: The directories must be sorted to match the array task ID
-directories=($(find ${rawdirectory} -maxdepth 1 -type d -name 'clusters*' -printf '%P\n' | sort))
+directories=($(find ${rawdirectory} -maxdepth 1 -type d -name 'cluster*' -printf '%P\n' | sort))
 
 #echo "Directories: ${directories[@]}"
 echo "Number of directories: ${#directories[@]}"

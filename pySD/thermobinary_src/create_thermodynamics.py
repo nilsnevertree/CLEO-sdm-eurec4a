@@ -20,6 +20,7 @@ File Description:
 
 import numpy as np
 from os.path import isfile
+from typing import Union
 from .. import cxx2py, readconfigfile, writebinary
 from ..gbxboundariesbinary_src.read_gbxboundaries import (
     read_dimless_gbxboundaries_binary,
@@ -62,8 +63,8 @@ def thermoinputsdict(configfile, constsfile):
 
 
 class DimlessThermodynamics:
-    def __init__(self, inputs=False, configfile="", constsfile=""):
-        if not inputs:
+    def __init__(self, inputs : Union[bool, dict]= False, configfile="", constsfile=""):
+        if inputs == False:
             inputs = thermoinputsdict(configfile, constsfile)
 
         # scale_factors to de-dimensionalise data
