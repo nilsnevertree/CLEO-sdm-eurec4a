@@ -1423,7 +1423,7 @@ class SupersDataNew(SuperdropProperties):
         "coord2",
     ]
 
-    def __init__(self, dataset: Union[os.PathLike, xr.Dataset], consts: dict):
+    def __init__(self, dataset: Union[os.PathLike[str], xr.Dataset], consts: dict):
         """
         The constructor of the class uses the data
         This function extracts the attributes of the superdroplets dataset and stores them in a SupersDataIndexed object.
