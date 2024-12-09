@@ -43,7 +43,7 @@ inputfiles:
 initsupers:
   type: frombinary                                                # type of initialisation of super-droplets
   initsupers_filename: None                                       # binary filename for initialisation of SDs
-  initnsupers: 124                                               # initial no. of super-droplets to initialise
+  initnsupers: 128                                               # initial no. of super-droplets to initialise
 
 ### Output Parameters ###
 outputdata:
