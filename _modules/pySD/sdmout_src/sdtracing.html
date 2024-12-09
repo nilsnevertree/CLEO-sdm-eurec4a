@@ -1,0 +1,1547 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
+
+    <!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
+        <title>pySD.sdmout_src.sdtracing - CLEO 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=302659d7" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../../index.html"><div class="brand">CLEO 0.1.0 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
+  
+  
+  <span class="sidebar-brand-text">CLEO 0.1.0 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../intro/intro.html">Programming Guide</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Programming Guide</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../intro/background.html">Background to the Super-Droplet Model (SDM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../intro/motivation.html">Motivation for CLEO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../intro/memorylayout.html">Memory Layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../intro/monoids.html">Monoids</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../intro/coupling.html">Coupling to Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../intro/timestepping.html">Timestepping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../intro/kokkos.html">Kokkos Thread Parallelism</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usage/extern.html">External Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usage/requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usage/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usage/examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usage/quickstart.html">Quickstart</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../pySD/pySD.html">API: PySD</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of API: PySD</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../pySD/gbxboundariesbinary_src/gbxboundariesbinary_src.html">GbxBoundariesBinary</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of GbxBoundariesBinary</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../pySD/gbxboundariesbinary_src/create_gbxboundaries.html">CREATE_GBXBOUNDARIES</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pySD/gbxboundariesbinary_src/read_gbxboundaries.html">READ_GBXBOUNDARIES</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../pySD/initsuperdropsbinary_src/initsuperdropsbinary_src.html">InitSuperdropsBinary</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of InitSuperdropsBinary</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../pySD/initsuperdropsbinary_src/create_initsuperdrops.html">CREATE_INITSUPERDROPS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pySD/initsuperdropsbinary_src/read_initsuperdrops.html">READ_INITSUPERDROPS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pySD/initsuperdropsbinary_src/attrsgen.html">ATTRSGEN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pySD/initsuperdropsbinary_src/crdgens.html">CRDGENS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pySD/initsuperdropsbinary_src/probdists.html">PROBDISTS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pySD/initsuperdropsbinary_src/rgens.html">RGENS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pySD/initsuperdropsbinary_src/dryrgens.html">DRYRGENS</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../pySD/thermobinary_src/thermobinary_src.html">ThermoBinary</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of ThermoBinary</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../pySD/thermobinary_src/create_thermodynamics.html">CREATE_THERMODYNAMICS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pySD/thermobinary_src/read_thermodynamics.html">READ_THERMODYNAMICS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pySD/thermobinary_src/thermogen.html">THERMOGEN</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../pySD/sdmout_src/sdmout_src.html">SDMOut</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of SDMOut</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../pySD/sdmout_src/pyzarr.html">PYZARR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pySD/sdmout_src/pysetuptxt.html">PYSETUPTXT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pySD/sdmout_src/pygbxsdat.html">PYGBXSDAT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pySD/sdmout_src/timedata.html">TIMEDATA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pySD/sdmout_src/thermodata.html">THERMODATA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pySD/sdmout_src/supersdata.html">SUPERSDATA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pySD/sdmout_src/sdtracing.html">SDTRACING</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pySD/sdmout_src/massmoms.html">MASSMOMS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pySD/sdmout_src/thermoeqns.html">THERMOEQNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pySD/sdmout_src/ensembzarr.html">ENSEMBZARR</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../pySD/cxx2py.html">CXX2PY</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../pySD/readconfigfile.html">READCONFIGFILE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../pySD/editconfigfile.html">EDITCONFIGFILE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../pySD/readbinary.html">READBINARY</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../pySD/writebinary.html">WRITEBINARY</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../cxx/cxx.html">API: C++ Library</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of API: C++ Library</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../cxx/runcleo/runcleomod.html">RunCLEO Module</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of RunCLEO Module</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/runcleo/coupleddynamics.html">CoupledDynamics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/runcleo/couplingcomms.html">CouplingComms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/runcleo/creategbxs.html">Create Gridboxes Sub-Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/runcleo/createsupers.html">Create Super-droplets Sub-Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/runcleo/runcleo.html">RunCLEO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/runcleo/sdmmethods.html">SDMMethods</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../cxx/superdrops/superdropsmod.html">Superdrops Module</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of Superdrops Module</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../cxx/superdrops/collisions/collisionsmod.html">Collisions Module</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of Collisions Module</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../cxx/superdrops/collisions/collisions.html">Collisions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../cxx/superdrops/collisions/collisionkinetics.html">Collision Kinetics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../cxx/superdrops/collisions/coalescence.html">Coalescence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../cxx/superdrops/collisions/coalbure.html">Coalescence-Breakup-Rebound</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/superdrops/condensation.html">Condensation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/superdrops/impliciteuler.html">Implicit Euler Method for Condensation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/superdrops/kokkosaliases_sd.html">Super-Droplet Kokkos Aliases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/superdrops/microphysical_process.html">Microphysical Process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/superdrops/state.html">State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/superdrops/superdrop.html">Superdrop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/superdrops/superdrop_ids.html">Superdrop IDs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/superdrops/superdrop_attrs.html">Superdrop Attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/superdrops/terminalvelocity.html">Terminal Velocities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/superdrops/thermodynamic_equations.html">Thermodynamic Equations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/superdrops/urbg.html">Randomness Generation</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../cxx/zarr/zarrmod.html">Zarr Module</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of Zarr Module</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/zarr/buffer.html">Buffer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/zarr/chunks.html">Chunks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/zarr/dataset.html">Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/zarr/fsstore.html">FSStore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/zarr/store_accessor.html">StoreAccessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/zarr/xarray_zarr_array.html">XarrayZarrArray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/zarr/xarray_metadata.html">Xarray Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/zarr/zarr_array.html">ZarrArray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/zarr/zarr_metadata.html">Zarr Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/zarr/zarr_group.html">ZarrGroup</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../cxx/observers/observersmod.html">Observers Module</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle navigation of Observers Module</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/observers/observers.html">Observers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/observers/streamout_observer.html">StreamOut Observer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/observers/runstats_observer.html">RunStatsObserver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/observers/consttstep_observer.html">Constant Time Step Observers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/observers/write_to_dataset_observer.html">Template for Observer to Write To Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/observers/parallel_write_data.html">Parallel Write Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/observers/collect_data_for_dataset.html">Collect Data For Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/observers/generic_collect_data.html">Generic Collect Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/observers/time_observer.html">Time Observer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/observers/gbxindex_observer.html">Gbxindex Observer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/observers/superdrops_observer.html">Superdrops Observer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/observers/nsupers_observer.html">Nsupers Observer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/observers/totnsupers_observer.html">TotNsupers Observer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/observers/state_observer.html">State Observer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/observers/thermo_observer.html">Thermodynamics Observer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/observers/windvel_observer.html">WindVel Observer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/observers/massmoments_observer.html">Massmoments Observer</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../cxx/initialise/initialisemod.html">RunCLEO Module</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle navigation of RunCLEO Module</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../cxx/initialise/initialconditions.html">InitialConditions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cxx/cleoconstants.html">CLEO Constants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cxx/kokkosaliases.html">Kokkos Aliases</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usage/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usage/ourdocs.html">Our Docs</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/yoctoyotta1024/CLEO.git">GitHub Repo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usage/good_coding.html">Good Coding Practices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usage/contact.html">Contact Us!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../references.html">References</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <h1>Source code for pySD.sdmout_src.sdtracing</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">----- CLEO -----</span>
+<span class="sd">File: sdtracing.py</span>
+<span class="sd">Project: sdmout_src</span>
+<span class="sd">Created Date: Tuesday 24th October 2023</span>
+<span class="sd">Author: Clara Bayley (CB)</span>
+<span class="sd">Additional Contributors:</span>
+<span class="sd">-----</span>
+<span class="sd">Last Modified: Monday 15th April 2024</span>
+<span class="sd">Modified By: CB</span>
+<span class="sd">-----</span>
+<span class="sd">License: BSD 3-Clause &quot;New&quot; or &quot;Revised&quot; License</span>
+<span class="sd">https://opensource.org/licenses/BSD-3-Clause</span>
+<span class="sd">-----</span>
+<span class="sd">Copyright (c) 2023 MPI-M, Clara Bayley</span>
+<span class="sd">-----</span>
+<span class="sd">File Description:</span>
+<span class="sd">functions to extract attribute data for</span>
+<span class="sd">specifc superdroplets based on the sdIds</span>
+<span class="sd">e.g. for tracing their trajectories</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># %%</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">awkward</span> <span class="k">as</span> <span class="nn">ak</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+
+
+<div class="viewcode-block" id="attr_for_superdroplet"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.attr_for_superdroplet">[docs]</a><span class="k">def</span> <span class="nf">attr_for_superdroplet</span><span class="p">(</span><span class="n">sddata</span><span class="p">,</span> <span class="n">Id</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;selects attribute from sddata belonging</span>
+<span class="sd">    to superdroplet with identitiy &#39;Id&#39;</span>
+<span class="sd">    at every output time&quot;&quot;&quot;</span>
+
+    <span class="n">bools</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">sddata</span><span class="o">.</span><span class="n">sdId</span> <span class="o">==</span> <span class="n">Id</span><span class="p">)</span>  <span class="c1"># True/False id is found in sdId at each time</span>
+    <span class="n">attr4Id</span> <span class="o">=</span> <span class="n">sddata</span><span class="p">[</span><span class="n">attr</span><span class="p">][</span><span class="n">bools</span><span class="p">]</span>  <span class="c1"># attribute where sdId = Id</span>
+
+    <span class="n">num</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">num</span><span class="p">(</span>
+        <span class="n">attr4Id</span>
+    <span class="p">)</span>  <span class="c1"># at each time, number of positions where sdId is found (should be 0 or 1)</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">num</span><span class="p">[</span><span class="n">num</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">]):</span>
+        <span class="n">errmsg</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;attribute timeseries has times when more&quot;</span>
+            <span class="o">+</span> <span class="s2">&quot; than one sdId==Id. num should be list of either 1 or 0&quot;</span>
+            <span class="o">+</span> <span class="s2">&quot; (for Id found in sddata at given time or not)&quot;</span>
+        <span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+    <span class="n">attr4Id</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+        <span class="n">num</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ak</span><span class="o">.</span><span class="n">Array</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">]]),</span> <span class="n">attr4Id</span>
+    <span class="p">)</span>  <span class="c1"># replace empty values with np.nan</span>
+
+    <span class="k">return</span> <span class="n">ak</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">attr4Id</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># remove excess dimension</span></div>
+
+
+<div class="viewcode-block" id="attributes_for1superdroplet"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.attributes_for1superdroplet">[docs]</a><span class="k">def</span> <span class="nf">attributes_for1superdroplet</span><span class="p">(</span><span class="n">sddata</span><span class="p">,</span> <span class="n">Id</span><span class="p">,</span> <span class="n">attrs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;selects attributes in &#39;attrs&#39; from sddata</span>
+<span class="sd">    belonging to superdroplet with identitiy &#39;Id&#39;</span>
+<span class="sd">    at every output time&quot;&quot;&quot;</span>
+
+    <span class="n">attrs4Id</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
+        <span class="n">attrs4Id</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="n">attr_for_superdroplet</span><span class="p">(</span><span class="n">sddata</span><span class="p">,</span> <span class="n">Id</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">attrs4Id</span></div>
+
+
+<div class="viewcode-block" id="attribute_for_superdroplets_sample"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.attribute_for_superdroplets_sample">[docs]</a><span class="k">def</span> <span class="nf">attribute_for_superdroplets_sample</span><span class="p">(</span>
+    <span class="n">sddata</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">ndrops2sample</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">minid</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">maxid</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="p">[]</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;returns 2D array with dimensions [time, SD]</span>
+<span class="sd">    containing attribute data over time for a sample of</span>
+<span class="sd">    superdroplets. Sample is either for superdroplets with</span>
+<span class="sd">    specific Ids in &#39;ids&#39; list, or sample of &#39;ndrops2sample&#39;</span>
+<span class="sd">    randomly selected superdrops with Ids in the range</span>
+<span class="sd">    [minid, maxid]&quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">ids</span><span class="p">):</span>
+        <span class="n">sample</span> <span class="o">=</span> <span class="n">ids</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># ids == []</span>
+        <span class="n">population</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">minid</span><span class="p">,</span> <span class="n">maxid</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">ndrops2sample</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">ndrops2sample</span> <span class="o">=</span> <span class="n">maxid</span>
+        <span class="n">sample</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="n">ndrops2sample</span><span class="p">)</span>
+
+    <span class="n">ndrops_attr</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">sample</span><span class="p">:</span>
+        <span class="n">attr4Id</span> <span class="o">=</span> <span class="n">attr_for_superdroplet</span><span class="p">(</span><span class="n">sddata</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+        <span class="n">ndrops_attr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attr4Id</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">ndrops_attr</span><span class="p">)</span><span class="o">.</span><span class="n">T</span></div>
+
+
+<div class="viewcode-block" id="attr_at_times"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.attr_at_times">[docs]</a><span class="k">def</span> <span class="nf">attr_at_times</span><span class="p">(</span><span class="n">attrdata</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">times2sel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;selects attribute (for all superdroplets)</span>
+<span class="sd">    at times closest to &#39;times2sel&#39;&quot;&quot;&quot;</span>
+
+    <span class="n">inds</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># list containing indexes of times closest to times2sel</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">times2sel</span><span class="p">:</span>
+        <span class="n">inds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">time</span> <span class="o">-</span> <span class="n">t</span><span class="p">)))</span>
+
+    <span class="k">return</span> <span class="n">attrdata</span><span class="p">[</span><span class="n">inds</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="attributes_at_times"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.attributes_at_times">[docs]</a><span class="k">def</span> <span class="nf">attributes_at_times</span><span class="p">(</span><span class="n">sddata</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">times2sel</span><span class="p">,</span> <span class="n">attrs2sel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;selects attributes at given times from</span>
+<span class="sd">    sddata (for all superdroplets in sddata)&quot;&quot;&quot;</span>
+
+    <span class="n">selected_data</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># dict containting selected attributes at selected times</span>
+
+    <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">attrs2sel</span><span class="p">:</span>
+        <span class="n">selattr_data</span> <span class="o">=</span> <span class="n">attr_at_times</span><span class="p">(</span><span class="n">sddata</span><span class="p">[</span><span class="n">attr</span><span class="p">],</span> <span class="n">time</span><span class="p">,</span> <span class="n">times2sel</span><span class="p">)</span>
+        <span class="n">selected_data</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="n">selattr_data</span>
+
+    <span class="k">return</span> <span class="n">selected_data</span></div>
+
+
+<div class="viewcode-block" id="attrs_for_superdroplets_sample"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.attrs_for_superdroplets_sample">[docs]</a><span class="k">def</span> <span class="nf">attrs_for_superdroplets_sample</span><span class="p">(</span>
+    <span class="n">sddata</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">ndrops2sample</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">minid</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">maxid</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="p">[]</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;returns dictionary of 2D arrays (with dimensions [time, SD])</span>
+<span class="sd">    for each attribute in &#39;attrs&#39; list for a sample of</span>
+<span class="sd">    superdroplets. Sample is either for superdroplets with</span>
+<span class="sd">    specific Ids in &#39;ids&#39; list, or sample of &#39;ndrops2sample&#39;</span>
+<span class="sd">    randomly selected superdrops with Ids in the range</span>
+<span class="sd">    [minid, maxid]&quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">ids</span><span class="p">):</span>
+        <span class="n">sample</span> <span class="o">=</span> <span class="n">ids</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># ids == []</span>
+        <span class="n">population</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">minid</span><span class="p">,</span> <span class="n">maxid</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">ndrops2sample</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">ndrops2sample</span> <span class="o">=</span> <span class="n">maxid</span>
+        <span class="n">sample</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="n">ndrops2sample</span><span class="p">)</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="n">attribute_for_superdroplets_sample</span><span class="p">(</span><span class="n">sddata</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="n">sample</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="akward_array_to_lagrange_array"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.akward_array_to_lagrange_array">[docs]</a><span class="k">def</span> <span class="nf">akward_array_to_lagrange_array</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span>
+    <span class="n">dim1</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span>
+    <span class="n">dim2</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span>
+    <span class="n">dim1_as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">check_indices_uniqueness</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function converts a variable of the superdroplet dataset to a numpy array with the dimensions of the superdroplet dataset.</span>
+<span class="sd">    The function assumes that the variable is a scalar value for each superdroplet at each time step.</span>
+
+<span class="sd">    If you want to use it with the SupersData class, you can use the following syntax:</span>
+<span class="sd">    &gt;&gt;&gt; akward_array_to_lagrange_array(sddata[varname], sddata.time, sddata[&quot;sdId&quot;])</span>
+
+<span class="sd">    It will create a regular numpy array with the dimensions of the superdroplet dataset.</span>
+<span class="sd">    N : number of superdroplets</span>
+<span class="sd">    T : number of time steps</span>
+<span class="sd">    (T,N) : shape of the output array</span>
+
+
+<span class="sd">    The maximum &quot;N&quot; of ``dim2`` values is used to create the number of columns in the output array!</span>
+<span class="sd">    The length &quot;T&quot; of ``dim1`` is used to create the number of columns in the output array!</span>
+
+<span class="sd">    The output array the has shape (T,N).</span>
+
+<span class="sd">    The input arrays are assumed to have the dimensions:</span>
+<span class="sd">     - ``data``: T * var * dtype</span>
+<span class="sd">     - ``dim1``: T * int</span>
+<span class="sd">     - ``dim2``: T * var * int   (var is the number of superdroplets at each time step, which must be smaller than &quot;N&quot;!)</span>
+
+<span class="sd">    Values in ``dim2`` need to be the indices for the columns of the output array!</span>
+<span class="sd">    Values in ``dim1`` are not used as indices by default!</span>
+<span class="sd">    If ``dim1_as_index`` is set to ``True``, the values of ``dim1`` are used as indices for the rows of the output array!</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : ak.Array</span>
+<span class="sd">        The variable of the superdroplet dataset. The variable must be a scalar value for each superdroplet at each time step.</span>
+<span class="sd">    dim1 : ak.Array</span>
+<span class="sd">        The first dimension of the output numpy array. This is usually the time dimension.</span>
+<span class="sd">        It is not used as index by default.</span>
+<span class="sd">        This can be changed by setting ``dim1_as_index`` to ``True``.</span>
+<span class="sd">    dim2 : ak.Array</span>
+<span class="sd">        The second dimension of the output numpy array. This is usually the superdroplet dimension.</span>
+<span class="sd">    dim1_as_index : bool, optional</span>
+<span class="sd">        If set to ``True``, the values of ``dim1`` are used as indices for the rows of the output array. The default is ``False``.</span>
+<span class="sd">    check_indices_uniqueness : bool, optional</span>
+<span class="sd">        If set to ``True``, the uniqueness of the indices is checked. The default is ``False``.</span>
+<span class="sd">        If the indices are not unique, a ValueError is raised.</span>
+<span class="sd">        This check is very slow for large arrays! Better make sure the indices are unique before calling this function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    np.ndarray</span>
+<span class="sd">        A numpy array with the dimensions of the superdroplet dataset. The variable is stored in the numpy array.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If the number of superdroplets and the number of values in the variable do not match.</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If the number of superdroplets and the number of values in the variable do not match for all time steps.</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        Only if ``check_indices_uniqueness`` is set to ``True``. If the indice tuples are not unique.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    The typical use, where time and superdroplet indices are given as arrays and &quot;time&quot; is not used as index.</span>
+
+<span class="sd">    &gt;&gt;&gt; data = ak.Array([</span>
+<span class="sd">            [10, 20, 30],</span>
+<span class="sd">            [],</span>
+<span class="sd">            [40, 50],</span>
+<span class="sd">        ])</span>
+<span class="sd">    &gt;&gt;&gt; time = ak.Array([</span>
+<span class="sd">            10.0,</span>
+<span class="sd">            20.0,</span>
+<span class="sd">            45.0,</span>
+<span class="sd">        ])</span>
+<span class="sd">    &gt;&gt;&gt; id = ak.Array([</span>
+<span class="sd">            [0, 1, 2],</span>
+<span class="sd">            [],</span>
+<span class="sd">            [2, 3],</span>
+<span class="sd">        ])</span>
+<span class="sd">    &gt;&gt;&gt; akward_array_to_lagrange_array(data = data, dim1 = time, dim2 = id, dim1_as_index = False, check_indices_uniqueness = False)</span>
+<span class="sd">    ... [10., 20., 30., nan],</span>
+<span class="sd">    ... [nan, nan, nan, nan],</span>
+<span class="sd">    ... [nan, nan, 40., 50.]])</span>
+
+<span class="sd">    In the following example, the time_index is used. As seen, the combination (0,0) from &quot;time_index&quot;and &quot;id&quot; is given twice. The last value will overwrite the previous.</span>
+<span class="sd">    The check for uniqueness would through a ValueError.</span>
+
+<span class="sd">    &gt;&gt;&gt; data = ak.Array([</span>
+<span class="sd">            [10, 20, 30],</span>
+<span class="sd">            [],</span>
+<span class="sd">            [40, 50],</span>
+<span class="sd">            [90],</span>
+<span class="sd">        ])</span>
+<span class="sd">    &gt;&gt;&gt; time_index = ak.Array([</span>
+<span class="sd">            0,</span>
+<span class="sd">            1,</span>
+<span class="sd">            2,</span>
+<span class="sd">            0,</span>
+<span class="sd">        ])</span>
+<span class="sd">    &gt;&gt;&gt; id = ak.Array([</span>
+<span class="sd">            [0, 1, 2],</span>
+<span class="sd">            [],</span>
+<span class="sd">            [2, 3],</span>
+<span class="sd">            [0],</span>
+<span class="sd">        ])</span>
+<span class="sd">    &gt;&gt;&gt; akward_array_to_lagrange_array(data = data, dim1 = time_index, dim2 = id, dim1_as_index = True, check_indices_uniqueness = False)</span>
+<span class="sd">    ... [[90. 20. 30. nan]</span>
+<span class="sd">    ...  [nan nan nan nan]</span>
+<span class="sd">    ...  [nan nan 40. 50.]]</span>
+<span class="sd">    &gt;&gt;&gt; akward_array_to_lagrange_array(data = data, dim1 = time_index, dim2 = id, dim1_as_index = True, check_indices_uniqueness = True)</span>
+<span class="sd">    ... ValueError: The indice tuples are not unique.</span>
+<span class="sd">    ... This would lead to overwriting values in the numpy array.</span>
+<span class="sd">    ... The reason might be, that the time indices aren&#39;t unique along axis 0 already.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># create the output dimensions of the numpy array which are necessary to store the data.</span>
+
+    <span class="k">if</span> <span class="n">dim1_as_index</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">T</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ak</span><span class="o">.</span><span class="n">num</span><span class="p">(</span><span class="n">dim1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+        <span class="n">time_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">time_index</span> <span class="o">=</span> <span class="n">dim1</span>
+        <span class="n">T</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ak</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">dim1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># The superdroplets are identified by their id.</span>
+    <span class="c1"># Use the maximum value of the superdroplet index</span>
+    <span class="c1"># The ids start with id &quot;0&quot;, so the maximum id is the number of superdroplets - 1!</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ak</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">dim2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">superdroplet_index</span> <span class="o">=</span> <span class="n">dim2</span>
+
+    <span class="k">if</span> <span class="n">ak</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">superdroplet_index</span><span class="p">)</span> <span class="o">!=</span> <span class="n">ak</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;The number of superdroplets (</span><span class="si">{</span><span class="n">ak</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">superdroplet_index</span><span class="p">)</span><span class="si">}</span><span class="s2">) and the number of values in the variable (</span><span class="si">{</span><span class="n">ak</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">) do not match&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ak</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">ak</span><span class="o">.</span><span class="n">num</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="n">ak</span><span class="o">.</span><span class="n">num</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;The number of superdroplets and the number of values in the variable do not match for all time steps&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># check if the resulting array is sparse and inform the User</span>
+    <span class="n">filled_percentage</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">superdroplet_index</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">N</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="c1"># print(f&quot;{filled_percentage:.2f} % of the regular array is filled with values. Total number of values is {ak.count(superdroplet_index)} out of {N * T} possible values.&quot;)</span>
+    <span class="k">if</span> <span class="n">filled_percentage</span> <span class="o">&lt;</span> <span class="mi">50</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s2">&quot;The resulting array is sparse. This might lead to significant memory usage&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># create tuples of all datapoint in the variable&#39;s akward array</span>
+    <span class="c1"># For this, a cartesian product of the time_index and the superdroplet_index is created</span>
+    <span class="c1"># The cartesian product is a tuple of all possible combinations of the two arrays</span>
+    <span class="c1"># It is important to do this along axis 0 (time dimension). Otherwise, only unique combinations are created</span>
+    <span class="c1"># The resulting array is then flattened to have a list of tuples</span>
+    <span class="c1"># The list of tuples is then unzipped, to seperate the time and superdroplet indeices into two arrays</span>
+    <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">unzip</span><span class="p">(</span><span class="n">ak</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">ak</span><span class="o">.</span><span class="n">cartesian</span><span class="p">((</span><span class="n">time_index</span><span class="p">,</span> <span class="n">superdroplet_index</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)))</span>
+
+    <span class="c1"># Check if the indice tuples are unique.</span>
+    <span class="c1"># For this, one can simply compute the index value they represented in a raveled array.</span>
+    <span class="c1"># so i * N + j should be unique for all i, j</span>
+    <span class="c1"># flattened_index = i * N + j</span>
+    <span class="k">if</span> <span class="n">check_indices_uniqueness</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ak</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">N</span> <span class="o">+</span> <span class="n">j</span><span class="p">)</span> <span class="o">==</span> <span class="n">ak</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">N</span> <span class="o">+</span> <span class="n">j</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;The indice tuples are not unique.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;This would lead to overwriting values in the numpy array.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;The reason might be, that the time indices aren&#39;t unique along axis 0 already.</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s2">&quot;The uniqueness of the indices is not checked. This might lead to overwriting values in the numpy array.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">result_numpy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">T</span><span class="p">,</span> <span class="n">N</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">result_numpy</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result_numpy</span></div>
+
+
+<div class="viewcode-block" id="get_awkward_shape"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.get_awkward_shape">[docs]</a><span class="k">def</span> <span class="nf">get_awkward_shape</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the shape of the awkward array a as a list.</span>
+<span class="sd">    Variable axis lengths are replaced by ``np.nan``.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : ak.Array</span>
+<span class="sd">        The input array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list</span>
+<span class="sd">        The shape of the array as a list.</span>
+<span class="sd">        ``var`` positions are replaced by ``np.nan``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># check for number of dimensions</span>
+    <span class="n">ndim</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">ndim</span>
+    <span class="c1"># create output list</span>
+    <span class="n">shape</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># For each dinemsion, get the number of elements.</span>
+    <span class="c1"># If the number of elements changes over the axis, np.nan is used to indicate a variable axis length</span>
+    <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ndim</span><span class="p">):</span>
+        <span class="n">num</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">num</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">dim</span><span class="p">)</span>
+        <span class="c1"># for the 0th axis, the number of elements is an integer</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+            <span class="n">shape</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">maxi</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ak</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">num</span><span class="p">))</span>
+            <span class="n">mini</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ak</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">num</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">maxi</span> <span class="o">==</span> <span class="n">mini</span><span class="p">:</span>
+                <span class="n">shape</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">maxi</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">shape</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">shape</span></div>
+
+
+<div class="viewcode-block" id="assert_same_shape"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.assert_same_shape">[docs]</a><span class="k">def</span> <span class="nf">assert_same_shape</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Assert that the two awkward arrays have the same shape.</span>
+<span class="sd">    Variable axis lengths are replaced by ``np.nan``.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : ak.Array</span>
+<span class="sd">        The first input array.</span>
+<span class="sd">    b : ak.Array</span>
+<span class="sd">        The second input array.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If the shapes of the two arrays do not match.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">shape_a</span> <span class="o">=</span> <span class="n">get_awkward_shape</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">shape_b</span> <span class="o">=</span> <span class="n">get_awkward_shape</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">shape_a</span> <span class="o">!=</span> <span class="n">shape_b</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;The shapes of the two arrays do not match: </span><span class="si">{</span><span class="n">shape_a</span><span class="si">}</span><span class="s2"> != </span><span class="si">{</span><span class="n">shape_b</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="assert_only_last_axis_variable"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.assert_only_last_axis_variable">[docs]</a><span class="k">def</span> <span class="nf">assert_only_last_axis_variable</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Assert that the awkward array has only variable axis lengths at the last axis.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : ak.Array</span>
+<span class="sd">        The input array.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If the array has variable axis lengths at other axes than the last axis.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">shape</span> <span class="o">=</span> <span class="n">get_awkward_shape</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]]):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;The array has variable axis lengths at other axes than the last axis.&quot;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ak_flatten_full"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.ak_flatten_full">[docs]</a><span class="k">def</span> <span class="nf">ak_flatten_full</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">Array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function flattens the input array along all axes.</span>
+<span class="sd">    Note that no information is returned to unflatten the array again!</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : ak.highlevel.Array</span>
+<span class="sd">        The input array to be flattened.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ak.highlevel.Array</span>
+<span class="sd">        The flattened array.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">while</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="ak_ragged_to_padded"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.ak_ragged_to_padded">[docs]</a><span class="k">def</span> <span class="nf">ak_ragged_to_padded</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">masked_array</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">MaskedArray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function converts a ragged array to a padded array and returns it as a numpy array.</span>
+<span class="sd">    If the last axis has variable lengths, the array will be padded to the maximum length of the last axis.</span>
+<span class="sd">    This behaviour can lead to very large arrays, especilly if the array is very sparse.</span>
+<span class="sd">    Missing values are filled with np.nan values.</span>
+
+<span class="sd">    Setting the ``masked_array`` parameter to ``True`` will return a masked array instead of a regular numpy array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : ak.highlevel.Array</span>
+<span class="sd">        The input ragged array.</span>
+<span class="sd">    masked_array : bool, optional</span>
+<span class="sd">        If set to ``True``, a masked array is returned.</span>
+<span class="sd">        Otherwise a regular numpy array is returned with np.nan values at the missing positions.</span>
+<span class="sd">        The default is ``False``.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    np.ndarray or np.ma.MaskedArray</span>
+<span class="sd">        The padded array in numpy format.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If the input array has variable axis lengths at other axes than the last axis.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">assert_only_last_axis_variable</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="n">pad_max</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ak</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">ak</span><span class="o">.</span><span class="n">num</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)))</span>
+    <span class="n">padded_data</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">pad_none</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pad_max</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">padded_data_numpy</span> <span class="o">=</span> <span class="n">padded_data</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">padded_data_numpy</span><span class="o">.</span><span class="n">set_fill_value</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">masked_array</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">padded_data_numpy</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">padded_data_numpy</span><span class="o">.</span><span class="n">filled</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ak_digitize_2D"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.ak_digitize_2D">[docs]</a><span class="k">def</span> <span class="nf">ak_digitize_2D</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">bins</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function takes a 2D awkward array and bins it into the provided bins.</span>
+<span class="sd">    The binning is done using ``numpy.digitize`` along the flattened array.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    The input array must be 2D.</span>
+<span class="sd">    None and np.nan will be stored in the last bin.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : ak.highlevel.Array</span>
+<span class="sd">        The input array to be binned.</span>
+<span class="sd">    bins : np.ndarray</span>
+<span class="sd">        The bins to be used for binning the array.</span>
+<span class="sd">    right : bool, optional</span>
+<span class="sd">        As from the numpy documentation:</span>
+<span class="sd">        Indicating whether the intervals include the right or the left bin edge.</span>
+<span class="sd">        Default behavior is (right==False) indicating that the interval does not include the right edge.</span>
+<span class="sd">        The left bin end is open in this case, i.e., bins[i-1] &lt;= x &lt; bins[i] is the default behavior for monotonically increasing bins.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    indices : ak.highlevel.Array of ints</span>
+<span class="sd">        Output array of indices, of same shape as x.</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    &gt;&gt;&gt; x = ak.Array([[1, 2, 3], [4, 5, 6]])</span>
+<span class="sd">    &gt;&gt;&gt; bins = np.array([0, 2, 4, 6])</span>
+<span class="sd">    &gt;&gt;&gt; array_to_bin_index(x, bins, right = False)</span>
+<span class="sd">    [[1, 2, 2],</span>
+<span class="sd">     [3, 3, 4]]</span>
+<span class="sd">    ---------------------</span>
+<span class="sd">    type: 2 * var * int64</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    https://numpy.org/doc/stable/reference/generated/numpy.digitize.html</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Array x must be 2D&quot;</span><span class="p">)</span>
+    <span class="n">digi</span><span class="p">,</span> <span class="n">num</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">ak</span><span class="o">.</span><span class="n">num</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">bins</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Bins must be 1D&quot;</span><span class="p">)</span>
+
+    <span class="n">digi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">digitize</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">digi</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="n">right</span><span class="p">)</span>
+    <span class="n">digi</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">unflatten</span><span class="p">(</span><span class="n">digi</span><span class="p">,</span> <span class="n">num</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">digi</span></div>
+
+
+<div class="viewcode-block" id="ak_digitize_3D"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.ak_digitize_3D">[docs]</a><span class="k">def</span> <span class="nf">ak_digitize_3D</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">bins</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function takes a 3D awkward array and bins it into the provided bins.</span>
+<span class="sd">    The binning is done using ``numpy.digitize`` along the flattened array.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    The input array must be 3D.</span>
+<span class="sd">    None and np.nan will be stored in the last bin.</span>
+<span class="sd">    Only values in the last axis are allowed! This ``ak.Array([[[1, 2, 3, -1, 101], [4, 5, 6, np.nan, 90, None]], [None, 1]])`` is not valid!</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : ak.highlevel.Array</span>
+<span class="sd">        The input array to be binned.</span>
+<span class="sd">    bins : np.ndarray</span>
+<span class="sd">        The bins to be used for binning the array.</span>
+<span class="sd">    right : bool, optional</span>
+<span class="sd">        As from the numpy documentation:</span>
+<span class="sd">        Indicating whether the intervals include the right or the left bin edge.</span>
+<span class="sd">        Default behavior is (right==False) indicating that the interval does not include the right edge.</span>
+<span class="sd">        The left bin end is open in this case, i.e., bins[i-1] &lt;= x &lt; bins[i] is the default behavior for monotonically increasing bins.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    indices : ak.highlevel.Array of ints</span>
+<span class="sd">        Output array of indices, of same shape as x.</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    &gt;&gt;&gt; x = ak.Array([[[1, 2, 3], [4, 5, 6]], [[1], [2]]])</span>
+<span class="sd">    &gt;&gt;&gt; bins = np.array([0, 2, 4, 6])</span>
+<span class="sd">    &gt;&gt;&gt; array_to_bin_index(x, bins, right = False)</span>
+<span class="sd">    [</span>
+<span class="sd">        [[1, 2, 2],[3, 3, 4]]</span>
+<span class="sd">        [[1], [2]],</span>
+<span class="sd">    ]</span>
+<span class="sd">    ---------------------</span>
+<span class="sd">    type: 2 * 2 * var * int64</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    https://numpy.org/doc/stable/reference/generated/numpy.digitize.html</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Array x must be 3D&quot;</span><span class="p">)</span>
+    <span class="n">digi</span><span class="p">,</span> <span class="n">num0</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">ak</span><span class="o">.</span><span class="n">num</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">digi</span><span class="p">,</span> <span class="n">num1</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">digi</span><span class="p">),</span> <span class="n">ak</span><span class="o">.</span><span class="n">num</span><span class="p">(</span><span class="n">digi</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">bins</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Bins must be 1D&quot;</span><span class="p">)</span>
+
+    <span class="n">digi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">digitize</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">digi</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="n">right</span><span class="p">)</span>
+    <span class="n">digi</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">unflatten</span><span class="p">(</span><span class="n">digi</span><span class="p">,</span> <span class="n">num1</span><span class="p">)</span>
+    <span class="n">digi</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">unflatten</span><span class="p">(</span><span class="n">digi</span><span class="p">,</span> <span class="n">num0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">digi</span></div>
+
+
+<div class="viewcode-block" id="create_counts_1D"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.create_counts_1D">[docs]</a><span class="k">def</span> <span class="nf">create_counts_1D</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function creates a 1D array with the counts of unique values in the input array.</span>
+<span class="sd">    It identifies the unique values in each subarray along axis 1.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : ak.highlevel.Array</span>
+<span class="sd">        The input array of shape T, containing the data for which counts need to be calculated.</span>
+<span class="sd">        Its maximum value ``B`` will be used to identify</span>
+<span class="sd">        the number of bins as ``M = B + 1``</span>
+<span class="sd">        Only ``int`` types are allowed!</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ak.highlevel.Array</span>
+<span class="sd">        An array with the counts of unique values in the input array.</span>
+<span class="sd">        The output shape will be (M).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># check for int type:</span>
+
+    <span class="k">assert</span> <span class="n">a</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;data needs to be 1 dimensional but is </span><span class="si">{</span><span class="n">a</span><span class="o">.</span><span class="n">ndim</span><span class="si">}</span><span class="s2"> dimensional&quot;</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">dtype</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">):</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">primitive</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The provided type of &#39;data&#39;: &#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39; is not supported!&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;The array must contain &#39;int&#39; like dtypes but has &#39;</span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s2">&#39;. This is not supported&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">M</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ak</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="c1"># create a bincount array with minimal length of the maximum value in the array</span>
+    <span class="n">bcount</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">minlength</span><span class="o">=</span><span class="n">M</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">bcount</span></div>
+
+
+<div class="viewcode-block" id="create_counts_2D"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.create_counts_2D">[docs]</a><span class="k">def</span> <span class="nf">create_counts_2D</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">flat</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function creates a 2D array with the counts of unique values in the input array.</span>
+<span class="sd">    It identifies the unique values in each subarray along axis 1.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : ak.highlevel.Array</span>
+<span class="sd">        The input array of shape T x var, containing the data for which counts need to be calculated.</span>
+<span class="sd">        Its maximum value ``B`` will be used to identify</span>
+<span class="sd">        the number of bins as ``M = B + 1``</span>
+<span class="sd">        Only ``int`` types are allowed!</span>
+<span class="sd">    flat : bool, optional</span>
+<span class="sd">        If False, the output array will have the shape (T, M).</span>
+<span class="sd">        If True, the output array is flattened top be a 1D array of length T*M.</span>
+<span class="sd">        Default is False.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ak.highlevel.Array</span>
+<span class="sd">        An array with the counts of unique values in the input array.</span>
+<span class="sd">        The output shape will be (T, M) if flat is False.</span>
+<span class="sd">        The output shape will be (T*M) if flat is True.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># check for int type:</span>
+
+    <span class="k">assert</span> <span class="n">a</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;data needs to be 2 dimensional but is </span><span class="si">{</span><span class="n">a</span><span class="o">.</span><span class="n">ndim</span><span class="si">}</span><span class="s2"> dimensional&quot;</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">dtype</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">):</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">primitive</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The provided type of &#39;data&#39;: &#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39; is not supported!&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;The array must contain &#39;int&#39; like dtypes but has &#39;</span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s2">&#39;. This is not supported&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">T</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ak</span><span class="o">.</span><span class="n">num</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ak</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="c1"># modify the arra to have unique values</span>
+    <span class="c1"># for each combination of i and j along dim0, dim1</span>
+    <span class="n">modified</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="o">*</span> <span class="n">M</span>
+    <span class="n">modified</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">modified</span><span class="p">)</span>
+
+    <span class="n">bcount</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">modified</span><span class="p">,</span> <span class="n">minlength</span><span class="o">=</span><span class="n">T</span> <span class="o">*</span> <span class="n">M</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">flat</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">bcount</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">unflatten</span><span class="p">(</span><span class="n">bcount</span><span class="p">,</span> <span class="n">M</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">bcount</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">bcount</span></div>
+
+
+<div class="viewcode-block" id="create_counts_3D"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.create_counts_3D">[docs]</a><span class="k">def</span> <span class="nf">create_counts_3D</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">flat</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function creates a 3D array with the counts of unique values in the input array.</span>
+<span class="sd">    For instance, if the ``a`` array has the shape (T, N, var) and its highest values is M, the output array will have the shape (T, N, M+1),</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : ak.highlevel.Array</span>
+<span class="sd">        The input array of shape T x N x var, containing the data for which counts need to be calculated.</span>
+<span class="sd">        Its maximum value ``B`` will be used to identify</span>
+<span class="sd">        the number of bins as ``M = B + 1``</span>
+<span class="sd">        Only ``int`` types are allowed!</span>
+<span class="sd">    flat : bool, optional</span>
+<span class="sd">        If False, the output array will have the shape (T, N, M).</span>
+<span class="sd">        If True, the output array is flattened top be a 1D array of length T*N*M.</span>
+<span class="sd">        Default is False.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ak.highlevel.Array</span>
+<span class="sd">        An array with the counts of values given in the indexer array.</span>
+<span class="sd">        The output shape will be (T, N, M) if flat is False.</span>
+<span class="sd">        The output shape will be (T*N*M) if flat is True.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    To make sure the indexer has unique value for each combination</span>
+<span class="sd">    of i and j along axis 0 and axis 1, the input array ``a`` is modified, by adding a</span>
+<span class="sd">    2D array to it. This 2D array is created by np.arange(0, x * y * z, z).reshape(x, y).</span>
+
+<span class="sd">    Example with</span>
+<span class="sd">    T = 4, N = 2, B = 4, M = 5</span>
+<span class="sd">    x = 4, y = 2, z = 5</span>
+<span class="sd">    &gt;&gt;&gt; a = ak.Array([</span>
+<span class="sd">            [[0, 1], [1]],</span>
+<span class="sd">            [[0],    [1, 4]],</span>
+<span class="sd">            [[1, 3], [1]],</span>
+<span class="sd">            [[0],    [3, 4]]</span>
+<span class="sd">        ])</span>
+<span class="sd">    &gt;&gt;&gt; add_array = np.arange(0, x * y * z, z).reshape(x, y)</span>
+<span class="sd">    &gt;&gt;&gt; add_array</span>
+<span class="sd">    ... [[ 0,  5],</span>
+<span class="sd">    ...  [10, 15],</span>
+<span class="sd">    ...  [20, 25],</span>
+<span class="sd">    ...  [30, 35]]</span>
+<span class="sd">    &gt;&gt;&gt; modified = a + add_array</span>
+<span class="sd">    &gt;&gt;&gt; modified</span>
+<span class="sd">    ... [</span>
+<span class="sd">    ...  [[ 0,  1],  [ 6]],</span>
+<span class="sd">    ...  [[10],      [16, 19]],</span>
+<span class="sd">    ...  [[21, 23],  [26]],</span>
+<span class="sd">    ...  [[30],      [38, 39]],</span>
+<span class="sd">    ... ]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">assert</span> <span class="n">a</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;data needs to be 3 dimensional but is </span><span class="si">{</span><span class="n">a</span><span class="o">.</span><span class="n">ndim</span><span class="si">}</span><span class="s2"> dimensional&quot;</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">dtype</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">):</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">primitive</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The provided type of &#39;data&#39;: &#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39; is not supported!&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;The array must contain &#39;int&#39; like dtypes but has &#39;</span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s2">&#39;. This is not supported&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">T</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_awkward_shape</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ak</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="c1"># to make sure the indexer has unique value for each combination</span>
+    <span class="c1"># of i and j along dim0, dim1, a 2D array is created.</span>
+    <span class="c1"># Example:</span>
+    <span class="c1"># T = 4, N = 2, M = 4</span>
+    <span class="c1"># x = 4, y = 3, z = 5</span>
+    <span class="c1"># [[ 0,  5],</span>
+    <span class="c1">#  [10, 15],</span>
+    <span class="c1">#  [20, 25],</span>
+    <span class="c1">#  [30, 35]]</span>
+
+    <span class="n">add_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">T</span> <span class="o">*</span> <span class="n">N</span> <span class="o">*</span> <span class="n">M</span><span class="p">,</span> <span class="n">M</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+
+    <span class="n">modified</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">add_array</span>
+    <span class="n">modified</span> <span class="o">=</span> <span class="n">ak_flatten_full</span><span class="p">(</span><span class="n">modified</span><span class="p">)</span>
+
+    <span class="n">bcount</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">modified</span><span class="p">,</span> <span class="n">minlength</span><span class="o">=</span><span class="n">T</span> <span class="o">*</span> <span class="n">N</span> <span class="o">*</span> <span class="n">M</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">flat</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">bcount</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">unflatten</span><span class="p">(</span><span class="n">bcount</span><span class="p">,</span> <span class="n">M</span><span class="p">)</span>
+        <span class="n">bcount</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">unflatten</span><span class="p">(</span><span class="n">bcount</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">bcount</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">bcount</span></div>
+
+
+<div class="viewcode-block" id="binning_by_1D_indexer"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.binning_by_1D_indexer">[docs]</a><span class="k">def</span> <span class="nf">binning_by_1D_indexer</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span>
+    <span class="n">indexer</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the Eulerian 2D array from the given 1D data and 1D indexer arrays.</span>
+<span class="sd">    The indexer array needs to have a ``int`` like dtype.</span>
+<span class="sd">    The output shape of the array will be given by the maximum value M in ``indexer``.</span>
+<span class="sd">    Output shape : T x M x var</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    - This functions uses np.bincount on the lower levels.</span>
+<span class="sd">    - Thus, at one point an np.ndarray of shape (M) will be created and needs to be stored in memory.</span>
+<span class="sd">    - This limits the capability due to memory usage.</span>
+<span class="sd">    - A good practice is, to extract the N unique values of the indexer array. With this, create a new indexer with values from 0 to N. You can use the numpy.digitize function for this.</span>
+
+<span class="sd">    &gt;&gt;&gt; unique_index = np.unique(indexer)</span>
+<span class="sd">    &gt;&gt;&gt; unique_indexer = np.digitize(indexer, unique_index)</span>
+<span class="sd">    &gt;&gt;&gt; binning_by_1D_indexer(data, unique_indexer)</span>
+
+<span class="sd">    For a lagrangian tracking for non sparse outputs, it is prefered to use the lagrangian function.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data (ak.highlevel.Array):</span>
+<span class="sd">        The input data array (T).</span>
+<span class="sd">    indexer (ak.highlevel.Array):</span>
+<span class="sd">        The indexer array (T) of dtype int.</span>
+<span class="sd">        With maximum value M.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ak.highlevel.Array:</span>
+<span class="sd">        The calculated Eulerian array of shape (T x M x var)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">assert_same_shape</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">indexer</span><span class="p">)</span>
+
+    <span class="c1"># sort arrays by their</span>
+    <span class="n">argsort</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">indexer</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">indexer_sort</span> <span class="o">=</span> <span class="n">indexer</span><span class="p">[</span><span class="n">argsort</span><span class="p">]</span>
+    <span class="n">data_sort</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">argsort</span><span class="p">]</span>
+
+    <span class="c1"># use np.bincount to get the counts of the unique values</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">create_counts_1D</span><span class="p">(</span><span class="n">indexer_sort</span><span class="p">)</span>
+    <span class="c1"># unflatten the data array using the bcount array.</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">unflatten</span><span class="p">(</span><span class="n">data_sort</span><span class="p">,</span> <span class="n">counts</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="binning_by_2D_indexer"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.binning_by_2D_indexer">[docs]</a><span class="k">def</span> <span class="nf">binning_by_2D_indexer</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">indexer</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the Eulerian 3D array from the given 2D data and 2D indexer arrays.</span>
+<span class="sd">    The indexer array needs to have a ``int`` like dtype.</span>
+<span class="sd">    The output shape of the array will be given by the maximum value M in ``indexer``.</span>
+<span class="sd">    Output shape : T x M x var</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    - This functions uses np.bincount on the lower levels.</span>
+<span class="sd">    - Thus, at one point an np.ndarray of shape (T * M) will be created and needs to be stored in memory.</span>
+<span class="sd">    - This limits the capability due to memory usage.</span>
+<span class="sd">    - A good practice is, to extract the N unique values of the indexer array. With this, create a new indexer with values from 0 to N. You can use the numpy.digitize function for this.</span>
+
+<span class="sd">    &gt;&gt;&gt; unique_index = np.unique(ak.flatten(indexer))</span>
+<span class="sd">    &gt;&gt;&gt; unique_indexer = ak_digitize_2d(indexer, unique_index)</span>
+<span class="sd">    &gt;&gt;&gt; binning_by_2D_indexer(data, unique_indexer)</span>
+
+<span class="sd">    For a lagrangian tracking for non sparse outputs, it is prefered to use the lagrangian function.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data (ak.highlevel.Array):</span>
+<span class="sd">        The input data array (T x var).</span>
+<span class="sd">    indexer (ak.highlevel.Array):</span>
+<span class="sd">        The indexer array (T x var) of dtype int.</span>
+<span class="sd">        With maximum value M.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ak.highlevel.Array:</span>
+<span class="sd">        The calculated Eulerian array of shape (T x M x var)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># indexer_unique = np.unique(ak.flatten(indexer))</span>
+    <span class="n">assert_same_shape</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">indexer</span><span class="p">)</span>
+    <span class="n">assert_only_last_axis_variable</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">assert_only_last_axis_variable</span><span class="p">(</span><span class="n">indexer</span><span class="p">)</span>
+
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ak</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">indexer</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="c1"># sort arrays by their</span>
+    <span class="n">argsort</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">indexer</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">indexer_sort</span> <span class="o">=</span> <span class="n">indexer</span><span class="p">[</span><span class="n">argsort</span><span class="p">]</span>
+    <span class="n">data_sort</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">argsort</span><span class="p">]</span>
+
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">create_counts_2D</span><span class="p">(</span><span class="n">indexer_sort</span><span class="p">)</span>
+
+    <span class="c1"># The function eulerian_from_count performes this bit of code:</span>
+    <span class="c1"># ----------</span>
+    <span class="c1"># # unflatten the data array using the counts array.</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">unflatten</span><span class="p">(</span><span class="n">data_sort</span><span class="p">,</span> <span class="n">ak</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">counts</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># flatten this array again</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">unflatten</span><span class="p">(</span><span class="n">ak</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="n">N</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="binning_by_3D_indexer"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.binning_by_3D_indexer">[docs]</a><span class="k">def</span> <span class="nf">binning_by_3D_indexer</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">indexer</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function bins the data array according to the indexer arrays values, which should be integers.</span>
+<span class="sd">    The resulting array will have the shape (T, N, B, var), where B is the number of unique values in the indexer array.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    - The input arrays must have the same shape.</span>
+<span class="sd">    - The indexer array must have integer values.</span>
+<span class="sd">    - The data array can ONLY have variable axis lengths at the last axis!</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : ak.Array</span>
+<span class="sd">        The input data array with shape (T, N, var).</span>
+<span class="sd">    indexer : ak.Array</span>
+<span class="sd">        The indexer array with shape (T, N, var).</span>
+<span class="sd">        And B unique values.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    result : ak.highlevel.Array</span>
+<span class="sd">        The binned data array with shape (T, N, B, var).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">assert_same_shape</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">indexer</span><span class="p">)</span>
+    <span class="n">assert_only_last_axis_variable</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">assert_only_last_axis_variable</span><span class="p">(</span><span class="n">indexer</span><span class="p">)</span>
+
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_awkward_shape</span><span class="p">(</span><span class="n">indexer</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ak</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">indexer</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="n">args</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">indexer</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">args</span><span class="p">]</span>
+    <span class="n">indexer</span> <span class="o">=</span> <span class="n">indexer</span><span class="p">[</span><span class="n">args</span><span class="p">]</span>
+
+    <span class="c1"># flatten the data array</span>
+    <span class="n">data_flat</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">data_flat</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">data_flat</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># to make sure the indexer has unique value for each combination od i and j along dim0, dim1, a 2D array is created.</span>
+    <span class="c1"># Example:</span>
+    <span class="c1"># T = 4, N = 3, B = 4</span>
+    <span class="c1"># x = 4, y = 3, z = 5</span>
+    <span class="c1"># [[ 0,  5, 10],</span>
+    <span class="c1">#  [15, 20, 25],</span>
+    <span class="c1">#  [30, 35, 40],</span>
+    <span class="c1">#  [45, 50, 55]])</span>
+
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">create_counts_3D</span><span class="p">(</span><span class="n">indexer</span><span class="p">,</span> <span class="n">flat</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">unflatten</span><span class="p">(</span><span class="n">data_flat</span><span class="p">,</span> <span class="n">counts</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">unflatten</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">unflatten</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="binning_by_1D_counts"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.binning_by_1D_counts">[docs]</a><span class="k">def</span> <span class="nf">binning_by_1D_counts</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span>
+    <span class="n">counts</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the Eulerian 2D array from the given 1D data and 1D indexer arrays.</span>
+<span class="sd">    The indexer array needs to have a ``int`` like dtype.</span>
+<span class="sd">    The output shape of the array will be given by the maximum value M in ``indexer``.</span>
+<span class="sd">    Output shape : T x M x var</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    - This functions uses np.bincount on the lower levels.</span>
+<span class="sd">    - Thus, at one point an np.ndarray of shape (M) will be created and needs to be stored in memory.</span>
+<span class="sd">    - This limits the capability due to memory usage.</span>
+<span class="sd">    - A good practice is, to extract the N unique values of the indexer array. With this, create a new indexer with values from 0 to N. You can use the numpy.digitize function for this.</span>
+
+<span class="sd">    &gt;&gt;&gt; unique_index = np.unique(indexer)</span>
+<span class="sd">    &gt;&gt;&gt; unique_indexer = np.digitize(indexer, unique_index)</span>
+<span class="sd">    &gt;&gt;&gt; binning_by_1D_indexer(data, unique_indexer)</span>
+
+<span class="sd">    For a lagrangian tracking for non sparse outputs, it is prefered to use the lagrangian function.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data (ak.highlevel.Array):</span>
+<span class="sd">        The input data array (T).</span>
+<span class="sd">    indexer (ak.highlevel.Array):</span>
+<span class="sd">        The indexer array (T) of dtype int.</span>
+<span class="sd">        With maximum value M.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ak.highlevel.Array:</span>
+<span class="sd">        The calculated Eulerian array of shape (T x M x var)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">ak</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span> <span class="o">!=</span> <span class="n">ak</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;The sum of counts does not match the number of elements in the data array&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># unflatten the data array using the bcount array.</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">unflatten</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">counts</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="binning_by_2D_counts"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.binning_by_2D_counts">[docs]</a><span class="k">def</span> <span class="nf">binning_by_2D_counts</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">counts</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the Eulerian 3D array from the given 2D data and 2D indexer arrays.</span>
+<span class="sd">    The indexer array needs to have a ``int`` like dtype.</span>
+<span class="sd">    The output shape of the array will be given by the maximum value M in ``indexer``.</span>
+<span class="sd">    Output shape : T x M x var</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    - This functions uses np.bincount on the lower levels.</span>
+<span class="sd">    - Thus, at one point an np.ndarray of shape (T * M) will be created and needs to be stored in memory.</span>
+<span class="sd">    - This limits the capability due to memory usage.</span>
+<span class="sd">    - A good practice is, to extract the N unique values of the indexer array. With this, create a new indexer with values from 0 to N. You can use the numpy.digitize function for this.</span>
+
+<span class="sd">    &gt;&gt;&gt; unique_index = np.unique(ak.flatten(indexer))</span>
+<span class="sd">    &gt;&gt;&gt; unique_indexer = ak_digitize_2d(indexer, unique_index)</span>
+<span class="sd">    &gt;&gt;&gt; binning_by_2D_indexer(data, unique_indexer)</span>
+
+<span class="sd">    For a lagrangian tracking for non sparse outputs, it is prefered to use the lagrangian function.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data (ak.highlevel.Array):</span>
+<span class="sd">        The input data array (T x var).</span>
+<span class="sd">    indexer (ak.highlevel.Array):</span>
+<span class="sd">        The indexer array (T x var) of dtype int.</span>
+<span class="sd">        With maximum value M.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ak.highlevel.Array:</span>
+<span class="sd">        The calculated Eulerian array of shape (T x M x var)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># indexer_unique = np.unique(ak.flatten(indexer))</span>
+
+    <span class="n">data_shape</span> <span class="o">=</span> <span class="n">get_awkward_shape</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The data array must be 2D&quot;</span><span class="p">)</span>
+
+    <span class="n">assert_only_last_axis_variable</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="n">counts_shape</span> <span class="o">=</span> <span class="n">get_awkward_shape</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">counts_shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The counts array must be 2D&quot;</span><span class="p">)</span>
+
+    <span class="n">N</span> <span class="o">=</span> <span class="n">counts_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">ak</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span> <span class="o">!=</span> <span class="n">ak</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">ak</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;The sum of counts does not match the number of elements in the data array&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># # unflatten the data array using the counts array.</span>
+    <span class="n">counts_flat</span> <span class="o">=</span> <span class="n">ak_flatten_full</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">unflatten</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">counts_flat</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># flatten this array again</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">unflatten</span><span class="p">(</span><span class="n">ak</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="n">N</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="binning_by_3D_counts"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.binning_by_3D_counts">[docs]</a><span class="k">def</span> <span class="nf">binning_by_3D_counts</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">counts</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function bins the data array according to the indexer arrays values, which should be integers.</span>
+<span class="sd">    The resulting array will have the shape (T, N, B, var), where B is the number of unique values in the indexer array.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    - The input arrays must have the same shape.</span>
+<span class="sd">    - The indexer array must have integer values.</span>
+<span class="sd">    - The data array can ONLY have variable axis lengths at the last axis!</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : ak.Array</span>
+<span class="sd">        The input data array with shape (T, N, var).</span>
+<span class="sd">    indexer : ak.Array</span>
+<span class="sd">        The indexer array with shape (T, N, var).</span>
+<span class="sd">        And B unique values.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    result : ak.highlevel.Array</span>
+<span class="sd">        The binned data array with shape (T, N, B, var).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">data_shape</span> <span class="o">=</span> <span class="n">get_awkward_shape</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The data array must be 2D&quot;</span><span class="p">)</span>
+
+    <span class="n">assert_only_last_axis_variable</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="n">counts_shape</span> <span class="o">=</span> <span class="n">get_awkward_shape</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">counts_shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The counts array must be 3D&quot;</span><span class="p">)</span>
+
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_awkward_shape</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">counts_shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="c1"># flatten the data array</span>
+    <span class="n">data_flat</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">data_flat</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">data_flat</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">ak</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span> <span class="o">!=</span> <span class="n">ak</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">data_flat</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;The sum of counts does not match the number of elements in the data array&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">counts_flat</span> <span class="o">=</span> <span class="n">ak_flatten_full</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">unflatten</span><span class="p">(</span><span class="n">data_flat</span><span class="p">,</span> <span class="n">counts_flat</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">unflatten</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">unflatten</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">result</span></div>
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; (2023) MPI-M, Clara Bayley
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            <div class="last-updated">
+              Last updated on 09 December 2024</div>
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=2389946f"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    </body>
+</html>
