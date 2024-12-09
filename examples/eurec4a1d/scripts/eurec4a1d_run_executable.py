@@ -12,7 +12,6 @@ This script is used to run the EUREC4A1D executable. It is called by the
     └── eurec4a1d_sol.zarr          <- will be created by the executable
 """
 
-
 import os
 import sys
 from pathlib import Path
