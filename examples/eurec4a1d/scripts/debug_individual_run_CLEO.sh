@@ -31,7 +31,7 @@ path2CLEO=${HOME}/CLEO/
 path2build=${path2CLEO}/build_eurec4a1d/
 path2eurec4a1d=${path2CLEO}/examples/eurec4a1d/
 microphysics=condensation
-path2data=${path2CLEO}/data/output_v4.2/
+path2data=${path2CLEO}/data/debug_output/
 
 ### ---------- Setup for the EUREC4A1D model ---------- ###
 
@@ -69,7 +69,7 @@ fi
 ### ---------------------------------------------------- ###
 
 
-path2inddir=${rawdirectory}/cluster_100
+path2inddir=${rawdirectory}/cluster_110
 
 
 config_dir_name="config"
