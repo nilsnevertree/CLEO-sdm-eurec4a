@@ -43,7 +43,7 @@ import datetime
 
 time_str = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%d-%H%M%S')
 
-log_file_dir = path2eurec4a1d / "logfiles" / f"cretea_init_files/mpi4py/{time_str}"
+log_file_dir = path2eurec4a1d / "logfiles" / f"create_init_files/mpi4py/{time_str}"
 log_file_dir.mkdir(exist_ok=True, parents=True)
 log_file_path = log_file_dir / f"{rank}.log"
 
@@ -283,12 +283,13 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
     potential_temperature_params = ds_potential_temperature_parameters.sel(cloud_id = cloud_id)
     pressure_params = ds_pressure_parameters.sel(cloud_id = cloud_id)
 
-
+    logging.info(f"Read default config file from {origin_config_file_path}")
     # CREATE A CONFIG FILE TO BE UPDATED
     with open(origin_config_file_path, "r") as f:
         eurec4a1d_config = yaml.safe_load(f)
 
     # update breakup in eurec4a1d_config file if breakup file is given:
+    logging.info(f"Read breakup config file from {breakup_config_file_path}")
     if breakup_config_file_path is not None:
         with open(breakup_config_file_path, "r") as f:
             breakup_config = yaml.safe_load(f)
@@ -298,20 +299,20 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
     individual_output_dir_path.mkdir(exist_ok=True, parents= False)
 
 
+    logging.info(f"Copy config file to {individual_output_dir_path}")
     config_dir_path = individual_output_dir_path / "config"
     config_dir_path.mkdir(exist_ok=True, parents= False)
-
-
     # copy the cloud config file to the raw directory and use it
     config_file_path = config_dir_path / "eurec4a1d_config.yaml"
     shutil.copy(origin_config_file_path, config_file_path)
 
+    logging.info(f"Create share directory {individual_output_dir_path}")
     share_path_individual = individual_output_dir_path / "share"
     share_path_individual.mkdir(exist_ok=True)
 
 
     # --- INPUT DATA ---
-
+    logging.info(f"Update input data in config file")
     # coupling dynamics files
     eurec4a1d_config["coupled_dynamics"].update(
         **dict(
@@ -348,7 +349,7 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
     thermodynamics_file_path = eurec4a1d_config["coupled_dynamics"]["thermo"]
 
     # --- OUTPUT DATA ---
-
+    logging.info(f"Update output data in config file")
     eurec4a1d_config["outputdata"].update(
         setup_filename=str(config_dir_path / "eurec4a1d_setup.txt"),
         stats_filename=str(config_dir_path / "eurec4a1d_stats.txt"),
@@ -363,7 +364,6 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
 
 
     ### --- settings for 1-D gridbox boundaries --- ###
-
     # only use integer precision
     cloud_altitude = potential_temperature_params['x_split'].mean().values
     cloud_altitude = int(cloud_altitude)
@@ -392,7 +392,6 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
     coord2gen = None  # do not generate superdroplet coord2s
 
 
-
     ### --- settings for initial superdroplets --- ###
     # number of superdroplets per gridbox
     sd_per_gridbox = eurec4a1d_config["initsupers"]["initnsupers"]
@@ -412,7 +411,7 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
     monodryr = 1e-12  # all SDs have this same dryradius [m]
     dryradii_generator = rgens.MonoAttrGen(monodryr)
 
-
+    logging.info("Write gridbox binary file")
     ### ----- write gridbox boundaries binary ----- ###
     with Capturing() as grid_info:
         cgrid.write_gridboxboundaries_binary(
@@ -436,7 +435,7 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
 
     # --- THERMODYNAMICS ---
 
-
+    logging.info("Create thermodynamics generator")
     thermodynamics_generator = thermogen.SplittedLapseRates(
         configfile = config_file_path,
         constsfile = constants_file_path,
@@ -463,6 +462,7 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
         Wlength = 0.0,
     )
 
+    logging.info("Write thermodynamics binary")
     with Capturing() as thermo_info:
         cthermo.write_thermodynamics_binary(
             thermofile= thermodynamics_file_path,
@@ -474,7 +474,7 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
 
 
     # --- INITIAL SUPERDROPLETS ---
-
+    logging.info("Create initial multiplicity generator")
     xi_probability_distribution = probdists.DoubleLogNormal(
         geometric_mean1= psd_params_dict['geometric_mean1'],
         geometric_mean2= psd_params_dict['geometric_mean2'],
@@ -484,7 +484,7 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
         scale_factor2= psd_params_dict['scale_factor2'],
     )
 
-
+    logging.info("Create initial attributes generator")
     initial_attributes_generator = attrsgen.AttrsGeneratorBinWidth(
         radiigen = radii_generator,
         dryradiigen = dryradii_generator,
@@ -494,6 +494,7 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
         coord2gen= coord2gen,
     )
 
+    logging.info("Get superdroplets at domain top")
     ### ----- write initial superdroplets binary ----- ###
     with Capturing() as super_top_info:
         number_superdroplets = crdgens.nsupers_at_domain_top(
@@ -502,24 +503,6 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
             nsupers = sd_per_gridbox,
             zlim = zgrid_cloud_base,
         )
-
-    ### ---------------------------------------------------------------- ###
-    ### UPDATE THE BOUNDARY CONDITIONS FOR THE CONFIG FILE ###
-    ### ---------------------------------------------------------------- ###
-
-    eurec4a1d_config["boundary_conditions"].update(
-        COORD3LIM=float(zgrid_cloud_base),  # SDs added to domain with coord3 >= z_boundary_respawn [m]
-        newnsupers=sd_per_gridbox,  # number of new super-droplets per gridbox
-        MINRADIUS=radius_minimum,  # minimum radius of new super-droplets [m]
-        MAXRADIUS=radius_maximum,  # maximum radius of new super-droplets [m]
-        NUMCONC_a=psd_params_dict['scale_factor1'],  # number conc. of 1st droplet lognormal dist [m^-3]
-        GEOMEAN_a=psd_params_dict['geometric_mean1'],  # geometric mean radius of 1st lognormal dist [m]
-        geosigma_a=psd_params_dict['geometric_std_dev1'],  # geometric standard deviation of 1st lognormal dist
-        NUMCONC_b=psd_params_dict['scale_factor2'],  # number conc. of 2nd droplet lognormal dist [m^-3]
-        GEOMEAN_b=psd_params_dict['geometric_mean2'],  # geometric mean radius of 2nd lognormal dist [m]
-        geosigma_b=psd_params_dict['geometric_std_dev2'],  # geometric standard deviation of 2nd lognormal dist
-    )
-
 
     # get total number of superdroplets
     number_superdroplets_total = int(np.sum(list(number_superdroplets.values())))
@@ -541,6 +524,8 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
 
     editconfigfile.edit_config_params(str(config_file_path), eurec4a1d_config)
 
+    # --- WRITE THE BINARY FILES ---
+    logging.info("Write initial superdroplets binary")
     with Capturing() as super_info:
         try :
             csupers.write_initsuperdrops_binary(
@@ -556,8 +541,27 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
             logging.error(f"Error: {type(e)}")
 
 
+    ### ---------------------------------------------------------------- ###
+    ### UPDATE THE BOUNDARY CONDITIONS FOR THE CONFIG FILE ###
+    ### ---------------------------------------------------------------- ###
+    logging.info("Update boundary conditions in config file")
+    eurec4a1d_config["boundary_conditions"].update(
+        COORD3LIM=float(zgrid_cloud_base),  # SDs added to domain with coord3 >= z_boundary_respawn [m]
+        newnsupers=sd_per_gridbox,  # number of new super-droplets per gridbox
+        MINRADIUS=radius_minimum,  # minimum radius of new super-droplets [m]
+        MAXRADIUS=radius_maximum,  # maximum radius of new super-droplets [m]
+        NUMCONC_a=psd_params_dict['scale_factor1'],  # number conc. of 1st droplet lognormal dist [m^-3]
+        GEOMEAN_a=psd_params_dict['geometric_mean1'],  # geometric mean radius of 1st lognormal dist [m]
+        geosigma_a=psd_params_dict['geometric_std_dev1'],  # geometric standard deviation of 1st lognormal dist
+        NUMCONC_b=psd_params_dict['scale_factor2'],  # number conc. of 2nd droplet lognormal dist [m^-3]
+        GEOMEAN_b=psd_params_dict['geometric_mean2'],  # geometric mean radius of 2nd lognormal dist [m]
+        geosigma_b=psd_params_dict['geometric_std_dev2'],  # geometric standard deviation of 2nd lognormal dist
+    )
+
+
     # --- PLOTTING ---
 
+    logging.info("Plot figures")
     fig_dir = individual_output_dir_path / "figures"
     fig_dir.mkdir(exist_ok=True, parents=False)
 
