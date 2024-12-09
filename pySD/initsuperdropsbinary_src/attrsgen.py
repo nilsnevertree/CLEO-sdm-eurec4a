@@ -29,6 +29,7 @@ from .probdists import ProbabilityDistribution
 from .dryrgens import DryRadiiGenerator
 from .rgens import RadiiGenerator
 
+
 class AttrsGenerator:
     """class for functions to generate attributes of
     superdroplets given the generators for independent
@@ -194,7 +195,7 @@ class AttrsGenerator:
 
 
 class AttrsGeneratorBinWidth(AttrsGenerator):
-    """"
+    """ "
     A class to generate attributes of superdroplets given the generators for independent
     attributes such as radius and coordinates.
 
@@ -226,11 +227,12 @@ class AttrsGeneratorBinWidth(AttrsGenerator):
         Generate superdroplets (SDs) attributes by calling the appropriate generating functions.
 
     """
+
     def __init__(
         self,
-        radiigen : RadiiGenerator,
-        dryradiigen : DryRadiiGenerator,
-        xiprobdist : ProbabilityDistribution,
+        radiigen: RadiiGenerator,
+        dryradiigen: DryRadiiGenerator,
+        xiprobdist: ProbabilityDistribution,
         coord3gen,
         coord1gen,
         coord2gen,
@@ -246,13 +248,13 @@ class AttrsGeneratorBinWidth(AttrsGenerator):
         self.ncoordsgen = sum(x is not None for x in [coord3gen, coord2gen, coord1gen])
 
     def multiplicities(
-            self,
-            radii :npt.NDArray[np.float64],
-            samplevol : float,
-            bin_width : npt.NDArray[np.float64],
-            correct_for_zeros : bool = True,
-            probdists_kwargs : dict = dict(),
-            ) -> npt.NDArray[np.uint]:
+        self,
+        radii: npt.NDArray[np.float64],
+        samplevol: float,
+        bin_width: npt.NDArray[np.float64],
+        correct_for_zeros: bool = True,
+        probdists_kwargs: dict = dict(),
+    ) -> npt.NDArray[np.uint]:
         """
         Calculate the multiplicity of the super droplets for
         given radii of each superdroplet and the corresponding ``bin_width``
@@ -317,20 +319,23 @@ class AttrsGeneratorBinWidth(AttrsGenerator):
                 )
                 raise ValueError(errmsg)
 
-
         # calculate the normalized probability distirbution
         prob = self.xiprobdist(radii, **probdists_kwargs)
 
         # if the wrong instance is supplied, raise a TypeError
-        if isinstance(bin_width, (
+        if isinstance(
+            bin_width,
+            (
                 np.ndarray,
                 xr.DataArray,
                 float,
-                )
-            ):
+            ),
+        ):
             bin_width = bin_width
-        else :
-            raise TypeError('bin_width must be np.ndarray but is {}'.format(type(bin_width)))
+        else:
+            raise TypeError(
+                "bin_width must be np.ndarray but is {}".format(type(bin_width))
+            )
 
         # calculate mulitplicity by renormalising the probability distribution
         # with the bin_width and multiplying with the sample volume
@@ -341,13 +346,13 @@ class AttrsGeneratorBinWidth(AttrsGenerator):
         desired_xi_sum = int(np.sum(xi))
         # if smaller than the radii size, the distirbution can
         # never represent the total number concentration
-        if desired_xi_sum <= np.size(radii) :
+        if desired_xi_sum <= np.size(radii):
             check_zero_multiplicities(xi)
 
         # if the multiplicities are zero, adjust them to be at least 1
         # by reducing the largest values of xi to ensure the total number
         # of droplets is conserved
-        if correct_for_zeros == True:
+        if correct_for_zeros is True:
             xi_zero = xi < 1
             number_xi_zero = int(np.sum(xi_zero))
             # print(f'Adjust {number_xi_zero} multiplicities to be at least 1.')
@@ -364,10 +369,10 @@ class AttrsGeneratorBinWidth(AttrsGenerator):
 
             # validate the total number concentration is conserved
             np.testing.assert_equal(
-                    adjusted_xi_sum,
-                    desired_xi_sum,
-                    err_msg='The total number concentration is not conserved.'
-                )
+                adjusted_xi_sum,
+                desired_xi_sum,
+                err_msg="The total number concentration is not conserved.",
+            )
 
         # final check for zero multiplicities
         check_zero_multiplicities(xi)
@@ -376,12 +381,12 @@ class AttrsGeneratorBinWidth(AttrsGenerator):
         return np.array(xi, dtype=np.uint)
 
     def generate_attributes(
-            self,
-            nsupers : int,
-            RHO_SOL : float,
-            NUMCONC : int, # not used at all
-            gridboxbounds : Tuple[float, float, float, float, float, float]
-            ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+        self,
+        nsupers: int,
+        RHO_SOL: float,
+        NUMCONC: int,  # not used at all
+        gridboxbounds: Tuple[float, float, float, float, float, float],
+    ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
         """
         Generate superdroplets (SDs) attributes that have dimensions
         by calling the appropraite generating functions.
@@ -404,14 +409,18 @@ class AttrsGeneratorBinWidth(AttrsGenerator):
             radii = self.radiigen(nsupers)  # [m]
             bin_width = np.ones_like(radii)
         else:
-            raise TypeError('radiigen must be an instance of RadiiGenerator but is {}'.format(type(self.radiigen)))
+            raise TypeError(
+                "radiigen must be an instance of RadiiGenerator but is {}".format(
+                    type(self.radiigen)
+                )
+            )
         mass_solutes = self.mass_solutes(radii, RHO_SOL)  # [Kg]
 
         multiplicities = self.multiplicities(
-            radii = radii,
-            samplevol= gbxvol,
-            bin_width= bin_width,
-            )
+            radii=radii,
+            samplevol=gbxvol,
+            bin_width=bin_width,
+        )
 
         multiplicities = multiplicities
 

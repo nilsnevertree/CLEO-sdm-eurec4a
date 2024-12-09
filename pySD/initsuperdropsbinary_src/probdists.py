@@ -213,16 +213,16 @@ class LogNormal(ProbabilityDistribution):
     """
 
     def __init__(
-            self,
-            geometric_mean : float,
-            geometric_std_dev : float,
-            scale_factor : float,
-        ):
+        self,
+        geometric_mean: float,
+        geometric_std_dev: float,
+        scale_factor: float,
+    ):
         self.geometric_mean = geometric_mean
         self.geometric_std_dev = geometric_std_dev
         self.scale_factor = scale_factor
 
-    def __call__(self, radii: np.ndarray, density : bool = False) -> np.ndarray:
+    def __call__(self, radii: np.ndarray, density: bool = False) -> np.ndarray:
         """
         Returns probability of each radius for a log-normal distribution.
 
@@ -240,15 +240,15 @@ class LogNormal(ProbabilityDistribution):
         """
 
         probs = self.log_normal_distribution(
-            t = radii,
-            geometric_mean = self.geometric_mean,
-            geometric_std_dev = self.geometric_std_dev,
-            scale_factor = self.scale_factor,
+            t=radii,
+            geometric_mean=self.geometric_mean,
+            geometric_std_dev=self.geometric_std_dev,
+            scale_factor=self.scale_factor,
         )
 
-        if density is True :
+        if density is True:
             return probs / np.nansum(probs)
-        else :
+        else:
             return probs
 
     def log_normal_distribution(
@@ -317,22 +317,20 @@ class DoubleLogNormal(ProbabilityDistribution):
     """
 
     def __init__(
-            self,
-            geometric_mean1 : float,
-            geometric_mean2 : float,
-            geometric_std_dev1 : float,
-            geometric_std_dev2 : float,
-            scale_factor1 : float,
-            scale_factor2 : float,
-        ):
-
+        self,
+        geometric_mean1: float,
+        geometric_mean2: float,
+        geometric_std_dev1: float,
+        geometric_std_dev2: float,
+        scale_factor1: float,
+        scale_factor2: float,
+    ):
         self.geometric_mean1 = geometric_mean1
         self.geometric_mean2 = geometric_mean2
         self.geometric_std_dev1 = geometric_std_dev1
         self.geometric_std_dev2 = geometric_std_dev2
         self.scale_factor1 = scale_factor1
         self.scale_factor2 = scale_factor2
-
 
     @property
     def log_normal1(self) -> LogNormal:
@@ -345,9 +343,9 @@ class DoubleLogNormal(ProbabilityDistribution):
             The first log-normal distribution.
         """
         return LogNormal(
-            geometric_mean = self.geometric_mean1,
-            geometric_std_dev = self.geometric_std_dev1,
-            scale_factor= self.scale_factor1,
+            geometric_mean=self.geometric_mean1,
+            geometric_std_dev=self.geometric_std_dev1,
+            scale_factor=self.scale_factor1,
         )
 
     @property
@@ -361,12 +359,12 @@ class DoubleLogNormal(ProbabilityDistribution):
             The second log-normal distribution.
         """
         return LogNormal(
-            geometric_mean = self.geometric_mean2,
-            geometric_std_dev = self.geometric_std_dev2,
-            scale_factor= self.scale_factor2,
+            geometric_mean=self.geometric_mean2,
+            geometric_std_dev=self.geometric_std_dev2,
+            scale_factor=self.scale_factor2,
         )
 
-    def __call__(self, radii: np.ndarray, density : bool = False) -> np.ndarray:
+    def __call__(self, radii: np.ndarray, density: bool = False) -> np.ndarray:
         """
         Returns probability of each radius in radii derived from superposition of two log-normal distributions.
 
@@ -384,14 +382,14 @@ class DoubleLogNormal(ProbabilityDistribution):
         """
 
         # Density needs to be False for the relation of the two distributions to be correct
-        prob1 = self.log_normal1(radii= radii, density= False)
-        prob2 = self.log_normal2(radii= radii, density= False)
+        prob1 = self.log_normal1(radii=radii, density=False)
+        prob2 = self.log_normal2(radii=radii, density=False)
 
         probs = prob1 + prob2
 
-        if density is True :
+        if density is True:
             return probs / np.nansum(probs)
-        else :
+        else:
             return probs
 
 

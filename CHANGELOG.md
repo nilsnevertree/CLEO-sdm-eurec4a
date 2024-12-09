@@ -2,6 +2,309 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [v0.29.2](https://github.com/yoctoyotta1024/CLEO/compare/8e8ecbf76cde7d01baa95bc350a4a92a9e183446..v0.29.2) - 2024-12-06
+#### Bug Fixes
+- create superdroplets at domain top with xi>=1 - ([4a7be0d](https://github.com/yoctoyotta1024/CLEO/commit/4a7be0d5e236dcc203b973c1c38776d1d35ee205)) - clara.bayley
+#### Refactoring
+- add bool in SD creation to prevent un-physical superdroplets by default - ([8e8ecbf](https://github.com/yoctoyotta1024/CLEO/commit/8e8ecbf76cde7d01baa95bc350a4a92a9e183446)) - clara.bayley
+
+- - -
+
+## [v0.29.1](https://github.com/yoctoyotta1024/CLEO/compare/56a3b9a996f2654669794892d6ea83018ca2d6ca..v0.29.1) - 2024-12-06
+#### Bug Fixes
+- reverse order of longitude edge centers - ([f496c6e](https://github.com/yoctoyotta1024/CLEO/commit/f496c6efb1e7528c992bc205c2242099d00b338b)) - clara.bayley
+- update python use for yac and yac_cadd_interp_stack_config_nnn call for latest yac version - ([d268b7c](https://github.com/yoctoyotta1024/CLEO/commit/d268b7ca6f0a40cc5428d993994f15111be5f5e8)) - clara.bayley
+#### Miscellaneous Chores
+- update yac and yaxt versions on CI - ([fcf576d](https://github.com/yoctoyotta1024/CLEO/commit/fcf576d888b3c3e7384698d004035e67dafe1574)) - clara.bayley
+#### Refactoring
+- adapt cleo domain for bubble to crop inside central portion of icon domain - ([b8e7de4](https://github.com/yoctoyotta1024/CLEO/commit/b8e7de4f31a11d0519b27b6a2beed8ab307831f4)) - clara.bayley
+- adapt cleo domain for bubble to match entire icon domain - ([37958a0](https://github.com/yoctoyotta1024/CLEO/commit/37958a09c4aa739ca654a4311567bd85f0449428)) - clara.bayley
+- update install yac bash script to make python bindings correctly - ([7ee4a84](https://github.com/yoctoyotta1024/CLEO/commit/7ee4a84e0ba564d3c3560938032bc0348785d2ca)) - clara.bayley
+- update yacyaxt root dir - ([9c163be](https://github.com/yoctoyotta1024/CLEO/commit/9c163be2e43953bdd6535719158f0a40aa1d7afa)) - clara.bayley
+- update expected solutions from spdtest - ([4e53e5b](https://github.com/yoctoyotta1024/CLEO/commit/4e53e5bbc6bea1a44949432d1debe05964a3ad2f)) - clara.bayley
+- delete run_stats observer - ([56a3b9a](https://github.com/yoctoyotta1024/CLEO/commit/56a3b9a996f2654669794892d6ea83018ca2d6ca)) - clara.bayley
+
+- - -
+
+## [v0.29.0](https://github.com/yoctoyotta1024/CLEO/compare/f30212e726ca35fe15489fc9a81bfa9d498da0f0..v0.29.0) - 2024-12-05
+#### Features
+- add kokkos profiling hooks to measure computational performance - ([f30212e](https://github.com/yoctoyotta1024/CLEO/commit/f30212e726ca35fe15489fc9a81bfa9d498da0f0)) - clara.bayley
+
+- - -
+
+## [v0.28.4](https://github.com/yoctoyotta1024/CLEO/compare/aba51cd720e11577a53c3a7947295f10c3307b3f..v0.28.4) - 2024-11-27
+#### Bug Fixes
+- bubble run script uses python pathlib - ([aba51cd](https://github.com/yoctoyotta1024/CLEO/commit/aba51cd720e11577a53c3a7947295f10c3307b3f)) - clara.bayley
+
+- - -
+
+## [v0.28.3](https://github.com/yoctoyotta1024/CLEO/compare/fbad594c2925992ae0feade58d08a983c30accfd..v0.28.3) - 2024-11-22
+#### Bug Fixes
+- revert running fromfile example for longer - ([6761ffb](https://github.com/yoctoyotta1024/CLEO/commit/6761ffb942791409fe7e7a90a52f4698c8646dab)) - clara.bayley
+#### Continuous Integration
+- added script to the CI step for comparing parallel run results - ([5d710f0](https://github.com/yoctoyotta1024/CLEO/commit/5d710f02c3f0470f9cba60d5ccfbcd898989eb41)) - Wilton Jaciel Loch
+- added parallelization execution test to verify that parallel execution is possible - ([fbad594](https://github.com/yoctoyotta1024/CLEO/commit/fbad594c2925992ae0feade58d08a983c30accfd)) - Wilton Jaciel Loch
+#### Miscellaneous Chores
+- Merge branch 'parallelization_ci' of https://github.com/wiltonloch/CLEO into parallelization_ci - ([aa494b8](https://github.com/yoctoyotta1024/CLEO/commit/aa494b8b447abe490f26b90a0a681555bd1d49ad)) - clara.bayley
+#### Performance Improvements
+- replaced global communication in superdrops exchange by p2p calls - ([ba4463a](https://github.com/yoctoyotta1024/CLEO/commit/ba4463a8a0eb7287c46f2263124395a83afd2a31)) - Wilton Jaciel Loch
+
+- - -
+
+## [v0.28.2](https://github.com/yoctoyotta1024/CLEO/compare/b1d57e5d52a245e6ca3904f047dce7c4f2541ac3..v0.28.2) - 2024-11-22
+#### Bug Fixes
+- correct tarball link - ([fbf3a28](https://github.com/yoctoyotta1024/CLEO/commit/fbf3a285c812601d886718719d1168ddbf182934)) - clara.bayley
+- revert running fromfile example for longer - ([0618278](https://github.com/yoctoyotta1024/CLEO/commit/0618278dda3798581dc9e2632868455de97b6058)) - clara.bayley
+#### Continuous Integration
+- added script to the CI step for comparing parallel run results - ([74fb42a](https://github.com/yoctoyotta1024/CLEO/commit/74fb42a5dd4509b645d76f204a23feba7c706938)) - Wilton Jaciel Loch
+- added parallelization execution test to verify that parallel execution is possible - ([b1d57e5](https://github.com/yoctoyotta1024/CLEO/commit/b1d57e5d52a245e6ca3904f047dce7c4f2541ac3)) - Wilton Jaciel Loch
+
+- - -
+
+## [v0.28.1](https://github.com/yoctoyotta1024/CLEO/compare/aab95ef25bdf5d7712b092ad7e3e5bd89014e770..v0.28.1) - 2024-11-22
+#### Bug Fixes
+- update levante mamba env path - ([aab95ef](https://github.com/yoctoyotta1024/CLEO/commit/aab95ef25bdf5d7712b092ad7e3e5bd89014e770)) - clara.bayley
+
+- - -
+
+## [v0.28.0](https://github.com/yoctoyotta1024/CLEO/compare/d783df060fed33171cfd5024e1c6c33e7b45c80e..v0.28.0) - 2024-11-21
+#### Bug Fixes
+- renamed function - ([5597588](https://github.com/yoctoyotta1024/CLEO/commit/55975888f1dd590afc11f4776087cc6ad544c511)) - clara.bayley
+- fix order of dataset includes - ([643588a](https://github.com/yoctoyotta1024/CLEO/commit/643588a02ba8d88bd854934f17e9c212db7a65aa)) - clara.bayley
+- deltas in predcorr gpu compatible and add kokkos macros to gbxmaps gpu functions - ([d03e2ec](https://github.com/yoctoyotta1024/CLEO/commit/d03e2ecee1d07f74d3ea8046479dfefc26ac5539)) - clara.bayley
+- add MPI guards to fromfile_irreg example - ([8f02d55](https://github.com/yoctoyotta1024/CLEO/commit/8f02d5512e1a90be6a8cc4502d60bb7b57e78933)) - clara.bayley
+- change executable names in CI - ([c930271](https://github.com/yoctoyotta1024/CLEO/commit/c930271279f08c588917914017106f53df985f3a)) - clara.bayley
+- typo in comment - ([43e08fd](https://github.com/yoctoyotta1024/CLEO/commit/43e08fdbcf42b9f7892ab3f4bc8f20187832e266)) - clara.bayley
+- fix sphinx dependencies after sphinx version 8 - ([92e396b](https://github.com/yoctoyotta1024/CLEO/commit/92e396ba0ec9345ec1b7b7485cb079b064d90a9a)) - clara.bayley
+- Security vulnerability - ([d26a02c](https://github.com/yoctoyotta1024/CLEO/commit/d26a02c4091ef870102739820625a0f81a235319)) - clara.bayley
+- added CartesianMaps instance to receive_dynamics in yac coupling dynamics - ([2370edb](https://github.com/yoctoyotta1024/CLEO/commit/2370edb69f8051b2595ddf80e7e353f249fb1f2d)) - Wilton Jaciel Loch
+- added CartesianMaps instance to cvode and null coupling dynamics - ([95598de](https://github.com/yoctoyotta1024/CLEO/commit/95598dedcd48ea1f08ecc56fcb9e98f59bf1ef9f)) - Wilton Jaciel Loch
+#### Continuous Integration
+- updated cmake compiler flag to use mpi wrappers - ([97f9438](https://github.com/yoctoyotta1024/CLEO/commit/97f94389f48a8516609d2249a1f93bfb5a630083)) - Wilton Jaciel Loch
+- minor changes for building with more restrict compiler rules - ([ee2636a](https://github.com/yoctoyotta1024/CLEO/commit/ee2636a86ba320d79501cf3e9ed41f95ec95ee31)) - Wilton Jaciel Loch
+- updated cmake compiler flag to use mpi wrappers - ([36641c3](https://github.com/yoctoyotta1024/CLEO/commit/36641c32199cafd749bf3d2105b16c228c9b53ff)) - Wilton Jaciel Loch
+#### Documentation
+- add notes on coupling function calls - ([e3746d5](https://github.com/yoctoyotta1024/CLEO/commit/e3746d52416f7961f4388049543f350037b0663b)) - clara.bayley
+- add openmpi compiler wrappers to requirements - ([ec3a531](https://github.com/yoctoyotta1024/CLEO/commit/ec3a531bc728b5c1082477a267e275f306fb786a)) - clara.bayley
+- figures for memory layout - ([44ff4bb](https://github.com/yoctoyotta1024/CLEO/commit/44ff4bb90e098096e482dd17dbde4e02d346c01c)) - clara.bayley
+- more intro on memory layout - ([a8da2a3](https://github.com/yoctoyotta1024/CLEO/commit/a8da2a337ad3699881713354af13177f402e228e)) - clara.bayley
+- figure for timestepping - ([b1072f6](https://github.com/yoctoyotta1024/CLEO/commit/b1072f6e1d383bc49255ddbb2c5423db7a3dc976)) - clara.bayley
+- more intro on timestepping - ([fa638e8](https://github.com/yoctoyotta1024/CLEO/commit/fa638e8acf88120c8aa2737b9f1ce3b1a8f426da)) - clara.bayley
+- rearrange landing page - ([06f66c5](https://github.com/yoctoyotta1024/CLEO/commit/06f66c51483316361dea90c832f0712bb9df5d18)) - clara.bayley
+- update build and executable names - ([69a71c3](https://github.com/yoctoyotta1024/CLEO/commit/69a71c35f56ddee11b74435de2d882c3f40f2c79)) - clara.bayley
+- figures for memory layout - ([889f35a](https://github.com/yoctoyotta1024/CLEO/commit/889f35a077698f7c5f6c5234708a0961d1a8d37d)) - clara.bayley
+- more intro on memory layout - ([66b63ce](https://github.com/yoctoyotta1024/CLEO/commit/66b63ce8aadf5aef0998d0436ccdaf4cc3ec507d)) - clara.bayley
+- figure for timestepping - ([734536e](https://github.com/yoctoyotta1024/CLEO/commit/734536edb5a674d170218c5fde38270fa478c7f5)) - clara.bayley
+- more intro on timestepping - ([1c2d27e](https://github.com/yoctoyotta1024/CLEO/commit/1c2d27e55fb80b81ece3252052a7e6bdd80de4f2)) - clara.bayley
+- rearrange landing page - ([0b8ef33](https://github.com/yoctoyotta1024/CLEO/commit/0b8ef33dbabb86396247c4cf75188ef2fea27792)) - clara.bayley
+#### Features
+- new bash to submit slurm for all examples - ([c51c0d8](https://github.com/yoctoyotta1024/CLEO/commit/c51c0d859bd8f6052ae036b0c8488e1094bb98eb)) - clara.bayley
+- new pysd module to help with creating and ploting initial condition binary files - ([780ee6e](https://github.com/yoctoyotta1024/CLEO/commit/780ee6ecf989da5c271fae4ef34900dcf212a123)) - clara.bayley
+- add fromfile_irreg to build CI check - ([eed98b0](https://github.com/yoctoyotta1024/CLEO/commit/eed98b0e3348eaf511d2cea2f98ffaa249a781d0)) - clara.bayley
+- add cmake target for formfile_irreg example - ([481e675](https://github.com/yoctoyotta1024/CLEO/commit/481e675bc5a196ae8e29470f5a4e536a63d2e38b)) - clara.bayley
+- new example for irregular grid version of fromfile example (for MPI devlopment) - ([a32a6f8](https://github.com/yoctoyotta1024/CLEO/commit/a32a6f84c21481c4dba4613faf140070a4b5f800)) - clara.bayley
+- added a collect_global_array implementation for long unsigned int type - ([77a43dc](https://github.com/yoctoyotta1024/CLEO/commit/77a43dc8a0677badd5302688baf39476c0282b51)) - Wilton Jaciel Loch
+- initial mpi parallelization - ([d783df0](https://github.com/yoctoyotta1024/CLEO/commit/d783df060fed33171cfd5024e1c6c33e7b45c80e)) - Wilton Jaciel Loch
+#### Miscellaneous Chores
+- **(version)** v0.27.0 - ([be63380](https://github.com/yoctoyotta1024/CLEO/commit/be633804938bb910bcc0210547d6f69a169f84bb)) - yoctoyotta1024
+- **(version)** v0.26.0 - ([d6d4c3d](https://github.com/yoctoyotta1024/CLEO/commit/d6d4c3df47c73f0b5075661f6f9f89ec7189f76f)) - yoctoyotta1024
+- **(version)** v0.25.1 - ([b415082](https://github.com/yoctoyotta1024/CLEO/commit/b415082f410628d814f873f29ca207d80cf310ad)) - yoctoyotta1024
+- delete redundant unused functions - ([91c397d](https://github.com/yoctoyotta1024/CLEO/commit/91c397d1436e1bb46a28ab761acd2e38c68e75c2)) - clara.bayley
+- fix spelling mistakes - ([d8ec48b](https://github.com/yoctoyotta1024/CLEO/commit/d8ec48b671e998fd6375e0bec3367c7f3db4d970)) - clara.bayley
+- formatting - ([660ffd0](https://github.com/yoctoyotta1024/CLEO/commit/660ffd0d7b6674a6a0529eecad29ff93ad95bb8d)) - clara.bayley
+- formatting - ([e515e14](https://github.com/yoctoyotta1024/CLEO/commit/e515e14cb845d9b4b1a75bcb788451149d1d6063)) - clara.bayley
+#### Refactoring
+- add gbxmaps functions to avoid use of non-gpu compatible domain decomposition in single process builds - ([18b91ee](https://github.com/yoctoyotta1024/CLEO/commit/18b91eefba324535ed3b3048702e3630cabbcfe9)) - clara.bayley
+- consistent use of out of bounds gbxindex value from constants - ([fb4617c](https://github.com/yoctoyotta1024/CLEO/commit/fb4617c0c7a8704a5bb2292f313916669a12b047)) - clara.bayley
+- ensure gbxmaps returns correct types - ([7cbb859](https://github.com/yoctoyotta1024/CLEO/commit/7cbb8593390824fd11e28cfb9fc6dd8a767f2387)) - clara.bayley
+- rework gridboxmaps - ([120109a](https://github.com/yoctoyotta1024/CLEO/commit/120109a81c90ea45a2992351ed869ae8f32e5c2e)) - clara.bayley
+- rework predmotion - ([f427cea](https://github.com/yoctoyotta1024/CLEO/commit/f427cea60bf9b0011207c5f9a829cb90756a5cc6)) - clara.bayley
+- move send/recv supers into seperate function with guard on comms > 1 - ([3bf7df7](https://github.com/yoctoyotta1024/CLEO/commit/3bf7df70993a7892f5622eab3b248716aeb8aafd)) - clara.bayley
+- run fromfile example for longer and with 4 tasks - ([69a8382](https://github.com/yoctoyotta1024/CLEO/commit/69a83828be9100d2331e51274c4a35a37fffd5cd)) - clara.bayley
+- helper functions for total_local_gridboxes and total_global_gridboxes - ([bd290d5](https://github.com/yoctoyotta1024/CLEO/commit/bd290d5152fa0b80baaa1c1000cece3e4e1e6c56)) - clara.bayley
+- generalise couplingcomms for any gridbox maps - ([0754c4a](https://github.com/yoctoyotta1024/CLEO/commit/0754c4ad4aa6bb26e01b48ab4e54b377e3ad8e65)) - clara.bayley
+- better use auto in examples - ([87f7398](https://github.com/yoctoyotta1024/CLEO/commit/87f7398046d205095a69dc9632aee4e5c3b35877)) - clara.bayley
+- add to bash scripts for Levante the use openmpi compiler wrappers - ([b6d7e14](https://github.com/yoctoyotta1024/CLEO/commit/b6d7e14ee3446f005a7d09b997e51aaf29fdd062)) - clara.bayley
+- added MPI capabilities to all roughpaper programs - ([ad28dc7](https://github.com/yoctoyotta1024/CLEO/commit/ad28dc730788c97cc9a27434801835e55888e13b)) - clara.bayley
+- use new python module - ([dcfa7d2](https://github.com/yoctoyotta1024/CLEO/commit/dcfa7d2da008be34c91e832d7f0891721497ad3a)) - clara.bayley
+- seperate steps in build CI - ([ccb73be](https://github.com/yoctoyotta1024/CLEO/commit/ccb73be05269990243f26a5e0f522f80485120e4)) - clara.bayley
+- use pathlib for Paths properly - ([04b5e73](https://github.com/yoctoyotta1024/CLEO/commit/04b5e7313b05a4589fa8e5bde69b9b39f017f089)) - clara.bayley
+- change levante account in bash scripts - ([52e6ace](https://github.com/yoctoyotta1024/CLEO/commit/52e6ace74b67fb23cf3c6999463ad2f07bc1a5d5)) - clara.bayley
+- format figures - ([e2210ef](https://github.com/yoctoyotta1024/CLEO/commit/e2210efb92cff995b6002e4703d664dc2faa2fe0)) - clara.bayley
+- add zXxXy dimensions in print statement - ([11dc5fe](https://github.com/yoctoyotta1024/CLEO/commit/11dc5fe56174a73098091081eac193687ca9345d)) - clara.bayley
+- set irregular gbx boudndaries - ([78b07aa](https://github.com/yoctoyotta1024/CLEO/commit/78b07aa0d4dea1506cd30f0ccd30b828d549fa11)) - clara.bayley
+- rename example fromfile -> fromfile_irreg - ([2f2550d](https://github.com/yoctoyotta1024/CLEO/commit/2f2550db56a205de2a15d89403589d43925a32f5)) - clara.bayley
+- examples renaming to get rid of bad use of capital letters - ([91af179](https://github.com/yoctoyotta1024/CLEO/commit/91af179a42e223ddbd9ab6cfd1eaa8e494a83ab6)) - clara.bayley
+- improve pre-commit hooks - ([f6d28be](https://github.com/yoctoyotta1024/CLEO/commit/f6d28be779f9b1d7adda960aa353700db344d0f8)) - clara.bayley
+- added check to avoid sequential examples to be run with more than one MPI process - ([219c3c8](https://github.com/yoctoyotta1024/CLEO/commit/219c3c8c9d43e90687ff55afc7f69033c833050c)) - Wilton Jaciel Loch
+- added MPI capabilities to all examples - ([48018c2](https://github.com/yoctoyotta1024/CLEO/commit/48018c22e90219a5246c07405ef1b04f8982b67b)) - Wilton Jaciel Loch
+- added guard to test whether the sequential dataset has been included to allow sequential examples to run normally - ([e2e51d4](https://github.com/yoctoyotta1024/CLEO/commit/e2e51d4b9757f9607798ebc9cdbaa29f279cdd64)) - Wilton Jaciel Loch
+
+- - -
+
+## [v0.27.0](https://github.com/yoctoyotta1024/CLEO/compare/8fe37bd7e095b58363a798381730f706aaace06a..v0.27.0) - 2024-11-08
+#### Features
+- new bash to submit slurm for all examples - ([9443af2](https://github.com/yoctoyotta1024/CLEO/commit/9443af2827dd49936fdd20f224a648f51e823d2b)) - clara.bayley
+- new pysd module to help with creating and ploting initial condition binary files - ([5f3949c](https://github.com/yoctoyotta1024/CLEO/commit/5f3949cc5666a6c7d8a65e92ffa5d7be66716ceb)) - clara.bayley
+#### Miscellaneous Chores
+- formatting - ([49959bd](https://github.com/yoctoyotta1024/CLEO/commit/49959bdbf33654d2b0d79cb9bf94d14f1a82ed72)) - clara.bayley
+#### Refactoring
+- use new python module - ([818bd3b](https://github.com/yoctoyotta1024/CLEO/commit/818bd3b332cc4f593258671eb0a6e8f14d5862ce)) - clara.bayley
+- seperate steps in build CI - ([198df4d](https://github.com/yoctoyotta1024/CLEO/commit/198df4d81f1a5a0c30b8e50e74c6d60b8db165c9)) - clara.bayley
+- use pathlib for Paths properly - ([83bc5dd](https://github.com/yoctoyotta1024/CLEO/commit/83bc5dd57e273da159abfc940f64b491331ad542)) - clara.bayley
+- change levante account in bash scripts - ([8fe37bd](https://github.com/yoctoyotta1024/CLEO/commit/8fe37bd7e095b58363a798381730f706aaace06a)) - clara.bayley
+
+- - -
+
+## [v0.26.0](https://github.com/yoctoyotta1024/CLEO/compare/d720d22535e3698bf5066e31f4d41c4d53cc3faa..v0.26.0) - 2024-09-11
+#### Bug Fixes
+- change executable names in CI - ([642b5e1](https://github.com/yoctoyotta1024/CLEO/commit/642b5e1295447dd610c016b335b1a1169e19f458)) - clara.bayley
+- typo in comment - ([80ecf65](https://github.com/yoctoyotta1024/CLEO/commit/80ecf653d00fe37187461d60d4a3570427f68b6f)) - clara.bayley
+#### Documentation
+- update build and executable names - ([e7d358e](https://github.com/yoctoyotta1024/CLEO/commit/e7d358eb11372aca3dc241c3efd16f436024c64c)) - clara.bayley
+#### Features
+- add fromfile_irreg to build CI check - ([a684930](https://github.com/yoctoyotta1024/CLEO/commit/a684930c01679b1f82fe298d1cea38cf9d7c0ad3)) - clara.bayley
+- add cmake target for formfile_irreg example - ([34786e2](https://github.com/yoctoyotta1024/CLEO/commit/34786e2be179de5c25c33b9be1fc4a5cc1fd6020)) - clara.bayley
+- new example for irregular grid version of fromfile example (for MPI devlopment) - ([3b05380](https://github.com/yoctoyotta1024/CLEO/commit/3b05380b107307c9f371da408fd8ff76359d39cc)) - clara.bayley
+#### Refactoring
+- format figures - ([477b29c](https://github.com/yoctoyotta1024/CLEO/commit/477b29c055ad820802041d93cee1e6c1bc244e49)) - clara.bayley
+- add zXxXy dimensions in print statement - ([3fe2737](https://github.com/yoctoyotta1024/CLEO/commit/3fe273762825810848242e6382db7c1261aacfd0)) - clara.bayley
+- set irregular gbx boudndaries - ([e287cab](https://github.com/yoctoyotta1024/CLEO/commit/e287cabc2b113f84a2f9649b12c69d1889e6d57b)) - clara.bayley
+- rename example fromfile -> fromfile_irreg - ([de332ae](https://github.com/yoctoyotta1024/CLEO/commit/de332ae97bed58d9b7a3d2fa3317161a9eb29612)) - clara.bayley
+- examples renaming to get rid of bad use of capital letters - ([d720d22](https://github.com/yoctoyotta1024/CLEO/commit/d720d22535e3698bf5066e31f4d41c4d53cc3faa)) - clara.bayley
+
+- - -
+
+## [v0.25.1](https://github.com/yoctoyotta1024/CLEO/compare/8cf9fc790d9de7578dd2f2c9bd59bfeeaa3fae7b..v0.25.1) - 2024-09-04
+#### Bug Fixes
+- fix sphinx dependencies after sphinx version 8 - ([54bb0fa](https://github.com/yoctoyotta1024/CLEO/commit/54bb0fa76172579ab0140f084c94aba1109ff4cf)) - clara.bayley
+- Security vulnerability - ([9ab37dc](https://github.com/yoctoyotta1024/CLEO/commit/9ab37dc81f6478a180159fc53e280a7a6b16cf23)) - clara.bayley
+#### Miscellaneous Chores
+- formatting - ([b6210eb](https://github.com/yoctoyotta1024/CLEO/commit/b6210eb2904c7c3f66597e8a7ad3f0299cd01f46)) - clara.bayley
+#### Refactoring
+- improve pre-commit hooks - ([4a854c3](https://github.com/yoctoyotta1024/CLEO/commit/4a854c36ccae0e463ad202238109ccf664c0a6e9)) - clara.bayley
+- move yac_raw_data_to_target_array into receive_yac_field function - ([963774d](https://github.com/yoctoyotta1024/CLEO/commit/963774d02d62a31d19a82db4a9205837069ce900)) - clara.bayley
+- avoid unneccesary use of named variables - ([8cf9fc7](https://github.com/yoctoyotta1024/CLEO/commit/8cf9fc790d9de7578dd2f2c9bd59bfeeaa3fae7b)) - clara.bayley
+
+- - -
+
+## [v0.25.0](https://github.com/yoctoyotta1024/CLEO/compare/55cd54fed2074aa32c44d8398d2437c24e9c8c84..v0.25.0) - 2024-08-18
+#### Bug Fixes
+- correctly slice icon data to account for vertical levels being top down not bottom up - ([981f486](https://github.com/yoctoyotta1024/CLEO/commit/981f486106c9411a8811b731e84dda75f1c92bb5)) - clara.bayley
+- correct ordering of yac_raw_data into target_array for each variable - ([3a111f5](https://github.com/yoctoyotta1024/CLEO/commit/3a111f586417aa28bdbde3588a99d0cefbcc34dc)) - clara.bayley
+- add missin types - ([f598954](https://github.com/yoctoyotta1024/CLEO/commit/f5989545e4354607891629f03baff29c510dbea6)) - clara.bayley
+- minor variable renaming - ([67ca555](https://github.com/yoctoyotta1024/CLEO/commit/67ca5551a047c57abba91d2645f72618e993546d)) - clara.bayley
+- ensure gbxidxs for plotting are ints - ([2e4a1a9](https://github.com/yoctoyotta1024/CLEO/commit/2e4a1a9324c23e83e7cc4e38ca26f09325184900)) - clara.bayley
+- ensure gbxidxs for plotting are ints - ([1ff8812](https://github.com/yoctoyotta1024/CLEO/commit/1ff88120d5cdd98f51631d3d6344e39c1e5477cc)) - clara.bayley
+- use correct grid in tmp run script - ([63e5fe2](https://github.com/yoctoyotta1024/CLEO/commit/63e5fe2fd45e74c88a94027eb173dec76b7ede5c)) - clara.bayley
+- minor bug fixes for typos and naming types for args into script - ([70914cf](https://github.com/yoctoyotta1024/CLEO/commit/70914cf5e55d68c4198f4ec2fc9248815ae206fa)) - clara.bayley
+- don't activate cleoenv during compilation - ([b2f2946](https://github.com/yoctoyotta1024/CLEO/commit/b2f2946ef03fd332d93a81d861375f217aad0a24)) - clara.bayley
+- correct gridfile for bubble - ([dd09574](https://github.com/yoctoyotta1024/CLEO/commit/dd09574b47b6325ffcd3f51a5f302dd3d0fc20a8)) - clara.bayley
+- correct python path for yac - ([55cd54f](https://github.com/yoctoyotta1024/CLEO/commit/55cd54fed2074aa32c44d8398d2437c24e9c8c84)) - clara.bayley
+#### Features
+- chose file  for ICONN data fom arguments passed to python script - ([259ab37](https://github.com/yoctoyotta1024/CLEO/commit/259ab37fc879921a83062df11959b71da8456759)) - clara.bayley
+#### Miscellaneous Chores
+- extend bubble example run time - ([33c9cbb](https://github.com/yoctoyotta1024/CLEO/commit/33c9cbb49d46da54c6fc466e2c4f8c97774e8003)) - clara.bayley
+- formatting - ([bdc10d1](https://github.com/yoctoyotta1024/CLEO/commit/bdc10d14a106ffb4dea3556a59723a2c218e19ff)) - clara.bayley
+- formatting - ([e0c2cae](https://github.com/yoctoyotta1024/CLEO/commit/e0c2cae69e565735898efea7ab4d19340b5a2dcc)) - clara.bayley
+- formatting - ([33c97c9](https://github.com/yoctoyotta1024/CLEO/commit/33c97c9c852511e64827ac805db10718e7f5d535)) - clara.bayley
+- formatting - ([e1df3b3](https://github.com/yoctoyotta1024/CLEO/commit/e1df3b324dbd203a8acaf9e51db376da686abd04)) - clara.bayley
+#### Refactoring
+- bubble with higher resolution settings - ([d5a026c](https://github.com/yoctoyotta1024/CLEO/commit/d5a026c228b1cbbb3ae578b33cc7f5192b3dcfde)) - clara.bayley
+- set good params for bubble example - ([df9f137](https://github.com/yoctoyotta1024/CLEO/commit/df9f1377bc7f66626e10c655a51e98bea1161b47)) - clara.bayley
+- reorganise functionality to remove case switch - ([e74a3f2](https://github.com/yoctoyotta1024/CLEO/commit/e74a3f237fd8411d318e4309957bdcd957df0eb7)) - clara.bayley
+- demand that yac is given max and min longitude and latitude in config params - ([3e67b02](https://github.com/yoctoyotta1024/CLEO/commit/3e67b02ebebdcaa38a8a47c1b7ff2501764e910c)) - clara.bayley
+- change grid for cleo in bubble3d example - ([f1d9d9f](https://github.com/yoctoyotta1024/CLEO/commit/f1d9d9f7a5d884229d34927305aa42d50d686380)) - clara.bayley
+- reorganise tmp run script for clarity - ([e4a2bf7](https://github.com/yoctoyotta1024/CLEO/commit/e4a2bf72c19d4459f2f22ba5182a92cdf57ca7cf)) - clara.bayley
+- make ICON grid name an input variable and aadded print statement - ([cbc9c21](https://github.com/yoctoyotta1024/CLEO/commit/cbc9c212ef8d1dc4a3b5265732b0e3f11881571c)) - clara.bayley
+- make ICON grid name an input variable and aadded print statement - ([7ffa41d](https://github.com/yoctoyotta1024/CLEO/commit/7ffa41d07d6712d6fa4cb49476f815b144b6cb39)) - clara.bayley
+- make yac_bubble_data_reader python script more general + formatting - ([8f8b6bf](https://github.com/yoctoyotta1024/CLEO/commit/8f8b6bf05ec487670a47d43cc9c71a8298239395)) - clara.bayley
+- remove make clean from tmp file - ([dda8571](https://github.com/yoctoyotta1024/CLEO/commit/dda857127c289a240e291f2c19870d3e2102c1d1)) - clara.bayley
+- change obsstep, coupling step and add another superdroplet observer - ([cd7fc9d](https://github.com/yoctoyotta1024/CLEO/commit/cd7fc9dbea79459ac45a25058a2d5664de1cbd8b)) - clara.bayley
+- make yac script compatible with Torus Triangles gridfile - ([ad01628](https://github.com/yoctoyotta1024/CLEO/commit/ad0162814eecf1c25f0b646762c3d9add23cfdb9)) - clara.bayley
+
+- - -
+
+## [v0.24.0](https://github.com/yoctoyotta1024/CLEO/compare/aec716f2a6071ccd05e18c2406c3024d0e092932..v0.24.0) - 2024-08-15
+#### Bug Fixes
+- delete yac_version after moving python bindings into yac folder - ([a5e4bc7](https://github.com/yoctoyotta1024/CLEO/commit/a5e4bc7ef24fe8aeb05f185f6556e87ad2669dd4)) - clara.bayley
+- debugging build ci fail with latest sphinx - ([3a7ea19](https://github.com/yoctoyotta1024/CLEO/commit/3a7ea19816cf672c1d3123eb6ce258bbbac75b87)) - clara.bayley
+- debugging build ci fail with latest sphinx - ([be7706e](https://github.com/yoctoyotta1024/CLEO/commit/be7706eb10885b73e44b3627d6501d0e0a5a99a8)) - clara.bayley
+- debugging build ci fail with latest sphinx - ([b2f9dd5](https://github.com/yoctoyotta1024/CLEO/commit/b2f9dd5baf5a51993d652c72143f4c39fe0c4784)) - clara.bayley
+- docs fix typo - ([7303dc3](https://github.com/yoctoyotta1024/CLEO/commit/7303dc37688079bf0c30032935dd1fb56fd6e8a7)) - clara.bayley
+- bubble tmp bash script working - ([402fe2a](https://github.com/yoctoyotta1024/CLEO/commit/402fe2aedab6857cf8f8f92f39c4cfff09d48db2)) - clara.bayley
+- add note on how to compile without loading cleoenv - ([430bcd5](https://github.com/yoctoyotta1024/CLEO/commit/430bcd5f1921ce8b2632c800bb9886ea8722f64a)) - clara.bayley
+#### Features
+- raw bubble script working - ([53474be](https://github.com/yoctoyotta1024/CLEO/commit/53474bedd202ade5360de0a1fc8c15224ecbb625)) - clara.bayley
+- new explicit bash for debugging bubble run - ([9ec7225](https://github.com/yoctoyotta1024/CLEO/commit/9ec722561d06c86b15aab958dd1337e3e0576fd9)) - clara.bayley
+- add module purge into tmp bash - ([782c997](https://github.com/yoctoyotta1024/CLEO/commit/782c9970c90683cc5cb382b8b5b7f76da27a6fd1)) - clara.bayley
+#### Miscellaneous Chores
+- delet coments - ([d6382e6](https://github.com/yoctoyotta1024/CLEO/commit/d6382e6fe298dfa92aaabcb24caab1fe0745a967)) - clara.bayley
+- delete unwanted comment - ([7657f23](https://github.com/yoctoyotta1024/CLEO/commit/7657f2359542dff96502741205a5fd21abdc808b)) - clara.bayley
+- uncomment yaxt install - ([3ec8d71](https://github.com/yoctoyotta1024/CLEO/commit/3ec8d713362e4d3b8270858230e2fbcc23d58206)) - clara.bayley
+- comment with example of yac install call - ([f872ed7](https://github.com/yoctoyotta1024/CLEO/commit/f872ed7b26b3de48f29a0febfc64af2c099df8c6)) - clara.bayley
+- comment for includes needed to run example with yac - ([58dbab6](https://github.com/yoctoyotta1024/CLEO/commit/58dbab6b30cc5dfa0d491f050b3da8a32fda346e)) - clara.bayley
+#### Refactoring
+- remove verbose bash script in install yac - ([5c2445d](https://github.com/yoctoyotta1024/CLEO/commit/5c2445d645b5058fb8fceaee2311e77c2d7d2f99)) - clara.bayley
+- generalise temporary bubble test script - ([d818018](https://github.com/yoctoyotta1024/CLEO/commit/d8180189cca27ccd27a19922eb21446a5e21a73b)) - clara.bayley
+- all stages of bubble3d in tmp script - ([31fa121](https://github.com/yoctoyotta1024/CLEO/commit/31fa121eea81312edf84608f139354547ec01dd7)) - clara.bayley
+- change source paths for examples - ([bb7df5c](https://github.com/yoctoyotta1024/CLEO/commit/bb7df5ce706f9dfa593c5fb3f468027aa22f384b)) - clara.bayley
+- delete unwanted compiler flags for yac installation - ([e1d6efe](https://github.com/yoctoyotta1024/CLEO/commit/e1d6efeb105f0a5be1320ae70ba1a38c2ea4075c)) - clara.bayley
+- use set in bash script to print commands - ([2b05f9d](https://github.com/yoctoyotta1024/CLEO/commit/2b05f9d2a2fca00ec24cf7c797b089b29b6b85d5)) - clara.bayley
+- enable python bindings in yac build - ([ae26dee](https://github.com/yoctoyotta1024/CLEO/commit/ae26deebfe743152f53f1a6bb4509d54d2e73eab)) - clara.bayley
+- update yac version and pythonpath export - ([aec716f](https://github.com/yoctoyotta1024/CLEO/commit/aec716f2a6071ccd05e18c2406c3024d0e092932)) - clara.bayley
+
+- - -
+
+## [v0.23.2](https://github.com/yoctoyotta1024/CLEO/compare/597b43cbd9bde146c122d8d94ae65b3c3afa9976..v0.23.2) - 2024-07-24
+#### Bug Fixes
+- corrected templating over store of monitoring mass moment xarrays - ([597b43c](https://github.com/yoctoyotta1024/CLEO/commit/597b43cbd9bde146c122d8d94ae65b3c3afa9976)) - clara.bayley
+
+- - -
+
+## [v0.23.1](https://github.com/yoctoyotta1024/CLEO/compare/605b536b4fa564568a92e76cd9cf1915689426ad..v0.23.1) - 2024-07-19
+#### Bug Fixes
+- remove units of totmass_condensed - ([605b536](https://github.com/yoctoyotta1024/CLEO/commit/605b536b4fa564568a92e76cd9cf1915689426ad)) - clara.bayley
+
+- - -
+
+## [v0.23.0](https://github.com/yoctoyotta1024/CLEO/compare/e9c9dad54d10db958df7f024044feef653426644..v0.23.0) - 2024-07-19
+#### Features
+- new monitor to observe massmoments of raindrop size distribution during motion and microphysics - ([23db516](https://github.com/yoctoyotta1024/CLEO/commit/23db5164bdb2126587b95d6f7692a3c5259ab42b)) - clara.bayley
+- new monitors xarrays for writing rain mass moments to dataset - ([0eb00cb](https://github.com/yoctoyotta1024/CLEO/commit/0eb00cbc2aef629f21f659b8d7c7f30e16347348)) - clara.bayley
+- new monitors views for calculating rain mass moments - ([e9c9dad](https://github.com/yoctoyotta1024/CLEO/commit/e9c9dad54d10db958df7f024044feef653426644)) - clara.bayley
+#### Refactoring
+- use new observer in roughpaper src main for example - ([7f587cb](https://github.com/yoctoyotta1024/CLEO/commit/7f587cbb93a7d1aca6c2f2f9fec568fed5b4841f)) - clara.bayley
+- template over xarray type for monitoring mass moments - ([01dfd13](https://github.com/yoctoyotta1024/CLEO/commit/01dfd139f1da9b22e0634192d03b32837fd3c7f2)) - clara.bayley
+
+- - -
+
+## [v0.22.0](https://github.com/yoctoyotta1024/CLEO/compare/e80b45263ba73cbf0f933714d45bea13d35dd487..v0.22.0) - 2024-07-09
+#### Continuous Integration
+- removing now inexistent yac examples - ([be38da0](https://github.com/yoctoyotta1024/CLEO/commit/be38da091294569f5ee2e2810f8be926a4576b76)) - wiltonloch
+#### Features
+- files created for running bubble3d example through python scripts like for other examples - ([15aff21](https://github.com/yoctoyotta1024/CLEO/commit/15aff211e90112d95de69b71b5f43689f0314a32)) - clara.bayley
+#### Miscellaneous Chores
+- restore fromfile example's CMakeLists.txt - ([96e3dd0](https://github.com/yoctoyotta1024/CLEO/commit/96e3dd0f5666d98c08767a71a0feaf4d1925f3b9)) - clara.bayley
+- restore fromfile example - ([0cd1722](https://github.com/yoctoyotta1024/CLEO/commit/0cd17222e8c85b2236056042f5f8e8c15351b7bc)) - clara.bayley
+- update todo note - ([9ebee4d](https://github.com/yoctoyotta1024/CLEO/commit/9ebee4d45edac8c916016727d8bbf595725c4a8e)) - clara.bayley
+- rename file for consistency - ([2fe57d6](https://github.com/yoctoyotta1024/CLEO/commit/2fe57d65a94e92baaed9a6b391a4aa9564613862)) - clara.bayley
+- delete unused files - ([ebe4583](https://github.com/yoctoyotta1024/CLEO/commit/ebe4583ee8faff13ff966a8a491810daa24e3a83)) - clara.bayley
+- format header - ([7f33833](https://github.com/yoctoyotta1024/CLEO/commit/7f33833e7f0df6173d0c380e7c78ca1797c204df)) - clara.bayley
+- format header - ([f566239](https://github.com/yoctoyotta1024/CLEO/commit/f566239aaa6a00d4179d74383ae313b80155f38b)) - clara.bayley
+- delete already deleted subdir from cmake - ([cdd81bc](https://github.com/yoctoyotta1024/CLEO/commit/cdd81bc70d681485611459a6a25229c74982f7d7)) - clara.bayley
+- rename executable to be consistent with other examples - ([7d10046](https://github.com/yoctoyotta1024/CLEO/commit/7d1004679fb419da7b4cc505d7a0c2cd8bc53a00)) - clara.bayley
+- rename bubble_3d to bubble3d to be consistent with other examples - ([026e9d2](https://github.com/yoctoyotta1024/CLEO/commit/026e9d2e2cec7682a3d6797828b6d7ef0c8aedf5)) - clara.bayley
+- simplified yac example folder and renamed it to bubble_3d - ([8dc0692](https://github.com/yoctoyotta1024/CLEO/commit/8dc069248316a8ea3a727d25c0cce8a6a11055e6)) - wiltonloch
+- removed all yac mentions in the fromfile example - ([8677e3c](https://github.com/yoctoyotta1024/CLEO/commit/8677e3c565d27bf5022a95b0e4f971f3edfc8371)) - wiltonloch
+- moved fromfile example from inside yac to dedicated example folder - ([5198220](https://github.com/yoctoyotta1024/CLEO/commit/5198220f1b47ebf747490d1dd9d458532ef9828a)) - wiltonloch
+- removed yac divfreemotion stale example - ([e80b452](https://github.com/yoctoyotta1024/CLEO/commit/e80b45263ba73cbf0f933714d45bea13d35dd487)) - wiltonloch
+#### Refactoring
+- add fromfile to CI builds - ([0fb1168](https://github.com/yoctoyotta1024/CLEO/commit/0fb11680293af85a5b91a32f17b5c70326230fba)) - clara.bayley
+- delete unwanted example of fromfile 3d dynamics - ([ea9176d](https://github.com/yoctoyotta1024/CLEO/commit/ea9176dd40f75648bfec941d47d49356f3927bb0)) - clara.bayley
+
+- - -
+
 ## [v0.21.0](https://github.com/yoctoyotta1024/CLEO/compare/d8908a94f520210b94193916644dceb2d7c1ac76..v0.21.0) - 2024-06-27
 #### Bug Fixes
 - fixed coupling dimension order and added enum labels for indexing - ([1dcb012](https://github.com/yoctoyotta1024/CLEO/commit/1dcb012192b3931db1da5b9dca9fdffcb520d1e9)) - wiltonloch

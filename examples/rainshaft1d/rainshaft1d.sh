@@ -8,7 +8,7 @@
 #SBATCH --time=00:10:00
 #SBATCH --mail-user=clara.bayley@mpimet.mpg.de
 #SBATCH --mail-type=FAIL
-#SBATCH --account=mh1126
+#SBATCH --account=bm1183
 #SBATCH --output=./rain1d_out.%j.out
 #SBATCH --error=./rain1d_err.%j.out
 
@@ -19,9 +19,9 @@
 ### ---------------------------------------------------- ###
 buildtype="cuda"
 path2CLEO=${HOME}/CLEO/
-path2build=${HOME}/CLEO/build_rshaft1D/
+path2build=${HOME}/CLEO/build_rshaft1d/
 enableyac=false
-executables="rshaft1D"
+executables="rshaft1d"
 
 pythonscript=${path2CLEO}/examples/rainshaft1d/rainshaft1d.py
 configfile=${path2CLEO}/examples/rainshaft1d/src/config/rain1d_config.yaml

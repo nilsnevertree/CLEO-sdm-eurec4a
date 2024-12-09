@@ -8,7 +8,7 @@
 #SBATCH --time=00:30:00
 #SBATCH --mail-user=clara.bayley@mpimet.mpg.de
 #SBATCH --mail-type=FAIL
-#SBATCH --account=mh1126
+#SBATCH --account=bm1183
 #SBATCH --output=./speedtest_out.%j.out
 #SBATCH --error=./speedtest_err.%j.out
 
@@ -19,6 +19,7 @@
 ### ---------------------------------------------------- ###
 path2CLEO=${HOME}/CLEO/
 path2build=${HOME}/CLEO/build_spdtest/
+path2kokkostools=/work/bm1183/m300950/kokkos_tools_lib/lib64/
 enableyac=false
 executables="spdtest"
 
@@ -36,7 +37,7 @@ mkdir ${path2build}/bin
 buildtypes=("cuda" "openmp" "serial")
 for buildtype in "${buildtypes[@]}"
 do
-  script_args="${configfile} ${path2build}/bin/ ${buildtype}"
+  script_args="${configfile} ${path2build}/bin/ ${path2kokkostools} ${buildtype}"
   path2build_test=${path2build}${buildtype}"/"
 
   echo "build type: ${buildtype}"

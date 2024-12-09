@@ -5,10 +5,10 @@
 #SBATCH --gpus=4
 #SBATCH --ntasks-per-node=128
 #SBATCH --mem=30G
-#SBATCH --time=00:05:00
+#SBATCH --time=00:10:00
 #SBATCH --mail-user=clara.bayley@mpimet.mpg.de
 #SBATCH --mail-type=FAIL
-#SBATCH --account=mh1126
+#SBATCH --account=bm1183
 #SBATCH --output=./const2d_out.%j.out
 #SBATCH --error=./const2d_err.%j.out
 
@@ -20,9 +20,9 @@
 ### ---------------------------------------------------- ###
 buildtype="cuda"
 path2CLEO=${HOME}/CLEO/
-path2build=${HOME}/CLEO/build_const2D/
+path2build=${HOME}/CLEO/build_const2d/
 enableyac=false
-executables="const2D"
+executables="const2d"
 
 pythonscript=${path2CLEO}/examples/constthermo2d/constthermo2d.py
 configfile=${path2CLEO}/examples/constthermo2d/src/config/const2d_config.yaml

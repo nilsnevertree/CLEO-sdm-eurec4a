@@ -21,17 +21,17 @@ File Description:
 import numpy as np
 import matplotlib.pyplot as plt
 
-from .create_initsuperdrops import initSDsinputsdict, ManyAttrs
+from .create_initsuperdrops import initsupers_inputsdict, ManyAttrs
 from ..readbinary import readbinary
 from ..gbxboundariesbinary_src.read_gbxboundaries import get_gbxvols_from_gridfile
 
 
 def plot_initGBxs_distribs(
-    configfile,
-    constsfile,
-    initsupersfile,
-    gridfile,
-    binpath,
+    config_filename,
+    constants_filename,
+    initsupers_filename,
+    grid_filename,
+    savefigpath,
     savefig,
     gbxs2plt,
     savelabel="",
@@ -40,34 +40,37 @@ def plot_initGBxs_distribs(
     of every gridbox with index in gbx2plts"""
 
     plot_initGBxs_attrdistribs(
-        configfile,
-        constsfile,
-        initsupersfile,
-        gridfile,
-        binpath,
+        config_filename,
+        constants_filename,
+        initsupers_filename,
+        grid_filename,
+        savefigpath,
         savefig,
         gbxs2plt,
         savelabel,
     )
     plot_initGBxs_dropletmasses(
-        configfile,
-        constsfile,
-        initsupersfile,
-        gridfile,
-        binpath,
+        config_filename,
+        constants_filename,
+        initsupers_filename,
+        grid_filename,
+        savefigpath,
         savefig,
         gbxs2plt,
         savelabel,
     )
+    plt.close()
 
 
-def get_superdroplet_attributes(configfile, constsfile, initsupersfile):
+def get_superdroplet_attributes(
+    config_filename, constants_filename, initsupers_filename
+):
     """get gridbox boundaries from binary file and
-    re-dimensionalise usign COORD0 const from constsfile"""
+    re-dimensionalise usign COORD0 const from constants_filename"""
 
-    inputs = initSDsinputsdict(configfile, constsfile)
+    inputs = initsupers_inputsdict(config_filename, constants_filename)
 
-    attrs = read_dimless_superdrops_binary(initsupersfile, isprint=False)
+    attrs = read_dimless_superdrops_binary(initsupers_filename, isprint=False)
 
     # re-dimensionalise SD attributes
     attrs.radius = attrs.radius * inputs["R0"]
@@ -122,12 +125,18 @@ def totmass(radius, msol, RHO_L, RHO_SOL):
     return totmass
 
 
-def print_initSDs_infos(initSDsfile, configfile, constsfile, gridfile):
+def print_initsupers_infos(
+    initsupers_filename, config_filename, constants_filename, grid_filename
+):
     gbxvols = np.asarray(
-        get_gbxvols_from_gridfile(gridfile, constsfile=constsfile, isprint=False)
+        get_gbxvols_from_gridfile(
+            grid_filename, constants_filename=constants_filename, isprint=False
+        )
     )
 
-    attrs = get_superdroplet_attributes(configfile, constsfile, initSDsfile)
+    attrs = get_superdroplet_attributes(
+        config_filename, constants_filename, initsupers_filename
+    )
 
     xi = attrs.xi.flatten()
     vol = np.sum(gbxvols)
@@ -176,11 +185,11 @@ def plot_initdistribs(attrs, gbxvols, gbxidxs):
 
 
 def plot_initGBxs_attrdistribs(
-    configfile,
-    constsfile,
-    initsupersfile,
-    gridfile,
-    binpath,
+    config_filename,
+    constants_filename,
+    initsupers_filename,
+    grid_filename,
+    savefigpath,
     savefig,
     gbxs2plt,
     savelabel,
@@ -188,25 +197,30 @@ def plot_initGBxs_attrdistribs(
     """plot initial superdroplet distribution from initsupersfile binary
     of every gridbox with index in gbx2plts"""
 
-    gbxvols = get_gbxvols_from_gridfile(gridfile, constsfile=constsfile, isprint=False)
-    attrs = get_superdroplet_attributes(configfile, constsfile, initsupersfile)
+    gbxvols = get_gbxvols_from_gridfile(
+        grid_filename, constants_filename=constants_filename, isprint=False
+    )
+    attrs = get_superdroplet_attributes(
+        config_filename, constants_filename, initsupers_filename
+    )
 
     if isinstance(gbxs2plt, int):
         gbxidxs = [gbxs2plt]
-        savename = binpath + "initGBx" + str(gbxs2plt) + "_distrib" + savelabel + ".png"
+        savename = "initGBx" + str(gbxs2plt) + "_distrib" + savelabel + ".png"
     elif gbxs2plt == "all":
         gbxidxs = np.unique(attrs.sdgbxindex)
-        savename = binpath + "initallGBxs_distribs" + savelabel + ".png"
+        savename = "initallGBxs_distribs" + savelabel + ".png"
     else:
-        gbxidxs = gbxs2plt
-        savename = binpath + "initGBxs_distribs" + savelabel + ".png"
+        gbxidxs = [int(g) for g in gbxs2plt]
+        savename = "initGBxs_distribs" + savelabel + ".png"
 
     fig, axs, lines = plot_initdistribs(attrs, gbxvols, gbxidxs)
 
     fig.tight_layout()
     if savefig:
+        savename = savefigpath / savename
         fig.savefig(savename, dpi=400, bbox_inches="tight", facecolor="w", format="png")
-        print("Figure .png saved as: " + savename)
+        print("Figure .png saved as: " + str(savename))
     plt.show()
 
 
@@ -377,11 +391,11 @@ def plot_coorddist(ax, hedgs, coord3, radius, coordnum):
 
 
 def plot_initGBxs_dropletmasses(
-    configfile,
-    constsfile,
-    initsupersfile,
-    gridfile,
-    binpath,
+    config_filename,
+    constants_filename,
+    initsupers_filename,
+    grid_filename,
+    savefigpath,
     savefig,
     gbxs2plt,
     savelabel,
@@ -390,21 +404,23 @@ def plot_initGBxs_dropletmasses(
     from initsupersfile binary of every gridbox with index
     in gbx2plts"""
 
-    gbxvols = get_gbxvols_from_gridfile(gridfile, constsfile=constsfile, isprint=False)
-    attrs = get_superdroplet_attributes(configfile, constsfile, initsupersfile)
-    inputs = initSDsinputsdict(configfile, constsfile)
+    gbxvols = get_gbxvols_from_gridfile(
+        grid_filename, constants_filename=constants_filename, isprint=False
+    )
+    attrs = get_superdroplet_attributes(
+        config_filename, constants_filename, initsupers_filename
+    )
+    inputs = initsupers_inputsdict(config_filename, constants_filename)
 
     if isinstance(gbxs2plt, int):
         gbxidxs = [gbxs2plt]
-        savename = (
-            binpath + "initGBx" + str(gbxs2plt) + "_dropletmasses" + savelabel + ".png"
-        )
+        savename = "initGBx" + str(gbxs2plt) + "_dropletmasses" + savelabel + ".png"
     elif gbxs2plt == "all":
         gbxidxs = np.unique(attrs.sdgbxindex)
-        savename = binpath + "initallGBxs_dropletmasses" + savelabel + ".png"
+        savename = "initallGBxs_dropletmasses" + savelabel + ".png"
     else:
-        gbxidxs = gbxs2plt
-        savename = binpath + "initGBxs_dropletmasses" + savelabel + ".png"
+        gbxidxs = [int(g) for g in gbxs2plt]
+        savename = "initGBxs_dropletmasses" + savelabel + ".png"
 
     fig, axs, lines = plot_massdistribs(
         attrs, gbxvols, gbxidxs, inputs["RHO_L"], inputs["RHO_SOL"]
@@ -412,8 +428,9 @@ def plot_initGBxs_dropletmasses(
 
     fig.tight_layout()
     if savefig:
+        savename = savefigpath / savename
         fig.savefig(savename, dpi=400, bbox_inches="tight", facecolor="w", format="png")
-        print("Figure .png saved as: " + savename)
+        print("Figure .png saved as: " + str(savename))
     plt.show()
 
 

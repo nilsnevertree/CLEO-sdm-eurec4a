@@ -9,7 +9,7 @@
  * Author: Clara Bayley (CB)
  * Additional Contributors:
  * -----
- * Last Modified: Friday 21st June 2024
+ * Last Modified: Friday 19th July 2024
  * Modified By: CB
  * -----
  * License: BSD 3-Clause "New" or "Revised" License
@@ -30,6 +30,7 @@
 #include <stdexcept>
 #include <string_view>
 
+#include "zarr/dataset.hpp"
 #include "cartesiandomain/add_supers_at_domain_top.hpp"
 #include "cartesiandomain/cartesianmaps.hpp"
 #include "cartesiandomain/cartesianmotion.hpp"
@@ -49,7 +50,6 @@
 #include "observers/massmoments_observer.hpp"
 #include "observers/nsupers_observer.hpp"
 #include "observers/observers.hpp"
-#include "observers/runstats_observer.hpp"
 #include "observers/sdmmonitor/monitor_condensation_observer.hpp"
 #include "observers/sdmmonitor/monitor_massmoments_observer.hpp"
 #include "observers/state_observer.hpp"
@@ -74,13 +74,12 @@
 #include "superdrops/microphysicalprocess.hpp"
 #include "superdrops/motion.hpp"
 #include "superdrops/terminalvelocity.hpp"
-#include "zarr/dataset.hpp"
 #include "zarr/fsstore.hpp"
 
 inline CoupledDynamics auto create_coupldyn(const Config &config, const CartesianMaps &gbxmaps,
                                             const unsigned int couplstep,
                                             const unsigned int t_end) {
-  const auto h_ndims(gbxmaps.ndims_hostcopy());
+  const auto h_ndims = gbxmaps.get_ndims_hostcopy();
   const std::array<size_t, 3> ndims({h_ndims(0), h_ndims(1), h_ndims(2)});
 
   const auto nsteps = (unsigned int)(std::ceil(t_end / couplstep) + 1);
@@ -88,10 +87,10 @@ inline CoupledDynamics auto create_coupldyn(const Config &config, const Cartesia
   return FromFileDynamics(config.get_fromfiledynamics(), couplstep, ndims, nsteps);
 }
 
-inline InitialConditions auto create_initconds(const Config &config) {
-  // const InitAllSupersFromBinary initsupers(config.get_initsupersfrombinary());
-  const InitSupersFromBinary initsupers(config.get_initsupersfrombinary());
-  const InitGbxsNull initgbxs(config.get_ngbxs());
+inline InitialConditions auto create_initconds(const Config &config, const CartesianMaps &gbxmaps) {
+  // const auto initsupers = InitAllSupersFromBinary(config.get_initsupersfrombinary());
+  const auto initsupers = InitSupersFromBinary(config.get_initsupersfrombinary(), gbxmaps);
+  const auto initgbxs = InitGbxsNull(config.get_ngbxs());
 
   return InitConds(initsupers, initgbxs);
 }
@@ -209,8 +208,10 @@ inline Observer auto create_sdmmonitor_observer(const unsigned int interval,
                                                 const size_t ngbxs) {
   const Observer auto obs_cond = MonitorCondensationObserver(interval, dataset, maxchunk, ngbxs);
   const Observer auto obs_massmoms = MonitorMassMomentsObserver(interval, dataset, maxchunk, ngbxs);
+  const Observer auto obs_rainmassmoms =
+      MonitorRainMassMomentsObserver(interval, dataset, maxchunk, ngbxs);
 
-  return obs_cond >> obs_massmoms;
+  return obs_cond >> obs_massmoms >> obs_rainmassmoms;
 }
 
 template <typename Store>
@@ -220,19 +221,17 @@ inline Observer auto create_observer(const Config &config, const Timesteps &tste
   const auto maxchunk = config.get_maxchunk();
   const auto ngbxs = config.get_ngbxs();
 
-  const Observer auto obs0 = RunStatsObserver(obsstep, config.get_stats_filename());
+  const Observer auto obs0 = StreamOutObserver(obsstep, &step2realtime);
 
-  const Observer auto obs1 = StreamOutObserver(obsstep, &step2realtime);
+  const Observer auto obs1 = TimeObserver(obsstep, dataset, maxchunk, &step2dimlesstime);
 
-  const Observer auto obs2 = TimeObserver(obsstep, dataset, maxchunk, &step2dimlesstime);
+  const Observer auto obs2 = GbxindexObserver(dataset, maxchunk, ngbxs);
 
-  const Observer auto obs3 = GbxindexObserver(dataset, maxchunk, ngbxs);
+  const Observer auto obs3 = TotNsupersObserver(obsstep, dataset, maxchunk);
 
-  const Observer auto obs4 = TotNsupersObserver(obsstep, dataset, maxchunk);
+  const Observer auto obs4 = MassMomentsObserver(obsstep, dataset, maxchunk, ngbxs);
 
-  const Observer auto obs5 = MassMomentsObserver(obsstep, dataset, maxchunk, ngbxs);
-
-  const Observer auto obs6 = MassMomentsRaindropsObserver(obsstep, dataset, maxchunk, ngbxs);
+  const Observer auto obs5 = MassMomentsRaindropsObserver(obsstep, dataset, maxchunk, ngbxs);
 
   const Observer auto obsgbx = create_gridboxes_observer(obsstep, dataset, maxchunk, ngbxs);
 
@@ -240,7 +239,7 @@ inline Observer auto create_observer(const Config &config, const Timesteps &tste
 
   const Observer auto obsm = create_sdmmonitor_observer(obsstep, dataset, maxchunk, ngbxs);
 
-  return obsm >> obssd >> obsgbx >> obs6 >> obs5 >> obs4 >> obs3 >> obs2 >> obs1 >> obs0;
+  return obsm >> obssd >> obsgbx >> obs5 >> obs4 >> obs3 >> obs2 >> obs1 >> obs0;
 }
 
 template <typename Store>

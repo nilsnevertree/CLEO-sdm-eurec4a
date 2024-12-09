@@ -8,7 +8,7 @@
 #SBATCH --time=00:30:00
 #SBATCH --mail-user=clara.bayley@mpimet.mpg.de
 #SBATCH --mail-type=FAIL
-#SBATCH --account=mh1126
+#SBATCH --account=bm1183
 #SBATCH --output=./run_cleocoupledsdm_out.%j.out
 #SBATCH --error=./run_cleocoupledsdm_err.%j.out
 
@@ -20,8 +20,6 @@
 ### ----- You need to edit these lines to specify ------ ###
 ### ----- (your environment and) directory paths ------- ###
 ### ------------ and executable to compile ------------- ###
-
-cleoenv=/work/mh1126/m300950/cleoenv
 buildtype=$1
 path2CLEO=${2:-${HOME}/CLEO}
 path2build=${3:-${path2CLEO}/build} # get from command line argument
@@ -33,7 +31,7 @@ run_executable=${path2build}/roughpaper/src/${executable}
 
 ### ----------------- compile executable --------------- ###
 rm ${run_executable}
-compilecmd="${path2CLEO}/scripts/bash/compile_cleo.sh ${cleoenv} ${buildtype} ${path2build} ${executable}"
+compilecmd="${path2CLEO}/scripts/bash/compile_cleo.sh ${buildtype} ${path2build} ${executable}"
 echo ${compilecmd}
 ${compilecmd}
 ### ---------------------------------------------------- ###

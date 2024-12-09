@@ -19,7 +19,6 @@ functions to create 1D or 2D animations
 of some output from CLEO e.g. mass moments
 """
 
-
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
