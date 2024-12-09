@@ -205,9 +205,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../../intro/background.html">Background to the Super-Droplet Model (SDM)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../intro/motivation.html">Motivation for CLEO</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../intro/memorylayout.html">Memory Layout</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../intro/monoids.html">Monoids</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../intro/coupling.html">Coupling to Dynamics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../intro/timestepping.html">Timestepping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../intro/coupling.html">Coupling to Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../intro/monoids.html">Monoids</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../intro/kokkos.html">Kokkos Thread Parallelism</a></li>
 </ul>
 </li>
@@ -305,7 +305,6 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href="../observers/observersmod.html">Observers Module</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle navigation of Observers Module</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../observers/observers.html">Observers</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../observers/streamout_observer.html">StreamOut Observer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../observers/runstats_observer.html">RunStatsObserver</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../observers/consttstep_observer.html">Constant Time Step Observers</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../observers/write_to_dataset_observer.html">Template for Observer to Write To Dataset</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../observers/parallel_write_data.html">Parallel Write Data</a></li>
@@ -453,6 +452,17 @@
 <span id="_CPPv313GenRandomPool"></span><span id="_CPPv213GenRandomPool"></span><span class="target" id="kokkosaliases__sd_8hpp_1a03e45e8988cca6ad6f0a17792f161d90"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GenRandomPool</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">Kokkos</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Random_XorShift64_Pool</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv49ExecSpace" title="ExecSpace"><span class="n"><span class="pre">ExecSpace</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv413GenRandomPool" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Thread-safe random number generation. </p>
 <p>Defines an alias for a pool of Kokkos random number generators in the execution space. </p>
+</dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv417viewd_constcoords">
+<span id="_CPPv317viewd_constcoords"></span><span id="_CPPv217viewd_constcoords"></span><span class="target" id="kokkosaliases__sd_8hpp_1a40179e415dc7af7aeda58ea5cdca1a26"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">viewd_constcoords</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">Kokkos</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">View</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv417viewd_constcoords" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv412viewd_coords">
+<span id="_CPPv312viewd_coords"></span><span id="_CPPv212viewd_coords"></span><span class="target" id="kokkosaliases__sd_8hpp_1a4ca3a4f52bb07db7f1f3144e5d1d37d7"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">viewd_coords</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">Kokkos</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">View</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv412viewd_coords" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Helper type for view in device memory for superdroplet coords: (coord3, coord1, coord2). </p>
 </dd></dl>
 
 </div>

@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Monoids" href="monoids.html" /><link rel="prev" title="Motivation for CLEO" href="motivation.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Timestepping" href="timestepping.html" /><link rel="prev" title="Motivation for CLEO" href="motivation.html" />
 
     <!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
         <title>Memory Layout - CLEO 0.1.0 documentation</title>
@@ -205,9 +205,9 @@
 <li class="toctree-l2"><a class="reference internal" href="background.html">Background to the Super-Droplet Model (SDM)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="motivation.html">Motivation for CLEO</a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Memory Layout</a></li>
-<li class="toctree-l2"><a class="reference internal" href="monoids.html">Monoids</a></li>
-<li class="toctree-l2"><a class="reference internal" href="coupling.html">Coupling to Dynamics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="timestepping.html">Timestepping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="coupling.html">Coupling to Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="monoids.html">Monoids</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kokkos.html">Kokkos Thread Parallelism</a></li>
 </ul>
 </li>
@@ -305,7 +305,6 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href="../cxx/observers/observersmod.html">Observers Module</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle navigation of Observers Module</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../cxx/observers/observers.html">Observers</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../cxx/observers/streamout_observer.html">StreamOut Observer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../cxx/observers/runstats_observer.html">RunStatsObserver</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../cxx/observers/consttstep_observer.html">Constant Time Step Observers</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../cxx/observers/write_to_dataset_observer.html">Template for Observer to Write To Dataset</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../cxx/observers/parallel_write_data.html">Parallel Write Data</a></li>
@@ -378,7 +377,50 @@
         <article role="main" id="furo-main-content">
           <section id="memory-layout">
 <h1>Memory Layout<a class="headerlink" href="#memory-layout" title="Permalink to this heading">¶</a></h1>
-<p>The structure of CLEO… comming soon!</p>
+<p>The key structures which compose CLEO and their memory layout are shown schematically below.</p>
+<figure class="align-center">
+<img alt="Schematic for CLEO's memory layout part 1" src="../_images/cleomemlayout1.png" />
+</figure>
+<figure class="align-center" id="id1">
+<img alt="Schematic for CLEO's memory layout part 2" src="../_images/cleomemlayout2.png" />
+<figcaption>
+<p><span class="caption-text">A schematic for memory layout of CLEO’s key structures. The superdroplets follow on
+in the bottom panel from the right-hand side of the figure above.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>Each node of a computer allocated to the program contains a portion of the simulated domain
+that is composed of gridboxes. The gridboxes exist in a contigous block of memory (managed
+by a Kokkos view-like type) and each gridbox exchanges information about its dynamical
+state (thermodynamics and wind velocity) with “Dynamics-Solver” via a “Coupler”. The “Dynamics-Solver”
+and “Coupler” are abstract ideas (i.e. they are C++ concepts for constraining templated types), but
+get instantiated at compilation, for example as <a class="reference external" href="https://www.icon-model.org">ICON</a> and
+<a class="reference external" href="https://dkrz-sw.gitlab-pages.dkrz.de/yac/index.html">YAC</a> respectively.</p>
+<p>Each gridbox is composed of certain elements:</p>
+<figure class="align-center" id="id2">
+<img alt="Schematic showing the elements of a gridbox in CLEO" src="../_images/gridbox.png" />
+<figcaption>
+<p><span class="caption-text">Schematic showing the elements of a gridbox in CLEO</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>For reasons of computational efficiency, superdroplets are not stored within gridboxes. Instead all
+the superdroplets whose positions lie within the portion of the domain on that node at a given timestep
+are stored in another distinct contigous block of memory (also managed by a
+Kokkos view-like type) and that block is ordered by the gridbox each superdroplet is associated with
+(i.e. the superdroplets are ordered based on their location in the domain). Each gridbox then
+contains a pointer-like object which identifies another contigous block of memory,
+seperate from the gridboxes, that contains the superdroplets associated with that particular gridbox
+at a given timestep.</p>
+<p>Every superdroplet has spatial coordinates and an index which identifies which gridbox those
+coordinates lie within. Furthermore the superdroplet has attributes which defines what “real”
+droplet it represents (e.g. the superdroplet may have the attributes to define its radius and
+multiplicity). Additionally, to aid analysis involving Lagrangian particle tracking, each superdroplet
+can optionally be given a unique identifier. This is illustrated in the schematic below.</p>
+<figure class="align-center" id="id3">
+<img alt="Schematic showing the elements of a superdroplet in CLEO" src="../_images/superdroplet.png" />
+<figcaption>
+<p><span class="caption-text">Schematic showing the elements of a superdroplet in CLEO</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
 </section>
 
         </article>
@@ -386,12 +428,12 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="monoids.html">
+          <a class="next-page" href="timestepping.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Monoids</div>
+                <div class="title">Timestepping</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>

@@ -205,9 +205,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../intro/background.html">Background to the Super-Droplet Model (SDM)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../intro/motivation.html">Motivation for CLEO</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../intro/memorylayout.html">Memory Layout</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../intro/monoids.html">Monoids</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../intro/coupling.html">Coupling to Dynamics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../intro/timestepping.html">Timestepping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/coupling.html">Coupling to Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/monoids.html">Monoids</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../intro/kokkos.html">Kokkos Thread Parallelism</a></li>
 </ul>
 </li>
@@ -305,7 +305,6 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href="../cxx/observers/observersmod.html">Observers Module</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle navigation of Observers Module</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../cxx/observers/observers.html">Observers</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../cxx/observers/streamout_observer.html">StreamOut Observer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../cxx/observers/runstats_observer.html">RunStatsObserver</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../cxx/observers/consttstep_observer.html">Constant Time Step Observers</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../cxx/observers/write_to_dataset_observer.html">Template for Observer to Write To Dataset</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../cxx/observers/parallel_write_data.html">Parallel Write Data</a></li>
@@ -386,8 +385,8 @@ some extra paths in the bash and Python scripts.</p>
 </div>
 <p>Everything will also be much easier for you if you set up and use an environment with the packages
 we suggest in our environment.yml file, e.g. using Conda:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>--file<span class="o">=</span>environment.yml
-<span class="gp">$ </span>conda<span class="w"> </span>activate<span class="w"> </span>cleoenv
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>micromamba<span class="w"> </span>create<span class="w"> </span>--file<span class="o">=</span>environment.yml
+<span class="gp">$ </span>micromamba<span class="w"> </span>activate<span class="w"> </span>cleoenv
 </pre></div>
 </div>
 <p>Finally we suggest you use pre-commit. You can install our hooks via:</p>

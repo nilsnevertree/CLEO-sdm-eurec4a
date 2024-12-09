@@ -204,9 +204,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../intro/background.html">Background to the Super-Droplet Model (SDM)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../intro/motivation.html">Motivation for CLEO</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../intro/memorylayout.html">Memory Layout</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../intro/monoids.html">Monoids</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../intro/coupling.html">Coupling to Dynamics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../intro/timestepping.html">Timestepping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../intro/coupling.html">Coupling to Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../intro/monoids.html">Monoids</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../intro/kokkos.html">Kokkos Thread Parallelism</a></li>
 </ul>
 </li>
@@ -304,7 +304,6 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../cxx/observers/observersmod.html">Observers Module</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle navigation of Observers Module</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../cxx/observers/observers.html">Observers</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../cxx/observers/streamout_observer.html">StreamOut Observer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../cxx/observers/runstats_observer.html">RunStatsObserver</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../cxx/observers/consttstep_observer.html">Constant Time Step Observers</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../cxx/observers/write_to_dataset_observer.html">Template for Observer to Write To Dataset</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../cxx/observers/parallel_write_data.html">Parallel Write Data</a></li>
@@ -395,11 +394,11 @@
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">cxx2py</span><span class="p">,</span> <span class="n">writebinary</span>
 
 
-<div class="viewcode-block" id="get_COORD0_from_constsfile"><a class="viewcode-back" href="../../../pySD/gbxboundariesbinary_src/create_gbxboundaries.html#pySD.gbxboundariesbinary_src.create_gbxboundaries.get_COORD0_from_constsfile">[docs]</a><span class="k">def</span> <span class="nf">get_COORD0_from_constsfile</span><span class="p">(</span><span class="n">constsfile</span><span class="p">,</span> <span class="n">returnconsts</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="get_COORD0_from_constsfile"><a class="viewcode-back" href="../../../pySD/gbxboundariesbinary_src/create_gbxboundaries.html#pySD.gbxboundariesbinary_src.create_gbxboundaries.get_COORD0_from_constsfile">[docs]</a><span class="k">def</span> <span class="nf">get_COORD0_from_constsfile</span><span class="p">(</span><span class="n">constants_filename</span><span class="p">,</span> <span class="n">returnconsts</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;create values from constants file required as inputs to create initial</span>
 <span class="sd">    superdroplet conditions&quot;&quot;&quot;</span>
 
-    <span class="n">consts</span> <span class="o">=</span> <span class="n">cxx2py</span><span class="o">.</span><span class="n">read_cxxconsts_into_floats</span><span class="p">(</span><span class="n">constsfile</span><span class="p">)</span>
+    <span class="n">consts</span> <span class="o">=</span> <span class="n">cxx2py</span><span class="o">.</span><span class="n">read_cxxconsts_into_floats</span><span class="p">(</span><span class="n">constants_filename</span><span class="p">)</span>
     <span class="n">COORD0</span> <span class="o">=</span> <span class="n">consts</span><span class="p">[</span><span class="s2">&quot;TIME0&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">consts</span><span class="p">[</span><span class="s2">&quot;W0&quot;</span><span class="p">]</span>
 
     <span class="k">if</span> <span class="n">returnconsts</span><span class="p">:</span>
@@ -530,24 +529,34 @@
     <span class="k">return</span> <span class="n">datalist</span><span class="p">,</span> <span class="n">datatypes</span></div>
 
 
-<div class="viewcode-block" id="write_gridboxboundaries_binary"><a class="viewcode-back" href="../../../pySD/gbxboundariesbinary_src/create_gbxboundaries.html#pySD.gbxboundariesbinary_src.create_gbxboundaries.write_gridboxboundaries_binary">[docs]</a><span class="k">def</span> <span class="nf">write_gridboxboundaries_binary</span><span class="p">(</span><span class="n">gridfile</span><span class="p">,</span> <span class="n">zgrid</span><span class="p">,</span> <span class="n">xgrid</span><span class="p">,</span> <span class="n">ygrid</span><span class="p">,</span> <span class="n">constsfile</span><span class="p">):</span>
+<div class="viewcode-block" id="write_gridboxboundaries_binary"><a class="viewcode-back" href="../../../pySD/gbxboundariesbinary_src/create_gbxboundaries.html#pySD.gbxboundariesbinary_src.create_gbxboundaries.write_gridboxboundaries_binary">[docs]</a><span class="k">def</span> <span class="nf">write_gridboxboundaries_binary</span><span class="p">(</span>
+    <span class="n">grid_filename</span><span class="p">,</span> <span class="n">zgrid</span><span class="p">,</span> <span class="n">xgrid</span><span class="p">,</span> <span class="n">ygrid</span><span class="p">,</span> <span class="n">constants_filename</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;zgrid, xgrid and ygrid can either be list of</span>
 <span class="sd">    [min coord, max coord, delta] or they can be arrays of</span>
 <span class="sd">    their half coordinates (ie. gridbox boundaries). If the former,</span>
 <span class="sd">    first create half coordinates. In both cases, de-dimensionalise</span>
 <span class="sd">    and write the boundaries to a binary file, &quot;filename&quot; &quot;&quot;&quot;</span>
 
-    <span class="n">COORD0</span> <span class="o">=</span> <span class="n">get_COORD0_from_constsfile</span><span class="p">(</span><span class="n">constsfile</span><span class="p">)</span>
+    <span class="n">COORD0</span> <span class="o">=</span> <span class="n">get_COORD0_from_constsfile</span><span class="p">(</span><span class="n">constants_filename</span><span class="p">)</span>
 
     <span class="n">ndims</span><span class="p">,</span> <span class="n">gbxindicies</span><span class="p">,</span> <span class="n">gbxboundsdata</span> <span class="o">=</span> <span class="n">dimless_gridboxboundaries</span><span class="p">(</span>
         <span class="n">zgrid</span><span class="p">,</span> <span class="n">xgrid</span><span class="p">,</span> <span class="n">ygrid</span><span class="p">,</span> <span class="n">COORD0</span>
     <span class="p">)</span>
+    <span class="n">zxy</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">zgrid</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">xgrid</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ygrid</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">zxy</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">zxy</span><span class="p">]</span>
     <span class="n">metastr</span> <span class="o">=</span> <span class="p">(</span>
         <span class="s2">&quot;Variables in this file are ndims in (z,x,y), then the &quot;</span>
         <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">ndims</span><span class="p">))</span>
         <span class="o">+</span> <span class="s2">&quot; gridbox indicies followed by the&quot;</span>
         <span class="o">+</span> <span class="s2">&quot; [zmin, zmax, xmin, xmax, ymin, ymax]&quot;</span>
-        <span class="o">+</span> <span class="s2">&quot; coordinates for each gridbox&#39;s boundaries&quot;</span>
+        <span class="o">+</span> <span class="s2">&quot; coordinates for each gridbox&#39;s boundaries.&quot;</span>
+        <span class="o">+</span> <span class="s2">&quot; Grid has dimensions &quot;</span>
+        <span class="o">+</span> <span class="n">zxy</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="o">+</span> <span class="s2">&quot;x&quot;</span>
+        <span class="o">+</span> <span class="n">zxy</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="o">+</span> <span class="s2">&quot;x&quot;</span>
+        <span class="o">+</span> <span class="n">zxy</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
     <span class="p">)</span>
 
     <span class="n">ndata</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span> <span class="k">for</span> <span class="n">dt</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ndims</span><span class="p">,</span> <span class="n">gbxindicies</span><span class="p">,</span> <span class="n">gbxboundsdata</span><span class="p">]]</span>
@@ -558,7 +567,7 @@
     <span class="n">units</span> <span class="o">=</span> <span class="p">[</span><span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="sa">b</span><span class="s2">&quot;m&quot;</span><span class="p">]</span>
 
     <span class="n">writebinary</span><span class="o">.</span><span class="n">writebinary</span><span class="p">(</span>
-        <span class="n">gridfile</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">ndata</span><span class="p">,</span> <span class="n">datatypes</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">scale_factors</span><span class="p">,</span> <span class="n">metastr</span>
+        <span class="n">grid_filename</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">ndata</span><span class="p">,</span> <span class="n">datatypes</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">scale_factors</span><span class="p">,</span> <span class="n">metastr</span>
     <span class="p">)</span></div>
 </pre></div>
         </article>
