@@ -35,3 +35,8 @@ ${path2CLEO}/examples/run_example.sh \
   ${buildtype} ${path2CLEO} ${path2build} ${enableyac} \
   "${executables}" ${pythonscript} "${script_args}"
 ### ---------------------------------------------------- ###
+
+echo "--------------------------------------------"
+echo "END RUN"
+date
+echo "============================================"

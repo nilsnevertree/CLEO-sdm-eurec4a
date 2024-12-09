@@ -2,7 +2,7 @@
 *.png
 *.dat
 *.out
-*.ipynb
+# *.ipynb
 *.gif
 *.tar.gz
 
@@ -16,3 +16,7 @@ build*/
 docs/source/_autosummary
 examples/examplesolutions
 roughpaper/scratch/share
+*.egg-info/*
+data
+
+*build*
