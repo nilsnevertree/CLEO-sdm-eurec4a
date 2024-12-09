@@ -21,6 +21,8 @@ various ways of generatring radii of superdroplets for their initial conditions
 
 import numpy as np
 from typing import Union, Tuple, List
+
+
 class RadiiGenerator:
     """
     Base class which return
@@ -31,9 +33,10 @@ class RadiiGenerator:
 
     def __call__(
         self,
-        nsupers : int,
-    ) -> np.ndarray :
+        nsupers: int,
+    ) -> np.ndarray:
         return np.ones(nsupers)
+
 
 class MonoAttrGen(RadiiGenerator):
     """method to generate superdroplets with an
@@ -96,23 +99,22 @@ class SampleLog10RadiiGen:
 
         return radii  # [m]
 
-from typing import Tuple
 
 class SampleLog10RadiiWithBinWidth(RadiiGenerator):
     """method to generate superdroplet radii by randomly
     sampling from bins that are linearly spaced in log10(r)
     between rspan[0] and rspan[1]"""
 
-    def __init__(self, rspan : Union[List[float], Tuple[float, float]]):
+    def __init__(self, rspan: Union[List[float], Tuple[float, float]]):
         self.rspan = rspan
 
-    def __call__(self, nsupers : int) -> Tuple[np.ndarray, np.ndarray]:
+    def __call__(self, nsupers: int) -> Tuple[np.ndarray, np.ndarray]:
         """Returns radii for nsupers sampled from rspan [m]"""
 
         radii, bin_width = self.generate_radiisample(nsupers)  # units [m]
         return radii, bin_width
 
-    def generate_radiisample(self, nbins : int) -> Tuple[np.ndarray, np.ndarray]:
+    def generate_radiisample(self, nbins: int) -> Tuple[np.ndarray, np.ndarray]:
         """Divide rspan [m] into evenly spaced bins in log10(r).
         If edges=True, return values of radii at edges of bins.
         Else sample each bin randomly to obtain the radius
@@ -124,14 +126,16 @@ class SampleLog10RadiiWithBinWidth(RadiiGenerator):
             )  # log10(r) bin edges
 
             radii = self.randomlysample_log10rbins(nbins, log10redgs)
-            edges = 10 ** log10redgs
+            edges = 10**log10redgs
             bin_width = edges[1:] - edges[:-1]
             return radii, bin_width  # [m]
 
         else:
             return np.array([]), np.array([])
 
-    def randomlysample_log10rbins(self, nbins : int, log10redgs : np.ndarray) -> np.ndarray:
+    def randomlysample_log10rbins(
+        self, nbins: int, log10redgs: np.ndarray
+    ) -> np.ndarray:
         """given the bin edges, randomly sample each bin of
         log10(radius /m) and return the resultant radii [m]"""
 
