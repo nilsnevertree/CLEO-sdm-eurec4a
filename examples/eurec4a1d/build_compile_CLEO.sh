@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=e1d_build_compile_CLEO
 #SBATCH --partition=gpu
-#SBATCH --gpus=4
+#SBATCH --gpus=1
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=128
 #SBATCH --mem=30G
@@ -41,12 +41,8 @@ path2CLEO=${HOME}/CLEO/
 path2build=${path2CLEO}/build_eurec4a1d/
 
 ### ------------------ Load Modules -------------------- ###
-cleoenv=/work/mh1126/m300950/cleoenv
-python=${cleoenv}/bin/python3
 yacyaxtroot=/work/mh1126/m300950/yac
 spack load cmake@3.23.1%gcc
-module load python3/2022.01-gcc-11.2.0
-source activate ${cleoenv}
 ### ---------------------------------------------------- ###
 
 ### -------------------- print inputs ------------------ ###
@@ -60,7 +56,7 @@ echo "============================================"
 ### --------------------------------------------------- ###
 
 ## ---------------------- build CLEO ------------------ ###
-if [ "$build" = true ]; then
+if [ "$build" == true ]; then
     echo "Build CLEO"
     ${path2CLEO}/scripts/bash/build_cleo.sh ${buildtype} ${path2CLEO} ${path2build}
     echo "============================================"
@@ -68,7 +64,7 @@ fi
 ### ---------------------------------------------------- ###
 
 ### --------- compile executable(s) from scratch ------- ###
-if [ "$compile" = true ]; then
+if [ "$compile" == true ]; then
     echo "Compile CLEO"
     cd ${path2build} && make clean
     ${path2CLEO}/scripts/bash/compile_cleo.sh ${cleoenv} ${buildtype} ${path2build} "${executables}"
