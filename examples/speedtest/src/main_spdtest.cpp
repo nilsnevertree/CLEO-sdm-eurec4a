@@ -28,6 +28,7 @@
 #include <stdexcept>
 #include <string_view>
 
+#include "zarr/dataset.hpp"
 #include "cartesiandomain/cartesianmaps.hpp"
 #include "cartesiandomain/cartesianmotion.hpp"
 #include "cartesiandomain/createcartesianmaps.hpp"
@@ -44,7 +45,6 @@
 #include "observers/massmoments_observer.hpp"
 #include "observers/nsupers_observer.hpp"
 #include "observers/observers.hpp"
-#include "observers/runstats_observer.hpp"
 #include "observers/state_observer.hpp"
 #include "observers/streamout_observer.hpp"
 #include "observers/superdrops_observer.hpp"
@@ -60,13 +60,12 @@
 #include "superdrops/microphysicalprocess.hpp"
 #include "superdrops/motion.hpp"
 #include "superdrops/terminalvelocity.hpp"
-#include "zarr/dataset.hpp"
 #include "zarr/fsstore.hpp"
 
 inline CoupledDynamics auto create_coupldyn(const Config &config, const CartesianMaps &gbxmaps,
                                             const unsigned int couplstep,
                                             const unsigned int t_end) {
-  const auto h_ndims(gbxmaps.ndims_hostcopy());
+  const auto h_ndims = gbxmaps.get_ndims_hostcopy();
   const std::array<size_t, 3> ndims({h_ndims(0), h_ndims(1), h_ndims(2)});
 
   const auto nsteps = (unsigned int)(std::ceil(t_end / couplstep) + 1);
@@ -75,8 +74,8 @@ inline CoupledDynamics auto create_coupldyn(const Config &config, const Cartesia
 }
 
 inline InitialConditions auto create_initconds(const Config &config) {
-  const InitAllSupersFromBinary initsupers(config.get_initsupersfrombinary());
-  const InitGbxsNull initgbxs(config.get_ngbxs());
+  const auto initsupers = InitAllSupersFromBinary(config.get_initsupersfrombinary());
+  const auto initgbxs = InitGbxsNull(config.get_ngbxs());
 
   return InitConds(initsupers, initgbxs);
 }
@@ -173,15 +172,13 @@ inline Observer auto create_observer(const Config &config, const Timesteps &tste
   const auto obsstep = tsteps.get_obsstep();
   const auto maxchunk = config.get_maxchunk();
 
-  const Observer auto obs0 = RunStatsObserver(obsstep, config.get_stats_filename());
-
-  const Observer auto obs1 = StreamOutObserver(obsstep * 10, &step2realtime);
+  const Observer auto obs0 = StreamOutObserver(obsstep * 10, &step2realtime);
 
   const Observer auto obsblk = create_bulk_observer(obsstep, dataset, maxchunk, config.get_ngbxs());
 
   const Observer auto obssd = create_superdrops_observer(obsstep, dataset, maxchunk);
 
-  return obssd >> obsblk >> obs1 >> obs0;
+  return obssd >> obsblk >> obs0;
 }
 
 template <typename Store>
@@ -198,6 +195,16 @@ inline auto create_sdm(const Config &config, const Timesteps &tsteps, Dataset<St
 int main(int argc, char *argv[]) {
   if (argc < 2) {
     throw std::invalid_argument("configuration file(s) not specified");
+  }
+
+  MPI_Init(&argc, &argv);
+
+  int comm_size;
+  MPI_Comm_size(MPI_COMM_WORLD, &comm_size);
+  if (comm_size > 1) {
+    std::cout << "ERROR: The current example is not prepared"
+              << " to be run with more than one MPI process" << std::endl;
+    MPI_Abort(MPI_COMM_WORLD, 1);
   }
 
   Kokkos::Timer kokkostimer;
@@ -225,7 +232,7 @@ int main(int argc, char *argv[]) {
         create_coupldyn(config, sdm.gbxmaps, tsteps.get_couplstep(), tsteps.get_t_end()));
 
     /* coupling between coupldyn and SDM */
-    const CouplingComms<FromFileDynamics> auto comms = FromFileComms{};
+    const CouplingComms<CartesianMaps, FromFileDynamics> auto comms = FromFileComms{};
 
     /* Run CLEO (SDM coupled to dynamics solver) */
     const RunCLEO runcleo(sdm, coupldyn, comms);
@@ -235,6 +242,8 @@ int main(int argc, char *argv[]) {
 
   const auto ttot = double{kokkostimer.seconds()};
   std::cout << "-----\n Total Program Duration: " << ttot << "s \n-----\n";
+
+  MPI_Finalize();
 
   return 0;
 }

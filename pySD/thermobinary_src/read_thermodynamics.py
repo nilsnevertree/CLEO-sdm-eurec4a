@@ -122,10 +122,9 @@ class ThermoOnGrid:
         return np.mean(var, axis=(0, 1, 2))  # dims [z]
 
 
-def thermovar_from_binary(var, thermofile, shape, ntime, ndims, dtype, isprint=True):
-    idot = [i for i, ltr in enumerate(thermofile) if ltr == "."][-1]
-    filestem, filetype = thermofile[:idot], thermofile[idot:]
-    filename = filestem + "_" + var + filetype
+def thermovar_from_binary(var, thermofiles, shape, ntime, ndims, dtype, isprint=True):
+    filename = f"{thermofiles.stem}_{var}{thermofiles.suffix}"
+    filename = thermofiles.parent / filename
     data, ndata = readbinary(filename, isprint=isprint)
 
     if ndata != int(np.prod(shape)):
@@ -146,7 +145,7 @@ def thermovar_from_binary(var, thermofile, shape, ntime, ndims, dtype, isprint=T
     return data
 
 
-def read_dimless_thermodynamics_binary(thermofile, ndims, ntime, nspacedims):
+def read_dimless_thermodynamics_binary(thermofiles, ndims, ntime, nspacedims):
     # expected lengths of data defined on gridbox centres or faces
     cen = [ntime, int(np.prod(ndims))]
     zface = [ntime, int(ndims[2] * ndims[1] * (ndims[0] + 1))]
@@ -159,52 +158,69 @@ def read_dimless_thermodynamics_binary(thermofile, ndims, ntime, nspacedims):
     datatypes = [np.double] * 4
     for v, var in enumerate(vars):
         thermodata[var] = thermovar_from_binary(
-            var, thermofile, cen, ntime, ndims, datatypes[v], isprint=False
+            var, thermofiles, cen, ntime, ndims, datatypes[v], isprint=False
         )
 
     datatypes = [np.double] * 3
     if nspacedims >= 1:
         thermodata["wvel"] = thermovar_from_binary(
-            "wvel", thermofile, zface, ntime, ndims, datatypes[0], isprint=False
+            "wvel", thermofiles, zface, ntime, ndims, datatypes[0], isprint=False
         )
         if nspacedims >= 2:
             thermodata["uvel"] = thermovar_from_binary(
-                "uvel", thermofile, xface, ntime, ndims, datatypes[1], isprint=False
+                "uvel", thermofiles, xface, ntime, ndims, datatypes[1], isprint=False
             )
             if nspacedims >= 3:
                 thermodata["vvel"] = thermovar_from_binary(
-                    "vvel", thermofile, yface, ntime, ndims, datatypes[2], isprint=False
+                    "vvel",
+                    thermofiles,
+                    yface,
+                    ntime,
+                    ndims,
+                    datatypes[2],
+                    isprint=False,
                 )
 
     return thermodata
 
 
-def get_thermodynamics_from_thermofile(
-    thermofile, ndims, inputs: Union[bool, dict] = False, constsfile="", configfile=""
+def get_thermodynamics_from_thermofiles(
+    thermofiles,
+    ndims,
+    inputs: Union[bool, dict] = False,
+    constants_filename="",
+    config_filename="",
 ):
-    if inputs == False:
-        inputs = thermoinputsdict(configfile, constsfile)
+    if inputs is False:
+        inputs = thermoinputsdict(config_filename, constants_filename)
 
     thermodata = read_dimless_thermodynamics_binary(
-        thermofile, ndims, inputs["ntime"], inputs["nspacedims"]
+        thermofiles, ndims, inputs["ntime"], inputs["nspacedims"]
     )  # dimensionless data [time, gridboxes]
     thermodata = ThermoOnGrid(thermodata, inputs, ndims)
 
     return thermodata  # data with units in 4D arrays with dims [time, y, x, z]
 
 
-def plot_thermodynamics(constsfile, configfile, gridfile, thermofile, binpath, savefig):
+def plot_thermodynamics(
+    constants_filename,
+    config_filename,
+    grid_filename,
+    thermofiles,
+    savefigpath,
+    savefig,
+):
     plt.rcParams.update({"font.size": 14})
 
-    inputs = thermoinputsdict(configfile, constsfile)
+    inputs = thermoinputsdict(config_filename, constants_filename)
     gbxbounds, ndims = rgrid.read_dimless_gbxboundaries_binary(
-        gridfile, COORD0=inputs["COORD0"], return_ndims=True, isprint=False
+        grid_filename, COORD0=inputs["COORD0"], return_ndims=True, isprint=False
     )
     xyzhalf = rgrid.halfcoords_from_gbxbounds(gbxbounds, isprint=False)  # [m]
     zhalf, xhalf, yhalf = [half / 1000 for half in xyzhalf]  # convery [m] to [km]
     zfull, xfull, yfull = rgrid.fullcell_fromhalfcoords(zhalf, xhalf, yhalf)  # [m]
 
-    thermodata = get_thermodynamics_from_thermofile(thermofile, ndims, inputs=inputs)
+    thermodata = get_thermodynamics_from_thermofiles(thermofiles, ndims, inputs=inputs)
 
     plot_1dprofiles(
         zfull,
@@ -212,14 +228,14 @@ def plot_thermodynamics(constsfile, configfile, gridfile, thermofile, binpath, s
         inputs["Mr_ratio"],
         inputs["RGAS_DRY"],
         inputs["CP_DRY"],
-        binpath,
+        savefigpath,
         savefig,
     )
 
     if inputs["nspacedims"] > 1:
         xxh, zzh = np.meshgrid(xhalf, zhalf, indexing="ij")  # dims [xdims, zdims]
         xxf, zzf = np.meshgrid(xfull, zfull, indexing="ij")  # dims [xdims, zdims]
-        plot_2dcolormaps(zzh, xxh, zzf, xxf, thermodata, inputs, binpath, savefig)
+        plot_2dcolormaps(zzh, xxh, zzf, xxf, thermodata, inputs, savefigpath, savefig)
         plot_2dwindfield(
             zzh,
             xxh,
@@ -227,9 +243,11 @@ def plot_thermodynamics(constsfile, configfile, gridfile, thermofile, binpath, s
             xxf,
             thermodata["wvel_cens"],
             thermodata["uvel_cens"],
-            binpath,
+            savefigpath,
             savefig,
         )
+
+    plt.close()
 
 
 def try1dplot(ax, nplots, data, zfull, label):
@@ -282,7 +300,9 @@ def plot_1dwindprofiles(axs, n, zfull, thermodata):
     return n
 
 
-def plot_1dprofiles(zfull, thermodata, Mr_ratio, RGAS_DRY, CP_DRY, binpath, savefig):
+def plot_1dprofiles(
+    zfull, thermodata, Mr_ratio, RGAS_DRY, CP_DRY, savefigpath, savefig
+):
     fig, axs = plt.subplots(nrows=3, ncols=3, figsize=(16, 8))
     axs = axs.flatten()
 
@@ -298,15 +318,15 @@ def plot_1dprofiles(zfull, thermodata, Mr_ratio, RGAS_DRY, CP_DRY, binpath, save
 
     fig.tight_layout()
     if savefig:
-        savename = "/thermo1dalltimeprofiles.png"
+        savename = savefigpath / "thermo1dalltimeprofiles.png"
         fig.savefig(
-            binpath + savename,
+            savename,
             dpi=400,
             bbox_inches="tight",
             facecolor="w",
             format="png",
         )
-        print("Figure .png saved as: " + binpath + savename)
+        print("Figure .png saved as: " + str(savefigpath))
     plt.show()
 
 
@@ -378,7 +398,7 @@ def relh_supersat_theta_colomaps(
         n += 1
 
 
-def plot_2dcolormaps(zzh, xxh, zzf, xxf, thermodata, inputs, binpath, savefig):
+def plot_2dcolormaps(zzh, xxh, zzf, xxf, thermodata, inputs, savefigpath, savefig):
     vars = ["press", "temp", "qvap", "qcond"]
     units = [" /Pa", " /K", "", ""]
     cmaps = ["PRGn", "RdBu_r", "BrBG", "BrBG"]
@@ -423,19 +443,19 @@ def plot_2dcolormaps(zzh, xxh, zzf, xxf, thermodata, inputs, binpath, savefig):
 
     fig.tight_layout()
     if savefig:
-        savename = "/thermo2dmeanprofiles.png"
+        savename = savefigpath / "thermo2dmeanprofiles.png"
         fig.savefig(
-            binpath + savename,
+            savename,
             dpi=400,
             bbox_inches="tight",
             facecolor="w",
             format="png",
         )
-        print("Figure .png saved as: " + binpath + savename)
+        print("Figure .png saved as: " + str(savename))
     plt.show()
 
 
-def plot_2dwindfield(zzh, xxh, zzf, xxf, wvel_cens, uvel_cens, binpath, savefig):
+def plot_2dwindfield(zzh, xxh, zzf, xxf, wvel_cens, uvel_cens, savefigpath, savefig):
     wcen = np.mean(wvel_cens, axis=(0, 1))  # avg over y and time axes
     ucen = np.mean(uvel_cens, axis=(0, 1))
     norm = np.sqrt(wcen**2 + ucen**2)
@@ -458,13 +478,13 @@ def plot_2dwindfield(zzh, xxh, zzf, xxf, wvel_cens, uvel_cens, binpath, savefig)
 
     fig.tight_layout()
     if savefig:
-        savename = "/thermowindprofiles.png"
+        savename = savefigpath / "thermowindprofiles.png"
         fig.savefig(
-            binpath + savename,
+            savename,
             dpi=400,
             bbox_inches="tight",
             facecolor="w",
             format="png",
         )
-        print("Figure .png saved as: " + binpath + savename)
+        print("Figure .png saved as: " + str(savename))
     plt.show()

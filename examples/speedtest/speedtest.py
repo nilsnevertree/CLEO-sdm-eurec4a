@@ -19,57 +19,55 @@ Script generates input files, then runs CLEO executable "spdtest" to check perfo
 of CLEO usign different build configurations (e.g. serial, OpenmP and CUDA parallelism).
 """
 
+import glob
 import os
+import shutil
+import subprocess
 import sys
 import numpy as np
-import matplotlib.pyplot as plt
 from pathlib import Path
 
-path2CLEO = sys.argv[1]
-path2build = sys.argv[2]
-configfile = sys.argv[3]
-outputdir = sys.argv[4]
-buildtype = sys.argv[5]
+path2CLEO = Path(sys.argv[1])
+path2build = Path(sys.argv[2])
+config_filename = Path(sys.argv[3])
+outputdir = Path(sys.argv[4])
+path2kokkostools = Path(sys.argv[5])
+buildtype = sys.argv[6]
 nruns = 2
 
-sys.path.append(path2CLEO)  # for imports from pySD package
+sys.path.append(str(path2CLEO))  # imports from pySD
 sys.path.append(
-    path2CLEO + "/examples/exampleplotting/"
-)  # for imports from example plotting package
+    str(path2CLEO / "examples" / "exampleplotting")
+)  # imports from example plots package
 
-from pySD.gbxboundariesbinary_src import read_gbxboundaries as rgrid
-from pySD.gbxboundariesbinary_src import create_gbxboundaries as cgrid
+from pySD import geninitconds
 from pySD.initsuperdropsbinary_src import crdgens, rgens, dryrgens, probdists, attrsgen
-from pySD.initsuperdropsbinary_src import create_initsuperdrops as csupers
-from pySD.initsuperdropsbinary_src import read_initsuperdrops as rsupers
 from pySD.thermobinary_src import thermogen
-from pySD.thermobinary_src import create_thermodynamics as cthermo
-from pySD.thermobinary_src import read_thermodynamics as rthermo
 
 ### ---------------------------------------------------------------- ###
 ### ----------------------- INPUT PARAMETERS ----------------------- ###
 ### ---------------------------------------------------------------- ###
 ### --- essential paths and filenames --- ###
 # path and filenames for creating initial SD conditions
-constsfile = path2CLEO + "/libs/cleoconstants.hpp"
-binpath = path2build + "/bin/"
-sharepath = path2build + "/share/"
-gridfile = sharepath + "/spd_dimlessGBxboundaries.dat"
-initSDsfile = sharepath + "/spd_dimlessSDsinit.dat"
-thermofile = sharepath + "/spd_dimlessthermo.dat"
+constants_filename = path2CLEO / "libs" / "cleoconstants.hpp"
+binpath = path2build / "bin"
+sharepath = path2build / "share"
+grid_filename = sharepath / "spd_dimlessGBxboundaries.dat"
+initsupers_filename = sharepath / "spd_dimlessSDsinit.dat"
+thermofiles = sharepath / "spd_dimlessthermo.dat"
 
 # path and file names for plotting results
-setupfile = binpath + "spd_setup.txt"
-statsfile = binpath + "spd_stats.txt"
-dataset = binpath + "spd_sol.zarr"
+setupfile = binpath / "spd_setup.txt"
+statsfile = binpath / "spd_stats.txt"
+dataset = binpath / "spd_sol.zarr"
 
 ### --- plotting initialisation figures --- ###
 isfigures = [False, False]  # booleans for [making, saving] initialisation figures
 savefigpath = outputdir  # directory for saving figures
 SDgbxs2plt = [0]  # gbxindex of SDs to plot (nb. "all" can be very slow)
-outdatafile = outputdir + "/spd_allstats.txt"  # file to write out stats to
+outdatafile = outputdir / "spd_allstats.txt"  # file to write out stats to
 
-### --- settings for 2-D gridbox boundaries --- ###
+### --- settings for 3-D gridbox boundaries --- ###
 zgrid = [0, 1500, 50]  # evenly spaced zhalf coords [zmin, zmax, zdelta] [m]
 xgrid = [0, 1500, 50]  # evenly spaced xhalf coords [m]
 ygrid = np.array([0, 25, 50])  # array of yhalf coords [m]
@@ -107,49 +105,31 @@ sratios = [0.85, 1.1]  # s_ratio [below, above] Zbase
 ### ---------------------------------------------------------------- ###
 ### --------------------- FUNCTION DEFINITIONS --------------------- ###
 ### ---------------------------------------------------------------- ###
-def read_statsfile(statsfile):
-    stats = {}
-    with open(statsfile, "r") as file:
-        for line in file:
-            # Check if the line starts with '###'
-            if not line.startswith("###"):
-                # Process the line
-                line = line.strip().split()
-                stats[line[0]] = float(line[1])
+class KpKernelTimer:
+    def __init__(self, kokkos_tools_lib: Path):
+        self.kokkos_tools_lib = kokkos_tools_lib
+        self.kp_reader = self.kokkos_tools_lib / ".." / "bin" / "kp_reader"
 
-    return stats
+        os.environ["KOKKOS_TOOLS_LIBS"] = str(
+            self.kokkos_tools_lib / "libkp_kernel_timer.so"
+        )
+        print("Using Kokkos Profiling Tool", os.environ["KOKKOS_TOOLS_LIBS"])
+        print("Using Kokkos Tool Reader", self.kp_reader)
 
+    def postprocess(self, filespath: Path, txt_filepath: Path, txt_filelabel: str):
+        # Add kokkos_tools_lib to LD_LIBRARY_PATH
+        ld_lib_path = os.environ.get("LD_LIBRARY_PATH", "")
+        os.environ["LD_LIBRARY_PATH"] = f"{self.kokkos_tools_lib}:{ld_lib_path}"
 
-def write_outstats(nruns, n, outdatafile, buildtype, stats):
-    """if outdatafile doesn't already exist, creates new file with
-    a header. else appends to end of file"""
+        # Use glob to find all .dat files in the specified directory
+        datfiles = glob.glob(os.path.join(filespath, "*.dat"))
 
-    try:
-        # Try to open the file for exclusive creation
-        with open(outdatafile, "x") as file:
-            # Perform operations on the new file if needed
-            header = "### Wall Clock time For Timestepping\n"
-            header += "### columns are: "
-            header += "test_run gpus_cpus/s cpus/s serial/s"
-            file.write(header)
-        print(f"--- new stats output: '{outdatafile}' created ---")
-    except FileExistsError:
-        print(f"stats output file '{outdatafile}' already exists")
-
-    # write new line at number = existing number of (non-header) lines + 1
-    with open(outdatafile, "r") as file:
-        lines = file.readlines()
-
-    if buildtype == "cuda":
-        line = "\n" + str(n) + " " + str(stats["tstep"])
-        with open(outdatafile, "a") as file:
-            file.write(line)
-
-    else:
-        nline = len(lines) - nruns + n
-        lines[nline] = lines[nline].rstrip() + " " + str(stats["tstep"]) + "\n"
-        with open(outdatafile, "w") as file:
-            file.writelines(lines)
+        # Print the list of .dat files
+        for f, filename in enumerate(datfiles):
+            txt_filename = txt_filepath / Path(txt_filelabel + f"_{f}.txt")
+            cmd = [str(self.kp_reader), filename]
+            with open(txt_filename, "w") as wfile:
+                subprocess.run(cmd, stdout=wfile, stderr=subprocess.STDOUT)
 
 
 ### ---------------------------------------------------------------- ###
@@ -162,25 +142,33 @@ def write_outstats(nruns, n, outdatafile, buildtype, stats):
 if path2CLEO == path2build:
     raise ValueError("build directory cannot be CLEO")
 else:
-    Path(path2build).mkdir(exist_ok=True)
-    Path(sharepath).mkdir(exist_ok=True)
-    Path(binpath).mkdir(exist_ok=True)
+    path2build.mkdir(exist_ok=True)
+    sharepath.mkdir(exist_ok=True)
+    binpath.mkdir(exist_ok=True)
     if isfigures[1]:
-        Path(savefigpath).mkdir(exist_ok=True)
+        savefigpath.mkdir(exist_ok=True)
 
 ### --- delete any existing initial conditions --- ###
-os.system("rm " + gridfile)
-os.system("rm " + initSDsfile)
-os.system("rm " + thermofile[:-4] + "*")
+shutil.rmtree(grid_filename, ignore_errors=True)
+shutil.rmtree(initsupers_filename, ignore_errors=True)
+all_thermofiles = thermofiles.parent / Path(f"{thermofiles.stem}*{thermofiles.suffix}")
+shutil.rmtree(all_thermofiles, ignore_errors=True)
 
 ### ----- write gridbox boundaries binary ----- ###
-cgrid.write_gridboxboundaries_binary(gridfile, zgrid, xgrid, ygrid, constsfile)
-rgrid.print_domain_info(constsfile, gridfile)
+geninitconds.generate_gridbox_boundaries(
+    grid_filename,
+    zgrid,
+    xgrid,
+    ygrid,
+    constants_filename,
+    isfigures=isfigures,
+    savefigpath=savefigpath,
+)
 
 ### ----- write thermodynamics binaries ----- ###
 thermodyngen = thermogen.SimpleThermo2DFlowField(
-    configfile,
-    constsfile,
+    config_filename,
+    constants_filename,
     PRESS0,
     THETA,
     qvapmethod,
@@ -192,13 +180,20 @@ thermodyngen = thermogen.SimpleThermo2DFlowField(
     Xlength,
     VVEL,
 )
-cthermo.write_thermodynamics_binary(
-    thermofile, thermodyngen, configfile, constsfile, gridfile
+geninitconds.generate_thermodynamics_conditions_fromfile(
+    thermofiles,
+    thermodyngen,
+    config_filename,
+    constants_filename,
+    grid_filename,
+    isfigures=isfigures,
+    savefigpath=savefigpath,
 )
 
-
 ### ----- write initial superdroplets binary ----- ###
-nsupers = crdgens.nsupers_at_domain_base(gridfile, constsfile, npergbx, zlim)
+nsupers = crdgens.nsupers_at_domain_base(
+    grid_filename, constants_filename, npergbx, zlim
+)
 coord3gen = crdgens.SampleCoordGen(True)  # sample coord3 randomly
 coord1gen = crdgens.SampleCoordGen(True)  # sample coord1 randomly
 coord2gen = crdgens.SampleCoordGen(True)  # sample coord2 randomly
@@ -209,46 +204,32 @@ dryradiigen = dryrgens.ScaledRadiiGen(1.0)
 initattrsgen = attrsgen.AttrsGenerator(
     radiigen, dryradiigen, xiprobdist, coord3gen, coord1gen, coord2gen
 )
-csupers.write_initsuperdrops_binary(
-    initSDsfile, initattrsgen, configfile, constsfile, gridfile, nsupers, numconc
+geninitconds.generate_initial_superdroplet_conditions(
+    initattrsgen,
+    initsupers_filename,
+    config_filename,
+    constants_filename,
+    grid_filename,
+    nsupers,
+    numconc,
+    isfigures=isfigures,
+    savefigpath=savefigpath,
+    gbxs2plt=SDgbxs2plt,
 )
-
-### ----- show (and save) plots of binary file data ----- ###
-if isfigures[0]:
-    rgrid.plot_gridboxboundaries(constsfile, gridfile, savefigpath, isfigures[1])
-    rthermo.plot_thermodynamics(
-        constsfile, configfile, gridfile, thermofile, savefigpath, isfigures[1]
-    )
-    rsupers.plot_initGBxs_distribs(
-        configfile,
-        constsfile,
-        initSDsfile,
-        gridfile,
-        savefigpath,
-        isfigures[1],
-        SDgbxs2plt,
-    )
-    plt.close()
 ### ---------------------------------------------------------------- ###
 ### ---------------------------------------------------------------- ###
 
 ### ---------------------------------------------------------------- ###
 ### ---------------------- RUN CLEO EXECUTABLE --------------------- ###
 ### ---------------------------------------------------------------- ###
-executable = path2build + "/examples/speedtest/src/spdtest"
+profiler = KpKernelTimer(path2kokkostools)
+executable = path2build / "examples" / "speedtest" / "src" / "spdtest"
 for n in range(nruns):
     os.chdir(path2build)
-    os.system("rm -rf " + dataset)  # delete any existing dataset
-    print("Executable: " + executable)
-    print("Config file: " + configfile)
-    os.system(executable + " " + configfile)
-
-    # copy speed results to new file
-    print("--- reading runtime statistics ---")
-    stats = read_statsfile(statsfile)
-    for key, value in stats.items():
-        print(key + ": {:.3f}s".format(value))
-    write_outstats(nruns, n, outdatafile, buildtype, stats)
-    print("--- runtime stats written to file ---")
+    shutil.rmtree(dataset, ignore_errors=True)  # delete any existing dataset
+    print("Executable: " + str(executable))
+    print("Config file: " + str(config_filename))
+    subprocess.run([executable, config_filename])
+profiler.postprocess(path2build, outputdir, buildtype)
 ### ---------------------------------------------------------------- ###
 ### ---------------------------------------------------------------- ###

@@ -7,21 +7,17 @@
 #SBATCH --time=00:05:00
 #SBATCH --mail-user=clara.bayley@mpimet.mpg.de
 #SBATCH --mail-type=FAIL
-#SBATCH --account=mh1126
+#SBATCH --account=bm1183
 #SBATCH --output=./inputfiles_out.%j.out
 #SBATCH --error=./inputfiles_err.%j.out
 
 ### ----- You need to edit these lines to set your ----- ###
 ### ----- default compiler and python environment   ---- ###
 ### ----  and paths for CLEO and build directories  ---- ###
-condaenv=/work/mh1126/m300950/cleoenv
-module load python3/2022.01-gcc-11.2.0
-source activate ${condaenv}
-
 path2CLEO=${2:-${HOME}/CLEO}
 path2scripts=${path2CLEO}/scripts
+condaenv=/work/bm1183/m300950/bin/envs/cleoenv
 python=${condaenv}/bin/python
-
 ### ---------------------------------------------------- ###
 
 configfile=$1

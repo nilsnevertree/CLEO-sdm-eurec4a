@@ -26,8 +26,9 @@ from .create_thermodynamics import thermoinputsdict
 from ..gbxboundariesbinary_src import read_gbxboundaries as rgrid
 from typing import Union, Tuple
 
-def get_Mrratio_from_constsfile(constsfile):
-    consts = cxx2py.read_cxxconsts_into_floats(constsfile)
+
+def get_Mrratio_from_constants_filename(constants_filename):
+    consts = cxx2py.read_cxxconsts_into_floats(constants_filename)
     mconsts = cxx2py.derive_more_floats(consts)
 
     return mconsts["Mr_ratio"]
@@ -98,7 +99,9 @@ def qparams_to_qvap(method, params, Mr_ratio, PRESS, TEMP):
         raise ValueError("valid method not given to generate qvap")
 
 
-def __attrs_if_dataarray__(da: Union[np.ndarray, xr.DataArray], attrs: dict = {}, name: str = "") -> Union[np.ndarray, xr.DataArray]:
+def __attrs_if_dataarray__(
+    da: Union[np.ndarray, xr.DataArray], attrs: dict = {}, name: str = ""
+) -> Union[np.ndarray, xr.DataArray]:
     """
     This function adds attributes to a xr.DataArray if it is one, otherwise it does nothing.
 
@@ -125,12 +128,13 @@ def __attrs_if_dataarray__(da: Union[np.ndarray, xr.DataArray], attrs: dict = {}
         return da
     elif isinstance(da, np.ndarray):
         return da
-    else :
+    else:
         raise ValueError("da must be either a np.ndarray or xr.DataArray")
 
 
-
-def saturation_vapour_pressure(temperature: Union[xr.DataArray, np.ndarray]) -> Union[xr.DataArray, np.ndarray]:
+def saturation_vapour_pressure(
+    temperature: Union[xr.DataArray, np.ndarray]
+) -> Union[xr.DataArray, np.ndarray]:
     """
     Calculate the saturation vapour pressure over water for a given temperature.
 
@@ -156,7 +160,6 @@ def saturation_vapour_pressure(temperature: Union[xr.DataArray, np.ndarray]) -> 
     )
     es = __attrs_if_dataarray__(da=es, attrs=attrs)
     return es
-
 
 
 def specific_humidity_from_water_vapour_pressure(
@@ -204,7 +207,6 @@ def specific_humidity_from_water_vapour_pressure(
     else:
         q_v = epsilon * e / (p - e + epsilon * e)
     return q_v
-
 
 
 def specific_humidity_from_relative_humidity_temperature_pressure(
@@ -375,13 +377,22 @@ class ConstUniformThermo:
     time and uniform throughout the domain"""
 
     def __init__(
-        self, PRESS, TEMP, qvap, qcond, WVEL, UVEL, VVEL, relh=False, constsfile=""
+        self,
+        PRESS,
+        TEMP,
+        qvap,
+        qcond,
+        WVEL,
+        UVEL,
+        VVEL,
+        relh=False,
+        constants_filename="",
     ):
         self.PRESS = PRESS  # pressure [Pa]
         self.TEMP = TEMP  # temperature [T]
 
         if relh:
-            Mr_ratio = get_Mrratio_from_constsfile(constsfile)
+            Mr_ratio = get_Mrratio_from_constants_filename(constants_filename)
             self.qvap = relh2qvap(
                 PRESS, TEMP, relh, Mr_ratio
             )  # water vapour content []
@@ -418,8 +429,8 @@ class SimpleThermo2DFlowField:
 
     def __init__(
         self,
-        configfile,
-        constsfile,
+        config_filename,
+        constants_filename,
         PRESS,
         TEMP,
         qvapmethod,
@@ -431,7 +442,7 @@ class SimpleThermo2DFlowField:
         Xlength,
         VVEL,
     ):
-        inputs = thermoinputsdict(configfile, constsfile)
+        inputs = thermoinputsdict(config_filename, constants_filename)
 
         self.PRESS = PRESS  # pressure [Pa]
         self.TEMP = TEMP  # temperature [T]
@@ -519,8 +530,8 @@ class ConstDryHydrostaticAdiabat:
 
     def __init__(
         self,
-        configfile,
-        constsfile,
+        config_filename,
+        constants_filename,
         PRESSz0,
         THETA,
         qvapmethod,
@@ -533,7 +544,7 @@ class ConstDryHydrostaticAdiabat:
         VVEL,
         moistlayer,
     ):
-        inputs = thermoinputsdict(configfile, constsfile)
+        inputs = thermoinputsdict(config_filename, constants_filename)
 
         ### parameters of profile ###
         self.PRESSz0 = PRESSz0  # pressure at z=0m [Pa]
@@ -685,8 +696,8 @@ class ConstHydrostaticLapseRates:
 
     def __init__(
         self,
-        configfile,
-        constsfile,
+        config_filename,
+        constants_filename,
         PRESS0,
         TEMP0,
         qvap0,
@@ -714,7 +725,7 @@ class ConstHydrostaticLapseRates:
         self.VVEL = VVEL  # horizontal northwards (coord2) velocity [m/s]
         self.Wlength = Wlength  # [m] use constant W (Wlength=0.0), or sinusoidal 1-D profile below cloud base
 
-        inputs = thermoinputsdict(configfile, constsfile)
+        inputs = thermoinputsdict(config_filename, constants_filename)
         self.GRAVG = inputs["G"]
         self.RGAS_DRY = inputs["RGAS_DRY"]
         self.Mr_ratio = inputs["Mr_ratio"]
@@ -850,7 +861,9 @@ class ConstHydrostaticLapseRates:
         return THERMODATA
 
 
-def linear_func(x: Union[np.ndarray, xr.DataArray], f_0: float = 0, slope: float = 1) -> Union[np.ndarray, xr.DataArray]:
+def linear_func(
+    x: Union[np.ndarray, xr.DataArray], f_0: float = 0, slope: float = 1
+) -> Union[np.ndarray, xr.DataArray]:
     """
     Linear function.
 
@@ -875,49 +888,12 @@ def linear_func(x: Union[np.ndarray, xr.DataArray], f_0: float = 0, slope: float
 
 
 def split_linear_func(
-    x: Union[np.ndarray, xr.DataArray], f_0: float = 0, slope_1: float = 1, slope_2: float = 2, x_split: float = 800
-) -> Union[np.ndarray, xr.DataArray]:
-    """
-    Split the array x into two arrays at the point x_split. The function is the
-    concatenation of two linear functions with different slopes.
-
-    - :math:`y_1 = slope_1 * x + f_0` for x <= x_split
-    - :math:`y_2 = slope_2 * x + f_0 + (slope_1 - slope_2) * x_split` for x > x_split
-
-    Parameters
-    ----------
-    x : np.ndarray
-        The input array
-    f_0 : float, optional
-        The y-intercept, by default 0
-    slope_1 : float, optional
-        The slope of the first linear function, by default 1
-    slope_2 : float, optional
-        The slope of the second linear function, by default 2
-    x_split : float, optional
-        The x value at which the array is split, by default 800
-
-    Returns
-    -------
-    np.ndarray
-        The splitted linear function.
-
-    Examples
-    --------
-    >>> x = np.arange(0, 1000, 100)
-    >>> x
-    array([  0, 100, 200, 300, 400, 500, 600, 700, 800,  900 ])
-    >>> split_linear(x, f_0=2, slope_1=1, slope_2=2, x_split=500)
-    array([  2, 102, 202, 302, 402, 502, 702, 902, 1102, 1302])
-    """
-
-def split_linear_func(
     x: Union[np.ndarray, xr.DataArray],
     f_0: float = 2,
     slope_1: float = 1,
     slope_2: float = 2,
     x_split: float = 800,
-):
+) -> Union[np.ndarray, xr.DataArray]:
     """
     Split the array x into two arrays at the point x_split. The function is the
     concatenation of two linear functions with different slopes.
@@ -951,7 +927,6 @@ def split_linear_func(
     """
 
     if isinstance(x, np.ndarray):
-
         x_1 = np.where(x <= x_split, x, np.nan)
         x_2 = np.where(x > x_split, x, np.nan)
 
@@ -961,7 +936,6 @@ def split_linear_func(
         y = np.where(x <= x_split, y_1, y_2)
         return y
     elif isinstance(x, xr.DataArray):
-
         x_1 = x.where(x <= x_split)
         x_2 = x.where(x > x_split)
 
@@ -973,7 +947,6 @@ def split_linear_func(
 
 
 class SplittedLapseRates:
-
     """
     Create thermodynamics that are constant in time.
     The thermodynamical properties follow a Splitted Linear Function which
@@ -1068,35 +1041,35 @@ class SplittedLapseRates:
             This is the main method to be called for the class.
     """
 
-
     def __init__(
         self,
         configfile,
         constsfile,
-        cloud_base_height : float,
-        pressure_0 : float,
-        potential_temperature_0 : float,
-        relative_humidity_0 : float,
-        pressure_lapse_rates : Union[np.ndarray, Tuple[float, float]],
-        potential_temperature_lapse_rates : Union[np.ndarray, Tuple[float, float]],
-        relative_humidity_lapse_rates : Union[np.ndarray, Tuple[float, float]],
-        qcond : float,
-        w_maximum : float,
-        u_velocity : float,
-        v_velocity : float,
-        Wlength : float,
+        cloud_base_height: float,
+        pressure_0: float,
+        potential_temperature_0: float,
+        relative_humidity_0: float,
+        pressure_lapse_rates: Union[np.ndarray, Tuple[float, float]],
+        potential_temperature_lapse_rates: Union[np.ndarray, Tuple[float, float]],
+        relative_humidity_lapse_rates: Union[np.ndarray, Tuple[float, float]],
+        qcond: float,
+        w_maximum: float,
+        u_velocity: float,
+        v_velocity: float,
+        Wlength: float,
     ):
-
         self.cloud_base_height = cloud_base_height
         self.pressure_0 = pressure_0
         self.potential_temperature_0 = potential_temperature_0
         self.relative_humidity_0 = relative_humidity_0
 
-        if any((
-            np.size(pressure_lapse_rates) != 2,
-            np.size(potential_temperature_lapse_rates) != 2,
-            np.size(relative_humidity_lapse_rates) != 2,
-        )) :
+        if any(
+            (
+                np.size(pressure_lapse_rates) != 2,
+                np.size(potential_temperature_lapse_rates) != 2,
+                np.size(relative_humidity_lapse_rates) != 2,
+            )
+        ):
             raise ValueError("The lapse rates need to be of size 2")
 
         self.pressure_lapse_rates = pressure_lapse_rates
@@ -1114,8 +1087,9 @@ class SplittedLapseRates:
         self.RGAS_DRY = inputs["RGAS_DRY"]
         self.Mr_ratio = inputs["Mr_ratio"]
 
-
-    def pressure(self, z : Union[np.ndarray, xr.DataArray]) -> Union[np.ndarray, xr.DataArray]:
+    def pressure(
+        self, z: Union[np.ndarray, xr.DataArray]
+    ) -> Union[np.ndarray, xr.DataArray]:
         """
         Crete the potential temperature profile from the given input parameters
         given in the __init__ of the class.
@@ -1124,15 +1098,16 @@ class SplittedLapseRates:
         """
 
         return split_linear_func(
-            x = z,
-            f_0 = self.pressure_0,
-            slope_1= self.pressure_lapse_rates[0],
-            slope_2= self.pressure_lapse_rates[1],
+            x=z,
+            f_0=self.pressure_0,
+            slope_1=self.pressure_lapse_rates[0],
+            slope_2=self.pressure_lapse_rates[1],
             x_split=self.cloud_base_height,
         )
 
-
-    def potential_temperature(self, z : Union[np.ndarray, xr.DataArray]) -> Union[np.ndarray, xr.DataArray]:
+    def potential_temperature(
+        self, z: Union[np.ndarray, xr.DataArray]
+    ) -> Union[np.ndarray, xr.DataArray]:
         """
         Crete the potential temperature profile from the given input parameters
         given in the __init__ of the class.
@@ -1141,14 +1116,16 @@ class SplittedLapseRates:
         """
 
         return split_linear_func(
-            x = z,
-            f_0 = self.potential_temperature_0,
-            slope_1= self.potential_temperature_lapse_rates[0],
-            slope_2= self.potential_temperature_lapse_rates[1],
+            x=z,
+            f_0=self.potential_temperature_0,
+            slope_1=self.potential_temperature_lapse_rates[0],
+            slope_2=self.potential_temperature_lapse_rates[1],
             x_split=self.cloud_base_height,
         )
 
-    def relative_humidity(self, z : Union[np.ndarray, xr.DataArray]) -> Union[np.ndarray, xr.DataArray]:
+    def relative_humidity(
+        self, z: Union[np.ndarray, xr.DataArray]
+    ) -> Union[np.ndarray, xr.DataArray]:
         """
         Crete the relative humidity profile from the given input parameters
         given in the __init__ of the class.
@@ -1157,14 +1134,16 @@ class SplittedLapseRates:
         """
 
         return split_linear_func(
-            x = z,
-            f_0 = self.relative_humidity_0,
-            slope_1= self.relative_humidity_lapse_rates[0],
-            slope_2= self.relative_humidity_lapse_rates[1],
+            x=z,
+            f_0=self.relative_humidity_0,
+            slope_1=self.relative_humidity_lapse_rates[0],
+            slope_2=self.relative_humidity_lapse_rates[1],
             x_split=self.cloud_base_height,
         )
 
-    def temperature(self, z : Union[np.ndarray, xr.DataArray]) -> Union[np.ndarray, xr.DataArray]:
+    def temperature(
+        self, z: Union[np.ndarray, xr.DataArray]
+    ) -> Union[np.ndarray, xr.DataArray]:
         """
         Crete the ambient temperature profile from the given input parameters
         given in the __init__ of the class.
@@ -1175,13 +1154,14 @@ class SplittedLapseRates:
         """
 
         return temperature_from_potential_temperature_pressure(
-            potential_temperature=self.potential_temperature(z = z),
-            pressure=self.pressure(z = z),
+            potential_temperature=self.potential_temperature(z=z),
+            pressure=self.pressure(z=z),
             pressure_reference=self.pressure_0,
         )
 
-
-    def specific_humidity(self, z : Union[np.ndarray, xr.DataArray]) -> Union[np.ndarray, xr.DataArray]:
+    def specific_humidity(
+        self, z: Union[np.ndarray, xr.DataArray]
+    ) -> Union[np.ndarray, xr.DataArray]:
         """
         Crete the specific humidity profile from the given input parameters
         given in the __init__ of the class.
@@ -1195,9 +1175,9 @@ class SplittedLapseRates:
         # in percentage !!!
 
         return specific_humidity_from_relative_humidity_temperature_pressure(
-            relative_humidity= self.relative_humidity(z = z),
-            temperature=self.temperature(z= z),
-            pressure= self.pressure(z = z),
+            relative_humidity=self.relative_humidity(z=z),
+            temperature=self.temperature(z=z),
+            pressure=self.pressure(z=z),
         )
 
     def wvel_profile(self, gbxbounds, ndims, ntime):
@@ -1213,12 +1193,12 @@ class SplittedLapseRates:
 
     def generate_winds(self, gbxbounds, ndims, ntime, THERMODATA):
         THERMODATA = constant_winds(
-            ndims= ndims,
-            ntime= ntime,
-            THERMODATA= THERMODATA,
-            WVEL= self.w_maximum,
-            UVEL= self.u_velocity,
-            VVEL= self.v_velocity,
+            ndims=ndims,
+            ntime=ntime,
+            THERMODATA=THERMODATA,
+            WVEL=self.w_maximum,
+            UVEL=self.u_velocity,
+            VVEL=self.v_velocity,
         )
         if self.Wlength > 0.0:
             THERMODATA["WVEL"] = self.wvel_profile(gbxbounds, ndims, ntime)

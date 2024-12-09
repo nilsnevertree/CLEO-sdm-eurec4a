@@ -7,7 +7,7 @@
 #SBATCH --time=00:10:00
 #SBATCH --mail-user=clara.bayley@mpimet.mpg.de
 #SBATCH --mail-type=FAIL
-#SBATCH --account=mh1126
+#SBATCH --account=bm1183
 #SBATCH --output=./as2017_out.%j.out
 #SBATCH --error=./as2017_err.%j.out
 
@@ -19,9 +19,9 @@
 ### ---------------------------------------------------- ###
 buildtype="openmp"
 path2CLEO=${HOME}/CLEO/
-path2build=${HOME}/CLEO/build_adia0D/
+path2build=${HOME}/CLEO/build_adia0d/
 enableyac=false
-executables="adia0D"
+executables="adia0d"
 
 pythonscript=${path2CLEO}/examples/adiabaticparcel/as2017.py
 configfile=${path2CLEO}/examples/adiabaticparcel/src/config/as2017_config.yaml
