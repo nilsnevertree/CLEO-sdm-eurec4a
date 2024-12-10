@@ -37,7 +37,7 @@ run_script_path=${path2CLEO}/examples/eurec4a1d/scripts/run_CLEO_job_array.sh
 # --------------------------------
 # microphysics="null_microphysics"
 microphysics="condensation"
-# microphysics="collision_condensation"
+microphysics="collision_condensation"
 # microphysics="coalbure_condensation_small"
 # microphysics="coalbure_condensation_large"
 # microphysics="coalbure_condensation_cke"
@@ -47,7 +47,7 @@ microphysics="condensation"
 # Set paths
 # --------------------------------
 path2CLEO="/home/m/m301096/CLEO/"
-path2data=${path2CLEO}/data/output_v4.1/
+path2data=${path2CLEO}/data/debug_output/long_duration_128/
 path2microphysics=${path2data}/${microphysics}
 path2build=${path2CLEO}/build_eurec4a1d/
 # config_directory="/home/m/m301096/repositories/sdm-eurec4a/data/model/input/output_v3.0/"
@@ -100,7 +100,7 @@ if [ "$run" = true ]; then
     # echo "Directories: ${directories[@]}"
     # job array ranges from 0 - max_number
     number_of_directories=${#directories[@]}
-    # number_of_directories=8
+    number_of_directories=4
     max_number=$(($number_of_directories - 1))
 
     echo "Number of directories and slurm array: ${number_of_directories}"
