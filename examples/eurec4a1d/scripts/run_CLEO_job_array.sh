@@ -2,7 +2,7 @@
 #SBATCH --job-name=e1d_run_CLEO
 #SBATCH --partition=gpu
 #SBATCH --nodes=1
-#SBATCH --gpus=4
+#SBATCH --gpus=1
 #SBATCH --mem=10G
 #SBATCH --time=00:15:00
 #SBATCH --mail-user=nils-ole.niebaumy@mpimet.mpg.de
@@ -19,6 +19,10 @@
 ### --------- exec(s) to compile and your -------- ###
 ### --------------  python script to run. -------------- ###
 ### ---------------------------------------------------- ###
+
+# Ensure script exits on any error
+set -e
+trap 'echo "An error occurred. Exiting..."; exit 1' ERR
 
 echo "git hash: $(git rev-parse HEAD)"
 echo "git branch: $(git symbolic-ref --short HEAD)"
@@ -144,11 +148,27 @@ elif [ ! -f "$config_file_path" ]; then
 else
     echo "All paths are valid"
 fi
+
 # Check if the directory exists
 if [ -d "$dataset_path" ]; then
-    echo "Attempt to delet existing dataset file: ${dataset_path}"
-    rm -rf ${dataset_path} & echo "Dataset file deleted"
+    echo "Attempting to delete dataset directory: ${dataset_path}"
+
+    # Check for open file descriptors
+    if lsof +D "$dataset_path" > /dev/null; then
+        echo "Error: Processes are still accessing files in ${dataset_path}. Terminate them before deletion." >&2
+        lsof +D "$dataset_path" # Optionally list offending processes
+        exit 1
+    fi
+
+    # Remove the directory recursively
+    rm -rf "$dataset_path"
+    echo "Dataset directory deleted successfully."
+else
+    echo "Directory ${dataset_path} does not exist. No action taken."
 fi
+
+echo "============================================"
+
 echo "============================================"
 
 ### --------- run model through Python script ---------- ###

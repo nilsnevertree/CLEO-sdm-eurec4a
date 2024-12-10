@@ -2,8 +2,6 @@
 #SBATCH --job-name=e1d_submit_master
 #SBATCH --partition=compute
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=1
-#SBATCH --exclusive
 #SBATCH --time=00:01:00
 #SBATCH --mem=10M
 #SBATCH --mail-user=nils-ole.niebaumy@mpimet.mpg.de
@@ -11,11 +9,6 @@
 #SBATCH --account=mh1126
 #SBATCH --output=./logfiles/submit_master/%j_out.out
 #SBATCH --error=./logfiles/submit_master/%j_err.out
-
-### ------------------ Load Modules -------------------- ###
-env=/work/mh1126/m301096/conda/envs/sdm_pysd_env312
-mamba activate ${env}
-python=${env}/bin/python
 
 # --------------------------------
 # Set the flags to define the steps to run
@@ -36,7 +29,7 @@ run_script_path=${path2CLEO}/examples/eurec4a1d/scripts/run_CLEO_job_array.sh
 # Set microphysics setup
 # --------------------------------
 # microphysics="null_microphysics"
-microphysics="condensation"
+# microphysics="condensation"
 microphysics="collision_condensation"
 # microphysics="coalbure_condensation_small"
 # microphysics="coalbure_condensation_large"
