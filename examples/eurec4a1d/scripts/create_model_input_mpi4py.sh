@@ -31,7 +31,7 @@ echo "Using Python from: $(which python)"
 ### ------------------ Input Parameters ---------------- ###
 microphysics=collision_condensation
 path2CLEO=${HOME}/CLEO/
-path2data=${path2CLEO}data/debug_output/long_duration_128/
+path2data=${path2CLEO}data/debug_output/short_duration_1024/
 path2eurec4a1d=${path2CLEO}examples/eurec4a1d/
 path2sdmeurec4a=${HOME}/repositories/sdm-eurec4a/
 echo "path2CLEO: ${path2CLEO}"
