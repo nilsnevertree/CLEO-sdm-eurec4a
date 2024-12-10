@@ -1,17 +1,17 @@
 #!/bin/bash
 #SBATCH --job-name=e1d_run_CLEO
-#SBATCH --partition=gpu
-#SBATCH --gpus=1
-#SBATCH --nodes=1
-#SBATCH --ntasks-per-node=1
-#SBATCH --mem=10G
+#SBATCH --partition=gpu            # Specify partition name
+#SBATCH --nodes=1                  # Specify number of nodes
+#SBATCH --gpus=4                   # Specify number of GPUs needed for the job
+#SBATCH --exclusive                # https://slurm.schedmd.com/sbatch.html#OPT_exclusive
+#SBATCH --mem=100G                 # Request all memory available on all nodes
 #SBATCH --time=00:15:00
 #SBATCH --mail-user=nils-ole.niebaumy@mpimet.mpg.de
 #SBATCH --mail-type=FAIL
 #SBATCH --account=mh1126
 #SBATCH --output=./logfiles/run_CLEO/%A/%A_%a_out.out
 #SBATCH --error=./logfiles/run_CLEO/%A/%A_%a_err.out
-#SBATCH --array=0-127
+#SBATCH --array=0-3
 
 ### ---------------------------------------------------- ###
 ### ------------------ Input Parameters ---------------- ###
