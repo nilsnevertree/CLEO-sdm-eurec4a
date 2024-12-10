@@ -94,12 +94,12 @@ logging.info(f"Start with rank {rank} of {number_ranks}")
 parser = argparse.ArgumentParser()
 
 parser.add_argument(
-    "output_dir_path",
+    "--output_dir_path",
     type=str,
     help="Path to output directory which should inhibite the subdirectories for each cloud.",
 )
 parser.add_argument(
-    "input_dir_path",
+    "--input_dir_path",
     type=str,
     help="Path to directory which contains the input files from which the initial data and configuraion will be created.",
 )
