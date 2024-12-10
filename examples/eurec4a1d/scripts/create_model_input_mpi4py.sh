@@ -17,11 +17,15 @@ echo "date: $(date)"
 echo "============================================"
 ### ---------------------------------------------------- ###
 
+source ${HOME}/.bashrc
+
 ### ------------------ Load Modules -------------------- ###
 env=/work/mh1126/m301096/conda/envs/sdm_pysd_env312/
+# module purge
 conda activate ${env}
+
 pythonpath=${env}/bin/python
-source activate ${env}
+echo "Using Python from: $(which python)"
 ### ---------------------------------------------------- ###
 
 ### ------------------ Input Parameters ---------------- ###
@@ -43,11 +47,9 @@ path2output=${path2data}/${microphysics}
 path2input=${path2sdmeurec4a}data/model/input_v4.0/
 echo "path2output: ${path2output}"
 echo "path2input: ${path2input}"
-
 ### ---------------------------------------------------- ###
+echo "============================================"
 
 ### ---- Creation of init files
 
-mpirun -np 40 python ${path2pythonscript} \
-    --input_dir_path ${path2input} \
-    --output_dir_path ${path2output} \
+mpirun -np 40 python ${path2pythonscript} --input_dir_path ${path2input} --output_dir_path ${path2output}
