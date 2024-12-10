@@ -27,7 +27,7 @@ source activate ${env}
 ### ------------------ Input Parameters ---------------- ###
 microphysics=condensation
 path2CLEO=${HOME}/CLEO/
-path2data=${path2CLEO}data/debug_output/long_duration_128sds/
+path2data=${path2CLEO}data/debug_output/long_duration_128/
 path2eurec4a1d=${path2CLEO}examples/eurec4a1d/
 path2sdmeurec4a=${HOME}/repositories/sdm-eurec4a/
 echo "path2CLEO: ${path2CLEO}"
