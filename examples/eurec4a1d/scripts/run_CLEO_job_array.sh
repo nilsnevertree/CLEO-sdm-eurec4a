@@ -10,7 +10,7 @@
 #SBATCH --account=mh1126
 #SBATCH --output=./logfiles/run_CLEO/%A/%A_%a_out.out
 #SBATCH --error=./logfiles/run_CLEO/%A/%A_%a_err.out
-#SBATCH --array=0-3
+#SBATCH --array=0-7
 
 ### ---------------------------------------------------- ###
 ### ------------------ Input Parameters ---------------- ###
@@ -21,13 +21,18 @@
 ### ---------------------------------------------------- ###
 
 # Ensure script exits on any error
-set -e
-trap 'echo "An error occurred. Exiting..."; exit 1' ERR
-
 echo "git hash: $(git rev-parse HEAD)"
 echo "git branch: $(git symbolic-ref --short HEAD)"
 echo "date: $(date)"
 echo "============================================"
+
+### ------------------ Load Modules -------------------- ###
+source ${HOME}/.bashrc
+env=/work/mh1126/m301096/conda/envs/sdm_pysd_env312
+conda activate ${env}
+spack load cmake@3.23.1%gcc
+### ---------------------------------------------------- ###
+
 
 echo "init microphysics: ${microphysics}"
 echo "init config_directory: ${config_directory}"
@@ -101,16 +106,6 @@ dataset_path="${path2inddir}/${dataset_name}"
 
 
 
-
-### ------------------ Load Modules -------------------- ###
-cleoenv=/work/mh1126/m300950/cleoenv
-python=${cleoenv}/bin/python3
-yacyaxtroot=/work/mh1126/m300950/yac
-spack load cmake@3.23.1%gcc
-module load python3/2022.01-gcc-11.2.0
-source activate ${cleoenv}
-### ---------------------------------------------------- ###
-
 ### -------------------- print inputs ------------------ ###
 echo "============================================"
 echo -e "buildtype: \t${buildtype}"
@@ -162,12 +157,14 @@ if [ -d "$dataset_path" ]; then
 
     # Remove the directory recursively
     rm -rf "$dataset_path"
+    if [ $? -ne 0 ]; then
+        echo "Error: rm command failed!" >&2
+        exit 1
+    fi
     echo "Dataset directory deleted successfully."
 else
     echo "Directory ${dataset_path} does not exist. No action taken."
 fi
-
-echo "============================================"
 
 echo "============================================"
 
