@@ -93,7 +93,7 @@ if [ "$run" = true ]; then
     # echo "Directories: ${directories[@]}"
     # job array ranges from 0 - max_number
     number_of_directories=${#directories[@]}
-    number_of_directories=4
+    # number_of_directories=8
     max_number=$(($number_of_directories - 1))
 
     echo "Number of directories and slurm array: ${number_of_directories}"
