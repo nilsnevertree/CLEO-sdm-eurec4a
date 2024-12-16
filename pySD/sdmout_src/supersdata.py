@@ -1903,7 +1903,7 @@ class SupersDataSimple(SupersDataNew):
 
     """
 
-    def __init__(self, attributes):
+    def __init__(self, attributes: list):
         """
         The constructor of the class uses the data
         This function extracts the attributes of the superdroplets dataset and stores them in a SupersDataIndexed object.
