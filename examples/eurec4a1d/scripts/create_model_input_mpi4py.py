@@ -103,20 +103,34 @@ parser.add_argument(
     type=str,
     help="Path to directory which contains the input files from which the initial data and configuraion will be created.",
 )
+parser.add_argument(
+    "--breakup_config_file_path",
+    type=str,
+    help="Path to breakup configuration file.",
+)
+parser.add_argument(
+    "--default_config_file_path",
+    type=str,
+    help="Number of ranks used for parallel processing.",
+)
 args = parser.parse_args()
 
 
 
 # building paths to default configuration files and the CLEO constants file
 constants_file_path = path2CLEO / "libs/cleoconstants.hpp"
-origin_config_file_path = path2eurec4a1d / "default_config/eurec4a1d_config_stationary.yaml"
-breakup_config_file_path = path2eurec4a1d / "default_config/breakup.yaml"
-
+logging.info(f"Constants file path: {constants_file_path}")
 
 input_dir_path = Path(args.input_dir_path)
 logging.info(f"Input directory: {input_dir_path}")
 if not input_dir_path.exists():
     raise ValueError(f"Input directory not found under: {input_dir_path}")
+
+origin_config_file_path = Path(args.default_config_file_path)
+logging.info(f"Original config file path: {origin_config_file_path}")
+
+breakup_config_file_path = Path(args.breakup_config_file_path)
+logging.info(f"Breakup config file path: {breakup_config_file_path}")
 
 
 # getting the input and output directories
