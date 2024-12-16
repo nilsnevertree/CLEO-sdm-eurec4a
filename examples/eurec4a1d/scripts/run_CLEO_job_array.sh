@@ -10,7 +10,7 @@
 #SBATCH --account=mh1126
 #SBATCH --output=./logfiles/run_CLEO/%A/%A_%a_out.out
 #SBATCH --error=./logfiles/run_CLEO/%A/%A_%a_err.out
-#SBATCH --array=0-7
+#SBATCH --array=0-127
 
 ### ---------------------------------------------------- ###
 ### ------------------ Input Parameters ---------------- ###
@@ -33,73 +33,66 @@ conda activate ${env}
 spack load cmake@3.23.1%gcc
 ### ---------------------------------------------------- ###
 
+# the following paths will be given by the master submit scrip, which sets the slurm array size in this script too.
+echo "init microphysics: ${microphysics}"    # microphysics setup
+echo "init path2CLEO: ${path2CLEO}"          # path to the CLEO directory
+echo "init path2data: ${path2data}"          # path to the data directory with subdirectories for each microphysics setup
+echo "init path2build: ${path2build}"        # path to the build directory
 
-echo "init microphysics: ${microphysics}"
-echo "init config_directory: ${config_directory}"
-echo "init path2CLEO: ${path2CLEO}"
-echo "init path2data: ${path2data}"
-echo "init path2build: ${path2build}"
-
-run=true
-
-# set paths
+# some example paths which could be used for testing
 # path2CLEO=${HOME}/CLEO/
 # path2build=${path2CLEO}/build_eurec4a1d/
 # path2data=${path2CLEO}/data/test/
-path2eurec4a1d=${path2CLEO}/examples/eurec4a1d/
+
+# relative paths and names within an individual cloud directory
+# individual directory
+# | --- config_dir_name
+# |     | --- config_file_name
+# | --- dataset_name
+config_dir_name="config"
+config_file_name="eurec4a1d_config.yaml"
+relative_config_path="${config_dir_name}/${config_file_name}"
+dataset_name="eurec4a1d_sol.zarr"
 
 
 ### ---------- Setup for the EUREC4A1D model ---------- ###
 
-exec=""
-path2exec=""
-rawdirectory=""
+# initialize
+exec=""                         # executable name
+path2exec=""                    # path to the executable
+path2microphysics_data=""       # path to the directory which contains the subdirectories for each cluster
 
-# function to set the rawdirectory and the exec and path2exec
+# function to set the path2microphysics_data and the exec and path2exec
 function prepare_microphysics_setup() {
   local setup=$1
+  # the executable name is given by the microphysics setup
   exec="eurec4a1D_${setup}"
+  # the executable path lies within the build directory and the eurec4a1d directory
   path2exec="${path2build}/examples/eurec4a1d/stationary_${setup}/src/${exec}"
-  rawdirectory="${path2data}/${setup}/"
+    # the path to the data directory is given by the path2data and the microphysics setup
+  path2microphysics_data="${path2data}/${setup}/"
 }
 
-# Your existing conditional logic
-if [ "${microphysics}" == "null_microphysics" ]; then
-    prepare_microphysics_setup "${microphysics}"
-elif [ "${microphysics}" == "condensation" ]; then
-    prepare_microphysics_setup "${microphysics}"
-elif [ "${microphysics}" == "collision_condensation" ]; then
-    prepare_microphysics_setup "${microphysics}"
-elif [ "${microphysics}" == "coalbure_condensation_small" ]; then
-    prepare_microphysics_setup "${microphysics}"
-elif [ "${microphysics}" == "coalbure_condensation_large" ]; then
-    prepare_microphysics_setup "${microphysics}"
-else
-    echo "ERROR: microphysics not found"
-    exit 1
-fi
+# Create the microphysics setup
+prepare_microphysics_setup "${microphysics}"
 ### ---------------------------------------------------- ###
 
 ### ---------------------------------------------------- ###
 # Setup paths depending on current array task ID
-# directories=(${rawdirectory}/${subdir_pattern}*)
+# directories=(${path2microphysics_data}/${subdir_pattern}*)
 # IMPORANT: The directories must be sorted to match the array task ID
-directories=($(find ${rawdirectory} -maxdepth 1 -type d -name 'cluster*' -printf '%P\n' | sort))
-
+directories=($(find ${path2microphysics_data} -maxdepth 1 -type d -name 'cluster*' -printf '%P\n' | sort))
+current_directory=${directories[${SLURM_ARRAY_TASK_ID}]}
 #echo "Directories: ${directories[@]}"
 echo "Number of directories: ${#directories[@]}"
 echo "Current array task ID: ${SLURM_ARRAY_TASK_ID}"
-echo "Current directory: ${directories[${SLURM_ARRAY_TASK_ID}]}"
+echo "Current directory: ${current_directory}"
 
-path2inddir=${rawdirectory}/${directories[${SLURM_ARRAY_TASK_ID}]}
+path2inddir=${path2microphysics_data}/${current_directory}
 
-
-config_dir_name="config"
-config_file_name="eurec4a1d_config.yaml"
-dataset_name="eurec4a1d_sol.zarr"
 
 # Setup paths to the config file and the dataset file
-config_file_path="${path2inddir}/${config_dir_name}/${config_file_name}"
+config_file_path="${path2inddir}/${relative_config_path}"
 dataset_path="${path2inddir}/${dataset_name}"
 # Setup path to the executable
 ### ---------------------------------------------------- ###
@@ -124,7 +117,7 @@ echo "============================================"
 ### --------------------------------------------------- ###
 
 
-# make sure paths are directories and executable is a file
+# Validate all paths before running the model
 if [ ! -d "$path2CLEO" ]; then
     echo "Invalid path to CLEO"
     exit 1
