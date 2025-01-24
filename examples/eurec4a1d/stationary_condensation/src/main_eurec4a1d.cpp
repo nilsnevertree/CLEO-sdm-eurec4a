@@ -114,7 +114,8 @@ inline auto create_movement(const unsigned int motionstep, const CartesianMaps &
   const Motion<CartesianMaps> auto motion =
       CartesianMotion(motionstep, &step2dimlesstime, terminalv);
 
-  const auto boundary_conditions = NullBoundaryConditions{};
+  // const auto boundary_conditions = NullBoundaryConditions{};
+  const auto boundary_conditions = AddSupersAtDomainTop(config.get_addsupersatdomaintop());
 
   return MoveSupersInDomain(gbxmaps, motion, boundary_conditions);
 }
