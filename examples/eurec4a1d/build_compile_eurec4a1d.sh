@@ -7,7 +7,7 @@
 #SBATCH --time=00:15:00
 #SBATCH --mail-user=nils-ole.niebaumy@mpimet.mpg.de
 #SBATCH --mail-type=FAIL
-#SBATCH --account=mh1126
+#SBATCH --account=um1487
 #SBATCH --output=/home/m/m301096/CLEO/examples/eurec4a1d/logfiles/build_compile_CLEO/%j/%j_out.out
 #SBATCH --error=/home/m/m301096/CLEO/examples/eurec4a1d/logfiles/build_compile_CLEO/%j/%j_err.out
 

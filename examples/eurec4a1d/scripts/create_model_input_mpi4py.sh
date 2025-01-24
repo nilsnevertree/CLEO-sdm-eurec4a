@@ -6,7 +6,7 @@
 #SBATCH --time=00:10:00
 #SBATCH --mail-user=nils-ole.niebaumy@mpimet.mpg.de
 #SBATCH --mail-type=FAIL
-#SBATCH --account=mh1126
+#SBATCH --account=um1487
 #SBATCH --output=/home/m/m301096/CLEO/examples/eurec4a1d/logfiles/create_init_files/mpi4py/.%j_out.out
 #SBATCH --error=/home/m/m301096/CLEO/examples/eurec4a1d/logfiles/create_init_files/mpi4py/.%j_err.out
 
@@ -20,7 +20,7 @@ echo "============================================"
 source ${HOME}/.bashrc
 
 ### ------------------ Load Modules -------------------- ###
-env=/work/mh1126/m301096/conda/envs/sdm_pysd_env312/
+env=/work/um1487/m301096/conda/envs/sdm_pysd_python312/
 # module purge
 conda activate ${env}
 
@@ -30,9 +30,9 @@ echo "Using Python from: $(which python)"
 
 ### ------------------ Input Parameters ---------------- ###
 # microphysics="null_microphysics"
-microphysics="condensation"
+# microphysics="condensation"
 # microphysics="collision_condensation"
-# microphysics="coalbure_condensation_small"
+microphysics="coalbure_condensation_small"
 # microphysics="coalbure_condensation_large"
 # microphysics="coalbure_condensation_cke"
 
