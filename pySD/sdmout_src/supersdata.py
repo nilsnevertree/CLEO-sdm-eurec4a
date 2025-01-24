@@ -1625,7 +1625,7 @@ class SupersDataNew(SuperdropProperties):
             err = "no known return provided for " + key + " key"
             raise ValueError(err)
 
-    def __getitem__(self, key):
+    def __getitem__(self, key) -> SupersAttribute:
         try:
             return self.attributes[key]
         except KeyError:
