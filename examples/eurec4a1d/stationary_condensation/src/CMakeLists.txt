@@ -20,7 +20,7 @@ target_link_libraries(eurec4a1d_condensation PUBLIC Kokkos::kokkos)
 target_include_directories(eurec4a1d_condensation PRIVATE "${CLEO_SOURCE_DIR}/libs") # CLEO libs directory
 
 # set specific C++ compiler options for target (optional)
-#target_compile_options(eurec4a1d PRIVATE)
+#target_compile_options(eurec4a1d_condensation PRIVATE)
 
 # set compiler properties for target(s)
 set_target_properties(eurec4a1d_condensation PROPERTIES
