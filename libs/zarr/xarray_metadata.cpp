@@ -20,6 +20,7 @@
  */
 
 #include "./xarray_metadata.hpp"
+#include <cstdint>
 
 /**
  * @brief Converts vector of strings, e.g. for names of dimensions,into a single list written
