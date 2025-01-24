@@ -29,10 +29,10 @@ echo "Using Python from: $(which python)"
 ### ---------------------------------------------------- ###
 
 ### ------------------ Input Parameters ---------------- ###
-# microphysics="null_microphysics"
+microphysics="null_microphysics"
 # microphysics="condensation"
 # microphysics="collision_condensation"
-microphysics="coalbure_condensation_small"
+# microphysics="coalbure_condensation_small"
 # microphysics="coalbure_condensation_large"
 # microphysics="coalbure_condensation_cke"
 
