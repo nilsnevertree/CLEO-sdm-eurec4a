@@ -67,7 +67,7 @@
 #include "superdrops/microphysicalprocess.hpp"
 #include "superdrops/motion.hpp"
 #include "superdrops/terminalvelocity.hpp"
-#include "zarr/dataset.hpp"
+#include "zarr/collective_dataset.hpp"
 #include "zarr/fsstore.hpp"
 
 // ===================================================

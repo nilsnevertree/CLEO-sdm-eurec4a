@@ -29,7 +29,7 @@
 #include <stdexcept>
 #include <string_view>
 
-#include "zarr/dataset.hpp"
+#include "zarr/collective_dataset.hpp"
 #include "cartesiandomain/add_supers_at_domain_top.hpp"
 #include "cartesiandomain/cartesianmaps.hpp"
 #include "cartesiandomain/cartesianmotion.hpp"
