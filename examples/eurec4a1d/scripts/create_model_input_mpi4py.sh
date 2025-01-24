@@ -37,13 +37,16 @@ microphysics="null_microphysics"
 # microphysics="coalbure_condensation_cke"
 
 path2CLEO=${HOME}/CLEO/
-path2data=${path2CLEO}data/output_v4.1/
-path2input=${path2sdmeurec4a}data/model/input_v4.1/
 
 
-path2output=${path2data}/${microphysics}
+
 path2eurec4a1d=${path2CLEO}examples/eurec4a1d/
 path2sdmeurec4a=${HOME}/repositories/sdm-eurec4a/
+
+path2data=${path2CLEO}data/output_v4.1/
+path2input=${path2sdmeurec4a}data/model/input_v4.1/
+path2output=${path2data}/${microphysics}
+
 
 echo "============================================"
 echo "path2CLEO: ${path2CLEO}"
