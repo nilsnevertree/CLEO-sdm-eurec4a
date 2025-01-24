@@ -339,6 +339,7 @@ class AttrsGeneratorBinWidth(AttrsGenerator):
         # get the total number concentration from the sampled distribution
         xi = np.rint(xi)
         desired_xi_sum = int(np.sum(xi))
+
         # if smaller than the radii size, the distirbution can
         # never represent the total number concentration
         if desired_xi_sum <= np.size(radii) :

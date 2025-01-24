@@ -1,6 +1,4 @@
 # %%
-import random
-import re
 import sys
 import shutil
 import yaml
@@ -9,41 +7,52 @@ from typing import Union, Tuple
 from io import StringIO
 from pathlib import Path
 import logging
-#%%
-import sys
+import datetime
 import numpy as np
-import mpi4py
-import time as pytime
-import pandas as pd
 import xarray as xr
-import logging
+import argparse
+from mpi4py import MPI
+import matplotlib.pyplot as plt
+
+from pySD import editconfigfile
+from pySD.gbxboundariesbinary_src import create_gbxboundaries as cgrid
+from pySD.gbxboundariesbinary_src import read_gbxboundaries as rgrid
+from pySD.initsuperdropsbinary_src import (
+    attrsgen,
+    crdgens,
+    probdists,
+    rgens,
+)
+from pySD.initsuperdropsbinary_src import create_initsuperdrops as csupers
+from pySD.initsuperdropsbinary_src import read_initsuperdrops as rsupers
+from pySD.thermobinary_src import create_thermodynamics as cthermo
+from pySD.thermobinary_src import read_thermodynamics as rthermo
+from pySD.thermobinary_src import thermogen
+
 #%%
-# logging configure
-logging.basicConfig(level=logging.INFO)
+# validate the mpi4py setup
 
 # === mpi4py ===
 try:
-  from mpi4py import MPI
   comm = MPI.COMM_WORLD
   rank = comm.Get_rank()  # [0,1,2,3,4,5,6,7,8,9]
-  npro = comm.Get_size()  # 10
+  number_ranks = comm.Get_size()  # 10
 except:
   print('::: Warning: Proceeding without mpi4py! :::')
   rank = 0
-  npro = 1
+  number_ranks = 1
 
 path2CLEO = Path(__file__).resolve().parents[3]
-
-path2build = path2CLEO / "build_eurec4a1d"
+# path2build = path2CLEO / "build_eurec4a1d"
 path2eurec4a1d = path2CLEO / "examples/eurec4a1d"
 
-import datetime
-# === logging ===
-# create log file
 
+
+# logging configure
+logging.basicConfig(level=logging.INFO)
 time_str = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%d-%H%M%S')
 
-log_file_dir = path2eurec4a1d / "logfiles" / f"cretea_init_files/mpi4py/{time_str}"
+log_file_dir = path2eurec4a1d / "logfiles" / f"create_init_files/mpi4py/{time_str}"
 log_file_dir.mkdir(exist_ok=True, parents=True)
 log_file_path = log_file_dir / f"{rank}.log"
 
@@ -79,59 +88,68 @@ def handle_exception(exc_type, exc_value, exc_traceback):
 
 
 logging.info(f"====================")
-logging.info(f"Start with rank {rank} of {npro}")
+logging.info(f"Start with rank {rank} of {number_ranks}")
 
-binary_dir_path = path2build / "bin/"
-share_dir_path = path2build / "share/"
 
+parser = argparse.ArgumentParser()
+
+parser.add_argument(
+    "--output_dir_path",
+    type=str,
+    help="Path to output directory which should inhibite the subdirectories for each cloud.",
+)
+parser.add_argument(
+    "--input_dir_path",
+    type=str,
+    help="Path to directory which contains the input files from which the initial data and configuraion will be created.",
+)
+parser.add_argument(
+    "--breakup_config_file_path",
+    type=str,
+    help="Path to breakup configuration file.",
+)
+parser.add_argument(
+    "--default_config_file_path",
+    type=str,
+    help="Number of ranks used for parallel processing.",
+)
+args = parser.parse_args()
+
+
+
+# building paths to default configuration files and the CLEO constants file
 constants_file_path = path2CLEO / "libs/cleoconstants.hpp"
-origin_config_file_path = path2eurec4a1d / "default_config/eurec4a1d_config_stationary.yaml"
-breakup_config_file_path = path2eurec4a1d / "default_config/breakup.yaml"
+logging.info(f"Constants file path: {constants_file_path}")
 
-output_dir_path = path2CLEO / "data/output_v4.1/condensation"
+input_dir_path = Path(args.input_dir_path)
+logging.info(f"Input directory: {input_dir_path}")
+if not input_dir_path.exists():
+    raise ValueError(f"Input directory not found under: {input_dir_path}")
+
+origin_config_file_path = Path(args.default_config_file_path)
+logging.info(f"Original config file path: {origin_config_file_path}")
+
+breakup_config_file_path = Path(args.breakup_config_file_path)
+logging.info(f"Breakup config file path: {breakup_config_file_path}")
+
+
+# getting the input and output directories
+output_dir_path = Path(args.output_dir_path)
+logging.info(f"Output directory: {output_dir_path}")
 output_dir_path.mkdir(exist_ok=True, parents=True)
 
-from sdm_eurec4a import RepositoryPath
-path2sdm_eurec4a = RepositoryPath('levante').data_dir
-input_dir_path = path2sdm_eurec4a / "model/input_v4.0"
+# define the prefix for the individual subfolders created for each cloud.
+# the folder name will be the {subfolder_prefix}{cloud_id}
+subfolder_prefix = "cluster_"
 
+# # NOTE: test setup for local testing
 
+# output_dir_path = path2CLEO / "data/debug_output"
+# output_dir_path.mkdir(exist_ok=True, parents=True)
 
-# %%
-
-import matplotlib.pyplot as plt
-import numpy as np
-import tqdm
-import xarray as xr
-
-import sdm_eurec4a.input_processing.models as smodels
-from sdm_eurec4a.conversions import msd_from_psd_dataarray
-
-
-if "sdm_pysd_env312" not in sys.prefix:
-    sys.path.append(str(path2CLEO))  # for imports from pySD package
-    sys.path.append(
-        str(path2CLEO / "examples/exampleplotting/")
-    )  # for imports from example plotting package
-
-
-from pySD import editconfigfile
-from pySD.gbxboundariesbinary_src import create_gbxboundaries as cgrid
-from pySD.gbxboundariesbinary_src import read_gbxboundaries as rgrid
-from pySD.initsuperdropsbinary_src import (
-    attrsgen,
-    crdgens,
-    probdists,
-    rgens,
-)
-from pySD.initsuperdropsbinary_src import create_initsuperdrops as csupers
-from pySD.initsuperdropsbinary_src import read_initsuperdrops as rsupers
-from pySD.thermobinary_src import create_thermodynamics as cthermo
-from pySD.thermobinary_src import read_thermodynamics as rthermo
-from pySD.thermobinary_src import thermogen
-
-
-# print(f"Enviroment: {sys.prefix}")
+# from sdm_eurec4a import RepositoryPath
+# path2sdm_eurec4a = RepositoryPath('levante').data_dir
+# input_dir_path = path2sdm_eurec4a / "model/input_v4.0"
 
 
 class Capturing(list):
@@ -153,7 +171,7 @@ class Capturing(list):
 
 def parameters_dataset_to_dict(ds: xr.Dataset, mapping : Union[dict[str,str], Tuple[str]]) -> dict:
     """
-    Convert selected parameters from an xarray Dataset to a dictionary.
+    Convert selected parameters from an xarray Dataset to a dictionary with a given mapping.
 
     Parameters
     ----------
@@ -185,61 +203,24 @@ def parameters_dataset_to_dict(ds: xr.Dataset, mapping : Union[dict[str,str], Tu
 
     return parameters
 
-
-def plot_11(ax):
-    x_min, x_max = ax.get_xlim()
-    y_min, y_max = ax.get_ylim()
-    g_min = min(x_min, y_min)
-    g_max = max(x_max, y_max)
-    g = (g_max, g_min)
-
-    ax.plot(g, g, color="black", linestyle="--")
-
-
-if "sdm_pysd_env312" not in sys.prefix:
-    sys.path.append(str(path2CLEO))  # for imports from pySD package
-    sys.path.append(
-        str(path2CLEO / "examples/exampleplotting/")
-    )  # for imports from example plotting package
-
-
-
-# if False :
-#     path2CLEO = Path(sys.argv[1])
-#     origin_config_file_path = Path(sys.argv[2])
-#     origin_cloud_observation_file = Path(sys.argv[3])
-
-#     raw_dir = Path(sys.argv[4])
-
-#     breakup_config_file = sys.argv[5]
-#     if breakup_config_file in ("None", 0, "0", None, False):
-#         breakup_config_file = None
-#     elif not Path(breakup_config_file).exists():
-#         raise ValueError(f"Breakup config file not found under: {breakup_config_file}")
-#     else:
-#         breakup_config_file = Path(breakup_config_file)
-# else :
-
-
-
-# print(f"Path to CLEO: {path2CLEO}")
-# print(f"Path to config file: {origin_config_file_path}")
-# print(f"Path to parameter input files: {input_dir_path}")
-# print(f"Path to output directory: {output_dir_path}")
-# print(f"Path to breakup config file: {breakup_config_file_path}")
-
-# %%
-# Load the parameters datasets
+# Load the parameters datasets from the input directory
+logging.info(f"Load parameters datasets")
+# linear space for the particle size distribution parameters with data variables
+# - geometric_mean1, geometric_std_dev1, scale_factor1
+# - geometric_mean2, geometric_std_dev2, scale_factor2
 ds_psd_parameters = xr.open_dataset(input_dir_path / "particle_size_distribution_parameters_linear_space.nc")
+# potential temperature, relative humidity with parameters
+# - f_0, slope_1, slope_2
 ds_potential_temperature_parameters = xr.open_dataset(input_dir_path / "potential_temperature_parameters.nc")
 ds_relative_humidity_parameters = xr.open_dataset(input_dir_path / "relative_humidity_parameters.nc")
 ds_pressure_parameters = xr.open_dataset(input_dir_path / "pressure_parameters.nc")
 
+logging.info(f"Testing datasets have equal x_split values")
 xr.testing.assert_allclose(ds_potential_temperature_parameters['x_split'], ds_relative_humidity_parameters['x_split'], rtol = 1e-12)
 
-# convert parameters from log space to linear space
 
-
+# mapping of the parameters to extract from the datasets of the input directory
+# this mapping assumes a double log normal distribution for the particle size distribution
 mapping = dict(
     geometric_mean1 = 'geometric_mean1',
     geometric_mean2 = 'geometric_mean2',
@@ -249,10 +230,7 @@ mapping = dict(
     scale_factor2 = 'scale_factor2',
     )
 
-
-
-# %%
-
+logging.info(f"Find shared cloud ids from the input datasets")
 shared_cloud_ids = set.intersection(
     set(ds_psd_parameters['cloud_id'].values),
     set(ds_potential_temperature_parameters['cloud_id'].values),
@@ -260,22 +238,15 @@ shared_cloud_ids = set.intersection(
     set(ds_pressure_parameters['cloud_id'].values),
 )
 shared_cloud_ids = list(sorted(shared_cloud_ids))
-# %%
 
-# create the individual raw directory
-identification_type = "cluster"
+# split the cloud ids among the processes and select the sublist for the current rank
+sublist_cloud_ids = np.array_split(shared_cloud_ids, number_ranks)[rank]
 
-
-# GENERAL SETTINGS FOR ALL CLOUDS
-
-
-sublist_cloud_ids = np.array_split(shared_cloud_ids, npro)[rank]
-
-
-
+# iterate over the cloud ids
+logging.info(f"Start creating the initial data for the process specific clouds")
 for step, cloud_id in enumerate(sublist_cloud_ids):
 
-    logging.info(f"Core {rank+1} {step}/{len(sublist_cloud_ids)} Cloud {cloud_id}")
+    logging.info(f"Rank {rank+1} {step}/{len(sublist_cloud_ids)} Cloud {cloud_id}")
 
     # --- extract cloud specific parameters --- #
     psd_params = ds_psd_parameters.sel(cloud_id = cloud_id)
@@ -285,35 +256,36 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
     potential_temperature_params = ds_potential_temperature_parameters.sel(cloud_id = cloud_id)
     pressure_params = ds_pressure_parameters.sel(cloud_id = cloud_id)
 
-
+    logging.info(f"Read default config file from {origin_config_file_path}")
     # CREATE A CONFIG FILE TO BE UPDATED
     with open(origin_config_file_path, "r") as f:
         eurec4a1d_config = yaml.safe_load(f)
 
     # update breakup in eurec4a1d_config file if breakup file is given:
+    logging.info(f"Read breakup config file from {breakup_config_file_path}")
     if breakup_config_file_path is not None:
         with open(breakup_config_file_path, "r") as f:
             breakup_config = yaml.safe_load(f)
         eurec4a1d_config["microphysics"].update(breakup_config)
 
-    individual_output_dir_path = output_dir_path / f"{identification_type}_{cloud_id}"
+    individual_output_dir_path = output_dir_path / f"{subfolder_prefix}{cloud_id}"
     individual_output_dir_path.mkdir(exist_ok=True, parents= False)
 
 
+    logging.info(f"Copy config file to {individual_output_dir_path}")
     config_dir_path = individual_output_dir_path / "config"
     config_dir_path.mkdir(exist_ok=True, parents= False)
-
-
     # copy the cloud config file to the raw directory and use it
     config_file_path = config_dir_path / "eurec4a1d_config.yaml"
     shutil.copy(origin_config_file_path, config_file_path)
 
+    logging.info(f"Create share directory {individual_output_dir_path}")
     share_path_individual = individual_output_dir_path / "share"
     share_path_individual.mkdir(exist_ok=True)
 
 
     # --- INPUT DATA ---
-
+    logging.info(f"Update input data in config file")
     # coupling dynamics files
     eurec4a1d_config["coupled_dynamics"].update(
         **dict(
@@ -350,7 +322,7 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
     thermodynamics_file_path = eurec4a1d_config["coupled_dynamics"]["thermo"]
 
     # --- OUTPUT DATA ---
-
+    logging.info(f"Update output data in config file")
     eurec4a1d_config["outputdata"].update(
         setup_filename=str(config_dir_path / "eurec4a1d_setup.txt"),
         stats_filename=str(config_dir_path / "eurec4a1d_stats.txt"),
@@ -365,7 +337,6 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
 
 
     ### --- settings for 1-D gridbox boundaries --- ###
-
     # only use integer precision
     cloud_altitude = potential_temperature_params['x_split'].mean().values
     cloud_altitude = int(cloud_altitude)
@@ -394,7 +365,6 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
     coord2gen = None  # do not generate superdroplet coord2s
 
 
-
     ### --- settings for initial superdroplets --- ###
     # number of superdroplets per gridbox
     sd_per_gridbox = eurec4a1d_config["initsupers"]["initnsupers"]
@@ -414,7 +384,7 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
     monodryr = 1e-12  # all SDs have this same dryradius [m]
     dryradii_generator = rgens.MonoAttrGen(monodryr)
 
-
+    logging.info("Write gridbox binary file")
     ### ----- write gridbox boundaries binary ----- ###
     with Capturing() as grid_info:
         cgrid.write_gridboxboundaries_binary(
@@ -438,25 +408,25 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
 
     # --- THERMODYNAMICS ---
 
-
+    logging.info("Create thermodynamics generator")
     thermodynamics_generator = thermogen.SplittedLapseRates(
         configfile = config_file_path,
         constsfile = constants_file_path,
-        cloud_base_height = relative_humidity_params['x_split'].values,
-        pressure_0 = pressure_params['f_0'].values,
-        potential_temperature_0 = potential_temperature_params['f_0'].values,
-        relative_humidity_0 = relative_humidity_params['f_0'].values,
-        pressure_lapse_rates = (
-            pressure_params['slope'].values,
-            pressure_params['slope'].values,
-        ),
-        potential_temperature_lapse_rates = (
-            potential_temperature_params['slope_1'].values,
-            potential_temperature_params['slope_2'].values,
-        ),
-        relative_humidity_lapse_rates = (
-            relative_humidity_params['slope_1'].values,
-            relative_humidity_params['slope_2'].values,
+        cloud_base_height = relative_humidity_params['x_split'].values,              #type: ignore
+        pressure_0 = pressure_params['f_0'].values,                                  #type: ignore
+        potential_temperature_0 = potential_temperature_params['f_0'].values,        #type: ignore
+        relative_humidity_0 = relative_humidity_params['f_0'].values,                #type: ignore
+        pressure_lapse_rates = (                                                     #type: ignore
+            pressure_params['slope'].values,                                         #type: ignore
+            pressure_params['slope'].values,                                         #type: ignore
+        ),                                                                           #type: ignore
+        potential_temperature_lapse_rates = (                                        #type: ignore
+            potential_temperature_params['slope_1'].values,                          #type: ignore
+            potential_temperature_params['slope_2'].values,                          #type: ignore
+        ),                                                                           #type: ignore
+        relative_humidity_lapse_rates = (                                            #type: ignore
+            relative_humidity_params['slope_1'].values,                              #type: ignore
+            relative_humidity_params['slope_2'].values,                              #type: ignore
         ),
         qcond=0.0,
         w_maximum = 0.0,
@@ -465,6 +435,7 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
         Wlength = 0.0,
     )
 
+    logging.info("Write thermodynamics binary")
     with Capturing() as thermo_info:
         cthermo.write_thermodynamics_binary(
             thermofile= thermodynamics_file_path,
@@ -476,7 +447,7 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
 
 
     # --- INITIAL SUPERDROPLETS ---
-
+    logging.info("Create initial multiplicity generator")
     xi_probability_distribution = probdists.DoubleLogNormal(
         geometric_mean1= psd_params_dict['geometric_mean1'],
         geometric_mean2= psd_params_dict['geometric_mean2'],
@@ -486,7 +457,7 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
         scale_factor2= psd_params_dict['scale_factor2'],
     )
 
-
+    logging.info("Create initial attributes generator")
     initial_attributes_generator = attrsgen.AttrsGeneratorBinWidth(
         radiigen = radii_generator,
         dryradiigen = dryradii_generator,
@@ -496,6 +467,7 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
         coord2gen= coord2gen,
     )
 
+    logging.info("Get superdroplets at domain top")
     ### ----- write initial superdroplets binary ----- ###
     with Capturing() as super_top_info:
         number_superdroplets = crdgens.nsupers_at_domain_top(
@@ -504,24 +476,6 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
             nsupers = sd_per_gridbox,
             zlim = zgrid_cloud_base,
         )
-
-    ### ---------------------------------------------------------------- ###
-    ### UPDATE THE BOUNDARY CONDITIONS FOR THE CONFIG FILE ###
-    ### ---------------------------------------------------------------- ###
-
-    eurec4a1d_config["boundary_conditions"].update(
-        COORD3LIM=float(zgrid_cloud_base),  # SDs added to domain with coord3 >= z_boundary_respawn [m]
-        newnsupers=sd_per_gridbox,  # number of new super-droplets per gridbox
-        MINRADIUS=radius_minimum,  # minimum radius of new super-droplets [m]
-        MAXRADIUS=radius_maximum,  # maximum radius of new super-droplets [m]
-        NUMCONC_a=psd_params_dict['scale_factor1'],  # number conc. of 1st droplet lognormal dist [m^-3]
-        GEOMEAN_a=psd_params_dict['geometric_mean1'],  # geometric mean radius of 1st lognormal dist [m]
-        geosigma_a=psd_params_dict['geometric_std_dev1'],  # geometric standard deviation of 1st lognormal dist
-        NUMCONC_b=psd_params_dict['scale_factor2'],  # number conc. of 2nd droplet lognormal dist [m^-3]
-        GEOMEAN_b=psd_params_dict['geometric_mean2'],  # geometric mean radius of 2nd lognormal dist [m]
-        geosigma_b=psd_params_dict['geometric_std_dev2'],  # geometric standard deviation of 2nd lognormal dist
-    )
-
 
     # get total number of superdroplets
     number_superdroplets_total = int(np.sum(list(number_superdroplets.values())))
@@ -543,6 +497,8 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
 
     editconfigfile.edit_config_params(str(config_file_path), eurec4a1d_config)
 
+    # --- WRITE THE BINARY FILES ---
+    logging.info("Write initial superdroplets binary")
     with Capturing() as super_info:
         try :
             csupers.write_initsuperdrops_binary(
@@ -558,8 +514,28 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
             logging.error(f"Error: {type(e)}")
 
 
+    ### ---------------------------------------------------------------- ###
+    ### UPDATE THE BOUNDARY CONDITIONS FOR THE CONFIG FILE ###
+    ### ---------------------------------------------------------------- ###
+    logging.info("Update boundary conditions in config file")
+    eurec4a1d_config["boundary_conditions"].update(
+        COORD3LIM=float(zgrid_cloud_base),  # SDs added to domain with coord3 >= z_boundary_respawn [m]
+        newnsupers=sd_per_gridbox,  # number of new super-droplets per gridbox
+        MINRADIUS=radius_minimum,  # minimum radius of new super-droplets [m]
+        MAXRADIUS=radius_maximum,  # maximum radius of new super-droplets [m]
+        NUMCONC_a=psd_params_dict['scale_factor1'],  # number conc. of 1st droplet lognormal dist [m^-3]
+        GEOMEAN_a=psd_params_dict['geometric_mean1'],  # geometric mean radius of 1st lognormal dist [m]
+        geosigma_a=psd_params_dict['geometric_std_dev1'],  # geometric standard deviation of 1st lognormal dist
+        NUMCONC_b=psd_params_dict['scale_factor2'],  # number conc. of 2nd droplet lognormal dist [m^-3]
+        GEOMEAN_b=psd_params_dict['geometric_mean2'],  # geometric mean radius of 2nd lognormal dist [m]
+        geosigma_b=psd_params_dict['geometric_std_dev2'],  # geometric standard deviation of 2nd lognormal dist
+    )
+    editconfigfile.edit_config_params(str(config_file_path), eurec4a1d_config)
+
+
     # --- PLOTTING ---
 
+    logging.info("Plot figures")
     fig_dir = individual_output_dir_path / "figures"
     fig_dir.mkdir(exist_ok=True, parents=False)
 
