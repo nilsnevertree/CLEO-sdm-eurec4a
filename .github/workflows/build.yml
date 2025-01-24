@@ -62,7 +62,9 @@ jobs:
     strategy:
       matrix:
         target: [all, adia0d, golcolls, longcolls, lowlistcolls, szakallurbichcolls,
-                testikstraubcolls, const2d, divfree2d, eurec4a1d, rshaft1d, spdtest]
+                testikstraubcolls, const2d, divfree2d, rshaft1d, spdtest,
+                eurec4a1d_null_microphysics, eurec4a1d_condensation, eurec4a1d_collision_condensation,
+                eurec4a1d_coalbure_condensation_small, eurec4a1d_coalbure_condensation_large]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
