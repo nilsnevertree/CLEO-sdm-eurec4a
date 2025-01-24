@@ -49,11 +49,13 @@
 #include "observers/nsupers_observer.hpp"
 #include "observers/observers.hpp"
 #include "observers/sdmmonitor/monitor_condensation_observer.hpp"
-// #include "observers/state_observer.hpp"
+#include "observers/state_observer.hpp"
 #include "observers/streamout_observer.hpp"
 #include "observers/superdrops_observer.hpp"
 #include "observers/time_observer.hpp"
-// #include "observers/windvel_observer.hpp"
+#include "observers/thermo_observer.hpp"
+#include "observers/totnsupers_observer.hpp"
+#include "observers/windvel_observer.hpp"
 #include "runcleo/coupleddynamics.hpp"
 #include "runcleo/couplingcomms.hpp"
 #include "runcleo/runcleo.hpp"
@@ -154,12 +156,10 @@ template <typename Store>
 inline Observer auto create_gridboxes_observer(const unsigned int interval, Dataset<Store> &dataset,
                                                const int maxchunk, const size_t ngbxs) {
   const CollectDataForDataset<Store> auto thermo = CollectThermo(dataset, maxchunk, ngbxs);
-  const CollectDataForDataset<Store> auto wvel =
-      CollectWindVariable<Store, WvelFunc>(dataset, WvelFunc{}, "wvel", maxchunk, ngbxs);
-
+  const CollectDataForDataset<Store> auto windvel = CollectWindVel(dataset, maxchunk, ngbxs);
   const CollectDataForDataset<Store> auto nsupers = CollectNsupers(dataset, maxchunk, ngbxs);
 
-  const CollectDataForDataset<Store> auto collect_gbxdata = nsupers >> wvel >> thermo;
+  const CollectDataForDataset<Store> auto collect_gbxdata = nsupers >> windvel >> thermo;
   return WriteToDatasetObserver(interval, dataset, collect_gbxdata);
 }
 
@@ -170,7 +170,7 @@ inline Observer auto create_observer(const Config &config, const Timesteps &tste
   const auto maxchunk = config.get_maxchunk();
   const auto ngbxs = config.get_ngbxs();
 
-  const Observer auto obsstats = RunStatsObserver(obsstep, config.get_stats_filename());
+  // const Observer auto obsstats = RunStatsObserver(obsstep, config.get_stats_filename());
 
   const Observer auto obsstreamout = StreamOutObserver(realtime2step(240), &step2realtime);
 
@@ -191,7 +191,7 @@ inline Observer auto create_observer(const Config &config, const Timesteps &tste
   const Observer auto obscond = MonitorCondensationObserver(obsstep, dataset, maxchunk, ngbxs);
 
   return obscond
-        >> obsstats
+        // >> obsstats
         >> obsstreamout
         >> obstime
         >> obsgindex
