@@ -29,6 +29,7 @@ def generate_gridbox_boundaries(
     isprintinfo=False,
     isfigures=[False, False],
     savefigpath=False,
+    savelabel="",
 ):
     """write gridbox boundaries binary. [Makes, saves] figures if isfigures = [True, True]"""
     from .gbxboundariesbinary_src import create_gbxboundaries as cgrid
@@ -43,7 +44,11 @@ def generate_gridbox_boundaries(
 
     if isfigures[0]:
         rgrid.plot_gridboxboundaries(
-            constants_filename, grid_filename, savefigpath, isfigures[1]
+            constants_filename,
+            grid_filename,
+            savefigpath,
+            isfigures[1],
+            savelabel=savelabel,
         )
 
 
@@ -73,6 +78,7 @@ def generate_initial_superdroplet_conditions(
         grid_filename,
         nsupers,
         numconc,
+        isprint=isprintinfo,
     )
 
     if isprintinfo:
@@ -101,6 +107,7 @@ def generate_thermodynamics_conditions_fromfile(
     grid_filename,
     isfigures=[False, False],
     savefigpath=False,
+    savelabel="",
 ):
     """write thermodynamics binaries. [Makes, saves] figures if isfigures = [True, True]"""
     from .thermobinary_src import create_thermodynamics as cthermo
@@ -122,4 +129,5 @@ def generate_thermodynamics_conditions_fromfile(
             thermofiles,
             savefigpath,
             isfigures[1],
+            savelabel=savelabel,
         )

@@ -21,6 +21,7 @@ File Description:
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import colors
+from pathlib import Path
 from typing import Union
 
 from .create_thermodynamics import thermoinputsdict, DimlessThermodynamics
@@ -209,6 +210,7 @@ def plot_thermodynamics(
     thermofiles,
     savefigpath,
     savefig,
+    savelabel="",
 ):
     plt.rcParams.update({"font.size": 14})
 
@@ -230,12 +232,23 @@ def plot_thermodynamics(
         inputs["CP_DRY"],
         savefigpath,
         savefig,
+        savelabel=savelabel,
     )
 
     if inputs["nspacedims"] > 1:
         xxh, zzh = np.meshgrid(xhalf, zhalf, indexing="ij")  # dims [xdims, zdims]
         xxf, zzf = np.meshgrid(xfull, zfull, indexing="ij")  # dims [xdims, zdims]
-        plot_2dcolormaps(zzh, xxh, zzf, xxf, thermodata, inputs, savefigpath, savefig)
+        plot_2dcolormaps(
+            zzh,
+            xxh,
+            zzf,
+            xxf,
+            thermodata,
+            inputs,
+            savefigpath,
+            savefig,
+            savelabel=savelabel,
+        )
         plot_2dwindfield(
             zzh,
             xxh,
@@ -245,6 +258,7 @@ def plot_thermodynamics(
             thermodata["uvel_cens"],
             savefigpath,
             savefig,
+            savelabel=savelabel,
         )
 
     plt.close()
@@ -301,7 +315,7 @@ def plot_1dwindprofiles(axs, n, zfull, thermodata):
 
 
 def plot_1dprofiles(
-    zfull, thermodata, Mr_ratio, RGAS_DRY, CP_DRY, savefigpath, savefig
+    zfull, thermodata, Mr_ratio, RGAS_DRY, CP_DRY, savefigpath, savefig, savelabel=""
 ):
     fig, axs = plt.subplots(nrows=3, ncols=3, figsize=(16, 8))
     axs = axs.flatten()
@@ -318,7 +332,7 @@ def plot_1dprofiles(
 
     fig.tight_layout()
     if savefig:
-        savename = savefigpath / "thermo1dalltimeprofiles.png"
+        savename = savefigpath / Path(f"thermo1dalltimeprofiles{savelabel}.png")
         fig.savefig(
             savename,
             dpi=400,
@@ -398,7 +412,9 @@ def relh_supersat_theta_colomaps(
         n += 1
 
 
-def plot_2dcolormaps(zzh, xxh, zzf, xxf, thermodata, inputs, savefigpath, savefig):
+def plot_2dcolormaps(
+    zzh, xxh, zzf, xxf, thermodata, inputs, savefigpath, savefig, savelabel=""
+):
     vars = ["press", "temp", "qvap", "qcond"]
     units = [" /Pa", " /K", "", ""]
     cmaps = ["PRGn", "RdBu_r", "BrBG", "BrBG"]
@@ -443,7 +459,7 @@ def plot_2dcolormaps(zzh, xxh, zzf, xxf, thermodata, inputs, savefigpath, savefi
 
     fig.tight_layout()
     if savefig:
-        savename = savefigpath / "thermo2dmeanprofiles.png"
+        savename = savefigpath / Path(f"thermo2dmeanprofiles{savelabel}.png")
         fig.savefig(
             savename,
             dpi=400,
@@ -455,7 +471,9 @@ def plot_2dcolormaps(zzh, xxh, zzf, xxf, thermodata, inputs, savefigpath, savefi
     plt.show()
 
 
-def plot_2dwindfield(zzh, xxh, zzf, xxf, wvel_cens, uvel_cens, savefigpath, savefig):
+def plot_2dwindfield(
+    zzh, xxh, zzf, xxf, wvel_cens, uvel_cens, savefigpath, savefig, savelabel=""
+):
     wcen = np.mean(wvel_cens, axis=(0, 1))  # avg over y and time axes
     ucen = np.mean(uvel_cens, axis=(0, 1))
     norm = np.sqrt(wcen**2 + ucen**2)
@@ -478,7 +496,7 @@ def plot_2dwindfield(zzh, xxh, zzf, xxf, wvel_cens, uvel_cens, savefigpath, save
 
     fig.tight_layout()
     if savefig:
-        savename = savefigpath / "thermowindprofiles.png"
+        savename = savefigpath / Path(f"thermowindprofiles{savelabel}.png")
         fig.savefig(
             savename,
             dpi=400,

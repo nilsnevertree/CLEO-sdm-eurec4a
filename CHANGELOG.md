@@ -2,6 +2,96 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [v0.30.1](https://github.com/yoctoyotta1024/CLEO/compare/ffbd7900b9ef26749c0fb9c6b619584b83c143a6..v0.30.1) - 2024-12-21
+#### Bug Fixes
+- add spdtest results for new bash scripts - ([ffbd790](https://github.com/yoctoyotta1024/CLEO/commit/ffbd7900b9ef26749c0fb9c6b619584b83c143a6)) - clara.bayley
+
+- - -
+
+## [v0.30.0](https://github.com/yoctoyotta1024/CLEO/compare/1eb2f8afdf612f148fbde1ced64bef78a737f0ec..v0.30.0) - 2024-12-21
+#### Bug Fixes
+- correctly pass stacksize_limit - ([3a90e8f](https://github.com/yoctoyotta1024/CLEO/commit/3a90e8ff3a3625fc8894cde4c5474ed4f878e92f)) - clara.bayley
+- fix partition for building gpu - ([43f0467](https://github.com/yoctoyotta1024/CLEO/commit/43f04678f3dd03d4c65aa9bb3e95cccdcaa337f1)) - clara.bayley
+- debugging new scripts and tinkering - ([069e504](https://github.com/yoctoyotta1024/CLEO/commit/069e504813c9a6b00324681851cfe8a9cb5a5e2b)) - clara.bayley
+#### Features
+- add runtime optimisations for Levante - ([dc88aed](https://github.com/yoctoyotta1024/CLEO/commit/dc88aed3e0c15bc34673a373fbbff271a3d372a0)) - clara.bayley
+#### Miscellaneous Chores
+- move files - ([c9fa5d4](https://github.com/yoctoyotta1024/CLEO/commit/c9fa5d4698d8385b019fcb1656d1a40001eb10a0)) - clara.bayley
+#### Performance Improvements
+- be clearer on arg descriptions - ([2be2e3b](https://github.com/yoctoyotta1024/CLEO/commit/2be2e3bd38c5a1fd70910537fc8d2f3c21c8f9f8)) - clara.bayley
+#### Refactoring
+- add YAC runtime settings - ([7873891](https://github.com/yoctoyotta1024/CLEO/commit/7873891ddb92f2823d436e32163dbdf65dba0b65)) - clara.bayley
+- run examples with intel compiler unless cuda build - ([a61c2dc](https://github.com/yoctoyotta1024/CLEO/commit/a61c2dc68ecc0c8d1a875436e173edd3219730de)) - clara.bayley
+- add intel compiler option - ([91ec4d5](https://github.com/yoctoyotta1024/CLEO/commit/91ec4d56c0fc0f54d9059bc937ea809e5efcbd75)) - clara.bayley
+- update gcc compiler version and flags - ([1253918](https://github.com/yoctoyotta1024/CLEO/commit/125391819c9eb2cfdce849283c58858a21068e6e)) - clara.bayley
+- move packages into seperate file - ([767c7e2](https://github.com/yoctoyotta1024/CLEO/commit/767c7e2b1492b4447c68a6cb745a2663b67b4f91)) - clara.bayley
+- allow examples and run_cleo script to use same runtime settings - ([6f0fc26](https://github.com/yoctoyotta1024/CLEO/commit/6f0fc26b843aa2592d9614617850d8661cebe753)) - clara.bayley
+- update slurm of running example submission scripts - ([500d1d0](https://github.com/yoctoyotta1024/CLEO/commit/500d1d04bb6de8220d5d0784ab41bf79e60c037b)) - clara.bayley
+- failed exit to running examples if wrong name used - ([482e8f9](https://github.com/yoctoyotta1024/CLEO/commit/482e8f976ca6b63fe7ecad84794b81fe6b098211)) - clara.bayley
+- first draft import from check_inputs function script - ([d120920](https://github.com/yoctoyotta1024/CLEO/commit/d120920e7a32b0d72b88df2084aafaa6b157458f)) - clara.bayley
+- new scripts for compiling and running cleo first draft - ([9b5277d](https://github.com/yoctoyotta1024/CLEO/commit/9b5277d94f2ab0e454faf805afc97eeea8196bb8)) - clara.bayley
+- move install yac helper script - ([87e6a94](https://github.com/yoctoyotta1024/CLEO/commit/87e6a940ea09ecb89e9311e8b0c39d14ad89be2a)) - clara.bayley
+- delete old redundant bash build helper files - ([e19b12d](https://github.com/yoctoyotta1024/CLEO/commit/e19b12d3abd146f491bd2cbc11a562e2b443cc1f)) - clara.bayley
+- new scripts for building cleo firsrt draft - ([3129682](https://github.com/yoctoyotta1024/CLEO/commit/312968233f9c0fd9a71524480a0b5af265d932eb)) - clara.bayley
+- new bash script for interface to building and compiling CLEO - ([079b0a0](https://github.com/yoctoyotta1024/CLEO/commit/079b0a0c4c3a9c7b3c570322dd0f516cf1c5586d)) - clara.bayley
+- move install yac helper script - ([1a6c932](https://github.com/yoctoyotta1024/CLEO/commit/1a6c9328d7393097ec79989a41497a0726c4dec4)) - clara.bayley
+- modify inputfiles slurm settings - ([14ea428](https://github.com/yoctoyotta1024/CLEO/commit/14ea428b4e7f72deea45ae71355667b0473051ab)) - clara.bayley
+- initialise kokkos from struct given by config - ([270c5ed](https://github.com/yoctoyotta1024/CLEO/commit/270c5ed2b8925d3571da7617b2183a1499b5f365)) - clara.bayley
+- specify resoures for examples - ([78925f9](https://github.com/yoctoyotta1024/CLEO/commit/78925f9db5b965eec6e1e9bfff7cf7006eba6ac0)) - clara.bayley
+- initialise kokkos from struct given by config - ([1eb2f8a](https://github.com/yoctoyotta1024/CLEO/commit/1eb2f8afdf612f148fbde1ced64bef78a737f0ec)) - clara.bayley
+
+- - -
+
+## [v0.29.5](https://github.com/yoctoyotta1024/CLEO/compare/283e6feaf54436720704f52736f09a3b348e934a..v0.29.5) - 2024-12-19
+#### Bug Fixes
+- revert parallelising finding partition algorithm - ([c2b01e0](https://github.com/yoctoyotta1024/CLEO/commit/c2b01e0cec57546ff952ab8c0862fb79ae269dc4)) - clara.bayley
+#### Documentation
+- add note on experimental parallel version of find_partition_point - ([a6c126f](https://github.com/yoctoyotta1024/CLEO/commit/a6c126f2a956088021981a10586e57ff3dd186f4)) - clara.bayley
+#### Miscellaneous Chores
+- delete redundant functions - ([7df6112](https://github.com/yoctoyotta1024/CLEO/commit/7df6112bbb2af157d57b443a74a0d8cd56714278)) - clara.bayley
+- add note on paths in bash script - ([4bc4dad](https://github.com/yoctoyotta1024/CLEO/commit/4bc4dad18fda3b8ddb2b2fc33755f27aff604517)) - clara.bayley
+- use auto - ([75d9ad0](https://github.com/yoctoyotta1024/CLEO/commit/75d9ad0a3d19dd60f62cef5f514356d5d110f9d0)) - clara.bayley
+- formatting and use auto - ([cd6f393](https://github.com/yoctoyotta1024/CLEO/commit/cd6f3938a50ec8450cefc0514a4fe045bb57f033)) - clara.bayley
+- use auto - ([44dc3ae](https://github.com/yoctoyotta1024/CLEO/commit/44dc3ae35000715331e8267f5b0540bf47afbf8c)) - clara.bayley
+- update kokkos version - ([283e6fe](https://github.com/yoctoyotta1024/CLEO/commit/283e6feaf54436720704f52736f09a3b348e934a)) - clara.bayley
+#### Performance Improvements
+- use kokkos min function not selfmade one - ([6e83288](https://github.com/yoctoyotta1024/CLEO/commit/6e83288d56fac859f4d43f4e3be2c07a57fd6c4f)) - clara.bayley
+#### Refactoring
+- new spdtest results for performance comparison - ([83998c0](https://github.com/yoctoyotta1024/CLEO/commit/83998c09ec372840aa0137c899ef4f8d45394c3a)) - clara.bayley
+- rename gbxmaps ndims - ([00d527b](https://github.com/yoctoyotta1024/CLEO/commit/00d527ba0f2d306d281b107a065dae443ace828d)) - clara.bayley
+- move setting of oob_gbxindex key in maps to optimised function - ([429d371](https://github.com/yoctoyotta1024/CLEO/commit/429d3713273b0079908615bd185c35899fc1054d)) - clara.bayley
+- optimise null maps initialisation - ([3e108d7](https://github.com/yoctoyotta1024/CLEO/commit/3e108d7e777cd3ed40d6383414f8be819a420f33)) - clara.bayley
+- optimise map initialisation of 3D model - ([a2ed085](https://github.com/yoctoyotta1024/CLEO/commit/a2ed085ac595236ddd3ab08fcc978311ca0f6b66)) - clara.bayley
+- edit cartesian maps names and constructor and use auto - ([d5a2478](https://github.com/yoctoyotta1024/CLEO/commit/d5a24780995ded2a3c1b75bf077c01423fa19fd1)) - clara.bayley
+- nested parallelisism for iscorrect function - ([58b10cb](https://github.com/yoctoyotta1024/CLEO/commit/58b10cb7cc627bb606e8f9f56a015de7350e7647)) - clara.bayley
+- replace invalid argument with cassert and parallelise checking of gridboxes - ([54e5fd5](https://github.com/yoctoyotta1024/CLEO/commit/54e5fd59d12d12971873bc9150a4d396cf52c25e)) - clara.bayley
+- parallelise finding partition point for refs - ([03e471f](https://github.com/yoctoyotta1024/CLEO/commit/03e471fa374e529f31fad90fba48ae12cc4da6f5)) - clara.bayley
+- improve performance of nested parallelism partition point finding algorithm - ([0a1cc06](https://github.com/yoctoyotta1024/CLEO/commit/0a1cc06a60bea2740650904923f4d5f55b48fdd6)) - clara.bayley
+- add bool to prevent default print statements - ([7e4c910](https://github.com/yoctoyotta1024/CLEO/commit/7e4c9101a2fbc45d41e2d4e2ed270ad23658ed70)) - clara.bayley
+
+- - -
+
+## [v0.29.4](https://github.com/yoctoyotta1024/CLEO/compare/e86a380d3339617c30d1eab992f322ffee50b8b8..v0.29.4) - 2024-12-13
+#### Bug Fixes
+- correct call signature for shima init conds - ([ca75dca](https://github.com/yoctoyotta1024/CLEO/commit/ca75dca3c86e8d5d6036e8e19abe06f23a674942)) - clara.bayley
+#### Documentation
+- update info on speed test example - ([42400f4](https://github.com/yoctoyotta1024/CLEO/commit/42400f486450303d08b40fd548683e43b8f503a6)) - clara.bayley
+#### Refactoring
+- add option for savelabel to gbx and thermo plots - ([c2b227a](https://github.com/yoctoyotta1024/CLEO/commit/c2b227a78acb14a092f7dae734646a9773f547c1)) - clara.bayley
+- delete stats_filename parameter of model - ([f98dd14](https://github.com/yoctoyotta1024/CLEO/commit/f98dd14378d26d82e68de25637539eceb65bbbf9)) - clara.bayley
+- remove redundant stats_filename from examples config files - ([e86a380](https://github.com/yoctoyotta1024/CLEO/commit/e86a380d3339617c30d1eab992f322ffee50b8b8)) - clara.bayley
+
+- - -
+
+## [v0.29.3](https://github.com/yoctoyotta1024/CLEO/compare/5564bde07ed6603c079c815f9d5cc79613f55f33..v0.29.3) - 2024-12-10
+#### Bug Fixes
+- remove unused class capture from lambda - ([6e99b63](https://github.com/yoctoyotta1024/CLEO/commit/6e99b633df8b45c5a94a408c6c7f6afe6777fdc7)) - clara.bayley
+#### Refactoring
+- add missing c++ standard lib include - ([7394a8d](https://github.com/yoctoyotta1024/CLEO/commit/7394a8ddddca144b0861ca010555f0018aab080d)) - clara.bayley
+- change interface to xiprobdist calc and add new class to set minimum value of any distribution - ([5564bde](https://github.com/yoctoyotta1024/CLEO/commit/5564bde07ed6603c079c815f9d5cc79613f55f33)) - clara.bayley
+
+- - -
+
 ## [v0.29.2](https://github.com/yoctoyotta1024/CLEO/compare/8e8ecbf76cde7d01baa95bc350a4a92a9e183446..v0.29.2) - 2024-12-06
 #### Bug Fixes
 - create superdroplets at domain top with xi>=1 - ([4a7be0d](https://github.com/yoctoyotta1024/CLEO/commit/4a7be0d5e236dcc203b973c1c38776d1d35ee205)) - clara.bayley

@@ -2,9 +2,10 @@
 #SBATCH --job-name=runexample
 #SBATCH --partition=compute
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=128
-#SBATCH --mem=30G
-#SBATCH --time=00:30:00
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=940MB
+#SBATCH --time=00:05:00
 #SBATCH --mail-user=clara.bayley@mpimet.mpg.de
 #SBATCH --mail-type=FAIL
 #SBATCH --account=bm1183
@@ -13,13 +14,13 @@
 
 example=$1
 sbatch=$2
-path2CLEO=${2:-${HOME}/CLEO}
+path2CLEO=${3:-${HOME}/CLEO}
 examplesdir=${path2CLEO}/examples
 
 if [ "${example}" == "" ]
 then
   echo "Please specify and example to run"
-  exit 0
+  exit 1
 
 else
   if [ "${example}" == "as2017" ]
@@ -64,5 +65,6 @@ else
 
   else
     echo "'${example}' is not an example"
+    exit 1
   fi
 fi

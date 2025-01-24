@@ -22,6 +22,7 @@
 #define ROUGHPAPER_SCRATCH_CLEOTYPES_SIZES_HPP_
 
 #include <Kokkos_Core.hpp>
+#include <cstdint>
 #include <iostream>
 
 #include "gridboxes/gbxindex.hpp"
@@ -64,7 +65,7 @@ struct SuperdropAttrs2 {
 };
 
 void print_type_sizes(int argc, char *argv[]) {
-  Kokkos::initialize(argc, argv);
+  Kokkos::initialize(config.get_kokkos_initialization_settings());
   {
     std::cout << "GBx: " << sizeof(Gridbox) << "\n";
     std::cout << "re-ordered GBx: " << sizeof(Gridbox2) << "\n";
