@@ -3,8 +3,8 @@
 #SBATCH --partition=compute
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=128
-#SBATCH --mem=1G
-#SBATCH --time=00:5:00
+#SBATCH --mem=5G
+#SBATCH --time=00:15:00
 #SBATCH --mail-user=nils-ole.niebaumy@mpimet.mpg.de
 #SBATCH --mail-type=FAIL
 #SBATCH --account=mh1126
