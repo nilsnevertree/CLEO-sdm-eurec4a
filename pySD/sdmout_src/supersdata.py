@@ -1625,7 +1625,7 @@ class SupersDataNew(SuperdropProperties):
             err = "no known return provided for " + key + " key"
             raise ValueError(err)
 
-    def __getitem__(self, key):
+    def __getitem__(self, key) -> SupersAttribute:
         try:
             return self.attributes[key]
         except KeyError:
@@ -1903,7 +1903,7 @@ class SupersDataSimple(SupersDataNew):
 
     """
 
-    def __init__(self, attributes):
+    def __init__(self, attributes: list):
         """
         The constructor of the class uses the data
         This function extracts the attributes of the superdroplets dataset and stores them in a SupersDataIndexed object.

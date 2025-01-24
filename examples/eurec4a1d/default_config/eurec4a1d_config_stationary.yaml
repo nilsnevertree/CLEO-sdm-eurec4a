@@ -31,9 +31,9 @@ timesteps:
   CONDTSTEP: 0.1                                                  # time between SD condensation [s]
   COLLTSTEP: 1                                                    # time between SD collision [s]
   MOTIONTSTEP: 2                                                  # time between SDM motion [s]
-  COUPLTSTEP: 3600                                                # time between dynamic couplings [s]
+  COUPLTSTEP: 36                                                # time between dynamic couplings [s]
   OBSTSTEP: 2                                                     # time between SDM observations [s]
-  T_END: 3600                                                     # time span of integration from 0s to T_END [s]
+  T_END: 36                                                     # time span of integration from 0s to T_END [s]
 
 ### Initialisation Parameters ###
 inputfiles:
@@ -43,7 +43,7 @@ inputfiles:
 initsupers:
   type: frombinary                                                # type of initialisation of super-droplets
   initsupers_filename: None                                       # binary filename for initialisation of SDs
-  initnsupers: 2048                                               # initial no. of super-droplets to initialise
+  initnsupers: 1024                                               # initial no. of super-droplets to initialise
 
 ### Output Parameters ###
 outputdata:
@@ -59,8 +59,8 @@ microphysics:
     do_alter_thermo: false                                        # true = cond/evap alters the thermodynamic state
     maxniters: 100                                                # maximum no. iterations of Newton Raphson Method
     MINSUBTSTEP: 0.01                                             # minimum subtimestep in cases of substepping [s]
-    rtol: 0.03                                                    # relative tolerance for implicit Euler integration
-    atol: 0.03                                                    # abolute tolerance for implicit Euler integration
+    rtol: 1                                                       # relative tolerance for implicit Euler integration
+    atol: 0.1                                                     # abolute tolerance for implicit Euler integration
   # breakup will be modified by using the breakup.yaml file in the eurec4a1d/<microphysics_setup>/src/ directory
   breakup:
     constnfrags:

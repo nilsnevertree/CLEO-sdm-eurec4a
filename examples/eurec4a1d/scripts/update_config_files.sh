@@ -28,9 +28,9 @@ echo "============================================"
 
 # set paths
 path2CLEO=${HOME}/CLEO/
-path2data=${path2CLEO}data/output_v3.2/
+path2data=${path2CLEO}data/debug_output/
 path2eurec4a1d=${path2CLEO}examples/eurec4a1d/
-subdir_pattern=clusters_
+subdir_pattern=cluster_
 
 # python script to run
 pythonscript=${path2eurec4a1d}scripts/eurec4a1d_update_config.py
@@ -45,7 +45,7 @@ pythonscript=${path2eurec4a1d}scripts/eurec4a1d_update_config.py
 # rawdirectory=${path2data}stationary_condensation/
 
 # # COLLISION AND CONDENSTATION
-rawdirectory=${path2data}stationary_collision_condensation/
+rawdirectory=${path2data}/
 
 ### ---------------------------------------------------- ###
 

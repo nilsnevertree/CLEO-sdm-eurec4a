@@ -2,8 +2,6 @@
 #SBATCH --job-name=e1d_submit_master
 #SBATCH --partition=compute
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=1
-#SBATCH --exclusive
 #SBATCH --time=00:01:00
 #SBATCH --mem=10M
 #SBATCH --mail-user=nils-ole.niebaumy@mpimet.mpg.de
@@ -11,11 +9,6 @@
 #SBATCH --account=mh1126
 #SBATCH --output=./logfiles/submit_master/%j_out.out
 #SBATCH --error=./logfiles/submit_master/%j_err.out
-
-### ------------------ Load Modules -------------------- ###
-env=/work/mh1126/m301096/conda/envs/sdm_pysd_env312
-mamba activate ${env}
-python=${env}/bin/python
 
 # --------------------------------
 # Set the flags to define the steps to run
@@ -36,10 +29,10 @@ run_script_path=${path2CLEO}/examples/eurec4a1d/scripts/run_CLEO_job_array.sh
 # Set microphysics setup
 # --------------------------------
 # microphysics="null_microphysics"
-microphysics="condensation"
+# microphysics="condensation"
 # microphysics="collision_condensation"
 # microphysics="coalbure_condensation_small"
-# microphysics="coalbure_condensation_large"
+microphysics="coalbure_condensation_large"
 # microphysics="coalbure_condensation_cke"
 
 
@@ -47,7 +40,7 @@ microphysics="condensation"
 # Set paths
 # --------------------------------
 path2CLEO="/home/m/m301096/CLEO/"
-path2data=${path2CLEO}/data/output_v4.1/
+path2data=${path2CLEO}/data/output_v4.0/
 path2microphysics=${path2data}/${microphysics}
 path2build=${path2CLEO}/build_eurec4a1d/
 # config_directory="/home/m/m301096/repositories/sdm-eurec4a/data/model/input/output_v3.0/"
@@ -67,7 +60,7 @@ echo "--------------------------------"
 
 # =================================
 # CREATE INIT
-if [ "$create_init" = true ]; then
+if [ "$create_init" == true ]; then
     echo "Create initial files for EUREC4A1D"
     echo "create_script_path: ${create_script_path}"
 
@@ -92,7 +85,7 @@ fi
 
 # =================================
 # PURE RUN
-if [ "$run" = true ]; then
+if [ "$run" == true ]; then
     echo "Run CLEO for EUREC4A1D with microphysics: ${microphysics}"
     echo "run_script_path: ${run_script_path}"
 

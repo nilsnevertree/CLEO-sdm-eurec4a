@@ -26,6 +26,7 @@
 #include <string>
 #include <string_view>
 #include <vector>
+#include <cstdint>
 
 /**
  * @brief Converts a vector of integers into a single list written as a string.
