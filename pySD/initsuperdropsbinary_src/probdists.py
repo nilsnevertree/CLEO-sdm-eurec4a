@@ -25,7 +25,20 @@ from scipy import special
 from typing import Tuple, List, Union
 
 
-# Distibution functions
+class MinXiDistrib:
+    """probability of radius for a given probability distribution but with a
+    minimum value such that xi>='xi_min'"""
+
+    def __init__(self, probdistrib, xi_min):
+        self.probdistrib = probdistrib
+        self.xi_min = xi_min
+
+    def __call__(self, radii, totxi):
+        """returns probability for radii from a certain distribution or the
+        probability such that xi has minimum value 'xi_min'"""
+        prob = self.probdistrib(radii, totxi)
+        prob_min = self.xi_min / totxi
+        return np.where(prob < prob_min, prob_min, prob)
 
 
 def standard_normal(radii: np.ndarray) -> np.ndarray:
@@ -76,7 +89,7 @@ class CombinedRadiiProbDistribs(ProbabilityDistribution):
             errmsg = "relative height of each probability distribution must be given"
             raise ValueError(errmsg)
 
-    def __call__(self, radii: np.ndarray) -> np.ndarray:
+    def __call__(self, radii):
         """returns distribution for radii given by the
         sum of the distributions in probdistribs list"""
 
@@ -95,6 +108,9 @@ class DiracDelta(ProbabilityDistribution):
         self.r0 = r0
 
     def __call__(self, radii: np.ndarray) -> np.ndarray:
+        return self._probdistrib(radii)
+
+    def _probdistrib(self, radii):
         """Returns probability of radius in radii sample for
         discrete version of dirac delta function centred on
         value of r in radii closest to r0. For each radius in radii,
@@ -122,6 +138,9 @@ class VolExponential(ProbabilityDistribution):
         self.rspan = rspan
 
     def __call__(self, radii: np.ndarray) -> np.ndarray:
+        return self._probdistrib(radii)
+
+    def _probdistrib(self, radii):
         """Returns probability of eaach radius in radii according to
         distribution where probability of volume is exponential and bins
         for radii are evently spaced in ln(r).
@@ -163,6 +182,9 @@ class LnNormal(ProbabilityDistribution):
             self.scalefacs = scalefacs
 
     def __call__(self, radii: np.ndarray) -> np.ndarray:
+        return self._probdistrib(radii)
+
+    def _probdistrib(self, radii):
         """Returns probability of each radius in radii derived
         from superposition of Logarithmic (in e) Normal Distributions"""
 
@@ -402,6 +424,9 @@ class ClouddropsHansenGamma(ProbabilityDistribution):
         self.nueff = nueff
 
     def __call__(self, radii: np.ndarray) -> np.ndarray:
+        return self._probdistrib(radii)
+
+    def _probdistrib(self, radii):
         """return gamma distribution for cloud droplets
         given radius [m] using parameters from Poertge
         et al. 2023 for shallow cumuli (figure 12).
@@ -431,6 +456,9 @@ class RaindropsGeoffroyGamma(ProbabilityDistribution):
         self.dvol = dvol  # volume mean raindrop diameter [m]
 
     def __call__(self, radii: np.ndarray) -> np.ndarray:
+        return self._probdistrib(radii)
+
+    def _probdistrib(self, radii):
         """returns probability of each radius according to a
         gamma distribution for rain droplets using parameters
         from Geoffroy et al. 2014 for precipitating shallow

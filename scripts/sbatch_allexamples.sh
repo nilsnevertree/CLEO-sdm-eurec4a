@@ -2,8 +2,9 @@
 #SBATCH --job-name=allexamples
 #SBATCH --partition=compute
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=16
-#SBATCH --mem=30G
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=940MB
 #SBATCH --time=00:05:00
 #SBATCH --mail-user=clara.bayley@mpimet.mpg.de
 #SBATCH --mail-type=FAIL
@@ -11,7 +12,7 @@
 #SBATCH --output=./allexamples_out.%j.out
 #SBATCH --error=./allexamples_err.%j.out
 
-path2CLEO=$1
+path2CLEO=${1:-${HOME}/CLEO}
 
 if [ -z "${path2CLEO}" ];
 then

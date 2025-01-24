@@ -22,6 +22,12 @@
 # and so can the thermodynamics files when using coupled thermodynamics "fromfile".
 #
 
+### Kokkos Initialization Parameters ###
+kokkos_settings:
+  num_threads : 8                                      # number of threads for host parallel backend
+  device_id :  0                                       # device to use for device parallel backend
+  map_device_id_by : mpi_rank                          # select device for execution, either "mpi_rank" or "random".
+
 ### SDM Runtime Parameters ###
 domain:
   nspacedims : 0                                       # no. of spatial dimensions to model
@@ -49,7 +55,6 @@ initsupers:
 ### Output Parameters ###
 outputdata:
   setup_filename : ./bin/setup.txt                     # .txt filename to copy configuration to
-  stats_filename : ./bin/stats.txt                     # .txt file to output runtime statistics to
   zarrbasedir : ./bin/SDMdata.zarr                     # zarr store base directory
   maxchunk : 2500000                                   # maximum no. of elements in chunks of zarr store array
 
