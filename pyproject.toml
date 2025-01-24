@@ -3,14 +3,25 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-dependencies = ["numpy>=1.21.2",]
+name="pySD"
+version="0.1.0"
+authors= [
+    {name = "Clara Bayley"},
+    {name = "Nils Niebaum"},
+]
+dependencies = [
+    "numpy>=1.21.2",
+    "sphinx",
+    "matplotlib",
+]
 
 [project.urls]
 homepage = "https://github.com/nilsnevertree/CLEO_sdm_eurec4a"
 issues = "https://github.com/nilsnevertree/CLEO_sdm_eurec4a/issues"
 
 [project.optional-dependencies]
-test = ["numpy>=1.21.2",]
+test = ["numpy>=1.21.2","pytest",]
+docs = ["numpy>=1.21.2","sphinx",]
 
 [tool.interrogate]
 # tool to check code documentation
