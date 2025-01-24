@@ -22,6 +22,7 @@ assuming bins are evenly spaced in log10(r)
 
 import numpy as np
 from scipy import special
+from typing import Tuple, List, Union
 
 
 class MinXiDistrib:
@@ -40,11 +41,47 @@ class MinXiDistrib:
         return np.where(prob < prob_min, prob_min, prob)
 
 
-class CombinedRadiiProbDistribs:
+def standard_normal(radii: np.ndarray) -> np.ndarray:
+    """Returns probability of each radius in radii according to
+    standard normal distribution
+
+    Parameters:
+    -----------
+    radii : np.ndarray
+        array of radii [m]
+
+    Returns:
+    --------
+    probs : np.ndarray
+        probability of each radius in radii
+    """
+
+    probs = 1 / np.sqrt(2 * np.pi) * np.exp(-(radii**2) / 2)
+    return probs / np.sum(probs)  # normalise so sum(prob) = 1
+
+
+class ProbabilityDistribution:
+    """probability of radius from a probability distribution"""
+
+    def __init__(self):
+        pass
+
+    def __call__(self, radii: np.ndarray) -> np.ndarray:
+        """returns distribution for radii given by the
+        distribution in distrib attribute"""
+
+        raise NotImplementedError("method must be implemented in subclass")
+
+
+class CombinedRadiiProbDistribs(ProbabilityDistribution):
     """probability of radius from the sum of several
     probability distributions"""
 
-    def __init__(self, probdistribs, scalefacs):
+    def __init__(
+        self,
+        probdistribs: Tuple[ProbabilityDistribution],
+        scalefacs: Union[np.ndarray, Tuple[float], List[float]],
+    ):
         self.probdistribs = probdistribs
         self.scalefacs = scalefacs
 
@@ -52,10 +89,7 @@ class CombinedRadiiProbDistribs:
             errmsg = "relative height of each probability distribution must be given"
             raise ValueError(errmsg)
 
-    def __call__(self, radii, totxi):
-        return self._probdistrib(radii)
-
-    def _probdistrib(self, radii):
+    def __call__(self, radii):
         """returns distribution for radii given by the
         sum of the distributions in probdistribs list"""
 
@@ -66,14 +100,14 @@ class CombinedRadiiProbDistribs:
         return probs / np.sum(probs)  # normalise so sum(prob) = 1
 
 
-class DiracDelta:
+class DiracDelta(ProbabilityDistribution):
     """probability of radius nonzero if it is
     closest value in sample of radii to r0"""
 
     def __init__(self, r0):
         self.r0 = r0
 
-    def __call__(self, radii, totxi):
+    def __call__(self, radii: np.ndarray) -> np.ndarray:
         return self._probdistrib(radii)
 
     def _probdistrib(self, radii):
@@ -95,7 +129,7 @@ class DiracDelta:
             return np.array([])
 
 
-class VolExponential:
+class VolExponential(ProbabilityDistribution):
     """probability of radius given by exponential in
     volume distribution as defined by Shima et al. (2009)"""
 
@@ -103,7 +137,7 @@ class VolExponential:
         self.radius0 = radius0  # peak of volume exponential distribution [m]
         self.rspan = rspan
 
-    def __call__(self, radii, totxi):
+    def __call__(self, radii: np.ndarray) -> np.ndarray:
         return self._probdistrib(radii)
 
     def _probdistrib(self, radii):
@@ -125,7 +159,7 @@ class VolExponential:
         return probs / np.sum(probs)  # normalise so sum(prob) = 1
 
 
-class LnNormal:
+class LnNormal(ProbabilityDistribution):
     """probability of radius given by lognormal distribution
     as defined by section 5.2.3 of "An Introduction to clouds from
     the Microscale to Climate" by Lohmann, Luond and Mahrt and radii
@@ -147,7 +181,7 @@ class LnNormal:
             self.geosigs = geosigs
             self.scalefacs = scalefacs
 
-    def __call__(self, radii, totxi):
+    def __call__(self, radii: np.ndarray) -> np.ndarray:
         return self._probdistrib(radii)
 
     def _probdistrib(self, radii):
@@ -179,7 +213,209 @@ class LnNormal:
         return dn_dlnr
 
 
-class ClouddropsHansenGamma:
+class LogNormal(ProbabilityDistribution):
+    """
+    Probability of radius given by a log-normal distribution.
+
+    Attributes
+    ----------
+    geometric_mean : float
+        Geometric mean of the distribution.
+    geometric_std_dev : float
+        Geometric standard deviation of the distribution.
+    scale_factor : float
+        Scale factor for the distribution.
+
+    Methods
+    -------
+    __call__(radii: np.ndarray, density: bool = False) -> np.ndarray
+        Returns probability of each radius for a log-normal distribution.
+    log_normal_distribution(t: np.ndarray, geometric_mean: float, geometric_std_dev: float, scale_factor: float) -> np.ndarray
+        Compute the log-normal distribution from geometric mean and geometric standard deviation.
+    """
+
+    def __init__(
+        self,
+        geometric_mean: float,
+        geometric_std_dev: float,
+        scale_factor: float,
+    ):
+        self.geometric_mean = geometric_mean
+        self.geometric_std_dev = geometric_std_dev
+        self.scale_factor = scale_factor
+
+    def __call__(self, radii: np.ndarray, density: bool = False) -> np.ndarray:
+        """
+        Returns probability of each radius for a log-normal distribution.
+
+        Parameters
+        ----------
+        radii : np.ndarray
+            Array of radii [m].
+        density : bool, optional
+            If True, returns the normalized probability density (default is False).
+
+        Returns
+        -------
+        np.ndarray
+            Probability of each radius in radii.
+        """
+
+        probs = self.log_normal_distribution(
+            t=radii,
+            geometric_mean=self.geometric_mean,
+            geometric_std_dev=self.geometric_std_dev,
+            scale_factor=self.scale_factor,
+        )
+
+        if density is True:
+            return probs / np.nansum(probs)
+        else:
+            return probs
+
+    def log_normal_distribution(
+        self,
+        t: np.ndarray,
+        geometric_mean: float,
+        geometric_std_dev: float,
+        scale_factor: float,
+    ) -> np.ndarray:
+        """
+        Compute the log-normal distribution from geometric mean and geometric standard deviation.
+
+        Parameters
+        ----------
+        t : np.ndarray
+            Array of radii [m].
+        geometric_mean : float
+            Geometric mean of the distribution.
+        geometric_std_dev : float
+            Geometric standard deviation of the distribution.
+        scale_factor : float
+            Scale factor for the distribution.
+
+        Returns
+        -------
+        np.ndarray
+            Probability of each radius in radii.
+        """
+
+        sigtilda = np.log(geometric_std_dev)
+        mutilda = np.log(geometric_mean)
+
+        norm = scale_factor / (np.sqrt(2 * np.pi) * t * sigtilda)
+        exponent = -((np.log(t) - mutilda) ** 2) / (2 * sigtilda**2)
+
+        return norm * np.exp(exponent)
+
+
+class DoubleLogNormal(ProbabilityDistribution):
+    """
+    Probability of radius given by the superposition of two log-normal distributions.
+
+    Attributes
+    ----------
+    geometric_mean1 : float
+        Geometric mean of the first log-normal distribution.
+    geometric_mean2 : float
+        Geometric mean of the second log-normal distribution.
+    geometric_std_dev1 : float
+        Geometric standard deviation of the first log-normal distribution.
+    geometric_std_dev2 : float
+        Geometric standard deviation of the second log-normal distribution.
+    scale_factor1 : float
+        Scale factor for the first log-normal distribution.
+    scale_factor2 : float
+        Scale factor for the second log-normal distribution.
+
+    Methods
+    -------
+    log_normal1 : LogNormal
+        Returns the first log-normal distribution.
+    log_normal2 : LogNormal
+        Returns the second log-normal distribution.
+    __call__(radii: np.ndarray, density: bool = False) -> np.ndarray
+        Returns probability of each radius in radii derived from superposition of two log-normal distributions.
+    """
+
+    def __init__(
+        self,
+        geometric_mean1: float,
+        geometric_mean2: float,
+        geometric_std_dev1: float,
+        geometric_std_dev2: float,
+        scale_factor1: float,
+        scale_factor2: float,
+    ):
+        self.geometric_mean1 = geometric_mean1
+        self.geometric_mean2 = geometric_mean2
+        self.geometric_std_dev1 = geometric_std_dev1
+        self.geometric_std_dev2 = geometric_std_dev2
+        self.scale_factor1 = scale_factor1
+        self.scale_factor2 = scale_factor2
+
+    @property
+    def log_normal1(self) -> LogNormal:
+        """
+        Returns the first log-normal distribution.
+
+        Returns
+        -------
+        LogNormal
+            The first log-normal distribution.
+        """
+        return LogNormal(
+            geometric_mean=self.geometric_mean1,
+            geometric_std_dev=self.geometric_std_dev1,
+            scale_factor=self.scale_factor1,
+        )
+
+    @property
+    def log_normal2(self) -> LogNormal:
+        """
+        Returns the second log-normal distribution.
+
+        Returns
+        -------
+        LogNormal
+            The second log-normal distribution.
+        """
+        return LogNormal(
+            geometric_mean=self.geometric_mean2,
+            geometric_std_dev=self.geometric_std_dev2,
+            scale_factor=self.scale_factor2,
+        )
+
+    def __call__(self, radii: np.ndarray, density: bool = False) -> np.ndarray:
+        """
+        Returns probability of each radius in radii derived from superposition of two log-normal distributions.
+
+        Parameters
+        ----------
+        radii : np.ndarray
+            Array of radii [m].
+        density : bool, optional
+            If True, returns the normalized probability density (default is False).
+
+        Returns
+        -------
+        np.ndarray
+            Probability of each radius in radii.
+        """
+
+        # Density needs to be False for the relation of the two distributions to be correct
+        prob1 = self.log_normal1(radii=radii, density=False)
+        prob2 = self.log_normal2(radii=radii, density=False)
+
+        probs = prob1 + prob2
+
+        if density is True:
+            return probs / np.nansum(probs)
+        else:
+            return probs
+
+
+class ClouddropsHansenGamma(ProbabilityDistribution):
     """probability of radius according to gamma distribution for
     shallow cumuli cloud droplets from Poertge et al. 2023"""
 
@@ -187,7 +423,7 @@ class ClouddropsHansenGamma:
         self.reff = reff
         self.nueff = nueff
 
-    def __call__(self, radii, totxi):
+    def __call__(self, radii: np.ndarray) -> np.ndarray:
         return self._probdistrib(radii)
 
     def _probdistrib(self, radii):
@@ -210,7 +446,7 @@ class ClouddropsHansenGamma:
         return probs / np.sum(probs)  # normalise so sum(prob) = 1
 
 
-class RaindropsGeoffroyGamma:
+class RaindropsGeoffroyGamma(ProbabilityDistribution):
     """probability of radius given gamma distribution for
     shallow cumuli rain droplets from Geoffroy et al. 2014"""
 
@@ -219,7 +455,7 @@ class RaindropsGeoffroyGamma:
         self.qrain = qrain  # rainwater content [g/m^3]
         self.dvol = dvol  # volume mean raindrop diameter [m]
 
-    def __call__(self, radii, totxi):
+    def __call__(self, radii: np.ndarray) -> np.ndarray:
         return self._probdistrib(radii)
 
     def _probdistrib(self, radii):

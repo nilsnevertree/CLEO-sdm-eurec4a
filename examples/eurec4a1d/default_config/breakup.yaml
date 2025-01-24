@@ -1,0 +1,4 @@
+### Breakup Parameters ###
+breakup:
+  constnfrags:
+    nfrags: 0.0 # average no. of fragments per droplet breakup

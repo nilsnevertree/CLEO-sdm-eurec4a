@@ -1,0 +1,93 @@
+# ----- CLEO -----
+# File: eurec4a1d_config.yaml
+# Project: config
+# Created Date: Thursday 18th April 2024
+# Author: Clara Bayley (CB)
+# Additional Contributors:
+# -----
+# Last Modified: Thursday 18th April 2024
+# Modified By: CB
+# -----
+# License: BSD 3-Clause "New" or "Revised" License
+# https://opensource.org/licenses/BSD-3-Clause
+# -----
+# Copyright (c) 2023 MPI-M, Clara Bayley
+# -----
+# File Description:
+# Configuration file for CLEO eurec4a 1-D rainshaft example.
+# Note: The inital superdroplets data read from file "initsupers_filename" can be made with
+# CLEO's pySD module (see Python script "create_initsuperdropsbinary_script.py" for usage).
+# Likewise the "grid_filename" can be made using pySD (see "create_gbxboundariesbinary_script.py"),
+# and so can the thermodynamics files when using coupled thermodynamics "fromfile".
+#
+
+### SDM Runtime Parameters ###
+domain:
+  nspacedims: 1                                                   # no. of spatial dimensions to model
+  ngbxs: None                                                     # total number of Gbxs
+  maxnsupers: None                                                # maximum number of SDs
+
+timesteps:
+  CONDTSTEP: 0.1                                                  # time between SD condensation [s]
+  COLLTSTEP: 1                                                    # time between SD collision [s]
+  MOTIONTSTEP: 2                                                  # time between SDM motion [s]
+  COUPLTSTEP: 3600                                                # time between dynamic couplings [s]
+  OBSTSTEP: 2                                                     # time between SDM observations [s]
+  T_END: 3600                                                     # time span of integration from 0s to T_END [s]
+
+### Initialisation Parameters ###
+inputfiles:
+  constants_filename: /home/m/m301096/CLEO/libs/cleoconstants.hpp # name of file for values of physical constants
+  grid_filename: None                                             # binary filename for initialisation of GBxs / GbxMaps
+
+initsupers:
+  type: frombinary                                                # type of initialisation of super-droplets
+  initsupers_filename: None                                       # binary filename for initialisation of SDs
+  initnsupers: 2048                                               # initial no. of super-droplets to initialise
+
+### Output Parameters ###
+outputdata:
+  setup_filename : None                                           # .txt filename to copy configuration to
+  stats_filename : None                                           # .txt file to output runtime statistics to
+  zarrbasedir : None                                              # zarr store base directory
+  maxchunk : 2500000                                              # maximum no. of elements in chunks of zarr store array
+
+### Microphysics Parameters ###
+microphysics:
+  # condensation will not be modified
+  condensation:
+    do_alter_thermo: false                                        # true = cond/evap alters the thermodynamic state
+    maxniters: 100                                                # maximum no. iterations of Newton Raphson Method
+    MINSUBTSTEP: 0.01                                             # minimum subtimestep in cases of substepping [s]
+    rtol: 0.03                                                    # relative tolerance for implicit Euler integration
+    atol: 0.03                                                    # abolute tolerance for implicit Euler integration
+  # breakup will be modified by using the breakup.yaml file in the eurec4a1d/<microphysics_setup>/src/ directory
+  breakup:
+    constnfrags:
+      nfrags: 0.0                                                 # average no. of fragments per droplet breakup
+
+### Coupled Dynamics Parameters ###
+coupled_dynamics:
+  type: fromfile
+  press: None                                                     # type of coupled dynamics to configure
+  temp: None                                                      # binary filename for pressure
+  qvap: None                                                      # binary filename for temperature
+  qcond: None                                                     # binary filename for vapour mixing ratio
+  wvel: None                                                      # binary filename for liquid mixing ratio
+  thermo: None                                                    # binary filename for vertical (coord3) velocity
+
+### Bounday Conditions Parameters ###
+
+boundary_conditions:
+  type: addsupersatdomaintop
+  COORD3LIM: None                                                    # SDs added to domain with coord3 >= COORD3LIM [m]
+  newnsupers: None                                                   # number SDs to add to each gridbox above COORD3LIM
+  DRYRADIUS: 1e-09                                                   # dry radius of new super-droplets (for solute mass) [m]
+  MINRADIUS: None                                                    # minimum radius of new super-droplets [m]
+  MAXRADIUS: None                                                    # maximum radius of new super-droplets [m]
+  NUMCONC_a: None                                                    # number conc. of 1st droplet lognormal dist [m^-3]
+  GEOMEAN_a: None                                                    # geometric mean radius of 1st lognormal dist [m]
+  geosigma_a: None                                                   # geometric standard deviation of 1st lognormal dist
+  NUMCONC_b: None                                                    # number conc. of 2nd droplet lognormal dist [m^-3]
+  GEOMEAN_b: None                                                    # geometric mean radius of 2nd lognormal dist [m]
+  geosigma_b: None                                                   # geometric standard deviation of 2nd lognormal dist

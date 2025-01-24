@@ -9,7 +9,7 @@
  * Author: Clara Bayley (CB)
  * Additional Contributors:
  * -----
- * Last Modified: Wednesday 11th September 2024
+ * Last Modified: Tuesday 18th June 2024
  * Modified By: CB
  * -----
  * License: BSD 3-Clause "New" or "Revised" License
@@ -29,7 +29,6 @@
 #include <stdexcept>
 #include <string_view>
 
-#include "zarr/dataset.hpp"
 #include "cartesiandomain/add_supers_at_domain_top.hpp"
 #include "cartesiandomain/cartesianmaps.hpp"
 #include "cartesiandomain/cartesianmotion.hpp"
@@ -48,6 +47,7 @@
 #include "observers/massmoments_observer.hpp"
 #include "observers/nsupers_observer.hpp"
 #include "observers/observers.hpp"
+#include "observers/runstats_observer.hpp"
 #include "observers/sdmmonitor/monitor_condensation_observer.hpp"
 #include "observers/state_observer.hpp"
 #include "observers/streamout_observer.hpp"
@@ -58,18 +58,27 @@
 #include "runcleo/couplingcomms.hpp"
 #include "runcleo/runcleo.hpp"
 #include "runcleo/sdmmethods.hpp"
+#include "superdrops/collisions/breakup.hpp"
+#include "superdrops/collisions/breakup_nfrags.hpp"
+#include "superdrops/collisions/coalbure.hpp"
+#include "superdrops/collisions/coalbure_flag.hpp"
 #include "superdrops/collisions/coalescence.hpp"
 #include "superdrops/collisions/longhydroprob.hpp"
 #include "superdrops/condensation.hpp"
 #include "superdrops/microphysicalprocess.hpp"
 #include "superdrops/motion.hpp"
 #include "superdrops/terminalvelocity.hpp"
+#include "zarr/dataset.hpp"
 #include "zarr/fsstore.hpp"
+
+// ===================================================
+// COUPLED DYNAMICS
+// ===================================================
 
 inline CoupledDynamics auto create_coupldyn(const Config &config, const CartesianMaps &gbxmaps,
                                             const unsigned int couplstep,
                                             const unsigned int t_end) {
-  const auto h_ndims = gbxmaps.get_global_ndims_hostcopy();
+  const auto h_ndims(gbxmaps.ndims_hostcopy());
   const std::array<size_t, 3> ndims({h_ndims(0), h_ndims(1), h_ndims(2)});
 
   const auto nsteps = (unsigned int)(std::ceil(t_end / couplstep) + 1);
@@ -77,18 +86,31 @@ inline CoupledDynamics auto create_coupldyn(const Config &config, const Cartesia
   return FromFileDynamics(config.get_fromfiledynamics(), couplstep, ndims, nsteps);
 }
 
-inline InitialConditions auto create_initconds(const Config &config, const CartesianMaps &gbxmaps) {
-  const auto initgbxs = InitGbxsNull(gbxmaps.get_local_ngridboxes());
-  const auto initsupers = InitSupersFromBinary(config.get_initsupersfrombinary(), gbxmaps);
+// ===================================================
+// INITIAL CONDITIONS
+// ===================================================
+
+inline InitialConditions auto create_initconds(const Config &config) {
+  // const InitAllSupersFromBinary initsupers(config.get_initsupersfrombinary());
+  const InitSupersFromBinary initsupers(config.get_initsupersfrombinary());
+  const InitGbxsNull initgbxs(config.get_ngbxs());
 
   return InitConds(initsupers, initgbxs);
 }
+
+// ===================================================
+// GRIDBOXES
+// ===================================================
 
 inline GridboxMaps auto create_gbxmaps(const Config &config) {
   const auto gbxmaps = create_cartesian_maps(config.get_ngbxs(), config.get_nspacedims(),
                                              config.get_grid_filename());
   return gbxmaps;
 }
+
+// ===================================================
+// MOVEMENT
+// ===================================================
 
 inline auto create_movement(const Config &config, const Timesteps &tsteps,
                             const CartesianMaps &gbxmaps) {
@@ -102,18 +124,33 @@ inline auto create_movement(const Config &config, const Timesteps &tsteps,
   return MoveSupersInDomain(gbxmaps, motion, boundary_conditions);
 }
 
+// ===================================================
+// MICROPHYSICS
+// ===================================================
+
+// ------------------------------
+// Collision Breakup Rebound and Condensation with nfrags constant from config file
+// ------------------------------
 inline MicrophysicalProcess auto create_microphysics(const Config &config,
                                                      const Timesteps &tsteps) {
-  const auto c = config.get_condensation();
+  const auto c_cond = config.get_condensation();
   const MicrophysicalProcess auto cond =
-      Condensation(tsteps.get_condstep(), &step2dimlesstime, c.do_alter_thermo, c.maxniters, c.rtol,
-                   c.atol, c.MINSUBTSTEP, &realtime2dimless);
-
-  const PairProbability auto coalprob = LongHydroProb(1.0);
-  const MicrophysicalProcess auto coal = CollCoal(tsteps.get_collstep(), &step2realtime, coalprob);
-
-  return coal >> cond;
+      Condensation(tsteps.get_condstep(), &step2dimlesstime,
+                   c_cond.do_alter_thermo, c_cond.maxniters, c_cond.rtol,
+                   c_cond.atol, c_cond.MINSUBTSTEP, &realtime2dimless);
+  const auto c_breakup = config.get_breakup();
+  const PairProbability auto collprob = LongHydroProb();
+  const NFragments auto nfrags = ConstNFrags(c_breakup.constnfrags.nfrags);
+  const CoalBuReFlag auto coalbure_flag = TSCoalBuReFlag{};
+  const MicrophysicalProcess auto coalbure =
+      CoalBuRe(tsteps.get_collstep(), &step2realtime, collprob, nfrags, coalbure_flag);
+  return cond >> coalbure;
 }
+
+
+// ===================================================
+// OBSERVERS
+// ===================================================
 
 template <typename Store>
 inline Observer auto create_superdrops_observer(const unsigned int interval,
@@ -149,24 +186,38 @@ inline Observer auto create_observer(const Config &config, const Timesteps &tste
   const auto maxchunk = config.get_maxchunk();
   const auto ngbxs = config.get_ngbxs();
 
-  const Observer auto obs0 = StreamOutObserver(realtime2step(240), &step2realtime);
+  const Observer auto obsstats = RunStatsObserver(obsstep, config.get_stats_filename());
 
-  const Observer auto obs1 = TimeObserver(obsstep, dataset, maxchunk, &step2dimlesstime);
+  const Observer auto obsstreamout = StreamOutObserver(realtime2step(240), &step2realtime);
 
-  const Observer auto obs2 = GbxindexObserver(dataset, maxchunk, ngbxs);
+  const Observer auto obstime = TimeObserver(obsstep, dataset, maxchunk, &step2dimlesstime);
 
-  const Observer auto obs3 = MassMomentsObserver(obsstep, dataset, maxchunk, ngbxs);
+  const Observer auto obsgindex = GbxindexObserver(dataset, maxchunk, ngbxs);
 
-  const Observer auto obs4 = MassMomentsRaindropsObserver(obsstep, dataset, maxchunk, ngbxs);
+  const Observer auto obsmm = MassMomentsObserver(obsstep, dataset, maxchunk, ngbxs);
+
+  const Observer auto obsmmrain = MassMomentsRaindropsObserver(obsstep, dataset, maxchunk, ngbxs);
 
   const Observer auto obsgbx = create_gridboxes_observer(obsstep, dataset, maxchunk, ngbxs);
 
   const Observer auto obssd = create_superdrops_observer(obsstep, dataset, maxchunk);
 
-  const Observer auto obs_cond = MonitorCondensationObserver(obsstep, dataset, maxchunk, ngbxs);
+  const Observer auto obscond = MonitorCondensationObserver(obsstep, dataset, maxchunk, ngbxs);
 
-  return obs_cond >> obssd >> obsgbx >> obs4 >> obs3 >> obs2 >> obs1 >> obs0;
+  return obscond
+        >> obssd
+        >> obsgbx
+        >> obsmmrain
+        >> obsmm
+        >> obsgindex
+        >> obstime
+        >> obsstreamout
+        >> obsstats;
 }
+
+// ===================================================
+// MAIN SUPER DROPLET MODEL
+// ===================================================
 
 template <typename Store>
 inline auto create_sdm(const Config &config, const Timesteps &tsteps, Dataset<Store> &dataset) {
@@ -184,46 +235,32 @@ int main(int argc, char *argv[]) {
     throw std::invalid_argument("configuration file(s) not specified");
   }
 
-  MPI_Init(&argc, &argv);
-
-  int comm_size;
-  MPI_Comm_size(MPI_COMM_WORLD, &comm_size);
-  if (comm_size > 1) {
-    std::cout << "ERROR: The current example is not prepared"
-              << " to be run with more than one MPI process" << std::endl;
-    MPI_Abort(MPI_COMM_WORLD, 1);
-  }
-
   Kokkos::Timer kokkostimer;
 
   /* Read input parameters from configuration file(s) */
   const std::filesystem::path config_filename(argv[1]);  // path to configuration file
   const Config config(config_filename);
+  const Timesteps tsteps(config.get_timesteps());
+
+  /* Create Xarray dataset wit Zarr backend for writing output data to a store */
+  auto store = FSStore(config.get_zarrbasedir());
+  auto dataset = Dataset(store);
+
+  /* Initial conditions for CLEO run */
+  const InitialConditions auto initconds = create_initconds(config);
 
   /* Initialise Kokkos parallel environment */
-  Kokkos::initialize(config.get_kokkos_initialization_settings());
+  Kokkos::initialize(argc, argv);
   {
-    Kokkos::print_configuration(std::cout);
-
-    /* Create timestepping parameters from configuration */
-    const Timesteps tsteps(config.get_timesteps());
-
-    /* Create Xarray dataset wit Zarr backend for writing output data to a store */
-    auto store = FSStore(config.get_zarrbasedir());
-    auto dataset = Dataset(store);
-
     /* CLEO Super-Droplet Model (excluding coupled dynamics solver) */
     const SDMMethods sdm(create_sdm(config, tsteps, dataset));
-
-    /* Initial conditions for CLEO run */
-    const InitialConditions auto initconds = create_initconds(config, sdm.gbxmaps);
 
     /* Solver of dynamics coupled to CLEO SDM */
     CoupledDynamics auto coupldyn(
         create_coupldyn(config, sdm.gbxmaps, tsteps.get_couplstep(), tsteps.get_t_end()));
 
     /* coupling between coupldyn and SDM */
-    const CouplingComms<CartesianMaps, FromFileDynamics> auto comms = FromFileComms{};
+    const CouplingComms<FromFileDynamics> auto comms = FromFileComms{};
 
     /* Run CLEO (SDM coupled to dynamics solver) */
     const RunCLEO runcleo(sdm, coupldyn, comms);
@@ -233,8 +270,6 @@ int main(int argc, char *argv[]) {
 
   const auto ttot = double{kokkostimer.seconds()};
   std::cout << "-----\n Total Program Duration: " << ttot << "s \n-----\n";
-
-  MPI_Finalize();
 
   return 0;
 }
