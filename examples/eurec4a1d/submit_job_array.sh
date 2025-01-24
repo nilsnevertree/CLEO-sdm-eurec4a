@@ -21,8 +21,8 @@ path2CLEO=${HOME}/CLEO
 # Path to python scripts to create the initial files and run the model in the EURC4A1D case
 # --------------------------------
 run_script_path=${path2CLEO}/examples/eurec4a1d/scripts/run_CLEO_job_array.sh
-stacksize_limit=
-
+CLEO_ENABLEYAC=false
+stacksize_limit=204800 # ulimit -s [stacksize_limit] (kB)
 # --------------------------------
 # Set microphysics setup
 # --------------------------------
@@ -76,7 +76,7 @@ sed -i "s/#SBATCH --array=.*/#SBATCH --array=0-${max_number}/" "$run_script_path
 sed -i "s/#SBATCH --ntasks-per-node=.*/#SBATCH --ntasks-per-node=1/" "$run_script_path"
 
 JOBID_run=$(\
-    sbatch  --export=microphysics=${microphysics},path2CLEO=${path2CLEO},path2data=${path2data},path2build=${path2build} \
+    sbatch  --export=microphysics=${microphysics},path2CLEO=${path2CLEO},path2data=${path2data},path2build=${path2build},stacksize_limit=${stacksize_limit},CLEO_ENABLEYAC=${CLEO_ENABLEYAC} \
     ${run_script_path}\
 )
 echo "JOBID: ${JOBID_run}"
