@@ -17,7 +17,6 @@ This script is used to run the EUREC4A1D executable. It is called by the
 import sys
 from pathlib import Path
 import yaml
-import argparse
 import logging
 from pySD import editconfigfile
 import datetime
@@ -28,14 +27,15 @@ logging.basicConfig(level=logging.INFO)
 
 # === mpi4py ===
 try:
-  from mpi4py import MPI
-  comm = MPI.COMM_WORLD
-  rank = comm.Get_rank()  # [0,1,2,3,4,5,6,7,8,9]
-  npro = comm.Get_size()  # 10
-except:
-  print('::: Warning: Proceeding without mpi4py! :::')
-  rank = 0
-  npro = 1
+    from mpi4py import MPI
+
+    comm = MPI.COMM_WORLD
+    rank = comm.Get_rank()  # [0,1,2,3,4,5,6,7,8,9]
+    npro = comm.Get_size()  # 10
+except Exception:
+    print("::: Warning: Proceeding without mpi4py! :::")
+    rank = 0
+    npro = 1
 
 path2CLEO = Path(__file__).resolve().parents[3]
 
@@ -44,7 +44,7 @@ path2eurec4a1d = path2CLEO / "examples/eurec4a1d"
 # === logging ===
 # create log file
 
-time_str = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%d-%H%M%S')
+time_str = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%d-%H%M%S")
 
 log_file_dir = path2eurec4a1d / "logfiles" / f"update_config_files/{time_str}"
 log_file_dir.mkdir(exist_ok=True, parents=True)
@@ -77,11 +77,12 @@ def handle_exception(exc_type, exc_value, exc_traceback):
         return
 
     logger.critical(
-        "Execution terminated due to an Exception", exc_info=(exc_type, exc_value, exc_traceback)
+        "Execution terminated due to an Exception",
+        exc_info=(exc_type, exc_value, exc_traceback),
     )
 
 
-logging.info(f"====================")
+logging.info("====================")
 logging.info(f"Start with rank {rank} of {npro}")
 
 logging.info(f"Enviroment: {sys.prefix}")
@@ -123,26 +124,28 @@ data_dir_path = Path(data_dir)
 config_file_relative_path = Path(config_file_relative_path)
 sub_dir_pattern = sub_dir_pattern
 
-all_config_paths = np.array(sorted(list(data_dir_path.glob(f"{sub_dir_pattern}")))) / config_file_relative_path
+all_config_paths = (
+    np.array(sorted(list(data_dir_path.glob(f"{sub_dir_pattern}"))))
+    / config_file_relative_path
+)
 
 rank_config_paths = np.array_split(all_config_paths, npro)[rank]
 
 for step, config_path in enumerate(rank_config_paths):
-
     logging.info(f"Core {rank +1} Step {step+1}/{len(rank_config_paths)}")
     logging.info(f"Updating config file: {config_path}")
 
-    try :
+    try:
         with open(config_path, "r") as f:
             config_dict = yaml.safe_load(f)
 
         config_dict["timesteps"] = dict(
-            CONDTSTEP= 0.05,
-            COLLTSTEP= 2,
-            MOTIONTSTEP= 2,
-            COUPLTSTEP= 3600,
-            OBSTSTEP= 2,
-            T_END= 3600,
+            CONDTSTEP=0.05,
+            COLLTSTEP=2,
+            MOTIONTSTEP=2,
+            COUPLTSTEP=3600,
+            OBSTSTEP=2,
+            T_END=3600,
         )
         config_dict["microphysics"]["condensation"] = dict(
             do_alter_thermo=False,
