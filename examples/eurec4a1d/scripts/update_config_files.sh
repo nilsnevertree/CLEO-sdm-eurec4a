@@ -8,8 +8,8 @@
 #SBATCH --mail-user=nils-ole.niebaumy@mpimet.mpg.de
 #SBATCH --mail-type=FAIL
 #SBATCH --account=mh1126
-#SBATCH --output=./logfiles/eurec4a1d_update_config.%j_out.out
-#SBATCH --error=./logfiles/eurec4a1d_update_config.%j_err.out
+#SBATCH --output=/home/m/m301096/CLEO/examples/eurec4a1d/logfiles/eurec4a1d_update_config.%j_out.out
+#SBATCH --error=/home/m/m301096/CLEO/examples/eurec4a1d/logfiles/eurec4a1d_update_config.%j_err.out
 
 ### ---------------------------------------------------- ###
 ### ------------------ Input Parameters ---------------- ###

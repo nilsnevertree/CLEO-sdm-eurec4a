@@ -7,15 +7,15 @@
 #SBATCH --mail-user=nils-ole.niebaumy@mpimet.mpg.de
 #SBATCH --mail-type=FAIL
 #SBATCH --account=mh1126
-#SBATCH --output=../logfiles/create_init_files/mpi4py/.%j_out.out
-#SBATCH --error=../logfiles/create_init_files/mpi4py/.%j_err.out
+#SBATCH --output=/home/m/m301096/CLEO/examples/eurec4a1d/logfiles/create_init_files/mpi4py/.%j_out.out
+#SBATCH --error=/home/m/m301096/CLEO/examples/eurec4a1d/logfiles/create_init_files/mpi4py/.%j_err.out
 
 ### --------------------- Version --------------------- ###
 echo "git hash: $(git rev-parse HEAD)"
 echo "git branch: $(git symbolic-ref --short HEAD)"
 echo "date: $(date)"
 echo "============================================"
-### ---------------------------------------------------- ###
+### ---------------------------------------------------- ###``
 
 source ${HOME}/.bashrc
 
@@ -29,8 +29,8 @@ echo "Using Python from: $(which python)"
 ### ---------------------------------------------------- ###
 
 ### ------------------ Input Parameters ---------------- ###
-microphysics="null_microphysics"
-# microphysics="condensation"
+# microphysics="null_microphysics"
+microphysics="condensation"
 # microphysics="collision_condensation"
 # microphysics="coalbure_condensation_small"
 # microphysics="coalbure_condensation_large"

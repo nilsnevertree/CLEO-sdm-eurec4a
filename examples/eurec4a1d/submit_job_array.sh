@@ -7,8 +7,8 @@
 #SBATCH --mail-user=nils-ole.niebaumy@mpimet.mpg.de
 #SBATCH --mail-type=FAIL
 #SBATCH --account=mh1126
-#SBATCH --output=./logfiles/submit_master/%j_out.out
-#SBATCH --error=./logfiles/submit_master/%j_err.out
+#SBATCH --output=/home/m/m301096/CLEO/examples/eurec4a1d/logfiles/submit_master/%j_out.out
+#SBATCH --error=/home/m/m301096/CLEO/examples/eurec4a1d/logfiles/submit_master/%j_err.out
 
 # --------------------------------
 # Set the flags to define the steps to run
@@ -28,11 +28,11 @@ run_script_path=${path2CLEO}/examples/eurec4a1d/scripts/run_CLEO_job_array.sh
 # --------------------------------
 # Set microphysics setup
 # --------------------------------
-# microphysics="null_microphysics"
+microphysics="null_microphysics"
 # microphysics="condensation"
 # microphysics="collision_condensation"
 # microphysics="coalbure_condensation_small"
-microphysics="coalbure_condensation_large"
+# microphysics="coalbure_condensation_large"
 # microphysics="coalbure_condensation_cke"
 
 
@@ -40,9 +40,9 @@ microphysics="coalbure_condensation_large"
 # Set paths
 # --------------------------------
 path2CLEO="/home/m/m301096/CLEO/"
-path2data=${path2CLEO}/data/output_v4.0/
+path2data=${path2CLEO}/data/output_v4.1/
 path2microphysics=${path2data}/${microphysics}
-path2build=${path2CLEO}/build_eurec4a1d/
+path2build=${path2CLEO}/build_eurec4a1d_openmpi/
 # config_directory="/home/m/m301096/repositories/sdm-eurec4a/data/model/input/output_v3.0/"
 
 # --------------------------------
