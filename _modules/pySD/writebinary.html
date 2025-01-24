@@ -1,10 +1,10 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="">
+<html class="no-js" lang="en" data-content_root="../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
-    <!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 7.3.7 and Furo 2024.08.06 -->
         <title>pySD.writebinary - CLEO 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=362ab14a" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
@@ -393,7 +393,9 @@
 <span class="kn">import</span> <span class="nn">struct</span>
 
 
-<div class="viewcode-block" id="writebinary"><a class="viewcode-back" href="../../pySD/writebinary.html#pySD.writebinary.writebinary">[docs]</a><span class="k">def</span> <span class="nf">writebinary</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">ndata</span><span class="p">,</span> <span class="n">datatypes</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">scale_factors</span><span class="p">,</span> <span class="n">metastr</span><span class="p">):</span>
+<div class="viewcode-block" id="writebinary">
+<a class="viewcode-back" href="../../pySD/writebinary.html#pySD.writebinary.writebinary">[docs]</a>
+<span class="k">def</span> <span class="nf">writebinary</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">ndata</span><span class="p">,</span> <span class="n">datatypes</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">scale_factors</span><span class="p">,</span> <span class="n">metastr</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;&#39;data&#39; is 1D array containing continuous list of variables.</span>
 <span class="sd">    The number of data points of each variable is give by it&#39;s index in</span>
 <span class="sd">    &#39;ndata&#39;, likewise it&#39;s datatype, unit and scale_factor are in</span>
@@ -422,7 +424,10 @@
     <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="check_validinputs"><a class="viewcode-back" href="../../pySD/writebinary.html#pySD.writebinary.check_validinputs">[docs]</a><span class="k">def</span> <span class="nf">check_validinputs</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ndata</span><span class="p">,</span> <span class="n">datatypes</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">scale_factors</span><span class="p">):</span>
+
+<div class="viewcode-block" id="check_validinputs">
+<a class="viewcode-back" href="../../pySD/writebinary.html#pySD.writebinary.check_validinputs">[docs]</a>
+<span class="k">def</span> <span class="nf">check_validinputs</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ndata</span><span class="p">,</span> <span class="n">datatypes</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">scale_factors</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;&#39; check that each variable&#39;s scale_factor is a double, unit is</span>
 <span class="sd">    a binary encoded single character and that the dataype given matches</span>
 <span class="sd">    the type of the data&quot;&quot;&quot;</span>
@@ -445,6 +450,7 @@
             <span class="p">)</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
         <span class="n">i</span> <span class="o">+=</span> <span class="n">n</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">get_dataformat</span><span class="p">(</span><span class="n">nvars</span><span class="p">,</span> <span class="n">ndata</span><span class="p">,</span> <span class="n">datatypes</span><span class="p">):</span>
@@ -608,7 +614,7 @@
             
             <a href="https://github.com/pradyunsg/furo">Furo</a>
             <div class="last-updated">
-              Last updated on 09 December 2024</div>
+              Last updated on 24 January 2025</div>
           </div>
           <div class="right-details">
             
@@ -623,9 +629,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=2389946f"></script>
-    <script src="../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+</div><script src="../../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>

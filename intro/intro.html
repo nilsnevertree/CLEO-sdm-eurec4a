@@ -1,11 +1,11 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="">
+<html class="no-js" lang="en" data-content_root="../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Background to the Super-Droplet Model (SDM)" href="background.html" /><link rel="prev" title="Welcome to CLEO’s Documentation!" href="../index.html" />
 
-    <!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 7.3.7 and Furo 2024.08.06 -->
         <title>Programming Guide - CLEO 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=362ab14a" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
@@ -376,7 +376,7 @@
         </div>
         <article role="main" id="furo-main-content">
           <section id="programming-guide">
-<h1>Programming Guide<a class="headerlink" href="#programming-guide" title="Permalink to this heading">¶</a></h1>
+<h1>Programming Guide<a class="headerlink" href="#programming-guide" title="Link to this heading">¶</a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Please consider that this project is under active development
@@ -388,7 +388,7 @@ in large regional domains, with horizontal extents O(100km). CLEO is an attempt 
 a SDM. It strives to be a library for SDM to model warm clouds with exceptional computational
 performance.</p>
 <section id="memory-layout">
-<h2>Memory Layout<a class="headerlink" href="#memory-layout" title="Permalink to this heading">¶</a></h2>
+<h2>Memory Layout<a class="headerlink" href="#memory-layout" title="Link to this heading">¶</a></h2>
 <p>The fundamental basis for computational performance in CLEO is through efficient memory access
 patterns. Primarily this is acheived by ensuring super-droplets which occupy the same gridbox are
 always located contiguously in memory. We also try to avoid new memory allocation and cache misses
@@ -396,7 +396,7 @@ through our organisation of gridboxes and super-droplets and we use simplistic m
 low cost at run-time.</p>
 </section>
 <section id="timestepping">
-<h2>Timestepping<a class="headerlink" href="#timestepping" title="Permalink to this heading">¶</a></h2>
+<h2>Timestepping<a class="headerlink" href="#timestepping" title="Link to this heading">¶</a></h2>
 <p>CLEO’s monoidal structures (see below) are designed to allow adaptive-timestepping,
 meaning different microphysical processes and observers may have arbitrary time-steps which bare
 no relation to one another and can in general change during run-time. This flexibility is contained
@@ -404,7 +404,7 @@ in a sub-timestepping routine which is part of CLEO’s larger timestepping rout
 coupled to dynamics.</p>
 </section>
 <section id="coupling-to-dynamics">
-<h2>Coupling to Dynamics<a class="headerlink" href="#coupling-to-dynamics" title="Permalink to this heading">¶</a></h2>
+<h2>Coupling to Dynamics<a class="headerlink" href="#coupling-to-dynamics" title="Link to this heading">¶</a></h2>
 <p>Whilst CLEO handles the transport of super-droplets throughout the domain, it cannot perform
 advection of Gridboxes’ dyanmic variables itself (temperature, pressure, winds etc.). Instead,
 CLEO can be one-way or two-way coupled to a dyanmical core capable of advection.
@@ -412,7 +412,7 @@ Nevertheless, such a dynamical core is not a necessity. There are many ways for 
 dynamics, which may even just involve reading data from binary files.</p>
 </section>
 <section id="monoids">
-<h2>Monoids<a class="headerlink" href="#monoids" title="Permalink to this heading">¶</a></h2>
+<h2>Monoids<a class="headerlink" href="#monoids" title="Link to this heading">¶</a></h2>
 <p>A key novel feature of CLEO is the construction of monoids. We use C++20 concepts to constrain
 templated types for microphysics and observers. This ensures they satisfy monoid set properties
 and can be combined in well-defined ways. The purpose is to allow for several microphysics
@@ -422,7 +422,7 @@ extra-ordinary model flexibility without additional run-time cost. It also helps
 readable and modifyable code.</p>
 </section>
 <section id="kokkos-thread-parallelism">
-<h2>Kokkos Thread Parallelism<a class="headerlink" href="#kokkos-thread-parallelism" title="Permalink to this heading">¶</a></h2>
+<h2>Kokkos Thread Parallelism<a class="headerlink" href="#kokkos-thread-parallelism" title="Link to this heading">¶</a></h2>
 <p>For performance portable thread parallelism we embrace Kokkos. As a consequence,
 Kokkos’ macros and functions are littered throughout our code and many of our key data structures,
 for example Gridboxes and super-droplets, are contained within Kokkos Views. For those seeking
@@ -441,7 +441,7 @@ advanced understanding, we defer to Kokkos’ GitHub repositories and documentat
 </div>
 </section>
 <section id="questions">
-<h2>Questions?<a class="headerlink" href="#questions" title="Permalink to this heading">¶</a></h2>
+<h2>Questions?<a class="headerlink" href="#questions" title="Link to this heading">¶</a></h2>
 <p>Yes please! Simply <a class="reference internal" href="../usage/contact.html#contact"><span class="std std-ref">contact us!</span></a></p>
 </section>
 </section>
@@ -481,7 +481,7 @@ advanced understanding, we defer to Kokkos’ GitHub repositories and documentat
             
             <a href="https://github.com/pradyunsg/furo">Furo</a>
             <div class="last-updated">
-              Last updated on 09 December 2024</div>
+              Last updated on 24 January 2025</div>
           </div>
           <div class="right-details">
             
@@ -520,9 +520,9 @@ advanced understanding, we defer to Kokkos’ GitHub repositories and documentat
       
     </aside>
   </div>
-</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=2389946f"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
-    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+</div><script src="../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>

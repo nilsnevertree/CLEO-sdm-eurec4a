@@ -1,10 +1,10 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="">
+<html class="no-js" lang="en" data-content_root="../../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 7.3.7 and Furo 2024.08.06 -->
         <title>pySD.sdmout_src.sdtracing - CLEO 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=362ab14a" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
@@ -399,7 +399,9 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 
 
-<div class="viewcode-block" id="attr_for_superdroplet"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.attr_for_superdroplet">[docs]</a><span class="k">def</span> <span class="nf">attr_for_superdroplet</span><span class="p">(</span><span class="n">sddata</span><span class="p">,</span> <span class="n">Id</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+<div class="viewcode-block" id="attr_for_superdroplet">
+<a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.attr_for_superdroplet">[docs]</a>
+<span class="k">def</span> <span class="nf">attr_for_superdroplet</span><span class="p">(</span><span class="n">sddata</span><span class="p">,</span> <span class="n">Id</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;selects attribute from sddata belonging</span>
 <span class="sd">    to superdroplet with identitiy &#39;Id&#39;</span>
 <span class="sd">    at every output time&quot;&quot;&quot;</span>
@@ -425,7 +427,10 @@
     <span class="k">return</span> <span class="n">ak</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">attr4Id</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># remove excess dimension</span></div>
 
 
-<div class="viewcode-block" id="attributes_for1superdroplet"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.attributes_for1superdroplet">[docs]</a><span class="k">def</span> <span class="nf">attributes_for1superdroplet</span><span class="p">(</span><span class="n">sddata</span><span class="p">,</span> <span class="n">Id</span><span class="p">,</span> <span class="n">attrs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="attributes_for1superdroplet">
+<a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.attributes_for1superdroplet">[docs]</a>
+<span class="k">def</span> <span class="nf">attributes_for1superdroplet</span><span class="p">(</span><span class="n">sddata</span><span class="p">,</span> <span class="n">Id</span><span class="p">,</span> <span class="n">attrs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;selects attributes in &#39;attrs&#39; from sddata</span>
 <span class="sd">    belonging to superdroplet with identitiy &#39;Id&#39;</span>
 <span class="sd">    at every output time&quot;&quot;&quot;</span>
@@ -437,7 +442,10 @@
     <span class="k">return</span> <span class="n">attrs4Id</span></div>
 
 
-<div class="viewcode-block" id="attribute_for_superdroplets_sample"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.attribute_for_superdroplets_sample">[docs]</a><span class="k">def</span> <span class="nf">attribute_for_superdroplets_sample</span><span class="p">(</span>
+
+<div class="viewcode-block" id="attribute_for_superdroplets_sample">
+<a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.attribute_for_superdroplets_sample">[docs]</a>
+<span class="k">def</span> <span class="nf">attribute_for_superdroplets_sample</span><span class="p">(</span>
     <span class="n">sddata</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">ndrops2sample</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">minid</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">maxid</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="p">[]</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;returns 2D array with dimensions [time, SD]</span>
@@ -463,7 +471,10 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">ndrops_attr</span><span class="p">)</span><span class="o">.</span><span class="n">T</span></div>
 
 
-<div class="viewcode-block" id="attr_at_times"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.attr_at_times">[docs]</a><span class="k">def</span> <span class="nf">attr_at_times</span><span class="p">(</span><span class="n">attrdata</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">times2sel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="attr_at_times">
+<a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.attr_at_times">[docs]</a>
+<span class="k">def</span> <span class="nf">attr_at_times</span><span class="p">(</span><span class="n">attrdata</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">times2sel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;selects attribute (for all superdroplets)</span>
 <span class="sd">    at times closest to &#39;times2sel&#39;&quot;&quot;&quot;</span>
 
@@ -474,7 +485,10 @@
     <span class="k">return</span> <span class="n">attrdata</span><span class="p">[</span><span class="n">inds</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="attributes_at_times"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.attributes_at_times">[docs]</a><span class="k">def</span> <span class="nf">attributes_at_times</span><span class="p">(</span><span class="n">sddata</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">times2sel</span><span class="p">,</span> <span class="n">attrs2sel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="attributes_at_times">
+<a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.attributes_at_times">[docs]</a>
+<span class="k">def</span> <span class="nf">attributes_at_times</span><span class="p">(</span><span class="n">sddata</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">times2sel</span><span class="p">,</span> <span class="n">attrs2sel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;selects attributes at given times from</span>
 <span class="sd">    sddata (for all superdroplets in sddata)&quot;&quot;&quot;</span>
 
@@ -487,7 +501,10 @@
     <span class="k">return</span> <span class="n">selected_data</span></div>
 
 
-<div class="viewcode-block" id="attrs_for_superdroplets_sample"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.attrs_for_superdroplets_sample">[docs]</a><span class="k">def</span> <span class="nf">attrs_for_superdroplets_sample</span><span class="p">(</span>
+
+<div class="viewcode-block" id="attrs_for_superdroplets_sample">
+<a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.attrs_for_superdroplets_sample">[docs]</a>
+<span class="k">def</span> <span class="nf">attrs_for_superdroplets_sample</span><span class="p">(</span>
     <span class="n">sddata</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">ndrops2sample</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">minid</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">maxid</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="p">[]</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;returns dictionary of 2D arrays (with dimensions [time, SD])</span>
@@ -512,7 +529,10 @@
     <span class="k">return</span> <span class="n">data</span></div>
 
 
-<div class="viewcode-block" id="akward_array_to_lagrange_array"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.akward_array_to_lagrange_array">[docs]</a><span class="k">def</span> <span class="nf">akward_array_to_lagrange_array</span><span class="p">(</span>
+
+<div class="viewcode-block" id="akward_array_to_lagrange_array">
+<a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.akward_array_to_lagrange_array">[docs]</a>
+<span class="k">def</span> <span class="nf">akward_array_to_lagrange_array</span><span class="p">(</span>
     <span class="n">data</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span>
     <span class="n">dim1</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span>
     <span class="n">dim2</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span>
@@ -695,7 +715,10 @@
     <span class="k">return</span> <span class="n">result_numpy</span></div>
 
 
-<div class="viewcode-block" id="get_awkward_shape"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.get_awkward_shape">[docs]</a><span class="k">def</span> <span class="nf">get_awkward_shape</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">):</span>
+
+<div class="viewcode-block" id="get_awkward_shape">
+<a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.get_awkward_shape">[docs]</a>
+<span class="k">def</span> <span class="nf">get_awkward_shape</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get the shape of the awkward array a as a list.</span>
 <span class="sd">    Variable axis lengths are replaced by ``np.nan``.</span>
@@ -734,7 +757,10 @@
     <span class="k">return</span> <span class="n">shape</span></div>
 
 
-<div class="viewcode-block" id="assert_same_shape"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.assert_same_shape">[docs]</a><span class="k">def</span> <span class="nf">assert_same_shape</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">):</span>
+
+<div class="viewcode-block" id="assert_same_shape">
+<a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.assert_same_shape">[docs]</a>
+<span class="k">def</span> <span class="nf">assert_same_shape</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Assert that the two awkward arrays have the same shape.</span>
 <span class="sd">    Variable axis lengths are replaced by ``np.nan``.</span>
@@ -760,7 +786,10 @@
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="assert_only_last_axis_variable"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.assert_only_last_axis_variable">[docs]</a><span class="k">def</span> <span class="nf">assert_only_last_axis_variable</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">):</span>
+
+<div class="viewcode-block" id="assert_only_last_axis_variable">
+<a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.assert_only_last_axis_variable">[docs]</a>
+<span class="k">def</span> <span class="nf">assert_only_last_axis_variable</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Assert that the awkward array has only variable axis lengths at the last axis.</span>
 
@@ -782,7 +811,10 @@
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="ak_flatten_full"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.ak_flatten_full">[docs]</a><span class="k">def</span> <span class="nf">ak_flatten_full</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">Array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ak_flatten_full">
+<a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.ak_flatten_full">[docs]</a>
+<span class="k">def</span> <span class="nf">ak_flatten_full</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">Array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function flattens the input array along all axes.</span>
 <span class="sd">    Note that no information is returned to unflatten the array again!</span>
@@ -804,7 +836,10 @@
     <span class="k">return</span> <span class="n">data</span></div>
 
 
-<div class="viewcode-block" id="ak_ragged_to_padded"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.ak_ragged_to_padded">[docs]</a><span class="k">def</span> <span class="nf">ak_ragged_to_padded</span><span class="p">(</span>
+
+<div class="viewcode-block" id="ak_ragged_to_padded">
+<a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.ak_ragged_to_padded">[docs]</a>
+<span class="k">def</span> <span class="nf">ak_ragged_to_padded</span><span class="p">(</span>
     <span class="n">data</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">masked_array</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">MaskedArray</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -849,7 +884,10 @@
         <span class="k">return</span> <span class="n">padded_data_numpy</span><span class="o">.</span><span class="n">filled</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="ak_digitize_2D"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.ak_digitize_2D">[docs]</a><span class="k">def</span> <span class="nf">ak_digitize_2D</span><span class="p">(</span>
+
+<div class="viewcode-block" id="ak_digitize_2D">
+<a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.ak_digitize_2D">[docs]</a>
+<span class="k">def</span> <span class="nf">ak_digitize_2D</span><span class="p">(</span>
     <span class="n">x</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">bins</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -905,7 +943,10 @@
     <span class="k">return</span> <span class="n">digi</span></div>
 
 
-<div class="viewcode-block" id="ak_digitize_3D"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.ak_digitize_3D">[docs]</a><span class="k">def</span> <span class="nf">ak_digitize_3D</span><span class="p">(</span>
+
+<div class="viewcode-block" id="ak_digitize_3D">
+<a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.ak_digitize_3D">[docs]</a>
+<span class="k">def</span> <span class="nf">ak_digitize_3D</span><span class="p">(</span>
     <span class="n">x</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">bins</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -967,7 +1008,10 @@
     <span class="k">return</span> <span class="n">digi</span></div>
 
 
-<div class="viewcode-block" id="create_counts_1D"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.create_counts_1D">[docs]</a><span class="k">def</span> <span class="nf">create_counts_1D</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
+
+<div class="viewcode-block" id="create_counts_1D">
+<a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.create_counts_1D">[docs]</a>
+<span class="k">def</span> <span class="nf">create_counts_1D</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function creates a 1D array with the counts of unique values in the input array.</span>
 <span class="sd">    It identifies the unique values in each subarray along axis 1.</span>
@@ -1008,7 +1052,10 @@
     <span class="k">return</span> <span class="n">bcount</span></div>
 
 
-<div class="viewcode-block" id="create_counts_2D"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.create_counts_2D">[docs]</a><span class="k">def</span> <span class="nf">create_counts_2D</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">flat</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
+
+<div class="viewcode-block" id="create_counts_2D">
+<a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.create_counts_2D">[docs]</a>
+<span class="k">def</span> <span class="nf">create_counts_2D</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">flat</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function creates a 2D array with the counts of unique values in the input array.</span>
 <span class="sd">    It identifies the unique values in each subarray along axis 1.</span>
@@ -1066,7 +1113,10 @@
         <span class="k">return</span> <span class="n">bcount</span></div>
 
 
-<div class="viewcode-block" id="create_counts_3D"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.create_counts_3D">[docs]</a><span class="k">def</span> <span class="nf">create_counts_3D</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">flat</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
+
+<div class="viewcode-block" id="create_counts_3D">
+<a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.create_counts_3D">[docs]</a>
+<span class="k">def</span> <span class="nf">create_counts_3D</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">flat</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function creates a 3D array with the counts of unique values in the input array.</span>
 <span class="sd">    For instance, if the ``a`` array has the shape (T, N, var) and its highest values is M, the output array will have the shape (T, N, M+1),</span>
@@ -1164,7 +1214,10 @@
         <span class="k">return</span> <span class="n">bcount</span></div>
 
 
-<div class="viewcode-block" id="binning_by_1D_indexer"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.binning_by_1D_indexer">[docs]</a><span class="k">def</span> <span class="nf">binning_by_1D_indexer</span><span class="p">(</span>
+
+<div class="viewcode-block" id="binning_by_1D_indexer">
+<a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.binning_by_1D_indexer">[docs]</a>
+<span class="k">def</span> <span class="nf">binning_by_1D_indexer</span><span class="p">(</span>
     <span class="n">data</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span>
     <span class="n">indexer</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
@@ -1215,7 +1268,10 @@
     <span class="k">return</span> <span class="n">result</span></div>
 
 
-<div class="viewcode-block" id="binning_by_2D_indexer"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.binning_by_2D_indexer">[docs]</a><span class="k">def</span> <span class="nf">binning_by_2D_indexer</span><span class="p">(</span>
+
+<div class="viewcode-block" id="binning_by_2D_indexer">
+<a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.binning_by_2D_indexer">[docs]</a>
+<span class="k">def</span> <span class="nf">binning_by_2D_indexer</span><span class="p">(</span>
     <span class="n">data</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">indexer</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1274,7 +1330,10 @@
     <span class="k">return</span> <span class="n">result</span></div>
 
 
-<div class="viewcode-block" id="binning_by_3D_indexer"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.binning_by_3D_indexer">[docs]</a><span class="k">def</span> <span class="nf">binning_by_3D_indexer</span><span class="p">(</span>
+
+<div class="viewcode-block" id="binning_by_3D_indexer">
+<a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.binning_by_3D_indexer">[docs]</a>
+<span class="k">def</span> <span class="nf">binning_by_3D_indexer</span><span class="p">(</span>
     <span class="n">data</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">indexer</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1334,7 +1393,10 @@
     <span class="k">return</span> <span class="n">result</span></div>
 
 
-<div class="viewcode-block" id="binning_by_1D_counts"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.binning_by_1D_counts">[docs]</a><span class="k">def</span> <span class="nf">binning_by_1D_counts</span><span class="p">(</span>
+
+<div class="viewcode-block" id="binning_by_1D_counts">
+<a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.binning_by_1D_counts">[docs]</a>
+<span class="k">def</span> <span class="nf">binning_by_1D_counts</span><span class="p">(</span>
     <span class="n">data</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span>
     <span class="n">counts</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
@@ -1381,7 +1443,10 @@
     <span class="k">return</span> <span class="n">result</span></div>
 
 
-<div class="viewcode-block" id="binning_by_2D_counts"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.binning_by_2D_counts">[docs]</a><span class="k">def</span> <span class="nf">binning_by_2D_counts</span><span class="p">(</span>
+
+<div class="viewcode-block" id="binning_by_2D_counts">
+<a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.binning_by_2D_counts">[docs]</a>
+<span class="k">def</span> <span class="nf">binning_by_2D_counts</span><span class="p">(</span>
     <span class="n">data</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">counts</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1446,7 +1511,10 @@
     <span class="k">return</span> <span class="n">result</span></div>
 
 
-<div class="viewcode-block" id="binning_by_3D_counts"><a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.binning_by_3D_counts">[docs]</a><span class="k">def</span> <span class="nf">binning_by_3D_counts</span><span class="p">(</span>
+
+<div class="viewcode-block" id="binning_by_3D_counts">
+<a class="viewcode-back" href="../../../pySD/sdmout_src/sdtracing.html#pySD.sdmout_src.sdtracing.binning_by_3D_counts">[docs]</a>
+<span class="k">def</span> <span class="nf">binning_by_3D_counts</span><span class="p">(</span>
     <span class="n">data</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">counts</span><span class="p">:</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ak</span><span class="o">.</span><span class="n">highlevel</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1503,6 +1571,7 @@
     <span class="n">result</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">unflatten</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">result</span></div>
+
 </pre></div>
         </article>
       </div>
@@ -1521,7 +1590,7 @@
             
             <a href="https://github.com/pradyunsg/furo">Furo</a>
             <div class="last-updated">
-              Last updated on 09 December 2024</div>
+              Last updated on 24 January 2025</div>
           </div>
           <div class="right-details">
             
@@ -1536,9 +1605,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=2389946f"></script>
-    <script src="../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+</div><script src="../../../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>

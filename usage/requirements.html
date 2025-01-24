@@ -1,11 +1,11 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="">
+<html class="no-js" lang="en" data-content_root="../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Installation" href="installation.html" /><link rel="prev" title="External Libraries" href="extern.html" />
 
-    <!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 7.3.7 and Furo 2024.08.06 -->
         <title>Requirements - CLEO 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=362ab14a" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
@@ -376,14 +376,14 @@
         </div>
         <article role="main" id="furo-main-content">
           <section id="requirements">
-<h1>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">¶</a></h1>
+<h1>Requirements<a class="headerlink" href="#requirements" title="Link to this heading">¶</a></h1>
 <p>The following requirements ensure CLEO’s build, compilation and execution on DKRZ’s Levante HPC.
 If they do not work, please <a class="reference internal" href="contact.html#contact"><span class="std std-ref">contact us</span></a> or <a class="reference external" href="https://github.com/yoctoyotta1024/CLEO/issues/new">open a new
 issue</a> on our GitHub repository.</p>
 <p>Of course other architectures, other compilers, versions etc. are possible, but we leave this for
 you to discover.</p>
 <section id="cmake">
-<h2>CMake<a class="headerlink" href="#cmake" title="Permalink to this heading">¶</a></h2>
+<h2>CMake<a class="headerlink" href="#cmake" title="Link to this heading">¶</a></h2>
 <p>CMake minimum version 3.18.0.</p>
 <p>On Levante it’s best to use version 3.23.1 which can be loaded e.g. via the command</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>spack<span class="w"> </span>load<span class="w"> </span>cmake@3.23.1%gcc
@@ -391,7 +391,7 @@ you to discover.</p>
 </div>
 </section>
 <section id="compilers">
-<h2>Compilers<a class="headerlink" href="#compilers" title="Permalink to this heading">¶</a></h2>
+<h2>Compilers<a class="headerlink" href="#compilers" title="Link to this heading">¶</a></h2>
 <p>A C++ compiler with the C++20 standard library is the absolute minimum.</p>
 <p>On Levante you can use the latest MPI compiler wrappers for the gcc compilers.
 At the time of writing this is gcc 11.2.0, e.g.</p>
@@ -406,7 +406,7 @@ At the time of writing this is gcc 11.2.0, e.g.</p>
 gcc not nvhpc where this is relevant).</p>
 </section>
 <section id="python">
-<h2>Python<a class="headerlink" href="#python" title="Permalink to this heading">¶</a></h2>
+<h2>Python<a class="headerlink" href="#python" title="Link to this heading">¶</a></h2>
 <p>To use PySD you need Python minimum version 3.10.4. We advise you to <a class="reference internal" href="good_coding.html#environment"><span class="std std-ref">create an
 environment</span></a> using our envirnoment.yml file. This environment should automatically
 include all the additional packages you may require. If not, please <a class="reference internal" href="contact.html#contact"><span class="std std-ref">contact us</span></a> or
@@ -423,7 +423,7 @@ issue</a> on our GitHub repository to notify us.</p>
 </div>
 </section>
 <section id="yac">
-<h2>YAC<a class="headerlink" href="#yac" title="Permalink to this heading">¶</a></h2>
+<h2>YAC<a class="headerlink" href="#yac" title="Link to this heading">¶</a></h2>
 <p>YAC is one of the <a class="reference internal" href="extern.html"><span class="doc">external libraries</span></a> which CLEO may require in order to
 couple to dynamics and/or have MPI domain decomposition.</p>
 <p>Note that YAC (and its YAXT dependency) need to be installed manually before you can build
@@ -479,7 +479,7 @@ compiler which you can load on Levante via:</p>
             
             <a href="https://github.com/pradyunsg/furo">Furo</a>
             <div class="last-updated">
-              Last updated on 09 December 2024</div>
+              Last updated on 24 January 2025</div>
           </div>
           <div class="right-details">
             
@@ -516,9 +516,9 @@ compiler which you can load on Levante via:</p>
       
     </aside>
   </div>
-</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=2389946f"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
-    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+</div><script src="../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>

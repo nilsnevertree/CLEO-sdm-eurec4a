@@ -1,11 +1,11 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="">
+<html class="no-js" lang="en" data-content_root="../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Template for Observer to Write To Dataset" href="write_to_dataset_observer.html" /><link rel="prev" title="StreamOut Observer" href="streamout_observer.html" />
 
-    <!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 7.3.7 and Furo 2024.08.06 -->
         <title>Constant Time Step Observers - CLEO 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=362ab14a" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
@@ -179,7 +179,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -369,19 +369,19 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main" id="furo-main-content">
           <section id="constant-time-step-observers">
-<h1>Constant Time Step Observers<a class="headerlink" href="#constant-time-step-observers" title="Permalink to this heading">¶</a></h1>
+<h1>Constant Time Step Observers<a class="headerlink" href="#constant-time-step-observers" title="Link to this heading">¶</a></h1>
 <p>Header file: <code class="docutils literal notranslate"><span class="pre">&lt;libs/observers/consttstep_observer.hpp&gt;</span></code>
 <a class="reference external" href="https://github.com/yoctoyotta1024/CLEO/blob/main/libs/observers/consttstep_observer.hpp">[source]</a></p>
 <dl class="cpp struct">
 <dt class="sig sig-object cpp" id="_CPPv4I_8ObsFuncsE18ConstTstepObserver">
-<span id="_CPPv3I_8ObsFuncsE18ConstTstepObserver"></span><span id="_CPPv2I_8ObsFuncsE18ConstTstepObserver"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="observers.html#_CPPv4I0E8ObsFuncs" title="ObsFuncs"><span class="n"><span class="pre">ObsFuncs</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">O</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="structConstTstepObserver"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ConstTstepObserver</span></span></span><a class="headerlink" href="#_CPPv4I_8ObsFuncsE18ConstTstepObserver" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3I_8ObsFuncsE18ConstTstepObserver"></span><span id="_CPPv2I_8ObsFuncsE18ConstTstepObserver"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="observers.html#_CPPv4I0E8ObsFuncs" title="ObsFuncs"><span class="n"><span class="pre">ObsFuncs</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">O</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="structConstTstepObserver"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ConstTstepObserver</span></span></span><a class="headerlink" href="#_CPPv4I_8ObsFuncsE18ConstTstepObserver" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Structure <a class="reference internal" href="#structConstTstepObserver"><span class="std std-ref">ConstTstepObserver</span></a> represents a type that satisfies the concept of an observer with a constant timestep interval between observations at the start of each timestep. </p>
 <p>Struct can be used to create an observer with a constant timestep and with observation functionality as determined by the ‘do_obs’ instance of the <a class="reference internal" href="observers.html#conceptObsFuncs"><span class="std std-ref">ObsFuncs</span></a> type ‘O’.</p>
 <dl class="field-list simple">
@@ -393,7 +393,7 @@
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N18ConstTstepObserver18ConstTstepObserverEKjK1O">
-<span id="_CPPv3N18ConstTstepObserver18ConstTstepObserverEKjK1O"></span><span id="_CPPv2N18ConstTstepObserver18ConstTstepObserverEKjK1O"></span><span id="ConstTstepObserver::ConstTstepObserver__unsigned-iC.OC"></span><span class="target" id="structConstTstepObserver_1a796d34afd717f452017b567e1385d0c8"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ConstTstepObserver</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">interval</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I_8ObsFuncsE18ConstTstepObserver" title="ConstTstepObserver::O"><span class="n"><span class="pre">O</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">o</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N18ConstTstepObserver18ConstTstepObserverEKjK1O" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N18ConstTstepObserver18ConstTstepObserverEKjK1O"></span><span id="_CPPv2N18ConstTstepObserver18ConstTstepObserverEKjK1O"></span><span id="ConstTstepObserver::ConstTstepObserver__unsigned-iC.OC"></span><span class="target" id="structConstTstepObserver_1a796d34afd717f452017b567e1385d0c8"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ConstTstepObserver</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">interval</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I_8ObsFuncsE18ConstTstepObserver" title="ConstTstepObserver::O"><span class="n"><span class="pre">O</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">o</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N18ConstTstepObserver18ConstTstepObserverEKjK1O" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Construct a new <a class="reference internal" href="#structConstTstepObserver"><span class="std std-ref">ConstTstepObserver</span></a> object. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -407,7 +407,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK18ConstTstepObserver19before_timesteppingEK14viewd_constgbx">
-<span id="_CPPv3NK18ConstTstepObserver19before_timesteppingEK14viewd_constgbx"></span><span id="_CPPv2NK18ConstTstepObserver19before_timesteppingEK14viewd_constgbx"></span><span id="ConstTstepObserver::before_timestepping__viewd_constgbxCC"></span><span class="target" id="structConstTstepObserver_1a481dc99047b31e6cd6eedf63ba839bf7"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">before_timestepping</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../kokkosaliases.html#_CPPv414viewd_constgbx" title="viewd_constgbx"><span class="n"><span class="pre">viewd_constgbx</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">d_gbxs</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK18ConstTstepObserver19before_timesteppingEK14viewd_constgbx" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3NK18ConstTstepObserver19before_timesteppingEK14viewd_constgbx"></span><span id="_CPPv2NK18ConstTstepObserver19before_timesteppingEK14viewd_constgbx"></span><span id="ConstTstepObserver::before_timestepping__viewd_constgbxCC"></span><span class="target" id="structConstTstepObserver_1a481dc99047b31e6cd6eedf63ba839bf7"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">before_timestepping</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../kokkosaliases.html#_CPPv414viewd_constgbx" title="viewd_constgbx"><span class="n"><span class="pre">viewd_constgbx</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">d_gbxs</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK18ConstTstepObserver19before_timesteppingEK14viewd_constgbx" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Perform operations before timestepping. </p>
 <p>Calls <code class="docutils literal notranslate"><span class="pre">before_timestepping</span></code> function of <code class="docutils literal notranslate"><span class="pre">do_obs</span></code>.</p>
 <dl class="field-list simple">
@@ -419,14 +419,14 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK18ConstTstepObserver18after_timesteppingEv">
-<span id="_CPPv3NK18ConstTstepObserver18after_timesteppingEv"></span><span id="_CPPv2NK18ConstTstepObserver18after_timesteppingEv"></span><span id="ConstTstepObserver::after_timesteppingC"></span><span class="target" id="structConstTstepObserver_1a95608083b53c3a9f6e2d0f06077088d3"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">after_timestepping</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK18ConstTstepObserver18after_timesteppingEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3NK18ConstTstepObserver18after_timesteppingEv"></span><span id="_CPPv2NK18ConstTstepObserver18after_timesteppingEv"></span><span id="ConstTstepObserver::after_timesteppingC"></span><span class="target" id="structConstTstepObserver_1a95608083b53c3a9f6e2d0f06077088d3"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">after_timestepping</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK18ConstTstepObserver18after_timesteppingEv" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Perform operations after timestepping. </p>
 <p>Calls <code class="docutils literal notranslate"><span class="pre">after_timestepping</span></code> function of <code class="docutils literal notranslate"><span class="pre">do_obs</span></code>. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK18ConstTstepObserver8next_obsEKj">
-<span id="_CPPv3NK18ConstTstepObserver8next_obsEKj"></span><span id="_CPPv2NK18ConstTstepObserver8next_obsEKj"></span><span id="ConstTstepObserver::next_obs__unsigned-iCC"></span><span class="target" id="structConstTstepObserver_1a799a53d69e6945a825169c91f3415566"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">next_obs</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">t_mdl</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK18ConstTstepObserver8next_obsEKj" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3NK18ConstTstepObserver8next_obsEKj"></span><span id="_CPPv2NK18ConstTstepObserver8next_obsEKj"></span><span id="ConstTstepObserver::next_obs__unsigned-iCC"></span><span class="target" id="structConstTstepObserver_1a799a53d69e6945a825169c91f3415566"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">next_obs</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">t_mdl</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK18ConstTstepObserver8next_obsEKj" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Determine the next observation time. </p>
 <p>Calculates the next observation time based on the current model time and this observer’s constant timestep between observations, ‘interval’.</p>
 <dl class="field-list simple">
@@ -441,7 +441,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK18ConstTstepObserver7on_stepEKj">
-<span id="_CPPv3NK18ConstTstepObserver7on_stepEKj"></span><span id="_CPPv2NK18ConstTstepObserver7on_stepEKj"></span><span id="ConstTstepObserver::on_step__unsigned-iCC"></span><span class="target" id="structConstTstepObserver_1a1c0076ce6b9fecd3d47b4126719d7c3e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">on_step</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">t_mdl</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK18ConstTstepObserver7on_stepEKj" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3NK18ConstTstepObserver7on_stepEKj"></span><span id="_CPPv2NK18ConstTstepObserver7on_stepEKj"></span><span id="ConstTstepObserver::on_step__unsigned-iCC"></span><span class="target" id="structConstTstepObserver_1a1c0076ce6b9fecd3d47b4126719d7c3e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">on_step</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">t_mdl</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK18ConstTstepObserver7on_stepEKj" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Check if observer is “on step”. </p>
 <p>Checks if the current model time is on an observation timestep.</p>
 <dl class="field-list simple">
@@ -456,7 +456,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK18ConstTstepObserver13at_start_stepEKjK14viewd_constgbxK17viewd_constsupers">
-<span id="_CPPv3NK18ConstTstepObserver13at_start_stepEKjK14viewd_constgbxK17viewd_constsupers"></span><span id="_CPPv2NK18ConstTstepObserver13at_start_stepEKjK14viewd_constgbxK17viewd_constsupers"></span><span id="ConstTstepObserver::at_start_step__unsigned-iC.viewd_constgbxC.viewd_constsupersCC"></span><span class="target" id="structConstTstepObserver_1ad48c23c63cf1a4a88820b7c0761ef386"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">at_start_step</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">t_mdl</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../kokkosaliases.html#_CPPv414viewd_constgbx" title="viewd_constgbx"><span class="n"><span class="pre">viewd_constgbx</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">d_gbxs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../superdrops/kokkosaliases_sd.html#_CPPv417viewd_constsupers" title="viewd_constsupers"><span class="n"><span class="pre">viewd_constsupers</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">totsupers</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK18ConstTstepObserver13at_start_stepEKjK14viewd_constgbxK17viewd_constsupers" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3NK18ConstTstepObserver13at_start_stepEKjK14viewd_constgbxK17viewd_constsupers"></span><span id="_CPPv2NK18ConstTstepObserver13at_start_stepEKjK14viewd_constgbxK17viewd_constsupers"></span><span id="ConstTstepObserver::at_start_step__unsigned-iC.viewd_constgbxC.viewd_constsupersCC"></span><span class="target" id="structConstTstepObserver_1ad48c23c63cf1a4a88820b7c0761ef386"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">at_start_step</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">t_mdl</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../kokkosaliases.html#_CPPv414viewd_constgbx" title="viewd_constgbx"><span class="n"><span class="pre">viewd_constgbx</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">d_gbxs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../superdrops/kokkosaliases_sd.html#_CPPv417viewd_constsupers" title="viewd_constsupers"><span class="n"><span class="pre">viewd_constsupers</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">totsupers</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK18ConstTstepObserver13at_start_stepEKjK14viewd_constgbxK17viewd_constsupers" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Perform operation at the start of a step if at appropriate interval. </p>
 <p>Calls <code class="docutils literal notranslate"><span class="pre">at_start_step</span></code> function of <code class="docutils literal notranslate"><span class="pre">do_obs</span></code> if the current model time is on an observation timestep.</p>
 <dl class="field-list simple">
@@ -472,7 +472,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK18ConstTstepObserver14get_sdmmonitorEv">
-<span id="_CPPv3NK18ConstTstepObserver14get_sdmmonitorEv"></span><span id="_CPPv2NK18ConstTstepObserver14get_sdmmonitorEv"></span><span id="ConstTstepObserver::get_sdmmonitorC"></span><span class="target" id="structConstTstepObserver_1a90c7facd663e0b711904af155540d1b0"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">SDMMonitor</span></span><span class="w"> </span><span class="k"><span class="pre">auto</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_sdmmonitor</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK18ConstTstepObserver14get_sdmmonitorEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3NK18ConstTstepObserver14get_sdmmonitorEv"></span><span id="_CPPv2NK18ConstTstepObserver14get_sdmmonitorEv"></span><span id="ConstTstepObserver::get_sdmmonitorC"></span><span class="target" id="structConstTstepObserver_1a90c7facd663e0b711904af155540d1b0"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">SDMMonitor</span></span><span class="w"> </span><span class="k"><span class="pre">auto</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_sdmmonitor</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK18ConstTstepObserver14get_sdmmonitorEv" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Get monitor for SDM processes from observer. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -486,13 +486,13 @@
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N18ConstTstepObserver8intervalE">
-<span id="_CPPv3N18ConstTstepObserver8intervalE"></span><span id="_CPPv2N18ConstTstepObserver8intervalE"></span><span id="ConstTstepObserver::interval__unsigned-i"></span><span class="target" id="structConstTstepObserver_1a266377e61945939ad24136f37d552c85"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">interval</span></span></span><a class="headerlink" href="#_CPPv4N18ConstTstepObserver8intervalE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N18ConstTstepObserver8intervalE"></span><span id="_CPPv2N18ConstTstepObserver8intervalE"></span><span id="ConstTstepObserver::interval__unsigned-i"></span><span class="target" id="structConstTstepObserver_1a266377e61945939ad24136f37d552c85"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">interval</span></span></span><a class="headerlink" href="#_CPPv4N18ConstTstepObserver8intervalE" title="Link to this definition">¶</a><br /></dt>
 <dd><p>interval between observations. </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N18ConstTstepObserver6do_obsE">
-<span id="_CPPv3N18ConstTstepObserver6do_obsE"></span><span id="_CPPv2N18ConstTstepObserver6do_obsE"></span><span id="ConstTstepObserver::do_obs__O"></span><span class="target" id="structConstTstepObserver_1a8ceb0010494c85045852a40e86fb438d"></span><a class="reference internal" href="#_CPPv4I_8ObsFuncsE18ConstTstepObserver" title="ConstTstepObserver::O"><span class="n"><span class="pre">O</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">do_obs</span></span></span><a class="headerlink" href="#_CPPv4N18ConstTstepObserver6do_obsE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N18ConstTstepObserver6do_obsE"></span><span id="_CPPv2N18ConstTstepObserver6do_obsE"></span><span id="ConstTstepObserver::do_obs__O"></span><span class="target" id="structConstTstepObserver_1a8ceb0010494c85045852a40e86fb438d"></span><a class="reference internal" href="#_CPPv4I_8ObsFuncsE18ConstTstepObserver" title="ConstTstepObserver::O"><span class="n"><span class="pre">O</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">do_obs</span></span></span><a class="headerlink" href="#_CPPv4N18ConstTstepObserver6do_obsE" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Observation functionality. </p>
 </dd></dl>
 
@@ -536,7 +536,7 @@
             
             <a href="https://github.com/pradyunsg/furo">Furo</a>
             <div class="last-updated">
-              Last updated on 09 December 2024</div>
+              Last updated on 24 January 2025</div>
           </div>
           <div class="right-details">
             
@@ -545,15 +545,45 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Constant Time Step Observers</a><ul>
+<li><a class="reference internal" href="#_CPPv4I_8ObsFuncsE18ConstTstepObserver"><code class="docutils literal notranslate"><span class="pre">ConstTstepObserver</span></code></a><ul>
+<li><a class="reference internal" href="#_CPPv4N18ConstTstepObserver18ConstTstepObserverEKjK1O"><code class="docutils literal notranslate"><span class="pre">ConstTstepObserver::ConstTstepObserver()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK18ConstTstepObserver19before_timesteppingEK14viewd_constgbx"><code class="docutils literal notranslate"><span class="pre">ConstTstepObserver::before_timestepping()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK18ConstTstepObserver18after_timesteppingEv"><code class="docutils literal notranslate"><span class="pre">ConstTstepObserver::after_timestepping()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK18ConstTstepObserver8next_obsEKj"><code class="docutils literal notranslate"><span class="pre">ConstTstepObserver::next_obs()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK18ConstTstepObserver7on_stepEKj"><code class="docutils literal notranslate"><span class="pre">ConstTstepObserver::on_step()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK18ConstTstepObserver13at_start_stepEKjK14viewd_constgbxK17viewd_constsupers"><code class="docutils literal notranslate"><span class="pre">ConstTstepObserver::at_start_step()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK18ConstTstepObserver14get_sdmmonitorEv"><code class="docutils literal notranslate"><span class="pre">ConstTstepObserver::get_sdmmonitor()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N18ConstTstepObserver8intervalE"><code class="docutils literal notranslate"><span class="pre">ConstTstepObserver::interval</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N18ConstTstepObserver6do_obsE"><code class="docutils literal notranslate"><span class="pre">ConstTstepObserver::do_obs</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
   </div>
-</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=2389946f"></script>
-    <script src="../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+</div><script src="../../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>

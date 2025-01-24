@@ -1,10 +1,10 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="">
+<html class="no-js" lang="en" data-content_root="../../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 7.3.7 and Furo 2024.08.06 -->
         <title>pySD.initsuperdropsbinary_src.rgens - CLEO 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=362ab14a" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
@@ -394,7 +394,9 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span>
 
 
-<div class="viewcode-block" id="RadiiGenerator"><a class="viewcode-back" href="../../../pySD/initsuperdropsbinary_src/rgens.html#pySD.initsuperdropsbinary_src.rgens.RadiiGenerator">[docs]</a><span class="k">class</span> <span class="nc">RadiiGenerator</span><span class="p">:</span>
+<div class="viewcode-block" id="RadiiGenerator">
+<a class="viewcode-back" href="../../../pySD/initsuperdropsbinary_src/rgens.html#pySD.initsuperdropsbinary_src.rgens.RadiiGenerator">[docs]</a>
+<span class="k">class</span> <span class="nc">RadiiGenerator</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base class which return</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -409,7 +411,10 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">nsupers</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="MonoAttrGen"><a class="viewcode-back" href="../../../pySD/initsuperdropsbinary_src/rgens.html#pySD.initsuperdropsbinary_src.rgens.MonoAttrGen">[docs]</a><span class="k">class</span> <span class="nc">MonoAttrGen</span><span class="p">(</span><span class="n">RadiiGenerator</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MonoAttrGen">
+<a class="viewcode-back" href="../../../pySD/initsuperdropsbinary_src/rgens.html#pySD.initsuperdropsbinary_src.rgens.MonoAttrGen">[docs]</a>
+<span class="k">class</span> <span class="nc">MonoAttrGen</span><span class="p">(</span><span class="n">RadiiGenerator</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;method to generate superdroplets with an</span>
 <span class="sd">    attribute all equal to attr0&quot;&quot;&quot;</span>
 
@@ -428,7 +433,10 @@
         <span class="k">return</span> <span class="n">attrs</span></div>
 
 
-<div class="viewcode-block" id="SampleLog10RadiiGen"><a class="viewcode-back" href="../../../pySD/initsuperdropsbinary_src/rgens.html#pySD.initsuperdropsbinary_src.rgens.SampleLog10RadiiGen">[docs]</a><span class="k">class</span> <span class="nc">SampleLog10RadiiGen</span><span class="p">:</span>
+
+<div class="viewcode-block" id="SampleLog10RadiiGen">
+<a class="viewcode-back" href="../../../pySD/initsuperdropsbinary_src/rgens.html#pySD.initsuperdropsbinary_src.rgens.SampleLog10RadiiGen">[docs]</a>
+<span class="k">class</span> <span class="nc">SampleLog10RadiiGen</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;method to generate superdroplet radii by randomly</span>
 <span class="sd">    sampling from bins that are linearly spaced in log10(r)</span>
 <span class="sd">    between rspan[0] and rspan[1]&quot;&quot;&quot;</span>
@@ -441,7 +449,9 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_radiisample</span><span class="p">(</span><span class="n">nsupers</span><span class="p">)</span>  <span class="c1"># units [m]</span>
 
-<div class="viewcode-block" id="SampleLog10RadiiGen.generate_radiisample"><a class="viewcode-back" href="../../../pySD/initsuperdropsbinary_src/rgens.html#pySD.initsuperdropsbinary_src.rgens.SampleLog10RadiiGen.generate_radiisample">[docs]</a>    <span class="k">def</span> <span class="nf">generate_radiisample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nbins</span><span class="p">):</span>
+<div class="viewcode-block" id="SampleLog10RadiiGen.generate_radiisample">
+<a class="viewcode-back" href="../../../pySD/initsuperdropsbinary_src/rgens.html#pySD.initsuperdropsbinary_src.rgens.SampleLog10RadiiGen.generate_radiisample">[docs]</a>
+    <span class="k">def</span> <span class="nf">generate_radiisample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nbins</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Divide rspan [m] into evenly spaced bins in log10(r).</span>
 <span class="sd">        If edges=True, return values of radii at edges of bins.</span>
 <span class="sd">        Else sample each bin randomly to obtain the radius</span>
@@ -457,7 +467,10 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span></div>
 
-<div class="viewcode-block" id="SampleLog10RadiiGen.randomlysample_log10rbins"><a class="viewcode-back" href="../../../pySD/initsuperdropsbinary_src/rgens.html#pySD.initsuperdropsbinary_src.rgens.SampleLog10RadiiGen.randomlysample_log10rbins">[docs]</a>    <span class="k">def</span> <span class="nf">randomlysample_log10rbins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">log10redgs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="SampleLog10RadiiGen.randomlysample_log10rbins">
+<a class="viewcode-back" href="../../../pySD/initsuperdropsbinary_src/rgens.html#pySD.initsuperdropsbinary_src.rgens.SampleLog10RadiiGen.randomlysample_log10rbins">[docs]</a>
+    <span class="k">def</span> <span class="nf">randomlysample_log10rbins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">log10redgs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;given the bin edges, randomly sample each bin of</span>
 <span class="sd">        log10(radius /m) and return the resultant radii [m]&quot;&quot;&quot;</span>
 
@@ -468,10 +481,14 @@
 
         <span class="n">radii</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="n">randlog10r</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">radii</span>  <span class="c1"># [m]</span></div></div>
+        <span class="k">return</span> <span class="n">radii</span>  <span class="c1"># [m]</span></div>
+</div>
 
 
-<div class="viewcode-block" id="SampleLog10RadiiWithBinWidth"><a class="viewcode-back" href="../../../pySD/initsuperdropsbinary_src/rgens.html#pySD.initsuperdropsbinary_src.rgens.SampleLog10RadiiWithBinWidth">[docs]</a><span class="k">class</span> <span class="nc">SampleLog10RadiiWithBinWidth</span><span class="p">(</span><span class="n">RadiiGenerator</span><span class="p">):</span>
+
+<div class="viewcode-block" id="SampleLog10RadiiWithBinWidth">
+<a class="viewcode-back" href="../../../pySD/initsuperdropsbinary_src/rgens.html#pySD.initsuperdropsbinary_src.rgens.SampleLog10RadiiWithBinWidth">[docs]</a>
+<span class="k">class</span> <span class="nc">SampleLog10RadiiWithBinWidth</span><span class="p">(</span><span class="n">RadiiGenerator</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;method to generate superdroplet radii by randomly</span>
 <span class="sd">    sampling from bins that are linearly spaced in log10(r)</span>
 <span class="sd">    between rspan[0] and rspan[1]&quot;&quot;&quot;</span>
@@ -485,7 +502,9 @@
         <span class="n">radii</span><span class="p">,</span> <span class="n">bin_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_radiisample</span><span class="p">(</span><span class="n">nsupers</span><span class="p">)</span>  <span class="c1"># units [m]</span>
         <span class="k">return</span> <span class="n">radii</span><span class="p">,</span> <span class="n">bin_width</span>
 
-<div class="viewcode-block" id="SampleLog10RadiiWithBinWidth.generate_radiisample"><a class="viewcode-back" href="../../../pySD/initsuperdropsbinary_src/rgens.html#pySD.initsuperdropsbinary_src.rgens.SampleLog10RadiiWithBinWidth.generate_radiisample">[docs]</a>    <span class="k">def</span> <span class="nf">generate_radiisample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nbins</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<div class="viewcode-block" id="SampleLog10RadiiWithBinWidth.generate_radiisample">
+<a class="viewcode-back" href="../../../pySD/initsuperdropsbinary_src/rgens.html#pySD.initsuperdropsbinary_src.rgens.SampleLog10RadiiWithBinWidth.generate_radiisample">[docs]</a>
+    <span class="k">def</span> <span class="nf">generate_radiisample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nbins</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Divide rspan [m] into evenly spaced bins in log10(r).</span>
 <span class="sd">        If edges=True, return values of radii at edges of bins.</span>
 <span class="sd">        Else sample each bin randomly to obtain the radius</span>
@@ -504,7 +523,10 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span></div>
 
-<div class="viewcode-block" id="SampleLog10RadiiWithBinWidth.randomlysample_log10rbins"><a class="viewcode-back" href="../../../pySD/initsuperdropsbinary_src/rgens.html#pySD.initsuperdropsbinary_src.rgens.SampleLog10RadiiWithBinWidth.randomlysample_log10rbins">[docs]</a>    <span class="k">def</span> <span class="nf">randomlysample_log10rbins</span><span class="p">(</span>
+
+<div class="viewcode-block" id="SampleLog10RadiiWithBinWidth.randomlysample_log10rbins">
+<a class="viewcode-back" href="../../../pySD/initsuperdropsbinary_src/rgens.html#pySD.initsuperdropsbinary_src.rgens.SampleLog10RadiiWithBinWidth.randomlysample_log10rbins">[docs]</a>
+    <span class="k">def</span> <span class="nf">randomlysample_log10rbins</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">nbins</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">log10redgs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;given the bin edges, randomly sample each bin of</span>
@@ -518,7 +540,9 @@
 
         <span class="n">radii</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="n">randlog10r</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">radii</span>  <span class="c1"># [m]</span></div></div>
+        <span class="k">return</span> <span class="n">radii</span>  <span class="c1"># [m]</span></div>
+</div>
+
 </pre></div>
         </article>
       </div>
@@ -537,7 +561,7 @@
             
             <a href="https://github.com/pradyunsg/furo">Furo</a>
             <div class="last-updated">
-              Last updated on 09 December 2024</div>
+              Last updated on 24 January 2025</div>
           </div>
           <div class="right-details">
             
@@ -552,9 +576,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=2389946f"></script>
-    <script src="../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+</div><script src="../../../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>

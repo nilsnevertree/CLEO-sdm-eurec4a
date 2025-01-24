@@ -1,11 +1,11 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="">
+<html class="no-js" lang="en" data-content_root="../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="MASSMOMS" href="massmoms.html" /><link rel="prev" title="SUPERSDATA" href="supersdata.html" />
 
-    <!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 7.3.7 and Furo 2024.08.06 -->
         <title>SDTRACING - CLEO 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=362ab14a" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
@@ -376,7 +376,7 @@
         </div>
         <article role="main" id="furo-main-content">
           <section id="module-pySD.sdmout_src.sdtracing">
-<span id="sdtracing"></span><h1>SDTRACING<a class="headerlink" href="#module-pySD.sdmout_src.sdtracing" title="Permalink to this heading">¶</a></h1>
+<span id="sdtracing"></span><h1>SDTRACING<a class="headerlink" href="#module-pySD.sdmout_src.sdtracing" title="Link to this heading">¶</a></h1>
 <p>—– CLEO —–
 File: sdtracing.py
 Project: sdmout_src
@@ -398,16 +398,16 @@ specifc superdroplets based on the sdIds
 e.g. for tracing their trajectories</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pySD.sdmout_src.sdtracing.ak_digitize_2D">
-<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">ak_digitize_2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Array</span></span></span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#ak_digitize_2D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.ak_digitize_2D" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">ak_digitize_2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Array</span></span></span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#ak_digitize_2D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.ak_digitize_2D" title="Link to this definition">¶</a></dt>
 <dd><p>This function takes a 2D awkward array and bins it into the provided bins.
 The binning is done using <code class="docutils literal notranslate"><span class="pre">numpy.digitize</span></code> along the flattened array.</p>
 <section id="note">
-<h2>Note<a class="headerlink" href="#note" title="Permalink to this heading">¶</a></h2>
+<h2>Note<a class="headerlink" href="#note" title="Link to this heading">¶</a></h2>
 <p>The input array must be 2D.
 None and np.nan will be stored in the last bin.</p>
 </section>
 <section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>x<span class="classifier">ak.highlevel.Array</span></dt><dd><p>The input array to be binned.</p>
 </dd>
@@ -421,14 +421,14 @@ The left bin end is open in this case, i.e., bins[i-1] &lt;= x &lt; bins[i] is t
 </dl>
 </section>
 <section id="returns">
-<h2>Returns<a class="headerlink" href="#returns" title="Permalink to this heading">¶</a></h2>
+<h2>Returns<a class="headerlink" href="#returns" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>indices<span class="classifier">ak.highlevel.Array of ints</span></dt><dd><p>Output array of indices, of same shape as x.</p>
 </dd>
 </dl>
 </section>
 <section id="example">
-<h2>Example<a class="headerlink" href="#example" title="Permalink to this heading">¶</a></h2>
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h2>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">Array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">array_to_bin_index</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
@@ -440,24 +440,24 @@ The left bin end is open in this case, i.e., bins[i-1] &lt;= x &lt; bins[i] is t
 </div>
 </section>
 <section id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this heading">¶</a></h2>
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">¶</a></h2>
 <p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.digitize.html">https://numpy.org/doc/stable/reference/generated/numpy.digitize.html</a></p>
 </section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pySD.sdmout_src.sdtracing.ak_digitize_3D">
-<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">ak_digitize_3D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Array</span></span></span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#ak_digitize_3D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.ak_digitize_3D" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">ak_digitize_3D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Array</span></span></span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#ak_digitize_3D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.ak_digitize_3D" title="Link to this definition">¶</a></dt>
 <dd><p>This function takes a 3D awkward array and bins it into the provided bins.
 The binning is done using <code class="docutils literal notranslate"><span class="pre">numpy.digitize</span></code> along the flattened array.</p>
 <section id="id1">
-<h2>Note<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
+<h2>Note<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
 <p>The input array must be 3D.
 None and np.nan will be stored in the last bin.
 Only values in the last axis are allowed! This <code class="docutils literal notranslate"><span class="pre">ak.Array([[[1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">-1,</span> <span class="pre">101],</span> <span class="pre">[4,</span> <span class="pre">5,</span> <span class="pre">6,</span> <span class="pre">np.nan,</span> <span class="pre">90,</span> <span class="pre">None]],</span> <span class="pre">[None,</span> <span class="pre">1]])</span></code> is not valid!</p>
 </section>
 <section id="id2">
-<h2>Parameters<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>x<span class="classifier">ak.highlevel.Array</span></dt><dd><p>The input array to be binned.</p>
 </dd>
@@ -471,14 +471,14 @@ The left bin end is open in this case, i.e., bins[i-1] &lt;= x &lt; bins[i] is t
 </dl>
 </section>
 <section id="id3">
-<h2>Returns<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h2>
+<h2>Returns<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>indices<span class="classifier">ak.highlevel.Array of ints</span></dt><dd><p>Output array of indices, of same shape as x.</p>
 </dd>
 </dl>
 </section>
 <section id="id4">
-<h2>Example<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h2>
+<h2>Example<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h2>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">Array</span><span class="p">([[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]],</span> <span class="p">[[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">]]])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">array_to_bin_index</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
@@ -492,25 +492,25 @@ The left bin end is open in this case, i.e., bins[i-1] &lt;= x &lt; bins[i] is t
 </div>
 </section>
 <section id="id5">
-<h2>References<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h2>
+<h2>References<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h2>
 <p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.digitize.html">https://numpy.org/doc/stable/reference/generated/numpy.digitize.html</a></p>
 </section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pySD.sdmout_src.sdtracing.ak_flatten_full">
-<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">ak_flatten_full</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Array</span></span></span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#ak_flatten_full"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.ak_flatten_full" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">ak_flatten_full</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Array</span></span></span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#ak_flatten_full"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.ak_flatten_full" title="Link to this definition">¶</a></dt>
 <dd><p>This function flattens the input array along all axes.
 Note that no information is returned to unflatten the array again!</p>
 <section id="id6">
-<h2>Parameters<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>data<span class="classifier">ak.highlevel.Array</span></dt><dd><p>The input array to be flattened.</p>
 </dd>
 </dl>
 </section>
 <section id="id7">
-<h2>Returns<a class="headerlink" href="#id7" title="Permalink to this heading">¶</a></h2>
+<h2>Returns<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>ak.highlevel.Array</dt><dd><p>The flattened array.</p>
 </dd>
@@ -520,14 +520,14 @@ Note that no information is returned to unflatten the array again!</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pySD.sdmout_src.sdtracing.ak_ragged_to_padded">
-<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">ak_ragged_to_padded</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">masked_array</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">MaskedArray</span></span></span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#ak_ragged_to_padded"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.ak_ragged_to_padded" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">ak_ragged_to_padded</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">masked_array</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">MaskedArray</span></span></span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#ak_ragged_to_padded"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.ak_ragged_to_padded" title="Link to this definition">¶</a></dt>
 <dd><p>This function converts a ragged array to a padded array and returns it as a numpy array.
 If the last axis has variable lengths, the array will be padded to the maximum length of the last axis.
 This behaviour can lead to very large arrays, especilly if the array is very sparse.
 Missing values are filled with np.nan values.</p>
 <p>Setting the <code class="docutils literal notranslate"><span class="pre">masked_array</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">True</span></code> will return a masked array instead of a regular numpy array.</p>
 <section id="id8">
-<h2>Parameters<a class="headerlink" href="#id8" title="Permalink to this heading">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>data<span class="classifier">ak.highlevel.Array</span></dt><dd><p>The input ragged array.</p>
 </dd>
@@ -538,14 +538,14 @@ The default is <code class="docutils literal notranslate"><span class="pre">Fals
 </dl>
 </section>
 <section id="id9">
-<h2>Returns<a class="headerlink" href="#id9" title="Permalink to this heading">¶</a></h2>
+<h2>Returns<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>np.ndarray or np.ma.MaskedArray</dt><dd><p>The padded array in numpy format.</p>
 </dd>
 </dl>
 </section>
 <section id="raises">
-<h2>Raises<a class="headerlink" href="#raises" title="Permalink to this heading">¶</a></h2>
+<h2>Raises<a class="headerlink" href="#raises" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>ValueError</dt><dd><p>If the input array has variable axis lengths at other axes than the last axis.</p>
 </dd>
@@ -555,7 +555,7 @@ The default is <code class="docutils literal notranslate"><span class="pre">Fals
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pySD.sdmout_src.sdtracing.akward_array_to_lagrange_array">
-<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">akward_array_to_lagrange_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim1_as_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_indices_uniqueness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#akward_array_to_lagrange_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.akward_array_to_lagrange_array" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">akward_array_to_lagrange_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim1_as_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_indices_uniqueness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#akward_array_to_lagrange_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.akward_array_to_lagrange_array" title="Link to this definition">¶</a></dt>
 <dd><p>This function converts a variable of the superdroplet dataset to a numpy array with the dimensions of the superdroplet dataset.
 The function assumes that the variable is a scalar value for each superdroplet at each time step.</p>
 <p>If you want to use it with the SupersData class, you can use the following syntax:
@@ -579,7 +579,7 @@ The length “T” of <code class="docutils literal notranslate"><span class="pr
 Values in <code class="docutils literal notranslate"><span class="pre">dim1</span></code> are not used as indices by default!
 If <code class="docutils literal notranslate"><span class="pre">dim1_as_index</span></code> is set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, the values of <code class="docutils literal notranslate"><span class="pre">dim1</span></code> are used as indices for the rows of the output array!</p>
 <section id="id10">
-<h2>Parameters<a class="headerlink" href="#id10" title="Permalink to this heading">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#id10" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>data<span class="classifier">ak.Array</span></dt><dd><p>The variable of the superdroplet dataset. The variable must be a scalar value for each superdroplet at each time step.</p>
 </dd>
@@ -598,14 +598,14 @@ This check is very slow for large arrays! Better make sure the indices are uniqu
 </dl>
 </section>
 <section id="id11">
-<h2>Returns<a class="headerlink" href="#id11" title="Permalink to this heading">¶</a></h2>
+<h2>Returns<a class="headerlink" href="#id11" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>np.ndarray</dt><dd><p>A numpy array with the dimensions of the superdroplet dataset. The variable is stored in the numpy array.</p>
 </dd>
 </dl>
 </section>
 <section id="id12">
-<h2>Raises<a class="headerlink" href="#id12" title="Permalink to this heading">¶</a></h2>
+<h2>Raises<a class="headerlink" href="#id12" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>ValueError</dt><dd><p>If the number of superdroplets and the number of values in the variable do not match.</p>
 </dd>
@@ -616,7 +616,7 @@ This check is very slow for large arrays! Better make sure the indices are uniqu
 </dl>
 </section>
 <section id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h2>
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
 <p>The typical use, where time and superdroplet indices are given as arrays and “time” is not used as index.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">Array</span><span class="p">([</span>
 <span class="go">        [10, 20, 30],</span>
@@ -674,17 +674,17 @@ The check for uniqueness would through a ValueError.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pySD.sdmout_src.sdtracing.assert_only_last_axis_variable">
-<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">assert_only_last_axis_variable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#assert_only_last_axis_variable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.assert_only_last_axis_variable" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">assert_only_last_axis_variable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#assert_only_last_axis_variable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.assert_only_last_axis_variable" title="Link to this definition">¶</a></dt>
 <dd><p>Assert that the awkward array has only variable axis lengths at the last axis.</p>
 <section id="id13">
-<h2>Parameters<a class="headerlink" href="#id13" title="Permalink to this heading">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#id13" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>a<span class="classifier">ak.Array</span></dt><dd><p>The input array.</p>
 </dd>
 </dl>
 </section>
 <section id="id14">
-<h2>Raises<a class="headerlink" href="#id14" title="Permalink to this heading">¶</a></h2>
+<h2>Raises<a class="headerlink" href="#id14" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>ValueError</dt><dd><p>If the array has variable axis lengths at other axes than the last axis.</p>
 </dd>
@@ -694,11 +694,11 @@ The check for uniqueness would through a ValueError.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pySD.sdmout_src.sdtracing.assert_same_shape">
-<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">assert_same_shape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#assert_same_shape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.assert_same_shape" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">assert_same_shape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#assert_same_shape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.assert_same_shape" title="Link to this definition">¶</a></dt>
 <dd><p>Assert that the two awkward arrays have the same shape.
 Variable axis lengths are replaced by <code class="docutils literal notranslate"><span class="pre">np.nan</span></code>.</p>
 <section id="id15">
-<h2>Parameters<a class="headerlink" href="#id15" title="Permalink to this heading">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#id15" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>a<span class="classifier">ak.Array</span></dt><dd><p>The first input array.</p>
 </dd>
@@ -707,7 +707,7 @@ Variable axis lengths are replaced by <code class="docutils literal notranslate"
 </dl>
 </section>
 <section id="id16">
-<h2>Raises<a class="headerlink" href="#id16" title="Permalink to this heading">¶</a></h2>
+<h2>Raises<a class="headerlink" href="#id16" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>ValueError</dt><dd><p>If the shapes of the two arrays do not match.</p>
 </dd>
@@ -717,14 +717,14 @@ Variable axis lengths are replaced by <code class="docutils literal notranslate"
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pySD.sdmout_src.sdtracing.attr_at_times">
-<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">attr_at_times</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attrdata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">times2sel</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#attr_at_times"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.attr_at_times" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">attr_at_times</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attrdata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">times2sel</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#attr_at_times"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.attr_at_times" title="Link to this definition">¶</a></dt>
 <dd><p>selects attribute (for all superdroplets)
 at times closest to ‘times2sel’</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pySD.sdmout_src.sdtracing.attr_for_superdroplet">
-<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">attr_for_superdroplet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sddata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#attr_for_superdroplet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.attr_for_superdroplet" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">attr_for_superdroplet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sddata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#attr_for_superdroplet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.attr_for_superdroplet" title="Link to this definition">¶</a></dt>
 <dd><p>selects attribute from sddata belonging
 to superdroplet with identitiy ‘Id’
 at every output time</p>
@@ -732,7 +732,7 @@ at every output time</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pySD.sdmout_src.sdtracing.attribute_for_superdroplets_sample">
-<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">attribute_for_superdroplets_sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sddata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ndrops2sample</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#attribute_for_superdroplets_sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.attribute_for_superdroplets_sample" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">attribute_for_superdroplets_sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sddata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ndrops2sample</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#attribute_for_superdroplets_sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.attribute_for_superdroplets_sample" title="Link to this definition">¶</a></dt>
 <dd><p>returns 2D array with dimensions [time, SD]
 containing attribute data over time for a sample of
 superdroplets. Sample is either for superdroplets with
@@ -743,14 +743,14 @@ randomly selected superdrops with Ids in the range
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pySD.sdmout_src.sdtracing.attributes_at_times">
-<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">attributes_at_times</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sddata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">times2sel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attrs2sel</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#attributes_at_times"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.attributes_at_times" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">attributes_at_times</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sddata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">times2sel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attrs2sel</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#attributes_at_times"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.attributes_at_times" title="Link to this definition">¶</a></dt>
 <dd><p>selects attributes at given times from
 sddata (for all superdroplets in sddata)</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pySD.sdmout_src.sdtracing.attributes_for1superdroplet">
-<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">attributes_for1superdroplet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sddata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attrs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#attributes_for1superdroplet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.attributes_for1superdroplet" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">attributes_for1superdroplet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sddata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attrs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#attributes_for1superdroplet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.attributes_for1superdroplet" title="Link to this definition">¶</a></dt>
 <dd><p>selects attributes in ‘attrs’ from sddata
 belonging to superdroplet with identitiy ‘Id’
 at every output time</p>
@@ -758,7 +758,7 @@ at every output time</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pySD.sdmout_src.sdtracing.attrs_for_superdroplets_sample">
-<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">attrs_for_superdroplets_sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sddata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attrs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ndrops2sample</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#attrs_for_superdroplets_sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.attrs_for_superdroplets_sample" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">attrs_for_superdroplets_sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sddata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attrs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ndrops2sample</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#attrs_for_superdroplets_sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.attrs_for_superdroplets_sample" title="Link to this definition">¶</a></dt>
 <dd><p>returns dictionary of 2D arrays (with dimensions [time, SD])
 for each attribute in ‘attrs’ list for a sample of
 superdroplets. Sample is either for superdroplets with
@@ -769,13 +769,13 @@ randomly selected superdrops with Ids in the range
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pySD.sdmout_src.sdtracing.binning_by_1D_counts">
-<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">binning_by_1D_counts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">counts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Array</span></span></span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#binning_by_1D_counts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.binning_by_1D_counts" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">binning_by_1D_counts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">counts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Array</span></span></span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#binning_by_1D_counts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.binning_by_1D_counts" title="Link to this definition">¶</a></dt>
 <dd><p>Calculates the Eulerian 2D array from the given 1D data and 1D indexer arrays.
 The indexer array needs to have a <code class="docutils literal notranslate"><span class="pre">int</span></code> like dtype.
 The output shape of the array will be given by the maximum value M in <code class="docutils literal notranslate"><span class="pre">indexer</span></code>.
 Output shape : T x M x var</p>
 <section id="id17">
-<h2>Note<a class="headerlink" href="#id17" title="Permalink to this heading">¶</a></h2>
+<h2>Note<a class="headerlink" href="#id17" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>This functions uses np.bincount on the lower levels.</p></li>
 <li><p>Thus, at one point an np.ndarray of shape (M) will be created and needs to be stored in memory.</p></li>
@@ -790,7 +790,7 @@ Output shape : T x M x var</p>
 <p>For a lagrangian tracking for non sparse outputs, it is prefered to use the lagrangian function.</p>
 </section>
 <section id="id18">
-<h2>Parameters<a class="headerlink" href="#id18" title="Permalink to this heading">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#id18" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>data (ak.highlevel.Array):</dt><dd><p>The input data array (T).</p>
 </dd>
@@ -800,7 +800,7 @@ With maximum value M.</p>
 </dl>
 </section>
 <section id="id19">
-<h2>Returns<a class="headerlink" href="#id19" title="Permalink to this heading">¶</a></h2>
+<h2>Returns<a class="headerlink" href="#id19" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>ak.highlevel.Array:</dt><dd><p>The calculated Eulerian array of shape (T x M x var)</p>
 </dd>
@@ -810,13 +810,13 @@ With maximum value M.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pySD.sdmout_src.sdtracing.binning_by_1D_indexer">
-<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">binning_by_1D_indexer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Array</span></span></span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#binning_by_1D_indexer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.binning_by_1D_indexer" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">binning_by_1D_indexer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Array</span></span></span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#binning_by_1D_indexer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.binning_by_1D_indexer" title="Link to this definition">¶</a></dt>
 <dd><p>Calculates the Eulerian 2D array from the given 1D data and 1D indexer arrays.
 The indexer array needs to have a <code class="docutils literal notranslate"><span class="pre">int</span></code> like dtype.
 The output shape of the array will be given by the maximum value M in <code class="docutils literal notranslate"><span class="pre">indexer</span></code>.
 Output shape : T x M x var</p>
 <section id="id20">
-<h2>Note<a class="headerlink" href="#id20" title="Permalink to this heading">¶</a></h2>
+<h2>Note<a class="headerlink" href="#id20" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>This functions uses np.bincount on the lower levels.</p></li>
 <li><p>Thus, at one point an np.ndarray of shape (M) will be created and needs to be stored in memory.</p></li>
@@ -831,7 +831,7 @@ Output shape : T x M x var</p>
 <p>For a lagrangian tracking for non sparse outputs, it is prefered to use the lagrangian function.</p>
 </section>
 <section id="id21">
-<h2>Parameters<a class="headerlink" href="#id21" title="Permalink to this heading">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#id21" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>data (ak.highlevel.Array):</dt><dd><p>The input data array (T).</p>
 </dd>
@@ -841,7 +841,7 @@ With maximum value M.</p>
 </dl>
 </section>
 <section id="id22">
-<h2>Returns<a class="headerlink" href="#id22" title="Permalink to this heading">¶</a></h2>
+<h2>Returns<a class="headerlink" href="#id22" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>ak.highlevel.Array:</dt><dd><p>The calculated Eulerian array of shape (T x M x var)</p>
 </dd>
@@ -851,13 +851,13 @@ With maximum value M.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pySD.sdmout_src.sdtracing.binning_by_2D_counts">
-<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">binning_by_2D_counts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">counts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Array</span></span></span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#binning_by_2D_counts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.binning_by_2D_counts" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">binning_by_2D_counts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">counts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Array</span></span></span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#binning_by_2D_counts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.binning_by_2D_counts" title="Link to this definition">¶</a></dt>
 <dd><p>Calculates the Eulerian 3D array from the given 2D data and 2D indexer arrays.
 The indexer array needs to have a <code class="docutils literal notranslate"><span class="pre">int</span></code> like dtype.
 The output shape of the array will be given by the maximum value M in <code class="docutils literal notranslate"><span class="pre">indexer</span></code>.
 Output shape : T x M x var</p>
 <section id="id23">
-<h2>Note<a class="headerlink" href="#id23" title="Permalink to this heading">¶</a></h2>
+<h2>Note<a class="headerlink" href="#id23" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>This functions uses np.bincount on the lower levels.</p></li>
 <li><p>Thus, at one point an np.ndarray of shape (T * M) will be created and needs to be stored in memory.</p></li>
@@ -872,7 +872,7 @@ Output shape : T x M x var</p>
 <p>For a lagrangian tracking for non sparse outputs, it is prefered to use the lagrangian function.</p>
 </section>
 <section id="id24">
-<h2>Parameters<a class="headerlink" href="#id24" title="Permalink to this heading">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#id24" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>data (ak.highlevel.Array):</dt><dd><p>The input data array (T x var).</p>
 </dd>
@@ -882,7 +882,7 @@ With maximum value M.</p>
 </dl>
 </section>
 <section id="id25">
-<h2>Returns<a class="headerlink" href="#id25" title="Permalink to this heading">¶</a></h2>
+<h2>Returns<a class="headerlink" href="#id25" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>ak.highlevel.Array:</dt><dd><p>The calculated Eulerian array of shape (T x M x var)</p>
 </dd>
@@ -892,13 +892,13 @@ With maximum value M.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pySD.sdmout_src.sdtracing.binning_by_2D_indexer">
-<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">binning_by_2D_indexer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Array</span></span></span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#binning_by_2D_indexer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.binning_by_2D_indexer" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">binning_by_2D_indexer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Array</span></span></span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#binning_by_2D_indexer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.binning_by_2D_indexer" title="Link to this definition">¶</a></dt>
 <dd><p>Calculates the Eulerian 3D array from the given 2D data and 2D indexer arrays.
 The indexer array needs to have a <code class="docutils literal notranslate"><span class="pre">int</span></code> like dtype.
 The output shape of the array will be given by the maximum value M in <code class="docutils literal notranslate"><span class="pre">indexer</span></code>.
 Output shape : T x M x var</p>
 <section id="id26">
-<h2>Note<a class="headerlink" href="#id26" title="Permalink to this heading">¶</a></h2>
+<h2>Note<a class="headerlink" href="#id26" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>This functions uses np.bincount on the lower levels.</p></li>
 <li><p>Thus, at one point an np.ndarray of shape (T * M) will be created and needs to be stored in memory.</p></li>
@@ -913,7 +913,7 @@ Output shape : T x M x var</p>
 <p>For a lagrangian tracking for non sparse outputs, it is prefered to use the lagrangian function.</p>
 </section>
 <section id="id27">
-<h2>Parameters<a class="headerlink" href="#id27" title="Permalink to this heading">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#id27" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>data (ak.highlevel.Array):</dt><dd><p>The input data array (T x var).</p>
 </dd>
@@ -923,7 +923,7 @@ With maximum value M.</p>
 </dl>
 </section>
 <section id="id28">
-<h2>Returns<a class="headerlink" href="#id28" title="Permalink to this heading">¶</a></h2>
+<h2>Returns<a class="headerlink" href="#id28" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>ak.highlevel.Array:</dt><dd><p>The calculated Eulerian array of shape (T x M x var)</p>
 </dd>
@@ -933,11 +933,11 @@ With maximum value M.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pySD.sdmout_src.sdtracing.binning_by_3D_counts">
-<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">binning_by_3D_counts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">counts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Array</span></span></span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#binning_by_3D_counts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.binning_by_3D_counts" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">binning_by_3D_counts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">counts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Array</span></span></span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#binning_by_3D_counts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.binning_by_3D_counts" title="Link to this definition">¶</a></dt>
 <dd><p>This function bins the data array according to the indexer arrays values, which should be integers.
 The resulting array will have the shape (T, N, B, var), where B is the number of unique values in the indexer array.</p>
 <section id="id29">
-<h2>Note<a class="headerlink" href="#id29" title="Permalink to this heading">¶</a></h2>
+<h2>Note<a class="headerlink" href="#id29" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>The input arrays must have the same shape.</p></li>
 <li><p>The indexer array must have integer values.</p></li>
@@ -945,7 +945,7 @@ The resulting array will have the shape (T, N, B, var), where B is the number of
 </ul>
 </section>
 <section id="id30">
-<h2>Parameters<a class="headerlink" href="#id30" title="Permalink to this heading">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#id30" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>data<span class="classifier">ak.Array</span></dt><dd><p>The input data array with shape (T, N, var).</p>
 </dd>
@@ -955,7 +955,7 @@ And B unique values.</p>
 </dl>
 </section>
 <section id="id31">
-<h2>Returns<a class="headerlink" href="#id31" title="Permalink to this heading">¶</a></h2>
+<h2>Returns<a class="headerlink" href="#id31" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>result<span class="classifier">ak.highlevel.Array</span></dt><dd><p>The binned data array with shape (T, N, B, var).</p>
 </dd>
@@ -965,11 +965,11 @@ And B unique values.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pySD.sdmout_src.sdtracing.binning_by_3D_indexer">
-<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">binning_by_3D_indexer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Array</span></span></span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#binning_by_3D_indexer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.binning_by_3D_indexer" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">binning_by_3D_indexer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Array</span></span></span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#binning_by_3D_indexer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.binning_by_3D_indexer" title="Link to this definition">¶</a></dt>
 <dd><p>This function bins the data array according to the indexer arrays values, which should be integers.
 The resulting array will have the shape (T, N, B, var), where B is the number of unique values in the indexer array.</p>
 <section id="id32">
-<h2>Note<a class="headerlink" href="#id32" title="Permalink to this heading">¶</a></h2>
+<h2>Note<a class="headerlink" href="#id32" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>The input arrays must have the same shape.</p></li>
 <li><p>The indexer array must have integer values.</p></li>
@@ -977,7 +977,7 @@ The resulting array will have the shape (T, N, B, var), where B is the number of
 </ul>
 </section>
 <section id="id33">
-<h2>Parameters<a class="headerlink" href="#id33" title="Permalink to this heading">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#id33" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>data<span class="classifier">ak.Array</span></dt><dd><p>The input data array with shape (T, N, var).</p>
 </dd>
@@ -987,7 +987,7 @@ And B unique values.</p>
 </dl>
 </section>
 <section id="id34">
-<h2>Returns<a class="headerlink" href="#id34" title="Permalink to this heading">¶</a></h2>
+<h2>Returns<a class="headerlink" href="#id34" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>result<span class="classifier">ak.highlevel.Array</span></dt><dd><p>The binned data array with shape (T, N, B, var).</p>
 </dd>
@@ -997,11 +997,11 @@ And B unique values.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pySD.sdmout_src.sdtracing.create_counts_1D">
-<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">create_counts_1D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Array</span></span></span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#create_counts_1D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.create_counts_1D" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">create_counts_1D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Array</span></span></span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#create_counts_1D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.create_counts_1D" title="Link to this definition">¶</a></dt>
 <dd><p>This function creates a 1D array with the counts of unique values in the input array.
 It identifies the unique values in each subarray along axis 1.</p>
 <section id="id35">
-<h2>Parameters<a class="headerlink" href="#id35" title="Permalink to this heading">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#id35" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>a<span class="classifier">ak.highlevel.Array</span></dt><dd><p>The input array of shape T, containing the data for which counts need to be calculated.
 Its maximum value <code class="docutils literal notranslate"><span class="pre">B</span></code> will be used to identify
@@ -1011,7 +1011,7 @@ Only <code class="docutils literal notranslate"><span class="pre">int</span></co
 </dl>
 </section>
 <section id="id36">
-<h2>Returns<a class="headerlink" href="#id36" title="Permalink to this heading">¶</a></h2>
+<h2>Returns<a class="headerlink" href="#id36" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>ak.highlevel.Array</dt><dd><p>An array with the counts of unique values in the input array.
 The output shape will be (M).</p>
@@ -1022,11 +1022,11 @@ The output shape will be (M).</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pySD.sdmout_src.sdtracing.create_counts_2D">
-<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">create_counts_2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Array</span></span></span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#create_counts_2D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.create_counts_2D" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">create_counts_2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Array</span></span></span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#create_counts_2D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.create_counts_2D" title="Link to this definition">¶</a></dt>
 <dd><p>This function creates a 2D array with the counts of unique values in the input array.
 It identifies the unique values in each subarray along axis 1.</p>
 <section id="id37">
-<h2>Parameters<a class="headerlink" href="#id37" title="Permalink to this heading">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#id37" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>a<span class="classifier">ak.highlevel.Array</span></dt><dd><p>The input array of shape T x var, containing the data for which counts need to be calculated.
 Its maximum value <code class="docutils literal notranslate"><span class="pre">B</span></code> will be used to identify
@@ -1040,7 +1040,7 @@ Default is False.</p>
 </dl>
 </section>
 <section id="id38">
-<h2>Returns<a class="headerlink" href="#id38" title="Permalink to this heading">¶</a></h2>
+<h2>Returns<a class="headerlink" href="#id38" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>ak.highlevel.Array</dt><dd><p>An array with the counts of unique values in the input array.
 The output shape will be (T, M) if flat is False.
@@ -1052,11 +1052,11 @@ The output shape will be (T*M) if flat is True.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pySD.sdmout_src.sdtracing.create_counts_3D">
-<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">create_counts_3D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Array</span></span></span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#create_counts_3D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.create_counts_3D" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">create_counts_3D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Array</span></span></span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#create_counts_3D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.create_counts_3D" title="Link to this definition">¶</a></dt>
 <dd><p>This function creates a 3D array with the counts of unique values in the input array.
 For instance, if the <code class="docutils literal notranslate"><span class="pre">a</span></code> array has the shape (T, N, var) and its highest values is M, the output array will have the shape (T, N, M+1),</p>
 <section id="id39">
-<h2>Parameters<a class="headerlink" href="#id39" title="Permalink to this heading">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#id39" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>a<span class="classifier">ak.highlevel.Array</span></dt><dd><p>The input array of shape T x N x var, containing the data for which counts need to be calculated.
 Its maximum value <code class="docutils literal notranslate"><span class="pre">B</span></code> will be used to identify
@@ -1070,7 +1070,7 @@ Default is False.</p>
 </dl>
 </section>
 <section id="id40">
-<h2>Returns<a class="headerlink" href="#id40" title="Permalink to this heading">¶</a></h2>
+<h2>Returns<a class="headerlink" href="#id40" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>ak.highlevel.Array</dt><dd><p>An array with the counts of values given in the indexer array.
 The output shape will be (T, N, M) if flat is False.
@@ -1079,7 +1079,7 @@ The output shape will be (T*N*M) if flat is True.</p>
 </dl>
 </section>
 <section id="notes">
-<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this heading">¶</a></h2>
+<h2>Notes<a class="headerlink" href="#notes" title="Link to this heading">¶</a></h2>
 <p>To make sure the indexer has unique value for each combination
 of i and j along axis 0 and axis 1, the input array <code class="docutils literal notranslate"><span class="pre">a</span></code> is modified, by adding a
 2D array to it. This 2D array is created by np.arange(0, x * y * z, z).reshape(x, y).</p>
@@ -1117,18 +1117,18 @@ x = 4, y = 2, z = 5
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pySD.sdmout_src.sdtracing.get_awkward_shape">
-<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">get_awkward_shape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#get_awkward_shape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.get_awkward_shape" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pySD.sdmout_src.sdtracing.</span></span><span class="sig-name descname"><span class="pre">get_awkward_shape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pySD/sdmout_src/sdtracing.html#get_awkward_shape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pySD.sdmout_src.sdtracing.get_awkward_shape" title="Link to this definition">¶</a></dt>
 <dd><p>Get the shape of the awkward array a as a list.
 Variable axis lengths are replaced by <code class="docutils literal notranslate"><span class="pre">np.nan</span></code>.</p>
 <section id="id41">
-<h2>Parameters<a class="headerlink" href="#id41" title="Permalink to this heading">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#id41" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>a<span class="classifier">ak.Array</span></dt><dd><p>The input array.</p>
 </dd>
 </dl>
 </section>
 <section id="id42">
-<h2>Returns<a class="headerlink" href="#id42" title="Permalink to this heading">¶</a></h2>
+<h2>Returns<a class="headerlink" href="#id42" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>list</dt><dd><p>The shape of the array as a list.
 <code class="docutils literal notranslate"><span class="pre">var</span></code> positions are replaced by <code class="docutils literal notranslate"><span class="pre">np.nan</span></code>.</p>
@@ -1174,7 +1174,7 @@ Variable axis lengths are replaced by <code class="docutils literal notranslate"
             
             <a href="https://github.com/pradyunsg/furo">Furo</a>
             <div class="last-updated">
-              Last updated on 09 December 2024</div>
+              Last updated on 24 January 2025</div>
           </div>
           <div class="right-details">
             
@@ -1230,9 +1230,9 @@ Variable axis lengths are replaced by <code class="docutils literal notranslate"
       
     </aside>
   </div>
-</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=2389946f"></script>
-    <script src="../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+</div><script src="../../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>

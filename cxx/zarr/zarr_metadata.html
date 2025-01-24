@@ -1,11 +1,11 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="">
+<html class="no-js" lang="en" data-content_root="../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="ZarrGroup" href="zarr_group.html" /><link rel="prev" title="ZarrArray" href="zarr_array.html" />
 
-    <!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 7.3.7 and Furo 2024.08.06 -->
         <title>Zarr Metadata - CLEO 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=362ab14a" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
@@ -179,7 +179,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -369,19 +369,19 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main" id="furo-main-content">
           <section id="zarr-metadata">
-<h1>Zarr Metadata<a class="headerlink" href="#zarr-metadata" title="Permalink to this heading">¶</a></h1>
+<h1>Zarr Metadata<a class="headerlink" href="#zarr-metadata" title="Link to this heading">¶</a></h1>
 <p>Header file: <code class="docutils literal notranslate"><span class="pre">&lt;libs/zarr/zarr_metadata.hpp&gt;</span></code>
 <a class="reference external" href="https://github.com/yoctoyotta1024/CLEO/blob/main/libs/zarr/zarr_metadata.hpp">[source]</a></p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv413vec_to_stringRKNSt6vectorI6size_tEE">
-<span id="_CPPv313vec_to_stringRKNSt6vectorI6size_tEE"></span><span id="_CPPv213vec_to_stringRKNSt6vectorI6size_tEE"></span><span id="vec_to_string__std::vector:s:CR"></span><span class="target" id="zarr__metadata_8hpp_1a0a945bb241dbf20b05675638324cbded"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vec_to_string</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">vals</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv413vec_to_stringRKNSt6vectorI6size_tEE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv313vec_to_stringRKNSt6vectorI6size_tEE"></span><span id="_CPPv213vec_to_stringRKNSt6vectorI6size_tEE"></span><span id="vec_to_string__std::vector:s:CR"></span><span class="target" id="zarr__metadata_8hpp_1a0a945bb241dbf20b05675638324cbded"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vec_to_string</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">vals</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv413vec_to_stringRKNSt6vectorI6size_tEE" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Converts a vector of integers into a single list written as a string. </p>
 <p>Given vector of a type convertible to a string with values [a, b, c, …, z], function returns the string “[a, b, c, …, z]” with elements separated by commas and enclosed in square brackets. Function is useful for converting vectors representing the shape of chunks and arrays etc. into a string format for metadata json files.</p>
 <dl class="field-list simple">
@@ -396,7 +396,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv422make_part_zarrmetadataRKNSt6vectorI6size_tEEKNSt11string_viewE">
-<span id="_CPPv322make_part_zarrmetadataRKNSt6vectorI6size_tEEKNSt11string_viewE"></span><span id="_CPPv222make_part_zarrmetadataRKNSt6vectorI6size_tEEKNSt11string_viewE"></span><span id="make_part_zarrmetadata__std::vector:s:CR.std::string_viewC"></span><span class="target" id="zarr__metadata_8hpp_1a7fe76d2363750080f3863d6a854f2377"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">make_part_zarrmetadata</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">chunkshape</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string_view</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dtype</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422make_part_zarrmetadataRKNSt6vectorI6size_tEEKNSt11string_viewE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv322make_part_zarrmetadataRKNSt6vectorI6size_tEEKNSt11string_viewE"></span><span id="_CPPv222make_part_zarrmetadataRKNSt6vectorI6size_tEEKNSt11string_viewE"></span><span id="make_part_zarrmetadata__std::vector:s:CR.std::string_viewC"></span><span class="target" id="zarr__metadata_8hpp_1a7fe76d2363750080f3863d6a854f2377"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">make_part_zarrmetadata</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">chunkshape</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string_view</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dtype</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422make_part_zarrmetadataRKNSt6vectorI6size_tEEKNSt11string_viewE" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Generates part of the metadata for a Zarr array .zarray json file. </p>
 <p>This function constructs a string containing all the compulsory metadata of a Zarr array for its .zarray json file, excluding the array’s shape.</p>
 <dl class="field-list simple">
@@ -414,7 +414,7 @@
 
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4I0E12ZarrMetadata">
-<span id="_CPPv3I0E12ZarrMetadata"></span><span id="_CPPv2I0E12ZarrMetadata"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="classZarrMetadata"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ZarrMetadata</span></span></span><a class="headerlink" href="#_CPPv4I0E12ZarrMetadata" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3I0E12ZarrMetadata"></span><span id="_CPPv2I0E12ZarrMetadata"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="classZarrMetadata"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ZarrMetadata</span></span></span><a class="headerlink" href="#_CPPv4I0E12ZarrMetadata" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Class for generating metadata required for a Zarr array. </p>
 <p>This class generates compulsory metadata for the Zarr array .zarray JSON file. The metadata includes information such as chunk shape, data type, etc.</p>
 <dl class="field-list simple">
@@ -426,7 +426,7 @@
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N12ZarrMetadata12ZarrMetadataERKNSt6vectorI6size_tEEKNSt11string_viewE">
-<span id="_CPPv3N12ZarrMetadata12ZarrMetadataERKNSt6vectorI6size_tEEKNSt11string_viewE"></span><span id="_CPPv2N12ZarrMetadata12ZarrMetadataERKNSt6vectorI6size_tEEKNSt11string_viewE"></span><span id="ZarrMetadata::ZarrMetadata__std::vector:s:CR.std::string_viewC"></span><span class="target" id="classZarrMetadata_1a29cc1b37753a6c998cf62349351529f3"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ZarrMetadata</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">chunkshape</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string_view</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dtype</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N12ZarrMetadata12ZarrMetadataERKNSt6vectorI6size_tEEKNSt11string_viewE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N12ZarrMetadata12ZarrMetadataERKNSt6vectorI6size_tEEKNSt11string_viewE"></span><span id="_CPPv2N12ZarrMetadata12ZarrMetadataERKNSt6vectorI6size_tEEKNSt11string_viewE"></span><span id="ZarrMetadata::ZarrMetadata__std::vector:s:CR.std::string_viewC"></span><span class="target" id="classZarrMetadata_1a29cc1b37753a6c998cf62349351529f3"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ZarrMetadata</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">chunkshape</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string_view</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dtype</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N12ZarrMetadata12ZarrMetadataERKNSt6vectorI6size_tEEKNSt11string_viewE" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Constructs a <a class="reference internal" href="#classZarrMetadata"><span class="std std-ref">ZarrMetadata</span></a> object. </p>
 <p>Constructs a <a class="reference internal" href="#classZarrMetadata"><span class="std std-ref">ZarrMetadata</span></a> object with the given chunk shape and data type.</p>
 <dl class="field-list simple">
@@ -441,7 +441,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK12ZarrMetadataclERKNSt6vectorI6size_tEE">
-<span id="_CPPv3NK12ZarrMetadataclERKNSt6vectorI6size_tEE"></span><span id="_CPPv2NK12ZarrMetadataclERKNSt6vectorI6size_tEE"></span><span id="ZarrMetadata::call-operator__std::vector:s:CRC"></span><span class="target" id="classZarrMetadata_1ae1c11c5a6c8ec85f62df3abeccc2aab1"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">()</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">arrayshape</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK12ZarrMetadataclERKNSt6vectorI6size_tEE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3NK12ZarrMetadataclERKNSt6vectorI6size_tEE"></span><span id="_CPPv2NK12ZarrMetadataclERKNSt6vectorI6size_tEE"></span><span id="ZarrMetadata::call-operator__std::vector:s:CRC"></span><span class="target" id="classZarrMetadata_1ae1c11c5a6c8ec85f62df3abeccc2aab1"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">()</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">arrayshape</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK12ZarrMetadataclERKNSt6vectorI6size_tEE" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Generates metadata for the Zarr array. </p>
 <p>Generates compulsory metadata for the Zarr array .zarray JSON file.</p>
 <dl class="field-list simple">
@@ -459,7 +459,7 @@
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N12ZarrMetadata17part_zarrmetadataE">
-<span id="_CPPv3N12ZarrMetadata17part_zarrmetadataE"></span><span id="_CPPv2N12ZarrMetadata17part_zarrmetadataE"></span><span id="ZarrMetadata::part_zarrmetadata__ss"></span><span class="target" id="classZarrMetadata_1a3ac38a23d8e40f3b6035b5df333492db"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">part_zarrmetadata</span></span></span><a class="headerlink" href="#_CPPv4N12ZarrMetadata17part_zarrmetadataE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N12ZarrMetadata17part_zarrmetadataE"></span><span id="_CPPv2N12ZarrMetadata17part_zarrmetadataE"></span><span id="ZarrMetadata::part_zarrmetadata__ss"></span><span class="target" id="classZarrMetadata_1a3ac38a23d8e40f3b6035b5df333492db"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">part_zarrmetadata</span></span></span><a class="headerlink" href="#_CPPv4N12ZarrMetadata17part_zarrmetadataE" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Metadata required for zarr array excluding array’s shape </p>
 </dd></dl>
 
@@ -503,7 +503,7 @@
             
             <a href="https://github.com/pradyunsg/furo">Furo</a>
             <div class="last-updated">
-              Last updated on 09 December 2024</div>
+              Last updated on 24 January 2025</div>
           </div>
           <div class="right-details">
             
@@ -512,15 +512,41 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Zarr Metadata</a><ul>
+<li><a class="reference internal" href="#_CPPv413vec_to_stringRKNSt6vectorI6size_tEE"><code class="docutils literal notranslate"><span class="pre">vec_to_string()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv422make_part_zarrmetadataRKNSt6vectorI6size_tEEKNSt11string_viewE"><code class="docutils literal notranslate"><span class="pre">make_part_zarrmetadata()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4I0E12ZarrMetadata"><code class="docutils literal notranslate"><span class="pre">ZarrMetadata</span></code></a><ul>
+<li><a class="reference internal" href="#_CPPv4N12ZarrMetadata12ZarrMetadataERKNSt6vectorI6size_tEEKNSt11string_viewE"><code class="docutils literal notranslate"><span class="pre">ZarrMetadata::ZarrMetadata()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK12ZarrMetadataclERKNSt6vectorI6size_tEE"><code class="docutils literal notranslate"><span class="pre">ZarrMetadata::operator()()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N12ZarrMetadata17part_zarrmetadataE"><code class="docutils literal notranslate"><span class="pre">ZarrMetadata::part_zarrmetadata</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
   </div>
-</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=2389946f"></script>
-    <script src="../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+</div><script src="../../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>

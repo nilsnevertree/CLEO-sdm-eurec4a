@@ -1,11 +1,11 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="">
+<html class="no-js" lang="en" data-content_root="../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="State Observer" href="state_observer.html" /><link rel="prev" title="Nsupers Observer" href="nsupers_observer.html" />
 
-    <!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 7.3.7 and Furo 2024.08.06 -->
         <title>TotNsupers Observer - CLEO 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=362ab14a" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
@@ -179,7 +179,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -369,19 +369,19 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main" id="furo-main-content">
           <section id="totnsupers-observer">
-<h1>TotNsupers Observer<a class="headerlink" href="#totnsupers-observer" title="Permalink to this heading">¶</a></h1>
+<h1>TotNsupers Observer<a class="headerlink" href="#totnsupers-observer" title="Link to this heading">¶</a></h1>
 <p>Header file: <code class="docutils literal notranslate"><span class="pre">&lt;libs/observers/totnsupers_observer.hpp&gt;</span></code>
 <a class="reference external" href="https://github.com/yoctoyotta1024/CLEO/blob/main/libs/observers/totnsupers_observer.hpp">[source]</a></p>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4I0E15DoTotNsupersObs">
-<span id="_CPPv3I0E15DoTotNsupersObs"></span><span id="_CPPv2I0E15DoTotNsupersObs"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Store</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="classDoTotNsupersObs"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DoTotNsupersObs</span></span></span><a class="headerlink" href="#_CPPv4I0E15DoTotNsupersObs" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3I0E15DoTotNsupersObs"></span><span id="_CPPv2I0E15DoTotNsupersObs"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Store</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="classDoTotNsupersObs"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DoTotNsupersObs</span></span></span><a class="headerlink" href="#_CPPv4I0E15DoTotNsupersObs" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Template class for functionality to observe the total number of superdroplets at the start of each timestep and write it to a Zarr array in an Xarray dataset. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Template Parameters<span class="colon">:</span></dt>
@@ -392,7 +392,7 @@
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N15DoTotNsupersObs15DoTotNsupersObsER7DatasetI5StoreEK6size_t">
-<span id="_CPPv3N15DoTotNsupersObs15DoTotNsupersObsER7DatasetI5StoreEK6size_t"></span><span id="_CPPv2N15DoTotNsupersObs15DoTotNsupersObsER7DatasetI5StoreEK6size_t"></span><span id="DoTotNsupersObs::DoTotNsupersObs__Dataset:Store:R.sC"></span><span class="target" id="classDoTotNsupersObs_1aa28cb68216481357e4e09a2c951667cb"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DoTotNsupersObs</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../zarr/dataset.html#_CPPv4I0E7Dataset" title="Dataset"><span class="n"><span class="pre">Dataset</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0E15DoTotNsupersObs" title="DoTotNsupersObs::Store"><span class="n"><span class="pre">Store</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">dataset</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">maxchunk</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N15DoTotNsupersObs15DoTotNsupersObsER7DatasetI5StoreEK6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N15DoTotNsupersObs15DoTotNsupersObsER7DatasetI5StoreEK6size_t"></span><span id="_CPPv2N15DoTotNsupersObs15DoTotNsupersObsER7DatasetI5StoreEK6size_t"></span><span id="DoTotNsupersObs::DoTotNsupersObs__Dataset:Store:R.sC"></span><span class="target" id="classDoTotNsupersObs_1aa28cb68216481357e4e09a2c951667cb"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DoTotNsupersObs</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../zarr/dataset.html#_CPPv4I0E7Dataset" title="Dataset"><span class="n"><span class="pre">Dataset</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0E15DoTotNsupersObs" title="DoTotNsupersObs::Store"><span class="n"><span class="pre">Store</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">dataset</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">maxchunk</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N15DoTotNsupersObs15DoTotNsupersObsER7DatasetI5StoreEK6size_t" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Constructor for <a class="reference internal" href="#classDoTotNsupersObs"><span class="std std-ref">DoTotNsupersObs</span></a>. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -406,25 +406,25 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N15DoTotNsupersObsD0Ev">
-<span id="_CPPv3N15DoTotNsupersObsD0Ev"></span><span id="_CPPv2N15DoTotNsupersObsD0Ev"></span><span id="DoTotNsupersObs::~DoTotNsupersObs"></span><span class="target" id="classDoTotNsupersObs_1a248f2255e1462baa70d30d2fb179ded2"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">~DoTotNsupersObs</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N15DoTotNsupersObsD0Ev" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N15DoTotNsupersObsD0Ev"></span><span id="_CPPv2N15DoTotNsupersObsD0Ev"></span><span id="DoTotNsupersObs::~DoTotNsupersObs"></span><span class="target" id="classDoTotNsupersObs_1a248f2255e1462baa70d30d2fb179ded2"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">~DoTotNsupersObs</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N15DoTotNsupersObsD0Ev" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Destructor for <a class="reference internal" href="#classDoTotNsupersObs"><span class="std std-ref">DoTotNsupersObs</span></a>. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK15DoTotNsupersObs19before_timesteppingEK14viewd_constgbx">
-<span id="_CPPv3NK15DoTotNsupersObs19before_timesteppingEK14viewd_constgbx"></span><span id="_CPPv2NK15DoTotNsupersObs19before_timesteppingEK14viewd_constgbx"></span><span id="DoTotNsupersObs::before_timestepping__viewd_constgbxCC"></span><span class="target" id="classDoTotNsupersObs_1adc6f80083b5f5815bba733050682fe38"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">before_timestepping</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../kokkosaliases.html#_CPPv414viewd_constgbx" title="viewd_constgbx"><span class="n"><span class="pre">viewd_constgbx</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">d_gbxs</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK15DoTotNsupersObs19before_timesteppingEK14viewd_constgbx" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3NK15DoTotNsupersObs19before_timesteppingEK14viewd_constgbx"></span><span id="_CPPv2NK15DoTotNsupersObs19before_timesteppingEK14viewd_constgbx"></span><span id="DoTotNsupersObs::before_timestepping__viewd_constgbxCC"></span><span class="target" id="classDoTotNsupersObs_1adc6f80083b5f5815bba733050682fe38"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">before_timestepping</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../kokkosaliases.html#_CPPv414viewd_constgbx" title="viewd_constgbx"><span class="n"><span class="pre">viewd_constgbx</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">d_gbxs</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK15DoTotNsupersObs19before_timesteppingEK14viewd_constgbx" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Placeholder for before timestepping functionality and to make class satisfy observer concept. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK15DoTotNsupersObs18after_timesteppingEv">
-<span id="_CPPv3NK15DoTotNsupersObs18after_timesteppingEv"></span><span id="_CPPv2NK15DoTotNsupersObs18after_timesteppingEv"></span><span id="DoTotNsupersObs::after_timesteppingC"></span><span class="target" id="classDoTotNsupersObs_1a3e4b0f8a46215e4cb6c74cef0358aec2"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">after_timestepping</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK15DoTotNsupersObs18after_timesteppingEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3NK15DoTotNsupersObs18after_timesteppingEv"></span><span id="_CPPv2NK15DoTotNsupersObs18after_timesteppingEv"></span><span id="DoTotNsupersObs::after_timesteppingC"></span><span class="target" id="classDoTotNsupersObs_1a3e4b0f8a46215e4cb6c74cef0358aec2"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">after_timestepping</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK15DoTotNsupersObs18after_timesteppingEv" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Placeholder for after timestepping functionality and to make class satisfy observer concept. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK15DoTotNsupersObs13at_start_stepEKjK14viewd_constgbxK17viewd_constsupers">
-<span id="_CPPv3NK15DoTotNsupersObs13at_start_stepEKjK14viewd_constgbxK17viewd_constsupers"></span><span id="_CPPv2NK15DoTotNsupersObs13at_start_stepEKjK14viewd_constgbxK17viewd_constsupers"></span><span id="DoTotNsupersObs::at_start_step__unsigned-iC.viewd_constgbxC.viewd_constsupersCC"></span><span class="target" id="classDoTotNsupersObs_1a72242bab5e950974016eec10f003964d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">at_start_step</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">t_mdl</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../kokkosaliases.html#_CPPv414viewd_constgbx" title="viewd_constgbx"><span class="n"><span class="pre">viewd_constgbx</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">d_gbxs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../superdrops/kokkosaliases_sd.html#_CPPv417viewd_constsupers" title="viewd_constsupers"><span class="n"><span class="pre">viewd_constsupers</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">totsupers</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK15DoTotNsupersObs13at_start_stepEKjK14viewd_constgbxK17viewd_constsupers" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3NK15DoTotNsupersObs13at_start_stepEKjK14viewd_constgbxK17viewd_constsupers"></span><span id="_CPPv2NK15DoTotNsupersObs13at_start_stepEKjK14viewd_constgbxK17viewd_constsupers"></span><span id="DoTotNsupersObs::at_start_step__unsigned-iC.viewd_constgbxC.viewd_constsupersCC"></span><span class="target" id="classDoTotNsupersObs_1a72242bab5e950974016eec10f003964d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">at_start_step</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">t_mdl</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../kokkosaliases.html#_CPPv414viewd_constgbx" title="viewd_constgbx"><span class="n"><span class="pre">viewd_constgbx</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">d_gbxs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../superdrops/kokkosaliases_sd.html#_CPPv417viewd_constsupers" title="viewd_constsupers"><span class="n"><span class="pre">viewd_constsupers</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">totsupers</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK15DoTotNsupersObs13at_start_stepEKjK14viewd_constgbxK17viewd_constsupers" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Adapter to call at start step function which writes the total number of superdroplets in totsupers view to the array in the dataset. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -439,7 +439,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK15DoTotNsupersObs14get_sdmmonitorEv">
-<span id="_CPPv3NK15DoTotNsupersObs14get_sdmmonitorEv"></span><span id="_CPPv2NK15DoTotNsupersObs14get_sdmmonitorEv"></span><span id="DoTotNsupersObs::get_sdmmonitorC"></span><span class="target" id="classDoTotNsupersObs_1a2560d0664c5700b9340f212cddb70977"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">SDMMonitor</span></span><span class="w"> </span><span class="k"><span class="pre">auto</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_sdmmonitor</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK15DoTotNsupersObs14get_sdmmonitorEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3NK15DoTotNsupersObs14get_sdmmonitorEv"></span><span id="_CPPv2NK15DoTotNsupersObs14get_sdmmonitorEv"></span><span id="DoTotNsupersObs::get_sdmmonitorC"></span><span class="target" id="classDoTotNsupersObs_1a2560d0664c5700b9340f212cddb70977"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">SDMMonitor</span></span><span class="w"> </span><span class="k"><span class="pre">auto</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_sdmmonitor</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK15DoTotNsupersObs14get_sdmmonitorEv" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Get null monitor for SDM processes from observer. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -453,7 +453,7 @@
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-functions">Private Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK15DoTotNsupersObs13at_start_stepEK17viewd_constsupers">
-<span id="_CPPv3NK15DoTotNsupersObs13at_start_stepEK17viewd_constsupers"></span><span id="_CPPv2NK15DoTotNsupersObs13at_start_stepEK17viewd_constsupers"></span><span id="DoTotNsupersObs::at_start_step__viewd_constsupersCC"></span><span class="target" id="classDoTotNsupersObs_1a0c2c8a200886ea246d6bfe4bae5605c8"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">at_start_step</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../superdrops/kokkosaliases_sd.html#_CPPv417viewd_constsupers" title="viewd_constsupers"><span class="n"><span class="pre">viewd_constsupers</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">totsupers</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK15DoTotNsupersObs13at_start_stepEK17viewd_constsupers" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3NK15DoTotNsupersObs13at_start_stepEK17viewd_constsupers"></span><span id="_CPPv2NK15DoTotNsupersObs13at_start_stepEK17viewd_constsupers"></span><span id="DoTotNsupersObs::at_start_step__viewd_constsupersCC"></span><span class="target" id="classDoTotNsupersObs_1a0c2c8a200886ea246d6bfe4bae5605c8"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">at_start_step</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../superdrops/kokkosaliases_sd.html#_CPPv417viewd_constsupers" title="viewd_constsupers"><span class="n"><span class="pre">viewd_constsupers</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">totsupers</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK15DoTotNsupersObs13at_start_stepEK17viewd_constsupers" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Write out the total number of superdroplets in totsupers view at the start of a timestep to an array in the dataset. </p>
 <p><em>Note:</em> conversion of totnsupers from size_t (arch dependent usually 8 bytes) to shorter 4 byte, unsigned int (unit32_t).</p>
 <dl class="field-list simple">
@@ -468,13 +468,13 @@
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N15DoTotNsupersObs7datasetE">
-<span id="_CPPv3N15DoTotNsupersObs7datasetE"></span><span id="_CPPv2N15DoTotNsupersObs7datasetE"></span><span id="DoTotNsupersObs::dataset__Dataset:Store:R"></span><span class="target" id="classDoTotNsupersObs_1a5f92433722e4ea5465b11dfc99e6960b"></span><a class="reference internal" href="../zarr/dataset.html#_CPPv4I0E7Dataset" title="Dataset"><span class="n"><span class="pre">Dataset</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0E15DoTotNsupersObs" title="DoTotNsupersObs::Store"><span class="n"><span class="pre">Store</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">dataset</span></span></span><a class="headerlink" href="#_CPPv4N15DoTotNsupersObs7datasetE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N15DoTotNsupersObs7datasetE"></span><span id="_CPPv2N15DoTotNsupersObs7datasetE"></span><span id="DoTotNsupersObs::dataset__Dataset:Store:R"></span><span class="target" id="classDoTotNsupersObs_1a5f92433722e4ea5465b11dfc99e6960b"></span><a class="reference internal" href="../zarr/dataset.html#_CPPv4I0E7Dataset" title="Dataset"><span class="n"><span class="pre">Dataset</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0E15DoTotNsupersObs" title="DoTotNsupersObs::Store"><span class="n"><span class="pre">Store</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">dataset</span></span></span><a class="headerlink" href="#_CPPv4N15DoTotNsupersObs7datasetE" title="Link to this definition">¶</a><br /></dt>
 <dd><p>dataset to write totnsupers data to </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N15DoTotNsupersObs9xzarr_ptrE">
-<span id="_CPPv3N15DoTotNsupersObs9xzarr_ptrE"></span><span id="_CPPv2N15DoTotNsupersObs9xzarr_ptrE"></span><span id="DoTotNsupersObs::xzarr_ptr__std::shared_ptr:XarrayZarrArray:Store.uint32_t::"></span><span class="target" id="classDoTotNsupersObs_1a2b7c58af985987df04812d259bbeb51f"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../zarr/xarray_zarr_array.html#_CPPv4I00E15XarrayZarrArray" title="XarrayZarrArray"><span class="n"><span class="pre">XarrayZarrArray</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0E15DoTotNsupersObs" title="DoTotNsupersObs::Store"><span class="n"><span class="pre">Store</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">xzarr_ptr</span></span></span><a class="headerlink" href="#_CPPv4N15DoTotNsupersObs9xzarr_ptrE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N15DoTotNsupersObs9xzarr_ptrE"></span><span id="_CPPv2N15DoTotNsupersObs9xzarr_ptrE"></span><span id="DoTotNsupersObs::xzarr_ptr__std::shared_ptr:XarrayZarrArray:Store.uint32_t::"></span><span class="target" id="classDoTotNsupersObs_1a2b7c58af985987df04812d259bbeb51f"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../zarr/xarray_zarr_array.html#_CPPv4I00E15XarrayZarrArray" title="XarrayZarrArray"><span class="n"><span class="pre">XarrayZarrArray</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0E15DoTotNsupersObs" title="DoTotNsupersObs::Store"><span class="n"><span class="pre">Store</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">xzarr_ptr</span></span></span><a class="headerlink" href="#_CPPv4N15DoTotNsupersObs9xzarr_ptrE" title="Link to this definition">¶</a><br /></dt>
 <dd><p>pointer to totnsupers array </p>
 </dd></dl>
 
@@ -483,7 +483,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4I0E18TotNsupersObserver8ObserverKjR7DatasetI5StoreEK6size_t">
-<span id="_CPPv3I0E18TotNsupersObserverKjR7DatasetI5StoreEK6size_t"></span><span id="_CPPv2I0E18TotNsupersObserverKjR7DatasetI5StoreEK6size_t"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Store</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="totnsupers__observer_8hpp_1a2be0b1ea676710eb9f318ba4768da47c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="observers.html#_CPPv4I0E8Observer" title="Observer"><span class="n"><span class="pre">Observer</span></span></a><span class="w"> </span><span class="k"><span class="pre">auto</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TotNsupersObserver</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">interval</span></span>, <a class="reference internal" href="../zarr/dataset.html#_CPPv4I0E7Dataset" title="Dataset"><span class="n"><span class="pre">Dataset</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0E18TotNsupersObserver8ObserverKjR7DatasetI5StoreEK6size_t" title="TotNsupersObserver::Store"><span class="n"><span class="pre">Store</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">dataset</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">maxchunk</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0E18TotNsupersObserver8ObserverKjR7DatasetI5StoreEK6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3I0E18TotNsupersObserverKjR7DatasetI5StoreEK6size_t"></span><span id="_CPPv2I0E18TotNsupersObserverKjR7DatasetI5StoreEK6size_t"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Store</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="totnsupers__observer_8hpp_1a2be0b1ea676710eb9f318ba4768da47c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="observers.html#_CPPv4I0E8Observer" title="Observer"><span class="n"><span class="pre">Observer</span></span></a><span class="w"> </span><span class="k"><span class="pre">auto</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TotNsupersObserver</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">interval</span></span>, <a class="reference internal" href="../zarr/dataset.html#_CPPv4I0E7Dataset" title="Dataset"><span class="n"><span class="pre">Dataset</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0E18TotNsupersObserver8ObserverKjR7DatasetI5StoreEK6size_t" title="TotNsupersObserver::Store"><span class="n"><span class="pre">Store</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">dataset</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">maxchunk</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0E18TotNsupersObserver8ObserverKjR7DatasetI5StoreEK6size_t" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Constructs an observer which writes the total number of superdroplets at start of each observation timestep to a 1-D array with a constant observation timestep “interval”. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Template Parameters<span class="colon">:</span></dt>
@@ -539,7 +539,7 @@
             
             <a href="https://github.com/pradyunsg/furo">Furo</a>
             <div class="last-updated">
-              Last updated on 09 December 2024</div>
+              Last updated on 24 January 2025</div>
           </div>
           <div class="right-details">
             
@@ -548,15 +548,46 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">TotNsupers Observer</a><ul>
+<li><a class="reference internal" href="#_CPPv4I0E15DoTotNsupersObs"><code class="docutils literal notranslate"><span class="pre">DoTotNsupersObs</span></code></a><ul>
+<li><a class="reference internal" href="#_CPPv4N15DoTotNsupersObs15DoTotNsupersObsER7DatasetI5StoreEK6size_t"><code class="docutils literal notranslate"><span class="pre">DoTotNsupersObs::DoTotNsupersObs()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N15DoTotNsupersObsD0Ev"><code class="docutils literal notranslate"><span class="pre">DoTotNsupersObs::~DoTotNsupersObs()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK15DoTotNsupersObs19before_timesteppingEK14viewd_constgbx"><code class="docutils literal notranslate"><span class="pre">DoTotNsupersObs::before_timestepping()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK15DoTotNsupersObs18after_timesteppingEv"><code class="docutils literal notranslate"><span class="pre">DoTotNsupersObs::after_timestepping()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK15DoTotNsupersObs13at_start_stepEKjK14viewd_constgbxK17viewd_constsupers"><code class="docutils literal notranslate"><span class="pre">DoTotNsupersObs::at_start_step()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK15DoTotNsupersObs14get_sdmmonitorEv"><code class="docutils literal notranslate"><span class="pre">DoTotNsupersObs::get_sdmmonitor()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK15DoTotNsupersObs13at_start_stepEK17viewd_constsupers"><code class="docutils literal notranslate"><span class="pre">DoTotNsupersObs::at_start_step()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N15DoTotNsupersObs7datasetE"><code class="docutils literal notranslate"><span class="pre">DoTotNsupersObs::dataset</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N15DoTotNsupersObs9xzarr_ptrE"><code class="docutils literal notranslate"><span class="pre">DoTotNsupersObs::xzarr_ptr</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#_CPPv4I0E18TotNsupersObserver8ObserverKjR7DatasetI5StoreEK6size_t"><code class="docutils literal notranslate"><span class="pre">TotNsupersObserver()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
   </div>
-</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=2389946f"></script>
-    <script src="../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+</div><script src="../../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>

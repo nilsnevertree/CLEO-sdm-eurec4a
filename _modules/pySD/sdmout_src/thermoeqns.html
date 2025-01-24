@@ -1,10 +1,10 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="">
+<html class="no-js" lang="en" data-content_root="../../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 7.3.7 and Furo 2024.08.06 -->
         <title>pySD.sdmout_src.thermoeqns - CLEO 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=362ab14a" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
@@ -417,7 +417,9 @@
     <span class="k">return</span> <span class="n">supersat</span>
 
 
-<div class="viewcode-block" id="saturation_pressure"><a class="viewcode-back" href="../../../pySD/sdmout_src/thermoeqns.html#pySD.sdmout_src.thermoeqns.saturation_pressure">[docs]</a><span class="k">def</span> <span class="nf">saturation_pressure</span><span class="p">(</span><span class="n">TEMP</span><span class="p">):</span>
+<div class="viewcode-block" id="saturation_pressure">
+<a class="viewcode-back" href="../../../pySD/sdmout_src/thermoeqns.html#pySD.sdmout_src.thermoeqns.saturation_pressure">[docs]</a>
+<span class="k">def</span> <span class="nf">saturation_pressure</span><span class="p">(</span><span class="n">TEMP</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate the equilibrium vapor pressure</span>
 <span class="sd">    of water over liquid water ie. the</span>
 <span class="sd">    saturation pressure (psat) given TEMP /K.</span>
@@ -443,7 +445,10 @@
     <span class="k">return</span> <span class="n">PREF</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">expothis</span><span class="p">)</span>  <span class="c1"># dimensionless psat /Pa</span></div>
 
 
-<div class="viewcode-block" id="saturation_pressure_murphy_koop"><a class="viewcode-back" href="../../../pySD/sdmout_src/thermoeqns.html#pySD.sdmout_src.thermoeqns.saturation_pressure_murphy_koop">[docs]</a><span class="k">def</span> <span class="nf">saturation_pressure_murphy_koop</span><span class="p">(</span><span class="n">TEMP</span><span class="p">):</span>
+
+<div class="viewcode-block" id="saturation_pressure_murphy_koop">
+<a class="viewcode-back" href="../../../pySD/sdmout_src/thermoeqns.html#pySD.sdmout_src.thermoeqns.saturation_pressure_murphy_koop">[docs]</a>
+<span class="k">def</span> <span class="nf">saturation_pressure_murphy_koop</span><span class="p">(</span><span class="n">TEMP</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate the equilibrium vapor pressure</span>
 <span class="sd">    of water over liquid water ie. the</span>
 <span class="sd">    saturation pressure (psat [Pa]). Equation taken from</span>
@@ -465,7 +470,10 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">lnpsat</span><span class="p">)</span>  <span class="c1"># psat [Pa]</span></div>
 
 
-<div class="viewcode-block" id="dry_pot_temp"><a class="viewcode-back" href="../../../pySD/sdmout_src/thermoeqns.html#pySD.sdmout_src.thermoeqns.dry_pot_temp">[docs]</a><span class="k">def</span> <span class="nf">dry_pot_temp</span><span class="p">(</span><span class="n">Temp</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">qv</span><span class="p">,</span> <span class="n">consts</span><span class="p">):</span>
+
+<div class="viewcode-block" id="dry_pot_temp">
+<a class="viewcode-back" href="../../../pySD/sdmout_src/thermoeqns.html#pySD.sdmout_src.thermoeqns.dry_pot_temp">[docs]</a>
+<span class="k">def</span> <span class="nf">dry_pot_temp</span><span class="p">(</span><span class="n">Temp</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">qv</span><span class="p">,</span> <span class="n">consts</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;calculate potential Temperature [K]</span>
 <span class="sd">    assuming moist (unsaturated) air with</span>
 <span class="sd">    vapour content qv&quot;&quot;&quot;</span>
@@ -483,6 +491,7 @@
     <span class="k">return</span> <span class="n">Theta</span></div>
 
 
+
 <span class="k">def</span> <span class="nf">dry_adiabat</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">temp</span><span class="p">,</span> <span class="n">consts</span><span class="p">):</span>
     <span class="n">gamma</span> <span class="o">=</span> <span class="n">consts</span><span class="p">[</span><span class="s2">&quot;RGAS_DRY&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">consts</span><span class="p">[</span><span class="s2">&quot;CP_DRY&quot;</span><span class="p">]</span>
     <span class="n">dry_adia</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span> <span class="o">/</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">**</span> <span class="n">gamma</span>  <span class="c1"># dry adiabatic temp</span>
@@ -492,7 +501,9 @@
     <span class="k">return</span> <span class="n">dry_adia</span><span class="p">,</span> <span class="n">dry_adia_theta</span>
 
 
-<div class="viewcode-block" id="specific_moist_static_energy"><a class="viewcode-back" href="../../../pySD/sdmout_src/thermoeqns.html#pySD.sdmout_src.thermoeqns.specific_moist_static_energy">[docs]</a><span class="k">def</span> <span class="nf">specific_moist_static_energy</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">Temp</span><span class="p">,</span> <span class="n">qv</span><span class="p">,</span> <span class="n">consts</span><span class="p">):</span>
+<div class="viewcode-block" id="specific_moist_static_energy">
+<a class="viewcode-back" href="../../../pySD/sdmout_src/thermoeqns.html#pySD.sdmout_src.thermoeqns.specific_moist_static_energy">[docs]</a>
+<span class="k">def</span> <span class="nf">specific_moist_static_energy</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">Temp</span><span class="p">,</span> <span class="n">qv</span><span class="p">,</span> <span class="n">consts</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;calculate the specific mass moist static</span>
 <span class="sd">    energy, mse, J/Kg. (ie. mse per unit mass).&quot;&quot;&quot;</span>
 
@@ -501,6 +512,7 @@
     <span class="n">Cp_dry</span> <span class="o">=</span> <span class="n">consts</span><span class="p">[</span><span class="s2">&quot;CP_DRY&quot;</span><span class="p">]</span>  <span class="c1"># [J/Kg/K]</span>
 
     <span class="k">return</span> <span class="n">GRAVG</span> <span class="o">*</span> <span class="n">Z</span> <span class="o">+</span> <span class="n">Latent_v</span> <span class="o">*</span> <span class="n">qv</span> <span class="o">+</span> <span class="n">Cp_dry</span> <span class="o">*</span> <span class="n">Temp</span></div>
+
 </pre></div>
         </article>
       </div>
@@ -519,7 +531,7 @@
             
             <a href="https://github.com/pradyunsg/furo">Furo</a>
             <div class="last-updated">
-              Last updated on 09 December 2024</div>
+              Last updated on 24 January 2025</div>
           </div>
           <div class="right-details">
             
@@ -534,9 +546,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=2389946f"></script>
-    <script src="../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+</div><script src="../../../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>
