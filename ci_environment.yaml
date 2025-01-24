@@ -13,4 +13,7 @@ dependencies:
     - pip:
       - sphinx_copybutton
       - sphinxcontrib-bibtex
-      - docutils
+      - sphinxcontrib-applehelp
+      - sphinxcontrib-htmlhelp
+      - breathe
+      - pre-commit

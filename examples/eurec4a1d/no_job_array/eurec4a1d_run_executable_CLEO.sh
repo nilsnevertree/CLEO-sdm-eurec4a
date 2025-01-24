@@ -27,7 +27,7 @@ echo "============================================"
 
 # run parameters
 buildtype="cuda"
-executables="eurec4a1D_null_microphysics eurec4a1D_condensation eurec4a1D_collision_condensation"
+executables="eurec4a1d_null_microphysics eurec4a1d_condensation eurec4a1d_collision_condensation"
 enableyac=false
 
 # setps to run
@@ -49,7 +49,7 @@ run_script=${path2eurec4a1d}/scripts/execute_single_run.sh
 setup="null_microphysics"
 # setup="condensation"
 # setup="collision_condensation"
-exec="eurec4a1D_${setup}"
+exec="eurec4a1d_${setup}"
 path2exec=${path2build}/examples/eurec4a1d/stationary_${setup}/src/${exec}
 rawdirectory=${path2data}/${setup}/
 ### ---------------------------------------------------- ###

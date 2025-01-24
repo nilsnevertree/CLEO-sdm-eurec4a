@@ -388,7 +388,7 @@ if isfigures[0]:
 os.chdir(path2build)
 os.system("pwd")
 os.system("rm -rf " + dataset)  # delete any existing dataset
-executable = str(path2build) + "/examples/eurec4a1d/src/eurec4a1D"
+executable = str(path2build) + "/examples/eurec4a1d/src/eurec4a1d"
 print("Executable: " + executable)
 print("Config file: " + str(configfile))
 os.system(executable + " " + str(configfile))

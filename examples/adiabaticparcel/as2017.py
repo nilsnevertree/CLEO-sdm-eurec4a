@@ -16,7 +16,7 @@ License: BSD 3-Clause "New" or "Revised" License
 https://opensource.org/licenses/BSD-3-Clause
 -----
 File Description:
-Script generate input files, runs CLEO adia0D executable to create data and
+Script generate input files, runs CLEO adia0d executable to create data and
 then creates plots for adiabatic parcel example similar to Figure 5 of "On
 the CCN (de)activation nonlinearities" S. Arabas and S. Shima 2017 to show
 example of adaibatic parcel expansion and contraction.
@@ -24,39 +24,39 @@ Note: SD(M) = superdroplet (model)
 """
 
 import os
+import shutil
+import subprocess
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
 from pathlib import Path
 
-path2CLEO = sys.argv[1]
-path2build = sys.argv[2]
-configfile = sys.argv[3]
+path2CLEO = Path(sys.argv[1])
+path2build = Path(sys.argv[2])
+config_filename = Path(sys.argv[3])
 
-sys.path.append(path2CLEO)  # for imports from pySD package
+sys.path.append(str(path2CLEO))  # imports from pySD
 sys.path.append(
-    path2CLEO + "/examples/exampleplotting/"
-)  # for imports from example plotting package
+    str(path2CLEO / "examples" / "exampleplotting")
+)  # imports from example plots package
 
 from plotssrc import as2017fig
-from pySD import editconfigfile
-from pySD.sdmout_src import pyzarr, pysetuptxt, pygbxsdat, sdtracing
+from pySD import editconfigfile, geninitconds
 from pySD.initsuperdropsbinary_src import rgens, dryrgens, probdists, attrsgen
-from pySD.initsuperdropsbinary_src import create_initsuperdrops as csupers
-from pySD.initsuperdropsbinary_src import read_initsuperdrops as rsupers
 from pySD.gbxboundariesbinary_src import read_gbxboundaries as rgrid
-from pySD.gbxboundariesbinary_src import create_gbxboundaries as cgrid
+from pySD.sdmout_src import pyzarr, pysetuptxt, pygbxsdat, sdtracing
 
 ############### INPUTS ##################
 # path and filenames for creating SD initial conditions and for running model
-constsfile = path2CLEO + "/libs/cleoconstants.hpp"
-binpath = path2build + "/bin/"
-sharepath = path2build + "/share/"
-initSDsfile = sharepath + "as2017_dimlessSDsinit.dat"
-gridfile = sharepath + "as2017_dimlessGBxboundaries.dat"
+constants_filename = path2CLEO / "libs" / "cleoconstants.hpp"
+binpath = path2build / "bin"
+sharepath = path2build / "share"
+initsupers_filename = sharepath / "as2017_dimlessSDsinit.dat"
+grid_filename = sharepath / "as2017_dimlessGBxboundaries.dat"
 
 # booleans for [making, saving] initialisation figures
 isfigures = [True, True]
+savefigpath = binpath
 
 # settings for 0D Model (number of SD and grid coordinates)
 nsupers = {0: 64}
@@ -116,24 +116,31 @@ def displacement(time, w_avg, thalf):
 ############### RUN EXAMPLE ##################
 ###  delete any existing datasets
 for run_num in range(len(monors) * len(paramslist)):
-    dataset = binpath + "as2017_sol" + str(run_num) + ".zarr"
-    os.system("rm -rf " + dataset)
+    dataset = "as2017_sol" + str(run_num) + ".zarr"
+    shutil.rmtree(binpath / dataset, ignore_errors=True)
 
 ### ensure build, share and bin directories exist
 if path2CLEO == path2build:
     raise ValueError("build directory cannot be CLEO")
 else:
-    Path(path2build).mkdir(exist_ok=True)
-    Path(sharepath).mkdir(exist_ok=True)
-    Path(binpath).mkdir(exist_ok=True)
+    path2build.mkdir(exist_ok=True)
+    sharepath.mkdir(exist_ok=True)
+    binpath.mkdir(exist_ok=True)
+    if isfigures[1]:
+        savefigpath.mkdir(exist_ok=True)
 
 ### create file (and plot) for gridbox boundaries
-os.system("rm " + gridfile)
-cgrid.write_gridboxboundaries_binary(gridfile, zgrid, xgrid, ygrid, constsfile)
-rgrid.print_domain_info(constsfile, gridfile)
-if isfigures[0]:
-    rgrid.plot_gridboxboundaries(constsfile, gridfile, binpath, isfigures[1])
-plt.close()
+shutil.rmtree(grid_filename, ignore_errors=True)
+geninitconds.generate_gridbox_boundaries(
+    grid_filename,
+    zgrid,
+    xgrid,
+    ygrid,
+    constants_filename,
+    isprintinfo=True,
+    isfigures=isfigures,
+    savefigpath=savefigpath,
+)
 
 runnum = 0
 for i in range(len(monors)):
@@ -148,44 +155,48 @@ for i in range(len(monors)):
     initattrsgen = attrsgen.AttrsGenerator(
         radiigen, dryradiigen, xiprobdist, coord3gen, coord1gen, coord2gen
     )
-    os.system("rm " + initSDsfile)
-    csupers.write_initsuperdrops_binary(
-        initSDsfile, initattrsgen, configfile, constsfile, gridfile, nsupers, numconc
+    shutil.rmtree(initsupers_filename, ignore_errors=True)
+    geninitconds.generate_initial_superdroplet_conditions(
+        initattrsgen,
+        initsupers_filename,
+        config_filename,
+        constants_filename,
+        grid_filename,
+        nsupers,
+        numconc,
+        isprintinfo=True,
+        isfigures=isfigures,
+        savefigpath=savefigpath,
+        gbxs2plt="all",
     )
-    rsupers.print_initSDs_infos(initSDsfile, configfile, constsfile, gridfile)
-
-    if isfigures[0]:
-        rsupers.plot_initGBxs_distribs(
-            configfile, constsfile, initSDsfile, gridfile, binpath, isfigures[1], "all"
-        )
-        plt.close()
 
     fig, axs = plt.subplots(nrows=3, ncols=1, figsize=(5, 16))
     for params, lwdth in zip(paramslist, lwdths):
         ### edit relevant setup file parameters
-        params["zarrbasedir"] = binpath + "as2017_sol" + str(runnum) + ".zarr"
-        params["setup_filename"] = binpath + "as2017_setup.txt"
-        editconfigfile.edit_config_params(configfile, params)
+        zarrbasedir = "as2017_sol" + str(runnum) + ".zarr"
+        params["zarrbasedir"] = str(binpath / zarrbasedir)
+        params["setup_filename"] = str(binpath / "as2017_setup.txt")
+        editconfigfile.edit_config_params(config_filename, params)
 
         ### delete any existing dataset
-        os.system("rm -rf " + params["zarrbasedir"])
-        os.system("rm " + params["setup_filename"])
+        shutil.rmtree(params["zarrbasedir"], ignore_errors=True)
+        shutil.rmtree(params["setup_filename"], ignore_errors=True)
 
         ### run model
         os.chdir(path2build)
-        executable = path2build + "/examples/adiabaticparcel/src/adia0D"
-        print("Executable: " + executable)
-        print("Config file: " + configfile)
-        os.system(executable + " " + configfile)
+        executable = path2build / "examples" / "adiabaticparcel" / "src" / "adia0d"
+        print("Executable: " + str(executable))
+        print("Config file: " + str(config_filename))
+        subprocess.run([executable, config_filename])
 
         ### load results
-        setupfile = binpath + "as2017_setup.txt"
-        dataset = binpath + "as2017_sol" + str(runnum) + ".zarr"
+        setupfile = binpath / "as2017_setup.txt"
+        dataset = binpath / Path("as2017_sol" + str(runnum) + ".zarr")
 
         ### read in constants and intial setup from setup .txt file
         config = pysetuptxt.get_config(setupfile, nattrs=3, isprint=True)
         consts = pysetuptxt.get_consts(setupfile, isprint=True)
-        gbxs = pygbxsdat.get_gridboxes(gridfile, consts["COORD0"], isprint=True)
+        gbxs = pygbxsdat.get_gridboxes(grid_filename, consts["COORD0"], isprint=True)
 
         # read in output Xarray data
         thermo = pyzarr.get_thermodata(dataset, config["ntime"], gbxs["ndims"], consts)
@@ -237,9 +248,7 @@ for i in range(len(monors)):
 
     fig.tight_layout()
 
-    savename = "as2017fig_" + str(i) + ".png"
-    fig.savefig(
-        binpath + savename, dpi=400, bbox_inches="tight", facecolor="w", format="png"
-    )
-    print("Figure .png saved as: " + binpath + savename)
+    savename = savefigpath / Path("as2017fig_" + str(i) + ".png")
+    fig.savefig(savename, dpi=400, bbox_inches="tight", facecolor="w", format="png")
+    print("Figure .png saved as: " + str(savename))
     plt.show()

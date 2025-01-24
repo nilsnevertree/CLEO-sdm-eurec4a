@@ -9,63 +9,61 @@ Created Date: Friday 17th November 2023
 Author: Clara Bayley (CB)
 Additional Contributors:
 -----
-Last Modified: Tuesday 7th May 2024
+Last Modified: Wednesday 11th September 2024
 Modified By: CB
 -----
 License: BSD 3-Clause "New" or "Revised" License
 https://opensource.org/licenses/BSD-3-Clause
 -----
 File Description:
-Script generatees input files, runs CLEO executable "const2D" to create
+Script generatees input files, runs CLEO executable "const2d" to create
 data and then plots precipitation example given 2-D flow field and
 constant thermodynamics read from a file.
 """
 
 import os
+import shutil
+import subprocess
 import sys
 import numpy as np
 from pathlib import Path
 from matplotlib.colors import LogNorm, Normalize
 
-path2CLEO = sys.argv[1]
-path2build = sys.argv[2]
-configfile = sys.argv[3]
+path2CLEO = Path(sys.argv[1])
+path2build = Path(sys.argv[2])
+config_filename = Path(sys.argv[3])
 
-sys.path.append(path2CLEO)  # for imports from pySD package
+sys.path.append(str(path2CLEO))  # imports from pySD
 sys.path.append(
-    path2CLEO + "/examples/exampleplotting/"
-)  # for imports from example plotting package
+    str(path2CLEO / "examples" / "exampleplotting")
+)  # imports from example plots package
+
 
 from plotssrc import pltsds, pltmoms, animations
+from pySD import geninitconds
 from pySD.sdmout_src import pyzarr, pysetuptxt, pygbxsdat
-from pySD.gbxboundariesbinary_src import read_gbxboundaries as rgrid
-from pySD.gbxboundariesbinary_src import create_gbxboundaries as cgrid
 from pySD.initsuperdropsbinary_src import crdgens, rgens, dryrgens, probdists, attrsgen
-from pySD.initsuperdropsbinary_src import create_initsuperdrops as csupers
-from pySD.initsuperdropsbinary_src import read_initsuperdrops as rsupers
 from pySD.thermobinary_src import thermogen
-from pySD.thermobinary_src import create_thermodynamics as cthermo
-from pySD.thermobinary_src import read_thermodynamics as rthermo
 
 ### ---------------------------------------------------------------- ###
 ### ----------------------- INPUT PARAMETERS ----------------------- ###
 ### ---------------------------------------------------------------- ###
 ### --- essential paths and filenames --- ###
 # path and filenames for creating initial SD conditions
-constsfile = path2CLEO + "/libs/cleoconstants.hpp"
-binpath = path2build + "/bin/"
-sharepath = path2build + "/share/"
-gridfile = sharepath + "const2d_dimlessGBxboundaries.dat"
-initSDsfile = sharepath + "const2d_dimlessSDsinit.dat"
-thermofile = sharepath + "/const2d_dimlessthermo.dat"
+constants_filename = path2CLEO / "libs" / "cleoconstants.hpp"
+binpath = path2build / "bin"
+sharepath = path2build / "share"
+grid_filename = sharepath / "const2d_dimlessGBxboundaries.dat"
+initsupers_filename = sharepath / "const2d_dimlessSDsinit.dat"
+thermofiles = sharepath / "const2d_dimlessthermo.dat"
 
 # path and file names for plotting results
-setupfile = binpath + "const2d_setup.txt"
-dataset = binpath + "const2d_sol.zarr"
+setupfile = binpath / "const2d_setup.txt"
+dataset = binpath / "const2d_sol.zarr"
 
 ### --- plotting initialisation figures --- ###
 isfigures = [True, True]  # booleans for [making, saving] initialisation figures
-savefigpath = path2build + "/bin/"  # directory for saving figures
+savefigpath = binpath
 SDgbxs2plt = [0]  # gbxindex of SDs to plot (nb. "all" can be very slow)
 
 ### --- settings for 2-D gridbox boundaries --- ###
@@ -111,23 +109,34 @@ moistlayer = False
 if path2CLEO == path2build:
     raise ValueError("build directory cannot be CLEO")
 else:
-    Path(path2build).mkdir(exist_ok=True)
-    Path(sharepath).mkdir(exist_ok=True)
-    Path(binpath).mkdir(exist_ok=True)
+    path2build.mkdir(exist_ok=True)
+    sharepath.mkdir(exist_ok=True)
+    binpath.mkdir(exist_ok=True)
+    if isfigures[1]:
+        savefigpath.mkdir(exist_ok=True)
 
 ### --- delete any existing initial conditions --- ###
-os.system("rm " + gridfile)
-os.system("rm " + initSDsfile)
-os.system("rm " + thermofile[:-4] + "*")
+shutil.rmtree(grid_filename, ignore_errors=True)
+shutil.rmtree(initsupers_filename, ignore_errors=True)
+all_thermofiles = thermofiles.parent / Path(f"{thermofiles.stem}*{thermofiles.suffix}")
+shutil.rmtree(all_thermofiles, ignore_errors=True)
 
 ### ----- write gridbox boundaries binary ----- ###
-cgrid.write_gridboxboundaries_binary(gridfile, zgrid, xgrid, ygrid, constsfile)
-rgrid.print_domain_info(constsfile, gridfile)
+geninitconds.generate_gridbox_boundaries(
+    grid_filename,
+    zgrid,
+    xgrid,
+    ygrid,
+    constants_filename,
+    isprintinfo=True,
+    isfigures=isfigures,
+    savefigpath=savefigpath,
+)
 
 ### ----- write thermodynamics binaries ----- ###
 thermodyngen = thermogen.ConstDryHydrostaticAdiabat(
-    configfile,
-    constsfile,
+    config_filename,
+    constants_filename,
     PRESS0,
     THETA,
     qvapmethod,
@@ -140,13 +149,20 @@ thermodyngen = thermogen.ConstDryHydrostaticAdiabat(
     VVEL,
     moistlayer,
 )
-cthermo.write_thermodynamics_binary(
-    thermofile, thermodyngen, configfile, constsfile, gridfile
+geninitconds.generate_thermodynamics_conditions_fromfile(
+    thermofiles,
+    thermodyngen,
+    config_filename,
+    constants_filename,
+    grid_filename,
+    isfigures=isfigures,
+    savefigpath=savefigpath,
 )
 
-
 ### ----- write initial superdroplets binary ----- ###
-nsupers = crdgens.nsupers_at_domain_base(gridfile, constsfile, npergbx, zlim)
+nsupers = crdgens.nsupers_at_domain_base(
+    grid_filename, constants_filename, npergbx, zlim
+)
 coord3gen = crdgens.SampleCoordGen(True)  # sample coord3 randomly
 coord1gen = crdgens.SampleCoordGen(True)  # sample coord1 randomly
 coord2gen = None  # do not generate superdroplet coord2s
@@ -157,27 +173,18 @@ dryradiigen = dryrgens.ScaledRadiiGen(1.0)
 initattrsgen = attrsgen.AttrsGenerator(
     radiigen, dryradiigen, xiprobdist, coord3gen, coord1gen, coord2gen
 )
-csupers.write_initsuperdrops_binary(
-    initSDsfile, initattrsgen, configfile, constsfile, gridfile, nsupers, numconc
+geninitconds.generate_initial_superdroplet_conditions(
+    initattrsgen,
+    initsupers_filename,
+    config_filename,
+    constants_filename,
+    grid_filename,
+    nsupers,
+    numconc,
+    isfigures=isfigures,
+    savefigpath=savefigpath,
+    gbxs2plt=SDgbxs2plt,
 )
-
-### ----- show (and save) plots of binary file data ----- ###
-if isfigures[0]:
-    if isfigures[1]:
-        Path(savefigpath).mkdir(exist_ok=True)
-    rgrid.plot_gridboxboundaries(constsfile, gridfile, savefigpath, isfigures[1])
-    rthermo.plot_thermodynamics(
-        constsfile, configfile, gridfile, thermofile, savefigpath, isfigures[1]
-    )
-    rsupers.plot_initGBxs_distribs(
-        configfile,
-        constsfile,
-        initSDsfile,
-        gridfile,
-        savefigpath,
-        isfigures[1],
-        SDgbxs2plt,
-    )
 ### ---------------------------------------------------------------- ###
 ### ---------------------------------------------------------------- ###
 
@@ -185,12 +192,12 @@ if isfigures[0]:
 ### -------------------- RUN CLEO EXECUTABLE ------------------- ###
 ### ---------------------------------------------------------------- ###
 os.chdir(path2build)
-os.system("pwd")
-os.system("rm -rf " + dataset)  # delete any existing dataset
-executable = path2build + "/examples/constthermo2d/src/const2D"
-print("Executable: " + executable)
-print("Config file: " + configfile)
-os.system(executable + " " + configfile)
+subprocess.run(["pwd"])
+shutil.rmtree(dataset, ignore_errors=True)  # delete any existing dataset
+executable = path2build / "examples" / "constthermo2d" / "src" / "const2d"
+print("Executable: " + str(executable))
+print("Config file: " + str(config_filename))
+subprocess.run([executable, config_filename])
 ### ---------------------------------------------------------------- ###
 ### ---------------------------------------------------------------- ###
 
@@ -200,7 +207,7 @@ os.system(executable + " " + configfile)
 # read in constants and intial setup from setup .txt file
 config = pysetuptxt.get_config(setupfile, nattrs=3, isprint=True)
 consts = pysetuptxt.get_consts(setupfile, isprint=True)
-gbxs = pygbxsdat.get_gridboxes(gridfile, consts["COORD0"], isprint=True)
+gbxs = pygbxsdat.get_gridboxes(grid_filename, consts["COORD0"], isprint=True)
 
 time = pyzarr.get_time(dataset)
 sddata = pyzarr.get_supers(dataset, consts)
@@ -208,19 +215,19 @@ totnsupers = pyzarr.get_totnsupers(dataset)
 massmoms = pyzarr.get_massmoms(dataset, config["ntime"], gbxs["ndims"])
 
 # plot figures
-savename = savefigpath + "const2d_totnsupers.png"
+savename = savefigpath / "const2d_totnsupers.png"
 pltmoms.plot_totnsupers(time, totnsupers, savename=savename)
 
-savename = savefigpath + "const2d_domainmassmoms.png"
+savename = savefigpath / "const2d_domainmassmoms.png"
 pltmoms.plot_domainmassmoments(time, massmoms, savename=savename)
 
 nsample = 500
-savename = savefigpath + "const2d_randomsample.png"
+savename = savefigpath / "const2d_randomsample.png"
 pltsds.plot_randomsample_superdrops(
     time, sddata, config["maxnsupers"], nsample, savename=savename
 )
 
-savename = savefigpath + "const2d_motion2d.png"
+savename = savefigpath / "const2d_motion2d.png"
 pltsds.plot_randomsample_superdrops_2dmotion(
     sddata, config["maxnsupers"], nsample, savename=savename, arrows=False
 )
@@ -238,7 +245,7 @@ norm = np.sum(gbxs["gbxvols"], axis=0)[None, None, :, :] * 1e6  # volume [cm^3]
 mom2ani = horizontal_average(massmoms.mom0 / norm)
 xlims = [0, np.amax(mom2ani)]
 xlabel = "mean number concentration /cm$^{-3}$"
-savename = savefigpath + "const2d_numconc1d"
+savename = savefigpath / "const2d_numconc1d"
 animations.animate1dprofile(
     gbxs,
     mom2ani,
@@ -258,7 +265,7 @@ mom2ani = np.sum(massmoms.nsupers, axis=1)  # sum over y dimension
 cmap = "plasma_r"
 cmapnorm = Normalize(vmin=1, vmax=20)
 cbarlabel = "number of superdroplets per gridbox"
-savename = savefigpath + "const2d_nsupers2d"
+savename = savefigpath / "const2d_nsupers2d"
 animations.animate2dcmap(
     gbxs,
     mom2ani,
@@ -281,7 +288,7 @@ mom2ani = mom2ani / norm
 cmap = "bone_r"
 cmapnorm = LogNorm(vmin=1e-6, vmax=1e2)
 cbarlabel = "mass concentration /g m$^{-3}$"
-savename = savefigpath + "const2d_massconc2d"
+savename = savefigpath / "const2d_massconc2d"
 animations.animate2dcmap(
     gbxs,
     mom2ani,

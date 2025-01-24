@@ -7,13 +7,14 @@
 #SBATCH --time=00:30:00
 #SBATCH --mail-user=clara.bayley@mpimet.mpg.de
 #SBATCH --mail-type=FAIL
-#SBATCH --account=mh1126
+#SBATCH --account=bm1183
 #SBATCH --output=./runexample_out.%j.out
 #SBATCH --error=./runexample_err.%j.out
 
 example=$1
 sbatch=$2
-examplesdir=${3:-./examples}
+path2CLEO=${2:-${HOME}/CLEO}
+examplesdir=${path2CLEO}/examples
 
 if [ "${example}" == "" ]
 then
@@ -33,6 +34,10 @@ else
     then
     ${sbatch} ${examplesdir}/boxmodelcollisions/shima2009.sh
 
+  elif  [ "${example}" == "breakup" ]
+    then
+    ${sbatch} ${examplesdir}/boxmodelcollisions/breakup.sh
+
   elif  [ "${example}" == "constthermo2d" ]
     then
     ${sbatch} ${examplesdir}/constthermo2d/constthermo2d.sh
@@ -43,15 +48,19 @@ else
 
   elif  [ "${example}" == "eurec4a1d" ]
   then
-    ${sbatch} ${examplesdir}/examples/eurec4a1d/eurec4a1d.sh
+    ${sbatch} ${examplesdir}/eurec4a1d/eurec4a1d.sh
 
   elif  [ "${example}" == "rainshaft1d" ]
   then
-    ${sbatch} ${examplesdir}/examples/rainshaft1d/rainshaft1d.sh
+    ${sbatch} ${examplesdir}/rainshaft1d/rainshaft1d.sh
 
   elif  [ "${example}" == "speedtest" ]
   then
-    ${sbatch} ${examplesdir}/ examples/speedtest/speedtest.sh
+    ${sbatch} ${examplesdir}/speedtest/speedtest.sh
+
+  elif  [ "${example}" == "bubble3d" ]
+  then
+    ${sbatch} ${examplesdir}/bubble3d/bubble3d.sh # WIP
 
   else
     echo "'${example}' is not an example"

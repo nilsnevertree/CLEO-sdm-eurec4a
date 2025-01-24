@@ -65,9 +65,7 @@ path2microphysics_data=""       # path to the directory which contains the subdi
 # function to set the path2microphysics_data and the exec and path2exec
 function prepare_microphysics_setup() {
   local setup=$1
-  # the executable name is given by the microphysics setup
-  exec="eurec4a1D_${setup}"
-  # the executable path lies within the build directory and the eurec4a1d directory
+  exec="eurec4a1d_${setup}"
   path2exec="${path2build}/examples/eurec4a1d/stationary_${setup}/src/${exec}"
     # the path to the data directory is given by the path2data and the microphysics setup
   path2microphysics_data="${path2data}/${setup}/"

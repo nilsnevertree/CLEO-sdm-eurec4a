@@ -135,7 +135,7 @@ class SupersData(SuperdropProperties):
         self.coord2_units = self.tryunits(self.ds, "coord2")  # probably meters
 
     def tryopen_dataset(self, dataset):
-        if isinstance(dataset, str):
+        if isinstance(dataset, str) or isinstance(dataset, Path):
             print("supers dataset: ", dataset)
             return xr.open_dataset(dataset, engine="zarr", consolidated=False)
         else:
@@ -1463,7 +1463,7 @@ class SupersDataNew(SuperdropProperties):
     def tryopen_dataset(self, dataset: Union[os.PathLike, xr.Dataset]) -> xr.Dataset:
         if isinstance(dataset, (str, os.PathLike, Path)):
             print("supers dataset path: ", dataset)
-            dataset =  xr.open_dataset(dataset, engine="zarr", consolidated=False)
+            dataset = xr.open_dataset(dataset, engine="zarr", consolidated=False)
         elif isinstance(dataset, xr.Dataset):
             dataset = dataset
         else:
@@ -1471,7 +1471,7 @@ class SupersDataNew(SuperdropProperties):
 
         # make sure to convert xi to float32 in order to enable the usage of NaN values
 
-        xi_new = dataset['xi'].astype(np.float64)
+        xi_new = dataset["xi"].astype(np.float64)
         dataset["xi"] = xi_new
         return dataset
 

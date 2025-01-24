@@ -12,7 +12,6 @@ This script is used to run the EUREC4A1D executable. It is called by the
     └── eurec4a1d_sol.zarr          <- will be created by the executable
 """
 
-
 import os
 import sys
 from pathlib import Path
@@ -50,7 +49,7 @@ if dataset_file_path.is_dir():
 
 print("===============================")
 print("Executing EUREC4A1D executable")
-executable = str(path2build / "examples/eurec4a1d/src/eurec4a1D")
+executable = str(path2build / "examples/eurec4a1d/src/eurec4a1d")
 print("Executable: " + executable)
 print("Config file: " + str(config_file_path))
 print("Dataset file: " + str(dataset_file_path))

@@ -22,45 +22,45 @@ to create data. Then plots results analgous to Shima et al. 2009 Fig. 2(b)
 """
 
 import os
+import shutil
+import subprocess
 import sys
 import numpy as np
 import awkward as ak
 import matplotlib.pyplot as plt
 from pathlib import Path
 
-path2CLEO = sys.argv[1]
-path2build = sys.argv[2]
-configfile = sys.argv[3]
+path2CLEO = Path(sys.argv[1])
+path2build = Path(sys.argv[2])
+config_filename = Path(sys.argv[3])
 kernels = sys.argv[4:]
 
-sys.path.append(path2CLEO)  # for imports from pySD package
+sys.path.append(str(path2CLEO))  # imports from pySD
 sys.path.append(
-    path2CLEO + "/examples/exampleplotting/"
-)  # for imports from example plotting package
+    str(path2CLEO / "examples" / "exampleplotting")
+)  # imports from example plots package
+
 
 from plotssrc import shima2009fig
-from pySD import editconfigfile
+from pySD import editconfigfile, geninitconds
 from pySD.sdmout_src import pyzarr, pysetuptxt, pygbxsdat, sdtracing
 from pySD.initsuperdropsbinary_src import rgens, probdists, attrsgen
-from pySD.initsuperdropsbinary_src import create_initsuperdrops as csupers
-from pySD.initsuperdropsbinary_src import read_initsuperdrops as rsupers
 from pySD.gbxboundariesbinary_src import read_gbxboundaries as rgrid
-from pySD.gbxboundariesbinary_src import create_gbxboundaries as cgrid
 
 ### ---------------------------------------------------------------- ###
 ### ----------------------- INPUT PARAMETERS ----------------------- ###
 ### ---------------------------------------------------------------- ###
 ### --- essential paths and filenames --- ###
 # path and filenames for creating initial SD conditions
-constsfile = path2CLEO + "/libs/cleoconstants.hpp"
-binpath = path2build + "/bin/"
-sharepath = path2build + "/share/"
-initSDsfile = sharepath + "breakup_dimlessSDsinit.dat"
-gridfile = sharepath + "breakup_dimlessGBxboundaries.dat"
+constants_filename = path2CLEO / "libs" / "cleoconstants.hpp"
+binpath = path2build / "bin"
+sharepath = path2build / "share"
+initsupers_filename = sharepath / "breakup_dimlessSDsinit.dat"
+grid_filename = sharepath / "breakup_dimlessGBxboundaries.dat"
 
 # booleans for [making, saving] initialisation figures
 isfigures = [True, True]
-savefigpath = path2build + "/bin/"  # directory for saving figures
+savefigpath = binpath
 
 ### --- settings for 0-D Model gridbox boundaries --- ###
 zgrid = np.asarray([0, 100])
@@ -88,7 +88,6 @@ xiprobdist = probdists.VolExponential(volexpr0, rspan)
 radiigen = rgens.SampleLog10RadiiGen(rspan)  # radii are sampled from rspan [m]
 samplevol = rgrid.calc_domainvol(zgrid, xgrid, ygrid)
 dryradiigen = rgens.MonoAttrGen(dryradius)
-
 ### ---------------------------------------------------------------- ###
 ### ---------------------------------------------------------------- ###
 
@@ -99,42 +98,45 @@ dryradiigen = rgens.MonoAttrGen(dryradius)
 if path2CLEO == path2build:
     raise ValueError("build directory cannot be CLEO")
 else:
-    Path(path2build).mkdir(exist_ok=True)
-    Path(sharepath).mkdir(exist_ok=True)
-    Path(binpath).mkdir(exist_ok=True)
+    path2build.mkdir(exist_ok=True)
+    sharepath.mkdir(exist_ok=True)
+    binpath.mkdir(exist_ok=True)
     if isfigures[1]:
-        Path(savefigpath).mkdir(exist_ok=True)
+        savefigpath.mkdir(exist_ok=True)
 
 ### --- delete any existing initial conditions --- ###
-os.system("rm " + gridfile)
-os.system("rm " + initSDsfile)
+shutil.rmtree(grid_filename, ignore_errors=True)
+shutil.rmtree(initsupers_filename, ignore_errors=True)
 
 ### ----- write gridbox boundaries binary ----- ###
-cgrid.write_gridboxboundaries_binary(gridfile, zgrid, xgrid, ygrid, constsfile)
-rgrid.print_domain_info(constsfile, gridfile)
+geninitconds.generate_gridbox_boundaries(
+    grid_filename,
+    zgrid,
+    xgrid,
+    ygrid,
+    constants_filename,
+    isprintinfo=True,
+    isfigures=isfigures,
+    savefigpath=savefigpath,
+)
 
 ### ----- write initial superdroplets binary ----- ###
 initattrsgen = attrsgen.AttrsGenerator(
     radiigen, dryradiigen, xiprobdist, coord3gen, coord1gen, coord2gen
 )
-csupers.write_initsuperdrops_binary(
-    initSDsfile, initattrsgen, configfile, constsfile, gridfile, nsupers, numconc
+geninitconds.generate_initial_superdroplet_conditions(
+    initattrsgen,
+    initsupers_filename,
+    config_filename,
+    constants_filename,
+    grid_filename,
+    nsupers,
+    numconc,
+    isprintinfo=True,
+    isfigures=isfigures,
+    savefigpath=savefigpath,
+    gbxs2plt="all",
 )
-rsupers.print_initSDs_infos(initSDsfile, configfile, constsfile, gridfile)
-
-### show (and save) plots of binary file data
-if isfigures[0]:
-    rgrid.plot_gridboxboundaries(constsfile, gridfile, savefigpath, isfigures[1])
-    rsupers.plot_initGBxs_distribs(
-        configfile,
-        constsfile,
-        initSDsfile,
-        gridfile,
-        savefigpath,
-        isfigures[1],
-        "all",
-    )
-    plt.close()
 ### ---------------------------------------------------------------- ###
 ### ---------------------------------------------------------------- ###
 
@@ -148,10 +150,11 @@ def get_executable(path2build, kernel):
     }
     executable = (
         path2build
-        + "/examples/boxmodelcollisions/"
-        + kernel
-        + "/src/"
-        + executables[kernel]
+        / "examples"
+        / "boxmodelcollisions"
+        / kernel
+        / "src"
+        / executables[kernel]
     )
 
     return executable
@@ -159,26 +162,28 @@ def get_executable(path2build, kernel):
 
 def get_params(path2build, kernel):
     params = {
-        "setup_filename": path2build + "bin/" + kernel + "_setup.txt",
-        "stats_filename": path2build + "bin/" + kernel + "_stats.txt",
-        "zarrbasedir": path2build + "bin/" + kernel + "_sol.zarr",
+        "setup_filename": str(path2build / "bin" / Path(kernel + "_setup.txt")),
+        "stats_filename": str(path2build / "bin" / Path(kernel + "_stats.txt")),
+        "zarrbasedir": str(path2build / "bin" / Path(kernel + "_sol.zarr")),
     }
 
     return params
 
 
-def run_exectuable(path2build, kernel, configfile):
+def run_exectuable(path2build, kernel, config_filename):
     """delete existing dataset, the run exectuable with given config file"""
     params = get_params(path2build, kernel)
-    editconfigfile.edit_config_params(configfile, params)
+    editconfigfile.edit_config_params(config_filename, params)
 
     executable = get_executable(path2build, kernel)
     os.chdir(path2build)
-    os.system("pwd")
-    os.system("rm -rf " + params["zarrbasedir"])  # delete any existing dataset
-    print("Executable: " + executable)
-    print("Config file: " + configfile)
-    os.system(executable + " " + configfile)
+    subprocess.run(["pwd"])
+    shutil.rmtree(
+        params["zarrbasedir"], ignore_errors=True
+    )  # delete any existing dataset
+    print("Executable: " + str(executable))
+    print("Config file: " + str(config_filename))
+    subprocess.run([executable, config_filename])
 
 
 def get_kernel_results(path2build, kernel):
@@ -199,7 +204,7 @@ def get_kernel_results(path2build, kernel):
 
 
 def plot_onekernel_results(
-    gridfile,
+    grid_filename,
     path2build,
     kernel,
     numconc,
@@ -210,7 +215,7 @@ def plot_onekernel_results(
 ):
     # read in data
     config, consts, time, sddata = get_kernel_results(path2build, kernel)
-    gbxs = pygbxsdat.get_gridboxes(gridfile, consts["COORD0"], isprint=True)
+    gbxs = pygbxsdat.get_gridboxes(grid_filename, consts["COORD0"], isprint=True)
 
     # make and save plot
     smoothsigconst = 0.62
@@ -234,7 +239,9 @@ def plot_onekernel_results(
     )
 
 
-def plot_allkernels_results(gridfile, path2build, kernels, xlims, t2plts, savename):
+def plot_allkernels_results(
+    grid_filename, path2build, kernels, xlims, t2plts, savename
+):
     def blank_axis(ax, xlims, ylims):
         ax2.set_xlim(xlims)
         ax2.set_ylim(ylims)
@@ -259,9 +266,9 @@ def plot_allkernels_results(gridfile, path2build, kernels, xlims, t2plts, savena
     for kernel in kernels:
         # read in data
         config, consts, time, sddata = get_kernel_results(path2build, kernel)
-        domainvol = pygbxsdat.get_gridboxes(gridfile, consts["COORD0"], isprint=True)[
-            "domainvol"
-        ]
+        domainvol = pygbxsdat.get_gridboxes(
+            grid_filename, consts["COORD0"], isprint=True
+        )["domainvol"]
         smoothsig = 0.62 * (
             config["maxnsupers"] ** (-1 / 5)
         )  # = ~0.2 for guassian smoothing
@@ -315,7 +322,7 @@ def plot_allkernels_results(gridfile, path2build, kernels, xlims, t2plts, savena
 
     if savename != "":
         fig.savefig(savename, dpi=400, bbox_inches="tight", facecolor="w", format="png")
-        print("Figure .png saved as: " + savename)
+        print("Figure .png saved as: " + str(savename))
     plt.show()
 
     return fig, ax
@@ -325,7 +332,7 @@ def plot_allkernels_results(gridfile, path2build, kernels, xlims, t2plts, savena
 ### ---------- RUN CLEO EXECUTABLES FOR EACH KERNEL ------------ ###
 ### ------------------------------------------------------------ ###
 for kernel in kernels:
-    run_exectuable(path2build, kernel, configfile)
+    run_exectuable(path2build, kernel, config_filename)
 ### ------------------------------------------------------------ ###
 ### ------------------------------------------------------------ ###
 
@@ -335,9 +342,9 @@ for kernel in kernels:
 for kernel in kernels:
     t2plts = [0, 600, 1200, 1800, 2400]
     xlims = [10, 5000]
-    savename = savefigpath + kernel + "_validation.png"
+    savename = savefigpath / Path(kernel + "_validation.png")
     plot_onekernel_results(
-        gridfile,
+        grid_filename,
         path2build,
         kernel,
         numconc,
@@ -350,7 +357,7 @@ for kernel in kernels:
 
 t2plts = [0, 600, 1200, 1800, 2400]
 xlims = [10, 5000]
-savename = savefigpath + "breakup_validation.png"
-plot_allkernels_results(gridfile, path2build, kernels, xlims, t2plts, savename)
+savename = savefigpath / "breakup_validation.png"
+plot_allkernels_results(grid_filename, path2build, kernels, xlims, t2plts, savename)
 ### ------------------------------------------------------------ ###
 ### ------------------------------------------------------------ ###

@@ -17,7 +17,6 @@ Copyright (c) 2023 MPI-M, Clara Bayley
 File Description:
 """
 
-
 import numpy as np
 from os.path import isfile
 from typing import Union
@@ -27,14 +26,14 @@ from ..gbxboundariesbinary_src.read_gbxboundaries import (
 )
 
 
-def thermoinputsdict(configfile, constsfile):
+def thermoinputsdict(config_filename, constants_filename):
     """create values from constants file & config file
     required as inputs to create initial
     superdroplet conditions"""
 
-    consts = cxx2py.read_cxxconsts_into_floats(constsfile)
+    consts = cxx2py.read_cxxconsts_into_floats(constants_filename)
     mconsts = cxx2py.derive_more_floats(consts)
-    config = readconfigfile.read_configparams_into_floats(configfile)
+    config = readconfigfile.read_configparams_into_floats(config_filename)
 
     inputs = {
         # for creating thermodynamic profiles
@@ -63,9 +62,14 @@ def thermoinputsdict(configfile, constsfile):
 
 
 class DimlessThermodynamics:
-    def __init__(self, inputs : Union[bool, dict]= False, configfile="", constsfile=""):
-        if inputs == False:
-            inputs = thermoinputsdict(configfile, constsfile)
+    def __init__(
+        self,
+        inputs: Union[bool, dict] = False,
+        config_filename="",
+        constants_filename="",
+    ):
+        if not inputs:
+            inputs = thermoinputsdict(config_filename, constants_filename)
 
         # scale_factors to de-dimensionalise data
         self.PRESS0 = inputs["P0"]
@@ -192,21 +196,22 @@ def check_datashape(thermodata, ndata, ndims, ntime):
 
 
 def write_thermodynamics_binary(
-    thermofile, thermogen, configfile, constsfile, gridfile
+    thermofiles, thermogen, config_filename, constants_filename, grid_filename
 ):
     """write binarys for thermodynamic data over time on C staggered
     grid. So that pressure, temperature, qvap and qcond are defined at
     centres of gridboxes, whereas wind velocities are defined at faces"""
 
-    if not isfile(gridfile):
+    if not isfile(grid_filename):
         errmsg = (
-            "gridfile not found, but must be" + " created before initsupersfile can be"
+            "grid_filename not found, but must be"
+            + " created before initsupersfile can be"
         )
         raise ValueError(errmsg)
 
-    inputs = thermoinputsdict(configfile, constsfile)
+    inputs = thermoinputsdict(config_filename, constants_filename)
     gbxbounds, ndims = read_dimless_gbxboundaries_binary(
-        gridfile, COORD0=inputs["COORD0"], return_ndims=True, isprint=False
+        grid_filename, COORD0=inputs["COORD0"], return_ndims=True, isprint=False
     )
     thermodata = thermogen.generate_thermo(gbxbounds, ndims, inputs["ntime"])
 
@@ -222,8 +227,6 @@ def write_thermodynamics_binary(
     units += [b"m"] * 3  # velocity units
     scale_factors = np.asarray(scale_factors, dtype=np.double)
 
-    idot = [i for i, ltr in enumerate(thermofile) if ltr == "."][-1]
-    filestem, filetype = thermofile[:idot], thermofile[idot:]
     varat = ["centres"] * 4 + ["z-faces", "x-faces", "y-faces"]
     for v, var in enumerate(thermodata.keys()):
         if thermodata[var] != []:
@@ -249,7 +252,8 @@ def write_thermodynamics_binary(
                 + str(inputs["ntime"])
                 + " time steps)"
             )
-            filename = filestem + "_" + var + filetype
+            filename = f"{thermofiles.stem}_{var}{thermofiles.suffix}"
+            filename = thermofiles.parent / filename
             writebinary.writebinary(
                 filename,
                 thermodata[var],

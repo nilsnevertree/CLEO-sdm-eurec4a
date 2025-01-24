@@ -25,10 +25,10 @@
 inputfiles:
   constants_filename: ../libs/cleoconstants.hpp
   grid_filename:
-    /home/m/m301096/CLEO/build_eurec4a1D_evolving/share/eurec4a1d_ddimlessGBxboundaries.dat
+    /home/m/m301096/CLEO/build_eurec4a1d_evolving/share/eurec4a1d_ddimlessGBxboundaries.dat
 initsupers:
   type: frombinary
-  initsupers_filename: /home/m/m301096/CLEO/build_eurec4a1D_evolving/share/eurec4a1d_dimlessSDsinit.dat
+  initsupers_filename: /home/m/m301096/CLEO/build_eurec4a1d_evolving/share/eurec4a1d_dimlessSDsinit.dat
   totnsupers: 512
 outputdata:
   setup_filename:
@@ -61,13 +61,13 @@ microphysics:
 coupled_dynamics:
   type: fromfile
   press:
-    /home/m/m301096/CLEO/build_eurec4a1D_evolving/share/eurec4a1d_dimlessthermo_press.dat
+    /home/m/m301096/CLEO/build_eurec4a1d_evolving/share/eurec4a1d_dimlessthermo_press.dat
   temp:
-    /home/m/m301096/CLEO/build_eurec4a1D_evolving/share/eurec4a1d_dimlessthermo_temp.dat
+    /home/m/m301096/CLEO/build_eurec4a1d_evolving/share/eurec4a1d_dimlessthermo_temp.dat
   qvap:
-    /home/m/m301096/CLEO/build_eurec4a1D_evolving/share/eurec4a1d_dimlessthermo_qvap.dat
+    /home/m/m301096/CLEO/build_eurec4a1d_evolving/share/eurec4a1d_dimlessthermo_qvap.dat
   qcond:
-    /home/m/m301096/CLEO/build_eurec4a1D_evolving/share/eurec4a1d_dimlessthermo_qcond.dat
+    /home/m/m301096/CLEO/build_eurec4a1d_evolving/share/eurec4a1d_dimlessthermo_qcond.dat
   wvel:
-    /home/m/m301096/CLEO/build_eurec4a1D_evolving/share/eurec4a1d_dimlessthermo_wvel.dat
-  thermo: /home/m/m301096/CLEO/build_eurec4a1D_evolving/share/eurec4a1d_dimlessthermo.dat
+    /home/m/m301096/CLEO/build_eurec4a1d_evolving/share/eurec4a1d_dimlessthermo_wvel.dat
+  thermo: /home/m/m301096/CLEO/build_eurec4a1d_evolving/share/eurec4a1d_dimlessthermo.dat
