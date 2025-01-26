@@ -12,18 +12,18 @@ message("PROJECT_SOURCE_DIR: ${PROJECT_SOURCE_DIR}")
 set(CLEOLIBS gridboxes initialise observers runcleo superdrops zarr)
 
 # create primary executable for CLEO in 1-D coupled to thermodynamics from file setup
-add_executable(eurec4a1D_collision_condensation EXCLUDE_FROM_ALL "main_eurec4a1D.cpp")
+add_executable(eurec4a1d_collision_condensation EXCLUDE_FROM_ALL "main_eurec4a1D.cpp")
 
 # Add directories and link libraries to target
-target_link_libraries(eurec4a1D_collision_condensation PRIVATE coupldyn_fromfile cartesiandomain "${CLEOLIBS}")
-target_link_libraries(eurec4a1D_collision_condensation PUBLIC Kokkos::kokkos)
-target_include_directories(eurec4a1D_collision_condensation PRIVATE "${CLEO_SOURCE_DIR}/libs") # CLEO libs directory
+target_link_libraries(eurec4a1d_collision_condensation PRIVATE coupldyn_fromfile cartesiandomain "${CLEOLIBS}")
+target_link_libraries(eurec4a1d_collision_condensation PUBLIC Kokkos::kokkos)
+target_include_directories(eurec4a1d_collision_condensation PRIVATE "${CLEO_SOURCE_DIR}/libs") # CLEO libs directory
 
 # set specific C++ compiler options for target (optional)
-#target_compile_options(eurec4a1D_collision_condensation PRIVATE)
+#target_compile_options(eurec4a1d_collision_condensation PRIVATE)
 
 # set compiler properties for target(s)
-set_target_properties(eurec4a1D_collision_condensation PROPERTIES
+set_target_properties(eurec4a1d_collision_condensation PROPERTIES
   CMAKE_CXX_STANDARD_REQUIRED ON
   CMAKE_CXX_EXTENSIONS ON
   CXX_STANDARD 20)
