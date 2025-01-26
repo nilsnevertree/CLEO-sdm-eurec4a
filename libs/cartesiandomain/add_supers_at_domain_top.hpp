@@ -24,10 +24,8 @@
 #define LIBS_CARTESIANDOMAIN_ADD_SUPERS_AT_DOMAIN_TOP_HPP_
 
 #include <Kokkos_Core.hpp>
-#include <algorithm>
 #include <array>
 #include <cmath>
-#include <cstdint>
 #include <memory>
 #include <numbers>
 #include <random>

@@ -26,7 +26,6 @@
 #include <Kokkos_Core.hpp>
 #include <cassert>
 #include <concepts>
-#include <cstdint>
 #include <memory>
 #include <string>
 #include <string_view>
@@ -38,7 +37,7 @@
 #include "observers/generic_collect_data.hpp"
 #include "observers/write_to_dataset_observer.hpp"
 #include "superdrops/superdrop.hpp"
-#include "zarr/collective_dataset.hpp"
+#include "zarr/dataset.hpp"
 
 /**
  * @brief A struct for collecting ragged count data.

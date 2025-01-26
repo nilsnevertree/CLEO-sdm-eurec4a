@@ -31,7 +31,6 @@
 #include <string_view>
 #include <unordered_map>
 #include <vector>
-#include <mpi.h>
 
 #include "zarr/xarray_metadata.hpp"
 #include "zarr/zarr_array.hpp"
@@ -161,13 +160,10 @@ class XarrayZarrArray {
         last_totnchunks(0) {
     assert((chunkshape.size() == dimnames.size()) &&
            "number of named dimensions of array must match number dimensions of chunks");
-    int my_rank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
 
-    if (my_rank == 0) {
-      write_arrayshape(datasetdims);
-      write_zattrs_json(store, name, xarray_metadata<T>(units, scale_factor, dimnames));
-    }
+    write_arrayshape(datasetdims);
+
+    write_zattrs_json(store, name, xarray_metadata<T>(units, scale_factor, dimnames));
   }
 
   /**
@@ -193,22 +189,12 @@ class XarrayZarrArray {
         last_totnchunks(0) {
     assert((chunkshape.size() == dimnames.size()) &&
            "number of named dimensions of array must match number dimensions of chunks");
-    int my_rank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
 
-    if (my_rank == 0) {
-        write_zattrs_json(store, name,
-                          xarray_metadata<T>(units, scale_factor, dimnames, sampledimname));
-    }
+    write_zattrs_json(store, name,
+                      xarray_metadata<T>(units, scale_factor, dimnames, sampledimname));
   }
 
-  ~XarrayZarrArray() {
-    int my_rank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
-
-    if (my_rank == 0)
-      zarr.write_arrayshape(arrayshape);
-  }
+  ~XarrayZarrArray() { zarr.write_arrayshape(arrayshape); }
 
   /**
    * @brief Returns the name and size of the dimensions of the array (unordered).
@@ -222,10 +208,6 @@ class XarrayZarrArray {
     }
 
     return arraydims;
-  }
-
-  std::vector<std::string> get_dimnames() const {
-    return dimnames;
   }
 
   /**

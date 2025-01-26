@@ -27,7 +27,6 @@
 #include <Kokkos_Core.hpp>
 #include <Kokkos_MathematicalConstants.hpp>  // for pi
 #include <cassert>
-#include <cstdint>
 
 #include "../cleoconstants.hpp"
 
@@ -89,15 +88,8 @@ struct SuperdropAttrs {
    */
   KOKKOS_FUNCTION
   SuperdropAttrs(const SoluteProperties solute, const uint64_t xi, const double radius,
-                 const double msol, const bool allow_nans = false)
-      : solute(solute), xi(xi), radius(radius), msol(msol) {
-    if (!allow_nans) {
-      // if un-real superdroplets are not allowed check setter functions succeed
-      set_xi(xi);
-      set_radius(radius);
-      set_msol(msol);
-    }
-  }
+                 const double msol)
+      : solute(solute), xi(xi), radius(radius), msol(msol) {}
 
   /**
    * @brief Check if solute is present.

@@ -25,7 +25,6 @@
 
 #include <yaml-cpp/yaml.h>
 
-#include <Kokkos_Core.hpp>
 #include <cassert>
 #include <filesystem>
 #include <iostream>
@@ -49,10 +48,6 @@ struct OptionalConfigParams {
   /* read configuration file given by config_filename to set members of required configuration */
   explicit OptionalConfigParams(const std::filesystem::path config_filename);
 
-  void set_kokkos_settings(const YAML::Node& config);
-
-  void print_kokkos_settings() const;
-
   void set_initsupers(const YAML::Node& config);
 
   void set_microphysics(const YAML::Node& config);
@@ -60,10 +55,6 @@ struct OptionalConfigParams {
   void set_coupled_dynamics(const YAML::Node& config);
 
   void set_boundary_conditions(const YAML::Node& config);
-
-  /*** Kokkos Initialization Parameters ***/
-  bool is_default_kokkos_settings = true;         /**< true = default kokkos initialization */
-  Kokkos::InitializationSettings kokkos_settings; /**< is default unless config */
 
   /*** Super-Droplet Microphysics Parameters ***/
   struct CondensationParams {
@@ -73,7 +64,7 @@ struct OptionalConfigParams {
     size_t maxniters = NaNVals::sizet(); /**< maximum no. iterations of Newton Raphson Method */
     double MINSUBTSTEP = NaNVals::dbl(); /**< minimum subtimestep in cases of substepping [s] */
     double rtol = NaNVals::dbl();        /**< relative tolerance for implicit Euler integration */
-    double atol = NaNVals::dbl();        /**< absolute tolerance for implicit Euler integration */
+    double atol = NaNVals::dbl();        /**< abolute tolerance for implicit Euler integration */
   } condensation;
 
   struct BreakupParams {

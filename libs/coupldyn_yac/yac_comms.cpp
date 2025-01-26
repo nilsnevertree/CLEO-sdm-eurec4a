@@ -1,15 +1,13 @@
-/*
- * Copyright (c) 2024 MPI-M, Clara Bayley
- *
+/* Copyright (c) 2023 MPI-M, Clara Bayley
  *
  * ----- CLEO -----
- * File: yac_comms.cpp
+ * File: yaccomms.cpp
  * Project: coupldyn_yac
- * Created Date: Friday 3rd May 2024
- * Author: Wilton Loch (WL)
- * Additional Contributors:  Clara Bayley (CB)
+ * Created Date: Tuesday 31st October 2023
+ * Author: Clara Bayley (CB)
+ * Additional Contributors:
  * -----
- * Last Modified: Friday 16th August 2024
+ * Last Modified: Tuesday 7th November 2023
  * Modified By: CB
  * -----
  * License: BSD 3-Clause "New" or "Revised" License
@@ -27,12 +25,9 @@
 from YacDynamics solver for 1-way coupling to CLEO SDM.
 Kokkos::parallel_for([...]) (on host) is equivalent to:
 for (size_t ii(0); ii < ngbxs; ++ii){[...]}
-when in serial
-// TODO(ALL): make ii indexing compatible with MPI domain decomposition
-*/
-template <typename GbxMaps, typename CD>
-void YacComms::receive_dynamics(const GbxMaps &gbxmaps, const YacDynamics &ffdyn,
-                                const viewh_gbx h_gbxs) const {
+when in serial */
+template <typename CD>
+void YacComms::receive_dynamics(const YacDynamics &ffdyn, const viewh_gbx h_gbxs) const {
   const size_t ngbxs(h_gbxs.extent(0));
 
   Kokkos::parallel_for(
@@ -43,7 +38,8 @@ void YacComms::receive_dynamics(const GbxMaps &gbxmaps, const YacDynamics &ffdyn
 /* updates the state of a gridbox using information
 received from YacDynamics solver for 1-way
 coupling to CLEO SDM */
-void YacComms::update_gridbox_state(const YacDynamics &ffdyn, const size_t ii, Gridbox &gbx) const {
+void YacComms::update_gridbox_state(const YacDynamics &ffdyn, const size_t ii,
+                                         Gridbox &gbx) const {
   State &state(gbx.state);
 
   state.press = ffdyn.get_press(ii);
@@ -56,10 +52,8 @@ void YacComms::update_gridbox_state(const YacDynamics &ffdyn, const size_t ii, G
   state.vvel = ffdyn.get_vvel(ii);
 }
 
-template void YacComms::send_dynamics<CartesianMaps, YacDynamics>(const CartesianMaps &,
-                                                                  const viewh_constgbx,
-                                                                  YacDynamics &) const;
+template void YacComms::send_dynamics<YacDynamics>(const viewh_constgbx,
+                                                             YacDynamics &) const;
 
-template void YacComms::receive_dynamics<CartesianMaps, YacDynamics>(const CartesianMaps &,
-                                                                     const YacDynamics &,
-                                                                     const viewh_gbx) const;
+template void YacComms::receive_dynamics<YacDynamics>(const YacDynamics &,
+                                                                const viewh_gbx) const;

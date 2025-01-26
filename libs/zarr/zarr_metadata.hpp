@@ -22,11 +22,9 @@
 #ifndef LIBS_ZARR_ZARR_METADATA_HPP_
 #define LIBS_ZARR_ZARR_METADATA_HPP_
 
-#include <cstdint>
 #include <string>
 #include <string_view>
 #include <vector>
-#include <cstdint>
 
 /**
  * @brief Converts a vector of integers into a single list written as a string.

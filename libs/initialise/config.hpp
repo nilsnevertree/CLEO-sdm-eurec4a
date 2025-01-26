@@ -66,21 +66,17 @@ struct Config {
 
   std::filesystem::path get_grid_filename() const { return required.inputfiles.grid_filename; }
 
+  std::filesystem::path get_stats_filename() const { return required.outputdata.stats_filename; }
+
   std::filesystem::path get_zarrbasedir() const { return required.outputdata.zarrbasedir; }
 
   size_t get_maxchunk() const { return required.outputdata.maxchunk; }
-
-  size_t get_maxnsupers() const { return required.domain.maxnsupers; }
 
   unsigned int get_nspacedims() const { return required.domain.nspacedims; }
 
   size_t get_ngbxs() const { return required.domain.ngbxs; }
 
   RequiredConfigParams::TimestepsParams get_timesteps() const { return required.timesteps; }
-
-  Kokkos::InitializationSettings get_kokkos_initialization_settings() const {
-    return optional.kokkos_settings;
-  };
 
   OptionalConfigParams::CondensationParams get_condensation() const {
     return optional.condensation;

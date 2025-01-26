@@ -33,7 +33,7 @@
 #include "observers/observers.hpp"
 #include "observers/parallel_write_data.hpp"
 #include "superdrops/sdmmonitor.hpp"
-#include "zarr/collective_dataset.hpp"
+#include "zarr/dataset.hpp"
 
 /**
  * @class DoWriteToDataset

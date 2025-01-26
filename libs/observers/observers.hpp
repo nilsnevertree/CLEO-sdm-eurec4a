@@ -108,7 +108,8 @@ struct CombinedObserver {
     const auto t_a = a.next_obs(t_mdl);
     const auto t_b = b.next_obs(t_mdl);
 
-    return Kokkos::min(t_a, t_b);
+    /* return smaller of two unsigned ints (see std::min) */
+    return !(t_a < t_b) ? t_b : t_a;
   }
 
   /**

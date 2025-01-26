@@ -9,7 +9,7 @@
  * Author: Clara Bayley (CB)
  * Additional Contributors:
  * -----
- * Last Modified: Saturday 17th August 2024
+ * Last Modified: Friday 21st June 2024
  * Modified By: CB
  * -----
  * License: BSD 3-Clause "New" or "Revised" License
@@ -24,11 +24,6 @@
 /* read configuration file given by config_filename to set members of required configuration */
 OptionalConfigParams::OptionalConfigParams(const std::filesystem::path config_filename) {
   const YAML::Node config = YAML::LoadFile(std::string{config_filename});
-
-  if (config["kokkos_settings"]) {
-    set_kokkos_settings(config);
-  }
-  print_kokkos_settings();
 
   if (config["microphysics"]) {
     set_microphysics(config);
@@ -45,40 +40,6 @@ OptionalConfigParams::OptionalConfigParams(const std::filesystem::path config_fi
   if (config["boundary_conditions"]) {
     set_boundary_conditions(config);
   }
-}
-
-void OptionalConfigParams::set_kokkos_settings(const YAML::Node &config) {
-  const YAML::Node node = config["kokkos_settings"];
-
-  if (node["num_threads"]) {
-    kokkos_settings.set_num_threads(node["num_threads"].as<int>());
-    is_default_kokkos_settings = false;
-  }
-
-  if (node["device_id"]) {
-    kokkos_settings.set_device_id(node["device_id"].as<int>());
-    is_default_kokkos_settings = false;
-  }
-
-  if (node["map_device_id_by"]) {
-    kokkos_settings.set_map_device_id_by(node["map_device_id_by"].as<std::string>());
-    is_default_kokkos_settings = false;
-  }
-}
-
-void OptionalConfigParams::print_kokkos_settings() const {
-  std::cout << "\n-------- Kokkos Configuration Parameters --------------"
-            << "\nusing default kokkos settings (bool): " << is_default_kokkos_settings;
-  if (kokkos_settings.has_num_threads()) {
-    std::cout << "\nnum_threads: " << kokkos_settings.get_num_threads();
-  }
-  if (kokkos_settings.has_device_id()) {
-    std::cout << "\ndevice_id: " << kokkos_settings.get_device_id();
-  }
-  if (kokkos_settings.has_map_device_id_by()) {
-    std::cout << "\nmap_device_id_by: " << kokkos_settings.get_map_device_id_by();
-  }
-  std::cout << "\n---------------------------------------------------------\n";
 }
 
 void OptionalConfigParams::set_microphysics(const YAML::Node &config) {
@@ -247,10 +208,17 @@ void OptionalConfigParams::YacDynamicsParams::set_params(const YAML::Node &confi
 
   assert((node["type"].as<std::string>() == "yac"));
 
-  lower_longitude = node["lower_longitude"].as<double>();
-  upper_longitude = node["upper_longitude"].as<double>();
-  lower_latitude = node["lower_latitude"].as<double>();
-  upper_latitude = node["upper_latitude"].as<double>();
+  if (node["lower_longitude"])
+    lower_longitude = node["lower_longitude"].as<double>();
+
+  if (node["upper_longitude"])
+    upper_longitude = node["upper_longitude"].as<double>();
+
+  if (node["lower_latitude"])
+    lower_latitude = node["lower_latitude"].as<double>();
+
+  if (node["upper_latitude"])
+    upper_latitude = node["upper_latitude"].as<double>();
 }
 
 void OptionalConfigParams::YacDynamicsParams::print_params() const {

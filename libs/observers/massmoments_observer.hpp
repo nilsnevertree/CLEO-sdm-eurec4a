@@ -26,7 +26,6 @@
 #include <Kokkos_Core.hpp>
 #include <cassert>
 #include <concepts>
-#include <cstdint>
 
 #include "../cleoconstants.hpp"
 #include "../kokkosaliases.hpp"
@@ -37,7 +36,7 @@
 #include "observers/observers.hpp"
 #include "observers/write_to_dataset_observer.hpp"
 #include "superdrops/superdrop.hpp"
-#include "zarr/collective_dataset.hpp"
+#include "zarr/dataset.hpp"
 
 /**
  * @brief Performs calculation of 0th, 1st, and 2nd moments of the (real)
