@@ -1,15 +1,16 @@
 #!/bin/bash
 #SBATCH --job-name=e1d_run_CLEO
-#SBATCH --partition=gpu
+#SBATCH --partition=cpu
 #SBATCH --nodes=1
-#SBATCH --gpus=1
 #SBATCH --mem=5G
-#SBATCH --time=00:15:00
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=128
+#SBATCH --time=00:25:00
 #SBATCH --mail-user=nils-ole.niebaumy@mpimet.mpg.de
 #SBATCH --mail-type=FAIL
 #SBATCH --account=mh1126
-#SBATCH --output=./logfiles/run_CLEO/%A/%A_%a_out.out
-#SBATCH --error=./logfiles/run_CLEO/%A/%A_%a_err.out
+#SBATCH --output=./logfiles/run_CLEO_openmp/%A/%A_%a_out.out
+#SBATCH --error=./logfiles/run_CLEO_openmp/%A/%A_%a_err.out
 #SBATCH --array=0-127
 
 ### ---------------------------------------------------- ###
@@ -28,9 +29,6 @@ echo "============================================"
 
 ### ------------------ Load Modules -------------------- ###
 source ${HOME}/.bashrc
-env=/work/mh1126/m301096/conda/envs/sdm_pysd_env312
-conda activate ${env}
-spack load cmake@3.23.1%gcc
 ### ---------------------------------------------------- ###
 
 # the following paths will be given by the master submit scrip, which sets the slurm array size in this script too.
@@ -38,6 +36,10 @@ echo "init microphysics: ${microphysics}"    # microphysics setup
 echo "init path2CLEO: ${path2CLEO}"          # path to the CLEO directory
 echo "init path2data: ${path2data}"          # path to the data directory with subdirectories for each microphysics setup
 echo "init path2build: ${path2build}"        # path to the build directory
+
+action='run'
+path2yac=/work/bm1183/m300950/yacyaxt
+
 
 # some example paths which could be used for testing
 # path2CLEO=${HOME}/CLEO/
@@ -171,9 +173,101 @@ echo "Current directory: $(pwd)"
 
 echo "============================================"
 echo "Run CLEO in ${directory_individual}"
-# Execute the executable
-echo "Executing executable ${executable} with config file ${config_file_path}"
-${path2exec} ${config_file_path}
+
+
+# ------------- RUN --------------------- #
+
+if [ "${action}" == "run" ]
+then
+    cd ${path2build}
+
+    set -e
+    module purge
+    spack unload --all
+    # note version of python must match the YAC python bindings (e.g. module load python3/2022.01-gcc-11.2.0)
+    module load openmpi/4.1.2-gcc-11.2.0 # same mpi as loaded for the build
+    ### ----------------- load Python ------------------------ ###
+    spack load python@3.9.9%gcc@=11.2.0/fwv
+    spack load py-cython@0.29.33%gcc@=11.2.0/j7b4fa
+    spack load py-mpi4py@3.1.2%gcc@=11.2.0/hdi5yl6
+    ### ------------------------------------------------------ ###
+
+    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/sw/spack-levante/libfyaml-0.7.12-fvbhgo/lib
+    export PYTHONPATH=${PYTHONPATH}:${path2yac}/yac/python # path to python bindings
+
+    export OMP_PROC_BIND=spread
+    export OMP_PLACES=threads
+
+
+    ### ---------------------------------------------------- ###
+    ### ---------------------------------------------------- ###
+    ### ---------------------------------------------------- ###
+
+    ### ---------- build, compile and run example ---------- ###
+    ${path2CLEO}/examples/run_example.sh \
+    ${buildtype} ${path2CLEO} ${path2build} ${enableyac} \
+    "${executables}" ${pythonscript} "${script_args}"
+    ### ---------------------------------------------------- ###
+
+    buildtype="openmp"
+    enableyac=false
+
+    path2CLEO=${path2CLEO}
+    path2build=${path2build}
+
+    cleoenv=/work/bm1183/m300950/bin/envs/cleoenv
+    python=${cleoenv}/bin/python3
+    enabledebug=false
+    make_clean=false
+    yacyaxtroot=/work/bm1183/m300950/yacyaxt
+    stacksize_limit=204800 # ulimit -s [stacksize_limit] (kB)
+
+    if [ "${buildtype}" == "cuda" ]
+    then
+    compilername=gcc
+    else
+    compilername=intel
+    fi
+    ### ---------------------------------------------------- ###
+    ### ---------------------------------------------------- ###
+    ### ---------------------------------------------------- ###
+
+    ### -------------------- print inputs ------------------ ###
+    echo "----- Running Example -----"
+    echo "buildtype = ${buildtype}"
+    echo "compilername = ${compilername}"
+    echo "path2CLEO = ${path2CLEO}"
+    echo "path2build = ${path2build}"
+    echo "enableyac = ${enableyac}"
+    echo "---------------------------"
+    ### ---------------------------------------------------- ###
+
+
+    ### --------- run model  ---------- ###
+    export CLEO_PATH2CLEO=${path2CLEO}
+    export CLEO_BUILDTYPE=${buildtype}
+    export CLEO_ENABLEYAC=${enableyac}
+    source ${path2CLEO}/scripts/bash/src/runtime_settings.sh ${stacksize_limit}
+
+
+
+
+
+    executable2run=${path2exec}
+    configfile=${config_file_path}
+    stacksize_limit=${stacksize_limit} # kB
+    bashsrc=${CLEO_PATH2CLEO}/scripts/bash/src
+    ### -------------------- check inputs ------------------ ###
+    source ${bashsrc}/check_inputs.sh
+    check_args_not_empty "${executable2run}" "${configfile}" "${CLEO_ENABLEYAC}"
+    ### ---------------------------------------------------- ###
+
+    ### ----------------- run executable --------------- ###
+    source ${bashsrc}/runtime_settings.sh ${stacksize_limit}
+    runcmd="${executable2run} ${configfile}"
+    echo ${runcmd}
+    eval ${runcmd}
+    ### ---------------------------------------------------- ###
 
 echo "============================================"
 date
