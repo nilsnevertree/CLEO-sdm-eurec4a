@@ -39,7 +39,7 @@ mkdir ${path2build}
 mkdir ${path2build}/bin
 
 # executables="eurec4a1d_null_microphysics eurec4a1d_condensation eurec4a1d_collision_condensation eurec4a1d_coalbure_condensation_small eurec4a1d_coalbure_condensation_large eurec4a1d_coalbure_condensation_cke"
-executables="eurec4a1d_condensation"
+executables="eurec4a1d_null_microphysics"
 enabledebug=false # as defined by Kokkos configuration; see below
 enableyac=false # as defined by YAC flags; see below
 yacyaxtroot=/work/bm1183/m300950/yacyaxt
