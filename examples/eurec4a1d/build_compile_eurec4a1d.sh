@@ -32,14 +32,14 @@ compile=true
 buildtype="openmp" # as defined by Kokkos configuration; see below
 compilername="intel" # as defined by Kokkos configuration; see below
 path2CLEO=${HOME}/CLEO/
-path2build=${HOME}/CLEO/build_eurec4a1d_openmpi/
+path2build=${HOME}/CLEO/build_eurec4a1d_openmp/
 
 rm -r ${path2build}
 mkdir ${path2build}
 mkdir ${path2build}/bin
 
-executables="eurec4a1d_null_microphysics eurec4a1d_condensation eurec4a1d_collision_condensation eurec4a1d_coalbure_condensation_small eurec4a1d_coalbure_condensation_large eurec4a1d_coalbure_condensation_cke"
-# executables="eurec4a1d_condensation"
+# executables="eurec4a1d_null_microphysics eurec4a1d_condensation eurec4a1d_collision_condensation eurec4a1d_coalbure_condensation_small eurec4a1d_coalbure_condensation_large eurec4a1d_coalbure_condensation_cke"
+executables="eurec4a1d_condensation"
 enabledebug=false # as defined by Kokkos configuration; see below
 enableyac=false # as defined by YAC flags; see below
 yacyaxtroot=/work/bm1183/m300950/yacyaxt

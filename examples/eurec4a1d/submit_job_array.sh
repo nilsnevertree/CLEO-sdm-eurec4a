@@ -42,7 +42,7 @@ microphysics="coalbure_condensation_large"
 path2CLEO="/home/m/m301096/CLEO/"
 path2data=${path2CLEO}/data/output_v4.1/
 path2microphysics=${path2data}/${microphysics}
-path2build=${path2CLEO}/build_eurec4a1d_openmpi/
+path2build=${path2CLEO}/build_eurec4a1d_openmp/
 # config_directory="/home/m/m301096/repositories/sdm-eurec4a/data/model/input/output_v3.0/"
 
 # --------------------------------
