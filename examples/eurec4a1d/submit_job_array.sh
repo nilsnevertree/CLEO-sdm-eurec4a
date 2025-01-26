@@ -40,9 +40,9 @@ microphysics="coalbure_condensation_large"
 # Set paths
 # --------------------------------
 path2CLEO="/home/m/m301096/CLEO/"
-path2data=${path2CLEO}/data/output_v4.0/
+path2data=${path2CLEO}/data/output_v4.1/
 path2microphysics=${path2data}/${microphysics}
-path2build=${path2CLEO}/build_eurec4a1d/
+path2build=${path2CLEO}/build_eurec4a1d_openmpi/
 # config_directory="/home/m/m301096/repositories/sdm-eurec4a/data/model/input/output_v3.0/"
 
 # --------------------------------
@@ -60,29 +60,6 @@ echo "--------------------------------"
 
 # =================================
 # CREATE INIT
-if [ "$create_init" == true ]; then
-    echo "Create initial files for EUREC4A1D"
-    echo "create_script_path: ${create_script_path}"
-
-    files=(${config_directory}/*.yaml)
-    number_of_files=${#files[@]}
-    # job array ranges from 0 - max_number
-    max_number=$(($number_of_files - 1))
-    echo "Number of files and slurm array: ${number_of_files}"
-
-    # Update --array=0-max_number
-    sed -i "s/#SBATCH --array=.*/#SBATCH --array=0-${max_number}/" "$create_script_path"
-    # Update --ntasks-per-node=1
-    sed -i "s/#SBATCH --ntasks-per-node=.*/#SBATCH --ntasks-per-node=1/" "$create_script_path"
-
-    JOBID_create=$(\
-        sbatch --export=microphysics=${microphysics},path2CLEO=${path2CLEO},path2data=${path2data},config_directory=${config_directory} \
-        ${create_script_path}\
-        )
-
-    echo "JOBID: ${JOBID_create}"
-fi
-
 # =================================
 # PURE RUN
 if [ "$run" == true ]; then
@@ -93,7 +70,7 @@ if [ "$run" == true ]; then
     # echo "Directories: ${directories[@]}"
     # job array ranges from 0 - max_number
     number_of_directories=${#directories[@]}
-    # number_of_directories=8
+    number_of_directories=2
     max_number=$(($number_of_directories - 1))
 
     echo "Number of directories and slurm array: ${number_of_directories}"
