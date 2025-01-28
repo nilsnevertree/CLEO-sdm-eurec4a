@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=e1d_build_compile_CLEO
+#SBATCH --job-name=e1d_CLEO_full_workflow
 #SBATCH --partition=compute
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=128
@@ -8,8 +8,8 @@
 #SBATCH --mail-user=nils-ole.niebaumy@mpimet.mpg.de
 #SBATCH --mail-type=FAIL
 #SBATCH --account=um1487
-#SBATCH --output=/home/m/m301096/CLEO/examples/eurec4a1d/logfiles/build_compile_CLEO/%j/%j_out.out
-#SBATCH --error=/home/m/m301096/CLEO/examples/eurec4a1d/logfiles/build_compile_CLEO/%j/%j_err.out
+#SBATCH --output=/home/m/m301096/CLEO/examples/eurec4a1d/logfiles/full_workflow/%j/%j_out.out
+#SBATCH --error=/home/m/m301096/CLEO/examples/eurec4a1d/logfiles/full_workflow/%j/%j_err.out
 
 echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
 echo "START RUN"
@@ -29,7 +29,7 @@ run=true
 
 # directory parameters
 path2CLEO=${HOME}/CLEO/
-path2build=${HOME}/CLEO/build_eurec4a1d_openmp/
+path2build=${HOME}/CLEO/build_v0.30.1/
 
 # activate scripts
 source ${HOME}/.bashrc
@@ -41,11 +41,11 @@ run_script_path=${path2CLEO}/examples/eurec4a1d/scripts/run_job_array_eurec4a1d.
 path2data=${path2CLEO}/data/output_v4.1/
 subdir_pattern="cluster*"
 
-microphysics="null_microphysics"
+# microphysics="null_microphysics"
 # microphysics="condensation"
 # microphysics="collision_condensation"
 # microphysics="coalbure_condensation_small"
-# microphysics="coalbure_condensation_large"
+microphysics="coalbure_condensation_large"
 # microphysics="coalbure_condensation_cke"
 
 executable_name="eurec4a1d_${microphysics}"
@@ -130,13 +130,17 @@ echo "### ------------------------------------------- ###"
 ### ---------------------------------------------------- ###
 
 ### --------------------- build CLEO ------------------- ###
-if [ "$build_clean" == true ]; then
-  rm -r ${CLEO_PATH2BUILD}
-  mkdir ${CLEO_PATH2BUILD}
-  mkdir ${CLEO_PATH2BUILD}/bin
-fi
+
 
 if [ "$build" == true ]; then
+  # remove build directory if build_clean is true and create a new empty build directory
+  if [ "$build_clean" == true ]; then
+    if [ -d "$CLEO_PATH2BUILD" ]; then
+      rm -Rf $CLEO_PATH2BUILD
+      mkdir ${CLEO_PATH2BUILD}
+      mkdir ${CLEO_PATH2BUILD}/bin
+    fi
+  fi
   echo "Build CLEO"
   buildcmd="${CLEO_PATH2CLEO}/scripts/bash/build_cleo.sh"
   echo ${buildcmd}
