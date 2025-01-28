@@ -1,7 +1,8 @@
 # %%
 import sys
-import shutil
-import yaml
+import ruamel.yaml
+
+yaml = ruamel.yaml.YAML()
 import math
 from typing import Union, Tuple
 from io import StringIO
@@ -272,24 +273,26 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
     logging.info(f"Read default config file from {origin_config_file_path}")
     # CREATE A CONFIG FILE TO BE UPDATED
     with open(origin_config_file_path, "r") as f:
-        eurec4a1d_config = yaml.safe_load(f)
+        eurec4a1d_config = yaml.load(f)
 
     # update breakup in eurec4a1d_config file if breakup file is given:
     logging.info(f"Read breakup config file from {breakup_config_file_path}")
     if breakup_config_file_path is not None:
         with open(breakup_config_file_path, "r") as f:
-            breakup_config = yaml.safe_load(f)
+            breakup_config = yaml.load(f)
         eurec4a1d_config["microphysics"].update(breakup_config)
 
     individual_output_dir_path = output_dir_path / f"{subfolder_prefix}{cloud_id}"
     individual_output_dir_path.mkdir(exist_ok=True, parents=False)
 
-    logging.info(f"Copy config file to {individual_output_dir_path}")
+    # copy config files to the individual output directory
     config_dir_path = individual_output_dir_path / "config"
     config_dir_path.mkdir(exist_ok=True, parents=False)
     # copy the cloud config file to the raw directory and use it
     config_file_path = config_dir_path / "eurec4a1d_config.yaml"
-    shutil.copy(origin_config_file_path, config_file_path)
+    logging.info(f"Copy config file to {config_file_path}")
+    with open(config_file_path, "w") as f:
+        yaml.dump(eurec4a1d_config, f)
 
     logging.info(f"Create share directory {individual_output_dir_path}")
     share_path_individual = individual_output_dir_path / "share"
@@ -297,56 +300,53 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
 
     # --- INPUT DATA ---
     logging.info("Update input data in config file")
+
+    grid_file_path = share_path_individual / "eurec4a1d_ddimlessGBxboundaries.dat"
+    init_superdroplets_file_path = (
+        share_path_individual / "eurec4a1d_dimlessSDsinit.dat"
+    )
+    thermodynamics_file_path = share_path_individual / "eurec4a1d_dimlessthermo.dat"
+
+    setup_file_path = config_dir_path / "eurec4a1d_setup.txt"
+    stats_file_path = config_dir_path / "eurec4a1d_stats.txt"
+    dataset_file_path = individual_output_dir_path / "eurec4a1d_sol.zarr"
+
+    thermofile_dict = dict(
+        [
+            (
+                var,
+                (
+                    share_path_individual / f"eurec4a1d_dimlessthermo_{var}.dat"
+                ).as_posix(),
+            )
+            for var in ["press", "temp", "qvap", "qcond", "wvel"]
+        ]
+    )
+
     # coupling dynamics files
     eurec4a1d_config["coupled_dynamics"].update(
-        **dict(
-            type="fromfile",  # type of coupled dynamics to configure
-            # binary filename for pressure
-            press=str(share_path_individual / "eurec4a1d_dimlessthermo_press.dat"),
-            # binary filename for temperature
-            temp=str(share_path_individual / "eurec4a1d_dimlessthermo_temp.dat"),
-            # binary filename for vapour mixing ratio
-            qvap=str(share_path_individual / "eurec4a1d_dimlessthermo_qvap.dat"),
-            # binary filename for liquid mixing ratio
-            qcond=str(share_path_individual / "eurec4a1d_dimlessthermo_qcond.dat"),
-            # binary filename for vertical (coord3) velocity
-            wvel=str(share_path_individual / "eurec4a1d_dimlessthermo_wvel.dat"),
-            # binary filename for thermodynamic profiles
-            thermo=str(share_path_individual / "eurec4a1d_dimlessthermo.dat"),
-        )
+        thermo=thermodynamics_file_path.as_posix(),  # binary filename for thermodynamic profiles
+        **thermofile_dict,
     )
 
     # input files of gridbox boundaries and initial superdroplets
     eurec4a1d_config["inputfiles"].update(
-        # binary filename for initialisation of GBxs / GbxMaps
-        grid_filename=str(
-            share_path_individual / "eurec4a1d_ddimlessGBxboundaries.dat"
-        ),
-        # filename for constants
-        constants_filename=str(path2CLEO / "libs/cleoconstants.hpp"),
+        grid_filename=grid_file_path.as_posix(),  # binary filename for initialisation of GBxs / GbxMaps
+        constants_filename=constants_file_path.as_posix(),  # filename for constants
     )
     eurec4a1d_config["initsupers"].update(
-        # binary filename for initial superdroplets
-        initsupers_filename=str(share_path_individual / "eurec4a1d_dimlessSDsinit.dat")
+        initsupers_filename=init_superdroplets_file_path.as_posix()  # binary filename for initial superdroplets
     )
-
-    grid_file_path = eurec4a1d_config["inputfiles"]["grid_filename"]
-    init_superdroplets_file_path = eurec4a1d_config["initsupers"]["initsupers_filename"]
-    thermodynamics_file_path = eurec4a1d_config["coupled_dynamics"]["thermo"]
 
     # --- OUTPUT DATA ---
     logging.info("Update output data in config file")
     eurec4a1d_config["outputdata"].update(
-        setup_filename=str(config_dir_path / "eurec4a1d_setup.txt"),
-        stats_filename=str(config_dir_path / "eurec4a1d_stats.txt"),
-        zarrbasedir=str(individual_output_dir_path / "eurec4a1d_sol.zarr"),
+        setup_filename=setup_file_path.as_posix(),  # filename for setup file
+        stats_filename=stats_file_path.as_posix(),  # filename for stats file
+        zarrbasedir=dataset_file_path.as_posix(),  # base directory for zarr output
     )
 
-    editconfigfile.edit_config_params(str(config_file_path), eurec4a1d_config)
-
-    setup_file_path = eurec4a1d_config["outputdata"]["setup_filename"]
-    stats_file_path = eurec4a1d_config["outputdata"]["stats_filename"]
-    dataset_file_path = eurec4a1d_config["outputdata"]["zarrbasedir"]
+    editconfigfile.edit_config_params(config_file_path, eurec4a1d_config)
 
     ### --- settings for 1-D gridbox boundaries --- ###
     # only use integer precision
@@ -398,30 +398,32 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
     ### ----- write gridbox boundaries binary ----- ###
     with Capturing() as grid_info:
         cgrid.write_gridboxboundaries_binary(
-            gridfile=grid_file_path,
+            grid_filename=grid_file_path,
             zgrid=zgrid,
             xgrid=xgrid,
             ygrid=ygrid,
-            constsfile=constants_file_path,
+            constants_filename=constants_file_path,
         )
     with Capturing() as grid_info:
         rgrid.print_domain_info(constants_file_path, grid_file_path)
-
     # extract the total number of gridboxes
+    found_number_gridboxes = False
     for line in grid_info:
-        if "domain no. gridboxes:" in line:
+        if "total no. gridboxes:" in line:
             grid_dimensions = np.array(
                 line.split(":")[-1].replace(" ", "").split("x"), dtype=int
             )
             number_gridboxes_total = int(np.prod(grid_dimensions))
-            break
+            found_number_gridboxes = True
+    if not found_number_gridboxes:
+        raise KeyError("domain no. gridboxes not found in grid_info")
 
     # --- THERMODYNAMICS ---
 
     logging.info("Create thermodynamics generator")
     thermodynamics_generator = thermogen.SplittedLapseRates(
-        configfile=config_file_path,
-        constsfile=constants_file_path,
+        config_filename=config_file_path,
+        constants_filename=constants_file_path,
         cloud_base_height=relative_humidity_params["x_split"].values,  # type: ignore
         pressure_0=pressure_params["f_0"].values,  # type: ignore
         potential_temperature_0=potential_temperature_params["f_0"].values,  # type: ignore
@@ -448,11 +450,11 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
     logging.info("Write thermodynamics binary")
     with Capturing() as thermo_info:
         cthermo.write_thermodynamics_binary(
-            thermofile=thermodynamics_file_path,
+            thermofiles=thermodynamics_file_path,
             thermogen=thermodynamics_generator,
-            configfile=config_file_path,
-            constsfile=constants_file_path,
-            gridfile=grid_file_path,
+            config_filename=config_file_path,
+            constants_filename=constants_file_path,
+            grid_filename=grid_file_path,
         )
 
     # --- INITIAL SUPERDROPLETS ---
@@ -480,8 +482,8 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
     ### ----- write initial superdroplets binary ----- ###
     with Capturing() as super_top_info:
         number_superdroplets = crdgens.nsupers_at_domain_top(
-            gridfile=grid_file_path,
-            constsfile=constants_file_path,
+            grid_filename=grid_file_path,
+            constants_filename=constants_file_path,
             nsupers=sd_per_gridbox,
             zlim=zgrid_cloud_base,
         )
@@ -502,23 +504,23 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
         nspacedims=1, ngbxs=number_gridboxes_total, maxnsupers=max_number_supers
     )
 
-    editconfigfile.edit_config_params(str(config_file_path), eurec4a1d_config)
+    editconfigfile.edit_config_params(config_file_path, eurec4a1d_config)
 
     # --- WRITE THE BINARY FILES ---
     logging.info("Write initial superdroplets binary")
     with Capturing() as super_info:
         try:
             csupers.write_initsuperdrops_binary(
-                initsupersfile=init_superdroplets_file_path,
+                initsupers_filename=init_superdroplets_file_path,
                 initattrsgen=initial_attributes_generator,
-                configfile=config_file_path,
-                constsfile=constants_file_path,
-                gridfile=grid_file_path,
+                config_filename=config_file_path,
+                constants_filename=constants_file_path,
+                grid_filename=grid_file_path,
                 nsupers=number_superdroplets,
                 NUMCONC=0,
             )
         except Exception as e:
-            logging.error(f"Error: {type(e)}")
+            logging.error(f"{e}")
 
     ### ---------------------------------------------------------------- ###
     ### UPDATE THE BOUNDARY CONDITIONS FOR THE CONFIG FILE ###
@@ -550,7 +552,7 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
             "geometric_std_dev2"
         ],  # geometric standard deviation of 2nd lognormal dist
     )
-    editconfigfile.edit_config_params(str(config_file_path), eurec4a1d_config)
+    editconfigfile.edit_config_params(config_file_path, eurec4a1d_config)
 
     # --- PLOTTING ---
 
@@ -566,31 +568,31 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
         if isfigures[0]:
             try:
                 rgrid.plot_gridboxboundaries(
-                    constsfile=constants_file_path,
-                    gridfile=grid_file_path,
-                    binpath=str(fig_dir),
+                    constants_filename=constants_file_path,
+                    grid_filename=grid_file_path,
+                    savefigpath=fig_dir,
                     savefig=isfigures[1],
                 )
             except Exception as e:
                 logging.error(f"Error: {type(e)}")
             try:
                 rthermo.plot_thermodynamics(
-                    constsfile=constants_file_path,
-                    configfile=config_file_path,
-                    gridfile=grid_file_path,
-                    thermofile=thermodynamics_file_path,
-                    binpath=str(fig_dir),
+                    constants_filename=constants_file_path,
+                    config_filename=config_file_path,
+                    grid_filename=grid_file_path,
+                    thermofiles=thermodynamics_file_path,
+                    savefigpath=fig_dir,
                     savefig=isfigures[1],
                 )
             except Exception as e:
                 logging.error(f"Error: {type(e)}")
             try:
                 rsupers.plot_initGBxs_distribs(
-                    configfile=config_file_path,
-                    constsfile=constants_file_path,
-                    initsupersfile=init_superdroplets_file_path,
-                    gridfile=grid_file_path,
-                    binpath=str(fig_dir),
+                    config_filename=config_file_path,
+                    constants_filename=constants_file_path,
+                    initsupers_filename=init_superdroplets_file_path,
+                    grid_filename=grid_file_path,
+                    savefigpath=fig_dir,
                     savefig=isfigures[1],
                     gbxs2plt=gridbox_to_plot,
                 )

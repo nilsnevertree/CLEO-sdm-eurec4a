@@ -9,7 +9,7 @@
  * Author: Clara Bayley (CB)
  * Additional Contributors: Nils niebaum (NN)
  * -----
- * Last Modified: Friday 24th January 2025
+ * Last Modified: Friday 27th January 2025
  * Modified By: CB
  * -----
  * License: BSD 3-Clause "New" or "Revised" License
@@ -87,10 +87,10 @@ inline CoupledDynamics auto create_coupldyn(const Config &config, const Cartesia
 // INITIAL CONDITIONS
 // ===================================================
 
-inline InitialConditions auto create_initconds(const Config &config) {
-  // const InitAllSupersFromBinary initsupers(config.get_initsupersfrombinary());
-  const auto initsupers = InitAllSupersFromBinary(config.get_initsupersfrombinary());
-  const auto initgbxs = InitGbxsNull(config.get_ngbxs());
+template <GridboxMaps GbxMaps>
+inline InitialConditions auto create_initconds(const Config &config, const GbxMaps &gbxmaps) {
+  const auto initsupers = InitSupersFromBinary(config.get_initsupersfrombinary(), gbxmaps);
+  const auto initgbxs = InitGbxsNull(gbxmaps.get_local_ngridboxes_hostcopy());
 
   return InitConds(initsupers, initgbxs);
 }
@@ -138,8 +138,7 @@ inline MicrophysicalProcess auto create_microphysics(const Config &config,
   const MicrophysicalProcess auto coal = CollCoal(
              tsteps.get_collstep(), &step2realtime, coalprob);
   return cond >> coal;
-}
-
+};
 
 // ===================================================
 // OBSERVERS
@@ -163,10 +162,11 @@ template <typename Store>
 inline Observer auto create_gridboxes_observer(const unsigned int interval, Dataset<Store> &dataset,
                                                const int maxchunk, const size_t ngbxs) {
   const CollectDataForDataset<Store> auto thermo = CollectThermo(dataset, maxchunk, ngbxs);
-  const CollectDataForDataset<Store> auto windvel = CollectWindVel(dataset, maxchunk, ngbxs);
+  const CollectDataForDataset<Store> auto wvel =
+      CollectWindVariable<Store, WvelFunc>(dataset, WvelFunc{}, "wvel", maxchunk, ngbxs);
   const CollectDataForDataset<Store> auto nsupers = CollectNsupers(dataset, maxchunk, ngbxs);
 
-  const CollectDataForDataset<Store> auto collect_gbxdata = nsupers >> windvel >> thermo;
+  const CollectDataForDataset<Store> auto collect_gbxdata = nsupers >> wvel >> thermo;
   return WriteToDatasetObserver(interval, dataset, collect_gbxdata);
 }
 
@@ -258,9 +258,6 @@ int main(int argc, char *argv[]) {
   auto store = FSStore(config.get_zarrbasedir());
   auto dataset = Dataset(store);
 
-  /* Initial conditions for CLEO run */
-  const InitialConditions auto initconds = create_initconds(config);
-
   /* CLEO Super-Droplet Model (excluding coupled dynamics solver) */
   const SDMMethods sdm(create_sdm(config, tsteps, dataset));
 
@@ -270,6 +267,9 @@ int main(int argc, char *argv[]) {
 
   /* coupling between coupldyn and SDM */
     const CouplingComms<CartesianMaps, FromFileDynamics> auto comms = FromFileComms{};
+
+  /* Initial conditions for CLEO run */
+  const InitialConditions auto initconds = create_initconds(config, sdm.gbxmaps);
 
   /* Run CLEO (SDM coupled to dynamics solver) */
   const RunCLEO runcleo(sdm, coupldyn, comms);

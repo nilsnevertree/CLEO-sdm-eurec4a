@@ -974,9 +974,9 @@ class SplittedLapseRates:
 
     Parameters
     ----------
-    configfile : str
+    config_filename : str
         Path to the configuration file.
-    constsfile : str
+    constants_filename : str
         Path to the constants file.
     cloud_base_height : float
         Height of the cloud base.
@@ -1020,7 +1020,7 @@ class SplittedLapseRates:
         GRAVG (float): Gravitational constant.
         RGAS_DRY (float): Gas constant for dry air.
     Methods:
-        __init__(self, configfile, constsfile, cloud_base_height, pressure_0, potential_temperature_0, relative_humidity_0, pressure_lapse_rates, potential_temperature_lapse_rates, relative_humidity_lapse_rates, w_maximum, u_velocity, v_velocity, Wlength):
+        __init__(self, config_filename, constants_filename, cloud_base_height, pressure_0, potential_temperature_0, relative_humidity_0, pressure_lapse_rates, potential_temperature_lapse_rates, relative_humidity_lapse_rates, w_maximum, u_velocity, v_velocity, Wlength):
             Initializes the SplittedLapseRates class with the given parameters.
         pressure(self, z: np.ndarray) -> np.ndarray:
             Create the pressure profile from the given input parameters.
@@ -1043,8 +1043,8 @@ class SplittedLapseRates:
 
     def __init__(
         self,
-        configfile,
-        constsfile,
+        config_filename,
+        constants_filename,
         cloud_base_height: float,
         pressure_0: float,
         potential_temperature_0: float,
@@ -1081,7 +1081,7 @@ class SplittedLapseRates:
         self.v_velocity = v_velocity
         self.Wlength = Wlength
 
-        inputs = thermoinputsdict(configfile, constsfile)
+        inputs = thermoinputsdict(config_filename, constants_filename)
         self.Mr_ratio = inputs["Mr_ratio"]
         self.GRAVG = inputs["G"]
         self.RGAS_DRY = inputs["RGAS_DRY"]

@@ -31,9 +31,9 @@ timesteps:
   CONDTSTEP: 0.1                                                  # time between SD condensation [s]
   COLLTSTEP: 1                                                    # time between SD collision [s]
   MOTIONTSTEP: 2                                                  # time between SDM motion [s]
-  COUPLTSTEP: 36                                                # time between dynamic couplings [s]
+  COUPLTSTEP: 3600                                                # time between dynamic couplings [s]
   OBSTSTEP: 2                                                     # time between SDM observations [s]
-  T_END: 36                                                     # time span of integration from 0s to T_END [s]
+  T_END: 3600                                                     # time span of integration from 0s to T_END [s]
 
 ### Initialisation Parameters ###
 inputfiles:
@@ -77,7 +77,6 @@ coupled_dynamics:
   thermo: None                                                    # binary filename for vertical (coord3) velocity
 
 ### Bounday Conditions Parameters ###
-
 boundary_conditions:
   type: addsupersatdomaintop
   COORD3LIM: None                                                    # SDs added to domain with coord3 >= COORD3LIM [m]
@@ -91,3 +90,7 @@ boundary_conditions:
   NUMCONC_b: None                                                    # number conc. of 2nd droplet lognormal dist [m^-3]
   GEOMEAN_b: None                                                    # geometric mean radius of 2nd lognormal dist [m]
   geosigma_b: None                                                   # geometric standard deviation of 2nd lognormal dist
+
+### Kokkos Initialization Parameters ###
+kokkos_settings:
+  num_threads : 128

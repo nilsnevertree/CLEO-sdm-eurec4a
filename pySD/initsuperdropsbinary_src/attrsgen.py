@@ -242,6 +242,7 @@ class AttrsGeneratorBinWidth(AttrsGenerator):
         coord3gen,
         coord1gen,
         coord2gen,
+        isprint: bool = False,
     ):
         self.radiigen = radiigen  # generates radius (solute + water)
         self.dryradiigen = dryradiigen  # generates dry radius (-> solute mass)
@@ -393,6 +394,7 @@ class AttrsGeneratorBinWidth(AttrsGenerator):
         RHO_SOL: float,
         NUMCONC: int,  # not used at all
         gridboxbounds: Tuple[float, float, float, float, float, float],
+        isprint: bool = False,
     ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
         """
         Generate superdroplets (SDs) attributes that have dimensions
