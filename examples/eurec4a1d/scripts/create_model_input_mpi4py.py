@@ -1,7 +1,8 @@
 # %%
 import sys
-import shutil
-import yaml
+import ruamel.yaml
+
+yaml = ruamel.yaml.YAML()
 import math
 from typing import Union, Tuple
 from io import StringIO
@@ -272,24 +273,26 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
     logging.info(f"Read default config file from {origin_config_file_path}")
     # CREATE A CONFIG FILE TO BE UPDATED
     with open(origin_config_file_path, "r") as f:
-        eurec4a1d_config = yaml.safe_load(f)
+        eurec4a1d_config = yaml.load(f)
 
     # update breakup in eurec4a1d_config file if breakup file is given:
     logging.info(f"Read breakup config file from {breakup_config_file_path}")
     if breakup_config_file_path is not None:
         with open(breakup_config_file_path, "r") as f:
-            breakup_config = yaml.safe_load(f)
+            breakup_config = yaml.load(f)
         eurec4a1d_config["microphysics"].update(breakup_config)
 
     individual_output_dir_path = output_dir_path / f"{subfolder_prefix}{cloud_id}"
     individual_output_dir_path.mkdir(exist_ok=True, parents=False)
 
-    logging.info(f"Copy config file to {individual_output_dir_path}")
+    # copy config files to the individual output directory
     config_dir_path = individual_output_dir_path / "config"
     config_dir_path.mkdir(exist_ok=True, parents=False)
     # copy the cloud config file to the raw directory and use it
     config_file_path = config_dir_path / "eurec4a1d_config.yaml"
-    shutil.copy(origin_config_file_path, config_file_path)
+    logging.info(f"Copy config file to {config_file_path}")
+    with open(config_file_path, "w") as f:
+        yaml.dump(eurec4a1d_config, f)
 
     logging.info(f"Create share directory {individual_output_dir_path}")
     share_path_individual = individual_output_dir_path / "share"
