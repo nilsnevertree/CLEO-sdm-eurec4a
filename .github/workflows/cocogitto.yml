@@ -1,22 +1,22 @@
-name: cocogitto
+# name: cocogitto
 
-on: [push]
+# on: [push]
 
-jobs:
-  cog_check_job:
-    runs-on: ubuntu-latest
-    name: check commits with cocogitto
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+# jobs:
+#   cog_check_job:
+#     runs-on: ubuntu-latest
+#     name: check commits with cocogitto
+#     steps:
+#       - uses: actions/checkout@v4
+#         with:
+#           fetch-depth: 0
 
-      - name: Conventional commits compliance check
-        uses: oknozor/cocogitto-action@v3
-        with:
-          check-latest-tag-only: true
-          git-user: 'nilsnevertree'
-          git-user-email: '49751662+nilsnevertree@users.noreply.github.com'
+#       - name: Conventional commits compliance check
+#         uses: oknozor/cocogitto-action@v3
+#         with:
+#           check-latest-tag-only: true
+#           git-user: 'nilsnevertree'
+#           git-user-email: '49751662+nilsnevertree@users.noreply.github.com'
 
   # release:
   #   needs: cog_check_job
