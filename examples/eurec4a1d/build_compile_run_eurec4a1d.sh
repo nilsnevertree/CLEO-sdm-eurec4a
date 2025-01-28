@@ -37,7 +37,7 @@ source ${path2CLEO}/scripts/bash/src/check_inputs.sh
 
 
 ### -------------- run CLEO parameters ------------- ###
-run_script_path=${path2CLEO}/examples/eurec4a1d/scripts/run_CLEO_job_array.sh
+run_script_path=${path2CLEO}/examples/eurec4a1d/scripts/run_job_array_eurec4a1d.sh
 path2data=${path2CLEO}/data/output_v4.1/
 subdir_pattern="cluster*"
 
