@@ -10,7 +10,7 @@
 #SBATCH --account=um1487
 #SBATCH --output=/home/m/m301096/CLEO/examples/eurec4a1d/logfiles/run_CLEO/%A/%A_%a_out.out
 #SBATCH --error=/home/m/m301096/CLEO/examples/eurec4a1d/logfiles/run_CLEO/%A/%A_%a_err.out
-#SBATCH --array=0-127
+#SBATCH --array=0-2
 
 ### ---------------------------------------------------- ###
 ### ------------------ Input Parameters ---------------- ###
@@ -26,23 +26,56 @@ echo "git branch: $(git symbolic-ref --short HEAD)"
 echo "date: $(date)"
 echo "============================================"
 
-### ------------------ Load Modules -------------------- ###
-source ${HOME}/.bashrc
-env=/work/um1487/m301096/conda/envs/sdm_pysd_python312/
-conda activate ${env}
-spack load cmake@3.23.1%gcc
+set -e
+module purge
+spack unload --all
+
+
+
+# env=/work/um1487/m301096/conda/envs/sdm_pysd_python312/
+# conda activate ${env}
 ### ---------------------------------------------------- ###
 
 # the following paths will be given by the master submit scrip, which sets the slurm array size in this script too.
-echo "init microphysics: ${microphysics}"    # microphysics setup
-echo "init path2CLEO: ${path2CLEO}"          # path to the CLEO directory
-echo "init path2data: ${path2data}"          # path to the data directory with subdirectories for each microphysics setup
-echo "init path2build: ${path2build}"        # path to the build directory
+echo " ---------------------------------------------------- "
+echo "EUREC4A1D_MICROPHYSICS: ${EUREC4A1D_MICROPHYSICS}"
+echo "EUREC4A1D_PATH2DATA: ${EUREC4A1D_PATH2DATA}"
+echo "EUREC4A1D_SUBDIR_PATTERN: ${EUREC4A1D_SUBDIR_PATTERN}"
+echo " ---------------------------------------------------- "
+echo "CLEO_PATH2CLEO: ${CLEO_PATH2CLEO}"
+echo "CLEO_PATH2BUILD: ${CLEO_PATH2BUILD}"
+echo "CLEO_STACKSIZE_LIMIT: ${CLEO_STACKSIZE_LIMIT}"
+echo "CLEO_ENABLEYAC: ${CLEO_ENABLEYAC}"
+echo "CLEO_RUN_EXECUTABLE: ${CLEO_RUN_EXECUTABLE}"
+echo " ---------------------------------------------------- "
 
-# some example paths which could be used for testing
-# path2CLEO=${HOME}/CLEO/
-# path2build=${path2CLEO}/build_eurec4a1d/
-# path2data=${path2CLEO}/data/test/
+### ------------------ Load Modules -------------------- ###
+cleo_bashsrc=${CLEO_PATH2CLEO}/scripts/bash/src
+local_bashsrc="${HOME}/.bashrc"
+source ${local_bashsrc}
+source ${cleo_bashsrc}/check_inputs.sh
+
+### -------------------- check inputs ------------------- ###
+check_args_not_empty "${EUREC4A1D_MICROPHYSICS}"  "${EUREC4A1D_PATH2DATA}" "${EUREC4A1D_SUBDIR_PATTERN}"
+check_args_not_empty "${CLEO_PATH2CLEO}" "${CLEO_PATH2BUILD}" "${CLEO_STACKSIZE_LIMIT}" "${CLEO_ENABLEYAC}" "${CLEO_RUN_EXECUTABLE}"
+
+### ---------- GET CLOUD DIR FOR THIS SLURM_ARRAY_TASK_ID ---------------- ###
+microphysics_data_dir=${EUREC4A1D_PATH2DATA}/${EUREC4A1D_MICROPHYSICS}
+
+# find all subdirectories directories with the pattern
+directories=($(find ${microphysics_data_dir} -maxdepth 1 -type d -name ${EUREC4A1D_SUBDIR_PATTERN} -printf '%P\n' | sort))
+current_directory=${directories[${SLURM_ARRAY_TASK_ID}]}
+path2clouddata=${microphysics_data_dir}/${current_directory} # the path to the current cloud directory
+
+check_args_not_empty "${path2clouddata}"
+
+echo "SLURM_ARRAY_TASK_ID: ${SLURM_ARRAY_TASK_ID}"
+echo "Total number of dirs: ${#directories[@]}"
+echo "Current dir name: ${current_directory}"
+echo "Current dir path: ${path2clouddata}"
+echo " ---------------------------------------------------- "
+
+
 
 # relative paths and names within an individual cloud directory
 # individual directory
@@ -55,50 +88,30 @@ dataset_file_relative="eurec4a1d_sol.zarr"
 
 
 ### ---------- Setup for the EUREC4A1D model ---------- ###
-echo "setup microphysics: ${microphysics}"    # microphysics setup
+executable2run="${CLEO_RUN_EXECUTABLE}"
+configfile2run="${path2clouddata}/${config_file_relative}"
+dataset2run="${path2clouddata}/${dataset_file_relative}"
 
-# initialize
-executable_name="eurec4a1d_${microphysics}"
-executable2run="${path2build}/examples/eurec4a1d/stationary_${microphysics}/src/${executable_name}"
-microphysics_data_dir="${path2data}/${microphysics}/"                                            # setup the path to the data directory
+check_args_not_empty "${executable2run}" "${configfile2run}" "${dataset2run}"
 
-echo executable_name: ${executable_name}
-echo executable2run: ${executable2run}
-echo microphysics_data_dir: ${microphysics_data_dir}
 
-echo "### ---------------------------------------------------- ###"
-### ---------------------------------------------------- ###
-
-### ---------------------------------------------------- ###
-# Setup paths depending on current array task ID
-# directories=(${microphysics_data_dir}/${subdir_pattern}*)
-# IMPORANT: The directories must be sorted to match the array task ID
-directories=($(find ${microphysics_data_dir} -maxdepth 1 -type d -name 'cluster*' -printf '%P\n' | sort))
-current_directory=${directories[${SLURM_ARRAY_TASK_ID}]}
-#echo "Directories: ${directories[@]}"
-echo "Number of directories: ${#directories[@]}"
-echo "Current array task ID: ${SLURM_ARRAY_TASK_ID}"
-echo "Current directory: ${current_directory}"
-
-data_dir2run=${microphysics_data_dir}/${current_directory}
-
-# Setup paths to the config file and the dataset file
-configfile2run="${data_dir2run}/${config_file_relative}"
-dataset2run="${data_dir2run}/${dataset_file_relative}"
-# Setup path to the executable
-echo "### ---------------------------------------------------- ###"
+echo "executable_name: ${executable_name}"
+echo "executable2run: ${executable2run}"
+echo "configfile2run: ${configfile2run}"
+echo "dataset2run: ${dataset2run}"
+echo " ---------------------------------------------------- "
 ### ---------------------------------------------------- ###
 
 
 ### ---------------------------------------------------- ###
 echo "Validate all paths before running the model"
-if [ ! -d "$path2CLEO" ]; then
+if [ ! -d "$CLEO_PATH2CLEO" ]; then
     echo "Invalid path to CLEO"
     exit 1
-elif [ ! -d "$path2build" ]; then
+elif [ ! -d "$CLEO_PATH2BUILD" ]; then
     echo "Invalid path to build"
     exit 1
-elif [ ! -d "$data_dir2run" ]; then
+elif [ ! -d "$path2clouddata" ]; then
     echo "Invalid path to data directory"
     exit 1
 elif [ ! -f "$executable2run" ]; then
@@ -110,7 +123,7 @@ elif [ ! -f "$configfile2run" ]; then
 else
     echo "All paths are valid"
 fi
-echo "### ---------------------------------------------------- ###"
+echo " ---------------------------------------------------- "
 ### ---------------------------------------------------- ###
 
 ### ---------------------------------------------------- ###
@@ -136,30 +149,21 @@ if [ -d "$dataset2run" ]; then
 else
     echo "Directory ${dataset2run} does not exist. No action taken."
 fi
-echo "### ---------------------------------------------------- ###"
+echo " ---------------------------------------------------- "
 ### ---------------------------------------------------- ###
 
-
-### ---------------------------------------------------- ###
-echo "Run the model"
-
-set -e
-module purge
-spack unload --all
-
-### ------------------ input parameters ---------------- ###
-### ----- You need to edit these lines to specify ------ ###
-### ----- your build configuration and executables ----- ###
-### ---------------------------------------------------- ###
-bashsrc=${CLEO_PATH2CLEO}/scripts/bash/src
-### -------------------- check inputs ------------------ ###
-source ${bashsrc}/check_inputs.sh
-check_args_not_empty "${executable2run}" "${configfile2run}" "${CLEO_ENABLEYAC}"
-### ---------------------------------------------------- ###
 
 ### ----------------- run executable --------------- ###
-source ${bashsrc}/runtime_settings.sh ${stacksize_limit}
+echo "Execute CLEO"
+echo "date: $(date)"
+# create a runtime settings file
+source ${cleo_bashsrc}/runtime_settings.sh ${CLEO_STACKSIZE_LIMIT}
 runcmd="${executable2run} ${configfile2run}"
 echo ${runcmd}
+echo " ==================================================== "
 eval ${runcmd}
+echo " ==================================================== "
 ### ---------------------------------------------------- ###
+echo "FINISHED"
+echo "date: $(date)"
+echo " ---------------------------------------------------- "
