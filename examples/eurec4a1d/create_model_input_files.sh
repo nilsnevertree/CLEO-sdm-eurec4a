@@ -29,9 +29,9 @@ echo "Using Python from: $(which python)"
 ### ---------------------------------------------------- ###
 
 ### ------------------ Input Parameters ---------------- ###
-microphysics="null_microphysics"
+# microphysics="null_microphysics"
 # microphysics="condensation"
-# microphysics="collision_condensation"
+microphysics="collision_condensation"
 # microphysics="coalbure_condensation_small"
 # microphysics="coalbure_condensation_large"
 # microphysics="coalbure_condensation_cke"
@@ -72,7 +72,7 @@ if [ ! -f ${default_config_path} ]; then
 fi
 
 echo "default config path: ${default_config_path}"
-if [ "${microphysics}" == "null_microphysics" ] || [ "${microphysics}" == "condensation" ]; then
+if [ "${microphysics}" == "null_microphysics" ] || [ "${microphysics}" == "condensation" ] || [ "${microphysics}" == "collision_condensation" ]; then
     breakup_file_path=${path2eurec4a1d}/default_config/breakup.yaml
 else
     breakup_file_path=${path2eurec4a1d}/stationary_${microphysics}/src/breakup.yaml
