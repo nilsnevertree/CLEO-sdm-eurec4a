@@ -58,6 +58,11 @@ export EUREC4A1D_SUBDIR_PATTERN=${subdir_pattern}
 
 check_args_not_empty "${EUREC4A1D_MICROPHYSICS}" "${EUREC4A1D_PATH2DATA}" "${EUREC4A1D_SUBDIR_PATTERN}"
 
+echo "### --------------- User Inputs -------------- ###"
+echo "EUREC4A1D_MICROPHYSICS = ${EUREC4A1D_MICROPHYSICS}"
+echo "EUREC4A1D_PATH2DATA = ${EUREC4A1D_PATH2DATA}"
+echo "EUREC4A1D_SUBDIR_PATTERN = ${EUREC4A1D_SUBDIR_PATTERN}"
+echo "### ------------------------------------------- ###"
 
 ### -------------- build and compile parameters ------------- ###
 
@@ -69,7 +74,7 @@ yacyaxtroot=/work/bm1183/m300950/yacyaxt
 stacksize_limit=204800 # ulimit -s [stacksize_limit] (kB)
 ntasks_per_node=128 # number of tasks per node (cpus which shall be used)
 
-build_clean=false
+build_clean=true
 make_clean=true
 
 ### ----------------- define executables --------------- ###
@@ -159,7 +164,7 @@ if [ "$run" == true ]; then
   # job array ranges from 0 - max_number
   number_of_directories=${#directories[@]}
   max_number=$(($number_of_directories - 1))
-  max_number=2
+  # max_number=2
 
   echo "Number dir:  ${number_of_directories}"
   echo "Slurm Array: --array=0-${max_number}"
