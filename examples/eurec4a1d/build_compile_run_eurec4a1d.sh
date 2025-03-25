@@ -29,23 +29,23 @@ run=true
 
 # directory parameters
 path2CLEO=${HOME}/CLEO/
-path2build=${HOME}/CLEO/build_v0.30.1/
+path2build=${HOME}/CLEO/build_v0.38.3/
 
 # activate scripts
 source ${HOME}/.bashrc
-source ${path2CLEO}/scripts/bash/src/check_inputs.sh
+source ${path2CLEO}/scripts/levante/bash/src/check_inputs.sh
 
 
 ### -------------- run CLEO parameters ------------- ###
 run_script_path=${path2CLEO}/examples/eurec4a1d/scripts/run_job_array_eurec4a1d.sh
-path2data=${path2CLEO}/data/output_v4.1/
+path2data=${path2CLEO}/data/output_v4.2/
 subdir_pattern="cluster*"
 
 # microphysics="null_microphysics"
-# microphysics="condensation"
+microphysics="condensation"
 # microphysics="collision_condensation"
 # microphysics="coalbure_condensation_small"
-microphysics="coalbure_condensation_large"
+# microphysics="coalbure_condensation_large"
 # microphysics="coalbure_condensation_cke"
 
 executable_name="eurec4a1d_${microphysics}"
@@ -79,7 +79,6 @@ make_clean=true
 
 ### ----------------- define executables --------------- ###
 compile_executables="eurec4a1d_null_microphysics eurec4a1d_condensation eurec4a1d_collision_condensation eurec4a1d_coalbure_condensation_small eurec4a1d_coalbure_condensation_large eurec4a1d_coalbure_condensation_cke"
-# compile_executables="eurec4a1d_null_microphysics eurec4a1d_condensation eurec4a1d_collision_condensation eurec4a1d_coalbure_condensation_small eurec4a1d_coalbure_condensation_large eurec4a1d_coalbure_condensation_cke"
 
 
 ### ---------------------------------------------------- ###
@@ -142,7 +141,7 @@ if [ "$build" == true ]; then
     fi
   fi
   echo "Build CLEO"
-  buildcmd="${CLEO_PATH2CLEO}/scripts/bash/build_cleo.sh"
+  buildcmd="${CLEO_PATH2CLEO}/scripts/levante/bash/build_cleo.sh"
   echo ${buildcmd}
   eval ${buildcmd}
 fi
@@ -151,7 +150,7 @@ fi
 ### ---------------- compile executables --------------- ###
 if [ "$compile" == true ]; then
   echo "Compile CLEO"
-  compilecmd="${CLEO_PATH2CLEO}/scripts/bash/compile_cleo.sh \"${compile_executables}\" ${make_clean}"
+  compilecmd="${CLEO_PATH2CLEO}/scripts/levante/bash/compile_cleo.sh \"${compile_executables}\" ${make_clean}"
   echo ${compilecmd}
   eval ${compilecmd}
 fi

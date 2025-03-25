@@ -1,91 +1,164 @@
 #!/bin/bash
-#SBATCH --job-name=CLEO_eurec4a1d-%a
-#SBATCH --partition=gpu
-#SBATCH --gpus=4
+#SBATCH --job-name=e1d_run_CLEO
+#SBATCH --partition=compute
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=1
-#SBATCH --mem=3G
+#SBATCH --ntasks-per-node=128
+#SBATCH --mem=5G
 #SBATCH --time=00:15:00
 #SBATCH --mail-user=nils-ole.niebaumy@mpimet.mpg.de
 #SBATCH --mail-type=FAIL
-#SBATCH --account=mh1126
-#SBATCH --output=/home/m/m301096/CLEO/examples/eurec4a1d/logfiles/execution/CLEO_eurec4a1d-%A_%a_out.out
-#SBATCH --error=/home/m/m301096/CLEO/examples/eurec4a1d/logfiles/execution/CLEO_eurec4a1d-%A_%a_err.out
+#SBATCH --account=um1487
+#SBATCH --output=/home/m/m301096/CLEO/examples/eurec4a1d/logfiles/run_CLEO_single/%j_out.log
+#SBATCH --error=/home/m/m301096/CLEO/examples/eurec4a1d/logfiles/run_CLEO_single/%j_err.log
+
+### ---------------------------------------------------- ###
+### ------------------ Input Parameters ---------------- ###
+### ------ You MUST edit these lines to set your ------- ###
+### ----- environment, build type, directories, the ---- ###
+### --------- exec(s) to compile and your -------- ###
+### --------------  python script to run. -------------- ###
+### ---------------------------------------------------- ###
+
+# Ensure script exits on any error
+echo "git hash: $(git rev-parse HEAD)"
+echo "git branch: $(git symbolic-ref --short HEAD)"
+echo "date: $(date)"
+echo "============================================"
+
+### ------------------ Load Modules -------------------- ###
+source ${HOME}/.bashrc
+env=/work/um1487/m301096/conda/envs/sdm_pysd_python312/
+conda activate ${env}
+spack load cmake@3.23.1%gcc
+### ---------------------------------------------------- ###
+
+microphysics="null_microphysics"
+path2CLEO=${HOME}/CLEO
+path2data=${path2CLEO}/data/output_v4.1/
+path2build=${path2CLEO}/build_eurec4a1d_openmp/
 
 
-# This script is used to run the EUREC4A1D executable.
-# It should be executed with the sbatch --array this_scrpt path2CLEO path2build path2inddir executable
+path2clouddata=${path2data}/${microphysics}/cluster_81
 
-# The script takes the following arguments:
+# the following paths will be given by the master submit scrip, which sets the slurm array size in this script too.
+echo "init microphysics: ${microphysics}"    # microphysics setup
+echo "init path2CLEO: ${path2CLEO}"          # path to the CLEO directory
+echo "init path2data: ${path2data}"          # path to the data directory with subdirectories for each microphysics setup
+echo "init path2build: ${path2build}"        # path to the build directory
 
-# 1. path2CLEO: Path to the CLEO repository
-# 2. path2build: Path to the build directory
-# 3. path2inddir: Path to the directory which contains the config files and raw data directory.
-#    Needs to contain '/config/eurec4a_config.yaml'.
-#    Output will be stored in /eurec4a1d_sol.zarr.
-#    path2inddir
-#     ├── config
-#     │   └── eurec4a1d_config.yaml   <- NEEDS TO EXIST
-#     └── eurec4a1d_sol.zarr          <- will be created by the executable
-# 4. executable: Path to the executable to run. It is assumed, that it is within the build directory.
+# some example paths which could be used for testing
+# path2CLEO=${HOME}/CLEO/
+# path2build=${path2CLEO}/build_eurec4a1d/
+# path2data=${path2CLEO}/data/test/
 
-path2CLEO=$1
-path2build=$2
-path2inddir=$3 # The path to the raw data directory
-executable=$4
-# make sure paths are directories and executable is a file
-if [ ! -d "$path2CLEO" ]; then
-    echo " (1) Invalid path to CLEO"
-    exit 1
-fi
-if [ ! -d "$path2build" ]; then
-    echo " (2) Invalid path to build"
-    exit 1
-fi
-if [ ! -d "$path2inddir" ]; then
-    echo "(3) Invalid path to data directory"
-    exit 1
-fi
-if [ ! -f "$executable" ]; then
-    echo "(4) Executable not found: ${executable}"
-    exit 1
-fi
+# relative paths and names within an individual cloud directory
+# individual directory
+# | --- config_dir_relative
+# |     | --- config_file_name
+# | --- dataset_file_relative
+config_dir_relative="config"
+config_file_relative="${config_dir_relative}/eurec4a1d_config.yaml"
+dataset_file_relative="eurec4a1d_sol.zarr"
 
-config_dir_name="config"
-config_file_name="eurec4a1d_config.yaml"
-dataset_name="eurec4a1d_sol.zarr"
+# initialize
+executable_name="eurec4a1d_${microphysics}"
+executable2run="${path2build}/examples/eurec4a1d/stationary_${microphysics}/src/${executable_name}"
+echo executable_name: ${executable_name}
+echo executable2run: ${executable2run}
 
+echo "### ---------------------------------------------------- ###"
+### ---------------------------------------------------- ###
+
+### ---------------------------------------------------- ###
 # Setup paths to the config file and the dataset file
-config_dir="${path2inddir}/${config_dir_name}"
-config_file_path="${config_dir}/${config_file_name}"
-dataset_path="${path2inddir}/${dataset_name}"
+configfile2run="${path2clouddata}/${config_file_relative}"
+dataset2run="${path2clouddata}/${dataset_file_relative}"
 # Setup path to the executable
+echo "### ---------------------------------------------------- ###"
+### ---------------------------------------------------- ###
 
-if [ ! -f "$config_file_path" ]; then
-    echo "Config file not found: ${config_file_path}"
+
+### ---------------------------------------------------- ###
+echo "Validate all paths before running the model"
+if [ ! -d "$path2CLEO" ]; then
+    echo "Invalid path to CLEO"
     exit 1
+elif [ ! -d "$path2build" ]; then
+    echo "Invalid path to build"
+    exit 1
+elif [ ! -d "$path2clouddata" ]; then
+    echo "Invalid path to data directory"
+    exit 1
+elif [ ! -f "$executable2run" ]; then
+    echo "Executable not found: ${executable2run}"
+    exit 1
+elif [ ! -f "$configfile2run" ]; then
+    echo "Config file not found: ${configfile2run}"
+    exit 1
+else
+    echo "All paths are valid"
 fi
+echo "### ---------------------------------------------------- ###"
+### ---------------------------------------------------- ###
 
-
-echo -e "path2CLEO: \t\t${path2CLEO}"
-echo -e "path2build: \t\t${path2build}"
-echo -e "Exec. name: \t\t$(basename ${executable})"
-echo -e "Exec. path: \t\t${executable}"
-echo -e "Base directory: \t${path2inddir}"
-echo -e "Config directory: \t${config_dir}"
-echo -e "Config file: \t\t${config_file_path}"
-echo -e "Dataset file: \t\t${dataset_path}"
-
+### ---------------------------------------------------- ###
+echo "Delete dataset directory if it exists"
 # Check if the directory exists
-if [ -d "$dataset_path" ]; then
-    echo "Attempt to delet existing dataset file: ${dataset_path}"
-    rm -rf ${dataset_path} & echo "Dataset file deleted"
+if [ -d "$dataset2run" ]; then
+    echo "Attempting to delete dataset directory: ${dataset2run}"
+
+    # Check for open file descriptors
+    if lsof +D "$dataset2run" > /dev/null; then
+        echo "Error: Processes are still accessing files in ${dataset2run}. Terminate them before deletion." >&2
+        lsof +D "$dataset2run" # Optionally list offending processes
+        exit 1
+    fi
+
+    # Remove the directory recursively
+    rm -rf "$dataset2run"
+    if [ $? -ne 0 ]; then
+        echo "Error: rm command failed!" >&2
+        exit 1
+    fi
+    echo "Dataset directory deleted successfully."
+else
+    echo "Directory ${dataset2run} does not exist. No action taken."
 fi
+echo "### ---------------------------------------------------- ###"
+### ---------------------------------------------------- ###
 
-# Change to the build directory
-cd ${path2build}
-echo "Current directory: $(pwd)"
 
-# Execute the executable
-echo "Executing executable ${executable} with config file ${config_file_path}"
-srun ${executable} ${config_file_path}
+### ---------------------------------------------------- ###
+echo "Run the model"
+
+set -e
+module purge
+spack unload --all
+
+### ------------------ input parameters ---------------- ###
+### ----- You need to edit these lines to specify ------ ###
+### ----- your build configuration and executables ----- ###
+### ---------------------------------------------------- ###
+bashsrc=${path2CLEO}/scripts/bash/src
+### -------------------- check inputs ------------------ ###
+
+enableyac=false
+buildtype="openmp" # as defined by Kokkos configuration; see below
+compilername="intel" # as defined by Kokkos configuration; see below
+stacksize_limit=204800 # ulimit -s [stacksize_limit] (kB)
+
+export CLEO_PATH2CLEO=${path2CLEO}
+export CLEO_BUILDTYPE=${buildtype}
+export CLEO_ENABLEYAC=${enableyac}
+
+source ${bashsrc}/check_inputs.sh
+check_args_not_empty "${executable2run}" "${configfile2run}" "${CLEO_ENABLEYAC}"
+### ---------------------------------------------------- ###
+
+
+### ----------------- run executable --------------- ###
+source ${bashsrc}/runtime_settings.sh ${stacksize_limit}
+runcmd="${executable2run} ${configfile2run}"
+echo ${runcmd}
+eval ${runcmd}
+### ---------------------------------------------------- ###

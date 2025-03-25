@@ -10,7 +10,7 @@
 #SBATCH --account=um1487
 #SBATCH --output=/home/m/m301096/CLEO/examples/eurec4a1d/logfiles/run_CLEO/%A/%A_%a_out.out
 #SBATCH --error=/home/m/m301096/CLEO/examples/eurec4a1d/logfiles/run_CLEO/%A/%A_%a_err.out
-#SBATCH --array=0-2
+#SBATCH --array=0-127
 
 ### ---------------------------------------------------- ###
 ### ------------------ Input Parameters ---------------- ###
@@ -37,20 +37,20 @@ spack unload --all
 ### ---------------------------------------------------- ###
 
 # the following paths will be given by the master submit scrip, which sets the slurm array size in this script too.
-echo " ---------------------------------------------------- "
+echo "----------------------------------------------------"
 echo "EUREC4A1D_MICROPHYSICS: ${EUREC4A1D_MICROPHYSICS}"
 echo "EUREC4A1D_PATH2DATA: ${EUREC4A1D_PATH2DATA}"
 echo "EUREC4A1D_SUBDIR_PATTERN: ${EUREC4A1D_SUBDIR_PATTERN}"
-echo " ---------------------------------------------------- "
+echo "----------------------------------------------------"
 echo "CLEO_PATH2CLEO: ${CLEO_PATH2CLEO}"
 echo "CLEO_PATH2BUILD: ${CLEO_PATH2BUILD}"
 echo "CLEO_STACKSIZE_LIMIT: ${CLEO_STACKSIZE_LIMIT}"
 echo "CLEO_ENABLEYAC: ${CLEO_ENABLEYAC}"
 echo "CLEO_RUN_EXECUTABLE: ${CLEO_RUN_EXECUTABLE}"
-echo " ---------------------------------------------------- "
+echo "----------------------------------------------------"
 
 ### ------------------ Load Modules -------------------- ###
-cleo_bashsrc=${CLEO_PATH2CLEO}/scripts/bash/src
+cleo_bashsrc=${CLEO_PATH2CLEO}/scripts/levante/bash/src
 local_bashsrc="${HOME}/.bashrc"
 source ${local_bashsrc}
 source ${cleo_bashsrc}/check_inputs.sh
@@ -73,7 +73,7 @@ echo "SLURM_ARRAY_TASK_ID: ${SLURM_ARRAY_TASK_ID}"
 echo "Total number of dirs: ${#directories[@]}"
 echo "Current dir name: ${current_directory}"
 echo "Current dir path: ${path2clouddata}"
-echo " ---------------------------------------------------- "
+echo "----------------------------------------------------"
 
 
 
@@ -99,7 +99,7 @@ echo "executable_name: ${executable_name}"
 echo "executable2run: ${executable2run}"
 echo "configfile2run: ${configfile2run}"
 echo "dataset2run: ${dataset2run}"
-echo " ---------------------------------------------------- "
+echo "----------------------------------------------------"
 ### ---------------------------------------------------- ###
 
 
@@ -123,7 +123,7 @@ elif [ ! -f "$configfile2run" ]; then
 else
     echo "All paths are valid"
 fi
-echo " ---------------------------------------------------- "
+echo "----------------------------------------------------"
 ### ---------------------------------------------------- ###
 
 ### ---------------------------------------------------- ###
@@ -149,7 +149,7 @@ if [ -d "$dataset2run" ]; then
 else
     echo "Directory ${dataset2run} does not exist. No action taken."
 fi
-echo " ---------------------------------------------------- "
+echo "----------------------------------------------------"
 ### ---------------------------------------------------- ###
 
 
@@ -160,10 +160,10 @@ echo "date: $(date)"
 source ${cleo_bashsrc}/runtime_settings.sh ${CLEO_STACKSIZE_LIMIT}
 runcmd="${executable2run} ${configfile2run}"
 echo ${runcmd}
-echo " ==================================================== "
+echo "===================================================="
 eval ${runcmd}
-echo " ==================================================== "
+echo "===================================================="
 ### ---------------------------------------------------- ###
 echo "FINISHED"
 echo "date: $(date)"
-echo " ---------------------------------------------------- "
+echo "----------------------------------------------------"
