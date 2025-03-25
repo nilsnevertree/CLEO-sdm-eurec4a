@@ -33,6 +33,7 @@
 #include "cartesiandomain/cartesianmaps.hpp"
 #include "cartesiandomain/createcartesianmaps.hpp"
 #include "cartesiandomain/movement/cartesian_movement.hpp"
+#include "cartesiandomain/movement/cartesian_motion.hpp"
 #include "cartesiandomain/movement/add_supers_at_domain_top.hpp"
 #include "coupldyn_fromfile/fromfile_cartesian_dynamics.hpp"
 #include "coupldyn_fromfile/fromfilecomms.hpp"
