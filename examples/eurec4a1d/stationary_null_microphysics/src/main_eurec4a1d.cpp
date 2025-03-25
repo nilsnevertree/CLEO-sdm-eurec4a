@@ -30,13 +30,14 @@
 #include <string_view>
 
 #include "zarr/dataset.hpp"
-#include "cartesiandomain/add_supers_at_domain_top.hpp"
 #include "cartesiandomain/cartesianmaps.hpp"
-#include "cartesiandomain/cartesianmotion.hpp"
 #include "cartesiandomain/createcartesianmaps.hpp"
-#include "cartesiandomain/null_boundary_conditions.hpp"
+#include "cartesiandomain/movement/cartesian_movement.hpp"
+#include "cartesiandomain/movement/cartesian_motion.hpp"
+#include "cartesiandomain/movement/add_supers_at_domain_top.hpp"
 #include "coupldyn_fromfile/fromfile_cartesian_dynamics.hpp"
 #include "coupldyn_fromfile/fromfilecomms.hpp"
+#include "gridboxes/boundary_conditions.hpp"
 #include "gridboxes/gridboxmaps.hpp"
 #include "initialise/config.hpp"
 #include "initialise/init_all_supers_from_binary.hpp"
@@ -110,7 +111,7 @@ inline GridboxMaps auto create_gbxmaps(const Config &config) {
 // ===================================================
 
 inline auto create_movement(const Config &config,
-                            const unsigned int motionstep,
+                            const Timesteps &tsteps,
                             const CartesianMaps &gbxmaps) {
   const auto terminalv = RogersGKTerminalVelocity{};
   const Motion<CartesianMaps> auto motion =
@@ -120,7 +121,7 @@ inline auto create_movement(const Config &config,
   const BoundaryConditions<CartesianMaps> auto boundary_conditions =
       AddSupersAtDomainTop(config.get_addsupersatdomaintop());
 
-  return MoveSupersInDomain(gbxmaps, motion, boundary_conditions);
+  return cartesian_movement(gbxmaps, motion, boundary_conditions);
 }
 // ===================================================
 // MICROPHYSICS
@@ -214,7 +215,7 @@ inline auto create_sdm(const Config &config, const Timesteps &tsteps, Dataset<St
   const auto couplstep = (unsigned int)tsteps.get_couplstep();
   const GridboxMaps auto gbxmaps(create_gbxmaps(config));
   const MicrophysicalProcess auto microphys(create_microphysics(config, tsteps));
-  const MoveSupersInDomain movesupers(create_movement(config, tsteps.get_motionstep(), gbxmaps));
+  const MoveSupersInDomain movesupers(create_movement(config, tsteps, gbxmaps));
   const Observer auto obs(create_observer(config, tsteps, dataset));
 
   return SDMMethods(couplstep, gbxmaps, microphys, movesupers, obs);
