@@ -30,13 +30,13 @@
 #include <string_view>
 
 #include "zarr/dataset.hpp"
-#include "cartesiandomain/add_supers_at_domain_top.hpp"
 #include "cartesiandomain/cartesianmaps.hpp"
-#include "cartesiandomain/cartesianmotion.hpp"
 #include "cartesiandomain/createcartesianmaps.hpp"
-#include "cartesiandomain/null_boundary_conditions.hpp"
+#include "cartesiandomain/movement/cartesian_movement.hpp"
+#include "cartesiandomain/movement/add_supers_at_domain_top.hpp"
 #include "coupldyn_fromfile/fromfile_cartesian_dynamics.hpp"
 #include "coupldyn_fromfile/fromfilecomms.hpp"
+#include "gridboxes/boundary_conditions.hpp"
 #include "gridboxes/gridboxmaps.hpp"
 #include "initialise/config.hpp"
 #include "initialise/init_all_supers_from_binary.hpp"
@@ -124,7 +124,7 @@ inline auto create_movement(const Config &config,
   const BoundaryConditions<CartesianMaps> auto boundary_conditions =
       AddSupersAtDomainTop(config.get_addsupersatdomaintop());
 
-  return MoveSupersInDomain(gbxmaps, motion, boundary_conditions);
+  return cartesian_movement(gbxmaps, motion, boundary_conditions);
 }
 // ===================================================
 // MICROPHYSICS
