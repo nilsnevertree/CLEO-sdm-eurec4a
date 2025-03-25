@@ -113,11 +113,12 @@ inline auto create_movement(const Config &config,
                             const unsigned int motionstep,
                             const CartesianMaps &gbxmaps) {
   const auto terminalv = RogersGKTerminalVelocity{};
-  const Motion<CartesianMaps> auto motion = CartesianMotion(motionstep,
-                                                            &step2dimlesstime,
-                                                            terminalv);
-  // const auto boundary_conditions = NullBoundaryConditions{};
-  const auto boundary_conditions = AddSupersAtDomainTop(config.get_addsupersatdomaintop());
+  const Motion<CartesianMaps> auto motion =
+      CartesianMotion(tsteps.get_motionstep(), &step2dimlesstime, terminalv);
+
+  // const BoundaryConditions<CartesianMaps> auto boundary_conditions = NullBoundaryConditions{};
+  const BoundaryConditions<CartesianMaps> auto boundary_conditions =
+      AddSupersAtDomainTop(config.get_addsupersatdomaintop());
 
   return MoveSupersInDomain(gbxmaps, motion, boundary_conditions);
 }
@@ -205,9 +206,9 @@ inline Observer auto create_observer(const Config &config, const Timesteps &tste
         >> obsnsupers
         >> obsmm
         >> obsmmrain
+        >> obscond
         >> obsgbx
-        >> obssd
-        >> obscond;
+        >> obssd;
 }
 
 // ===================================================
@@ -251,31 +252,32 @@ int main(int argc, char *argv[]) {
   {
     Kokkos::print_configuration(std::cout);
 
-        /* Create timestepping parameters from configuration */
-      const Timesteps tsteps(config.get_timesteps());
+    /* Create timestepping parameters from configuration */
+    const Timesteps tsteps(config.get_timesteps());
 
-  /* Create Xarray dataset wit Zarr backend for writing output data to a store */
-  auto store = FSStore(config.get_zarrbasedir());
-  auto dataset = Dataset(store);
+    /* Create Xarray dataset wit Zarr backend for writing output data to a store */
+    auto store = FSStore(config.get_zarrbasedir());
+    auto dataset = Dataset(store);
 
-  /* CLEO Super-Droplet Model (excluding coupled dynamics solver) */
-  const SDMMethods sdm(create_sdm(config, tsteps, dataset));
+    /* CLEO Super-Droplet Model (excluding coupled dynamics solver) */
+    const SDMMethods sdm(create_sdm(config, tsteps, dataset));
 
-  /* Solver of dynamics coupled to CLEO SDM */
-  CoupledDynamics auto coupldyn(
-      create_coupldyn(config, sdm.gbxmaps, tsteps.get_couplstep(), tsteps.get_t_end()));
+    /* Solver of dynamics coupled to CLEO SDM */
+    CoupledDynamics auto coupldyn(
+        create_coupldyn(config, sdm.gbxmaps, tsteps.get_couplstep(), tsteps.get_t_end()));
 
-  /* coupling between coupldyn and SDM */
-    const CouplingComms<CartesianMaps, FromFileDynamics> auto comms = FromFileComms{};
+    /* coupling between coupldyn and SDM */
+      const CouplingComms<CartesianMaps, FromFileDynamics> auto comms = FromFileComms{};
 
-  /* Initial conditions for CLEO run */
-  const InitialConditions auto initconds = create_initconds(config, sdm.gbxmaps);
+    /* Initial conditions for CLEO run */
+    const InitialConditions auto initconds = create_initconds(config, sdm.gbxmaps);
 
-  /* Run CLEO (SDM coupled to dynamics solver) */
-  const RunCLEO runcleo(sdm, coupldyn, comms);
-  runcleo(initconds, tsteps.get_t_end());
-}
-Kokkos::finalize();
+    /* Run CLEO (SDM coupled to dynamics solver) */
+    const RunCLEO runcleo(sdm, coupldyn, comms);
+    runcleo(initconds, tsteps.get_t_end());
+  }
+  Kokkos::finalize();
+
 
   const auto ttot = double{kokkostimer.seconds()};
   std::cout << "-----\n Total Program Duration: " << ttot << "s \n-----\n";
