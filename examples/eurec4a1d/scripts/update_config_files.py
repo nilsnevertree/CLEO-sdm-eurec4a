@@ -16,12 +16,12 @@ This script is used to run the EUREC4A1D executable. It is called by the
 
 import sys
 from pathlib import Path
-import yaml
+import ruamel.yaml
 import logging
-from pySD import editconfigfile
 import datetime
 import numpy as np
 
+yaml = ruamel.yaml.YAML()
 # logging configure
 logging.basicConfig(level=logging.INFO)
 
@@ -111,7 +111,7 @@ logging.info(f"Enviroment: {sys.prefix}")
 # sub_dir_pattern = args.sub_dir_pattern
 
 
-data_dir = path2CLEO / "data/debug_output"
+data_dir = path2CLEO / "data/output_v4.1/null_microphysics"
 config_file_relative_path = "config/eurec4a1d_config.yaml"
 sub_dir_pattern = "cluster*"
 
@@ -135,26 +135,35 @@ for step, config_path in enumerate(rank_config_paths):
     logging.info(f"Core {rank +1} Step {step+1}/{len(rank_config_paths)}")
     logging.info(f"Updating config file: {config_path}")
 
+    with open(config_path, "r") as f:
+        data = yaml.load(f)
+    # data["timesteps"] = dict(
+    #     CONDTSTEP=0.05,
+    #     COLLTSTEP=2,
+    #     MOTIONTSTEP=2,
+    #     COUPLTSTEP=3600,
+    #     OBSTSTEP=2,
+    #     T_END=3600,
+    # )
+    # data["microphysics"]["condensation"] = dict(
+    #     do_alter_thermo=False,
+    #     maxniters=100,
+    #     MINSUBTSTEP=0.01,
+    #     rtol=1.0,
+    #     atol=0.1,
+    # )
     try:
-        with open(config_path, "r") as f:
-            config_dict = yaml.safe_load(f)
-
-        config_dict["timesteps"] = dict(
-            CONDTSTEP=0.05,
-            COLLTSTEP=2,
-            MOTIONTSTEP=2,
-            COUPLTSTEP=3600,
-            OBSTSTEP=2,
-            T_END=3600,
-        )
-        config_dict["microphysics"]["condensation"] = dict(
-            do_alter_thermo=False,
-            maxniters=100,
-            MINSUBTSTEP=0.01,
-            rtol=1.0,
-            atol=0.1,
+        data["kokkos_settings"] = dict(
+            num_threads=128
+        )  # number of threads for host parallel backend
+    except Exception:
+        logging.info("kokkos_settings already exists")
+        data.insert(
+            1,
+            "kokkos_settings",
+            dict(num_threads=128),
+            comment="number of threads for host parallel backend",
         )
 
-        editconfigfile.edit_config_params(str(config_path), config_dict)
-    except Exception as e:
-        logging.error(e)
+    with open(config_path, "w") as file:
+        yaml.dump(data, file)

@@ -6,21 +6,21 @@
 #SBATCH --time=00:10:00
 #SBATCH --mail-user=nils-ole.niebaumy@mpimet.mpg.de
 #SBATCH --mail-type=FAIL
-#SBATCH --account=mh1126
-#SBATCH --output=../logfiles/create_init_files/mpi4py/.%j_out.out
-#SBATCH --error=../logfiles/create_init_files/mpi4py/.%j_err.out
+#SBATCH --account=um1487
+#SBATCH --output=/home/m/m301096/CLEO/examples/eurec4a1d/logfiles/create_init_files/mpi4py/.%j_out.out
+#SBATCH --error=/home/m/m301096/CLEO/examples/eurec4a1d/logfiles/create_init_files/mpi4py/.%j_err.out
 
 ### --------------------- Version --------------------- ###
 echo "git hash: $(git rev-parse HEAD)"
 echo "git branch: $(git symbolic-ref --short HEAD)"
 echo "date: $(date)"
 echo "============================================"
-### ---------------------------------------------------- ###
+### ---------------------------------------------------- ###``
 
 source ${HOME}/.bashrc
 
 ### ------------------ Load Modules -------------------- ###
-env=/work/mh1126/m301096/conda/envs/sdm_pysd_env312/
+env=/work/um1487/m301096/conda/envs/sdm_pysd_python312/
 # module purge
 conda activate ${env}
 
@@ -29,9 +29,9 @@ echo "Using Python from: $(which python)"
 ### ---------------------------------------------------- ###
 
 ### ------------------ Input Parameters ---------------- ###
-microphysics="null_microphysics"
+# microphysics="null_microphysics"
 # microphysics="condensation"
-# microphysics="collision_condensation"
+microphysics="collision_condensation"
 # microphysics="coalbure_condensation_small"
 # microphysics="coalbure_condensation_large"
 # microphysics="coalbure_condensation_cke"
@@ -72,7 +72,7 @@ if [ ! -f ${default_config_path} ]; then
 fi
 
 echo "default config path: ${default_config_path}"
-if [ "${microphysics}" == "null_microphysics" ] || [ "${microphysics}" == "condensation" ]; then
+if [ "${microphysics}" == "null_microphysics" ] || [ "${microphysics}" == "condensation" ] || [ "${microphysics}" == "collision_condensation" ]; then
     breakup_file_path=${path2eurec4a1d}/default_config/breakup.yaml
 else
     breakup_file_path=${path2eurec4a1d}/stationary_${microphysics}/src/breakup.yaml
