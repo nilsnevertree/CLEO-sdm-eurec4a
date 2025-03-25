@@ -114,7 +114,7 @@ inline GridboxMaps auto create_gbxmaps(const Config &config) {
 // ===================================================
 
 inline auto create_movement(const Config &config,
-                            const unsigned int motionstep,
+                            const Timesteps &tsteps,
                             const CartesianMaps &gbxmaps) {
   const auto terminalv = RogersGKTerminalVelocity{};
   const Motion<CartesianMaps> auto motion =
