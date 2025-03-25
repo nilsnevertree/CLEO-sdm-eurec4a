@@ -20,6 +20,7 @@
 ### ---------------------------------------------------- ###
 path2CLEO=${HOME}/CLEO/
 path2build=${HOME}/CLEO/build_spdtest/
+build_flags="-DCLEO_COUPLED_DYNAMICS=fromfile -DCLEO_DOMAIN=cartesian -DCLEO_NO_ROUGHPAPER=true"
 path2kokkostools=/work/bm1183/m300950/kokkos_tools_lib/lib64/
 enableyac=false
 executables="spdtest"
@@ -48,8 +49,8 @@ do
   mkdir ${path2build_test}/share
 
   ### ---------- build, compile and run example ---------- ###
-  ${path2CLEO}/examples/run_example.sh \
-    ${buildtype} ${path2CLEO} ${path2build_test} ${enableyac} \
+  ${path2CLEO}/examples/run_example_levante.sh \
+    ${buildtype} ${path2CLEO} ${path2build_test} "${build_flags}" ${enableyac} \
     "${executables}" ${pythonscript} "${script_args}"
   ### ---------------------------------------------------- ###
 done

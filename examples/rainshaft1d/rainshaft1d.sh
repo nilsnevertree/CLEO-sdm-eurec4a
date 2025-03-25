@@ -20,6 +20,7 @@
 buildtype="openmp"
 path2CLEO=${HOME}/CLEO/
 path2build=${HOME}/CLEO/build_rshaft1d/
+build_flags="-DCLEO_COUPLED_DYNAMICS=fromfile -DCLEO_DOMAIN=cartesian -DCLEO_NO_ROUGHPAPER=true"
 enableyac=false
 executables="rshaft1d"
 
@@ -31,8 +32,8 @@ script_args="${configfile}"
 ### ---------------------------------------------------- ###
 
 ### ---------- build, compile and run example ---------- ###
-${path2CLEO}/examples/run_example.sh \
-  ${buildtype} ${path2CLEO} ${path2build} ${enableyac} \
+${path2CLEO}/examples/run_example_levante.sh \
+  ${buildtype} ${path2CLEO} ${path2build} "${build_flags}" ${enableyac} \
   "${executables}" ${pythonscript} "${script_args}"
 ### ---------------------------------------------------- ###
 

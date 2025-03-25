@@ -30,13 +30,14 @@
 #include <string_view>
 
 #include "zarr/dataset.hpp"
-#include "cartesiandomain/add_supers_at_domain_top.hpp"
 #include "cartesiandomain/cartesianmaps.hpp"
-#include "cartesiandomain/cartesianmotion.hpp"
 #include "cartesiandomain/createcartesianmaps.hpp"
-#include "cartesiandomain/null_boundary_conditions.hpp"
+#include "cartesiandomain/movement/cartesian_movement.hpp"
+#include "cartesiandomain/movement/cartesian_motion.hpp"
+#include "cartesiandomain/movement/add_supers_at_domain_top.hpp"
 #include "coupldyn_fromfile/fromfile_cartesian_dynamics.hpp"
 #include "coupldyn_fromfile/fromfilecomms.hpp"
+#include "gridboxes/boundary_conditions.hpp"
 #include "gridboxes/gridboxmaps.hpp"
 #include "initialise/config.hpp"
 #include "initialise/init_all_supers_from_binary.hpp"
@@ -110,16 +111,17 @@ inline GridboxMaps auto create_gbxmaps(const Config &config) {
 // ===================================================
 
 inline auto create_movement(const Config &config,
-                            const unsigned int motionstep,
+                            const Timesteps &tsteps,
                             const CartesianMaps &gbxmaps) {
   const auto terminalv = RogersGKTerminalVelocity{};
-  const Motion<CartesianMaps> auto motion = CartesianMotion(motionstep,
-                                                            &step2dimlesstime,
-                                                            terminalv);
-  // const auto boundary_conditions = NullBoundaryConditions{};
-  const auto boundary_conditions = AddSupersAtDomainTop(config.get_addsupersatdomaintop());
+  const Motion<CartesianMaps> auto motion =
+      CartesianMotion(tsteps.get_motionstep(), &step2dimlesstime, terminalv);
 
-  return MoveSupersInDomain(gbxmaps, motion, boundary_conditions);
+  // const BoundaryConditions<CartesianMaps> auto boundary_conditions = NullBoundaryConditions{};
+  const BoundaryConditions<CartesianMaps> auto boundary_conditions =
+      AddSupersAtDomainTop(config.get_addsupersatdomaintop());
+
+  return cartesian_movement(gbxmaps, motion, boundary_conditions);
 }
 // ===================================================
 // MICROPHYSICS
@@ -205,9 +207,9 @@ inline Observer auto create_observer(const Config &config, const Timesteps &tste
         >> obsnsupers
         >> obsmm
         >> obsmmrain
+        >> obscond
         >> obsgbx
-        >> obssd
-        >> obscond;
+        >> obssd;
 }
 
 // ===================================================
@@ -219,7 +221,7 @@ inline auto create_sdm(const Config &config, const Timesteps &tsteps, Dataset<St
   const auto couplstep = (unsigned int)tsteps.get_couplstep();
   const GridboxMaps auto gbxmaps(create_gbxmaps(config));
   const MicrophysicalProcess auto microphys(create_microphysics(config, tsteps));
-  const MoveSupersInDomain movesupers(create_movement(config, tsteps.get_motionstep(), gbxmaps));
+  const MoveSupersInDomain movesupers(create_movement(config, tsteps, gbxmaps));
   const Observer auto obs(create_observer(config, tsteps, dataset));
 
   return SDMMethods(couplstep, gbxmaps, microphys, movesupers, obs);
@@ -251,31 +253,32 @@ int main(int argc, char *argv[]) {
   {
     Kokkos::print_configuration(std::cout);
 
-        /* Create timestepping parameters from configuration */
-      const Timesteps tsteps(config.get_timesteps());
+    /* Create timestepping parameters from configuration */
+    const Timesteps tsteps(config.get_timesteps());
 
-  /* Create Xarray dataset wit Zarr backend for writing output data to a store */
-  auto store = FSStore(config.get_zarrbasedir());
-  auto dataset = Dataset(store);
+    /* Create Xarray dataset wit Zarr backend for writing output data to a store */
+    auto store = FSStore(config.get_zarrbasedir());
+    auto dataset = Dataset(store);
 
-  /* CLEO Super-Droplet Model (excluding coupled dynamics solver) */
-  const SDMMethods sdm(create_sdm(config, tsteps, dataset));
+    /* CLEO Super-Droplet Model (excluding coupled dynamics solver) */
+    const SDMMethods sdm(create_sdm(config, tsteps, dataset));
 
-  /* Solver of dynamics coupled to CLEO SDM */
-  CoupledDynamics auto coupldyn(
-      create_coupldyn(config, sdm.gbxmaps, tsteps.get_couplstep(), tsteps.get_t_end()));
+    /* Solver of dynamics coupled to CLEO SDM */
+    CoupledDynamics auto coupldyn(
+        create_coupldyn(config, sdm.gbxmaps, tsteps.get_couplstep(), tsteps.get_t_end()));
 
-  /* coupling between coupldyn and SDM */
-    const CouplingComms<CartesianMaps, FromFileDynamics> auto comms = FromFileComms{};
+    /* coupling between coupldyn and SDM */
+      const CouplingComms<CartesianMaps, FromFileDynamics> auto comms = FromFileComms{};
 
-  /* Initial conditions for CLEO run */
-  const InitialConditions auto initconds = create_initconds(config, sdm.gbxmaps);
+    /* Initial conditions for CLEO run */
+    const InitialConditions auto initconds = create_initconds(config, sdm.gbxmaps);
 
-  /* Run CLEO (SDM coupled to dynamics solver) */
-  const RunCLEO runcleo(sdm, coupldyn, comms);
-  runcleo(initconds, tsteps.get_t_end());
-}
-Kokkos::finalize();
+    /* Run CLEO (SDM coupled to dynamics solver) */
+    const RunCLEO runcleo(sdm, coupldyn, comms);
+    runcleo(initconds, tsteps.get_t_end());
+  }
+  Kokkos::finalize();
+
 
   const auto ttot = double{kokkostimer.seconds()};
   std::cout << "-----\n Total Program Duration: " << ttot << "s \n-----\n";

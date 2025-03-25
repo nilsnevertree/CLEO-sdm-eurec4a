@@ -1,6 +1,8 @@
 name: cleoenv
+channels:
+    - conda-forge
 dependencies:
-    - python>=3.12
+    - python>=3.13
     - pytest
     # packages to install CLEO pySD
     - pip
@@ -23,7 +25,7 @@ dependencies:
     - random
     - struct
     - zarr
-    - conda-forge::doxygen>=1.10.0
+    - doxygen>=1.10.0
     - pip
     - pip:
       - -r requirements.txt
