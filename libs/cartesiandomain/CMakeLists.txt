@@ -5,15 +5,13 @@ endif()
 
 # set library name and print directory of this CMakeLists.txt (source directory of library) and print directory of this CMakeLists.txt (source directory of library)
 set(LIBNAME "cartesiandomain")
-message("${LIBNAME} LIBRARY_SOURCE_DIR: ${CMAKE_CURRENT_SOURCE_DIR}")
+message(STATUS "CLEO using ${LIBNAME} with LIBRARY_SOURCE_DIR: ${CMAKE_CURRENT_SOURCE_DIR}")
 
 # explicitly set library executables path to /lib in top level of build tree
 set(LIB_BINARY_DIR ${CLEO_BINARY_DIR}/lib)
 
-
 # Add executables and create library target
 set(SOURCES
-"add_supers_at_domain_top.cpp"
 "cartesianmaps.cpp"
 "createcartesianmaps.cpp"
 "cartesian_decomposition.cpp"
@@ -26,7 +24,7 @@ add_library("${LIBNAME}" STATIC ${SOURCES})
 target_include_directories(${LIBNAME} PRIVATE "${CLEO_SOURCE_DIR}/libs") # CLEO libs directory
 
 # Link libraries to target library
-set(LINKLIBS initialise superdrops gridboxes)
+set(LINKLIBS initialise superdrops gridboxes movement)
 target_link_libraries(${LIBNAME} PUBLIC "${LINKLIBS}")
 target_link_libraries(${LIBNAME} PUBLIC Kokkos::kokkos)
 
@@ -39,3 +37,5 @@ set_target_properties(${LIBNAME} PROPERTIES
   CMAKE_CXX_STANDARD_REQUIRED ON
   CMAKE_CXX_EXTENSIONS ON
   CXX_STANDARD 20)
+
+add_subdirectory(movement)

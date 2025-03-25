@@ -26,6 +26,7 @@
 #include <Kokkos_DualView.hpp>
 #include <Kokkos_Pair.hpp>
 #include <Kokkos_Random.hpp>
+#include <Kokkos_ScatterView.hpp>
 #include <Kokkos_UnorderedMap.hpp>
 #include <memory>
 
@@ -52,5 +53,15 @@ using kokkos_dblmaph = Kokkos::UnorderedMap<unsigned int, double, HostSpace>;
 /**< E.g. for map from unsigned int gbxindex to gridbox area/volume on host*/
 using viewd_ndims = Kokkos::View<size_t[3]>;
 /**< View in device memory for number of gridboxes in CartesianMaps. */
+
+/* Sorting Superdrops */
+using viewd_counts = Kokkos::View<size_t *>; /**< View in device memory for sorting superdroplets */
+/**< Scatter view for abstracted use of atomics/duplicates when computing sums for viewd_counts */
+using scatterviewd_counts = Kokkos::Experimental::ScatterView<size_t *>;
+
+namespace KokkosCleoSettings {
+constexpr auto team_size = Kokkos::AUTO();
+/**< configurable number threads per team for hierarchical parallelism over superdroplets */
+}  // namespace KokkosCleoSettings
 
 #endif  // LIBS_KOKKOSALIASES_HPP_

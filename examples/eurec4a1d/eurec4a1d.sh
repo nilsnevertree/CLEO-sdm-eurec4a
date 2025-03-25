@@ -23,6 +23,7 @@
 buildtype="cuda"
 path2CLEO=${HOME}/CLEO/
 path2build=${HOME}/CLEO/build_eurec4a1d/
+build_flags="-DCLEO_COUPLED_DYNAMICS=fromfile -DCLEO_DOMAIN=cartesian -DCLEO_NO_ROUGHPAPER=true"
 enableyac=false
 executables="eurec4a1d"
 
@@ -34,7 +35,7 @@ script_args=""
 ### ---------------------------------------------------- ###
 
 ### ---------- build, compile and run example ---------- ###
-${path2CLEO}/examples/run_example.sh \
-  ${buildtype} ${path2CLEO} ${path2build} ${enableyac} \
+${path2CLEO}/examples/run_example_levante.sh \
+  ${buildtype} ${path2CLEO} ${path2build} "${build_flags}" ${enableyac} \
   "${executables}" ${pythonscript} "${script_args}"
 ### ---------------------------------------------------- ###

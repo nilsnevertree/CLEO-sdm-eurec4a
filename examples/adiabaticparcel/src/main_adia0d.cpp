@@ -28,12 +28,12 @@
 
 #include "zarr/dataset.hpp"
 #include "cartesiandomain/cartesianmaps.hpp"
-#include "cartesiandomain/cartesianmotion.hpp"
 #include "cartesiandomain/createcartesianmaps.hpp"
-#include "cartesiandomain/null_boundary_conditions.hpp"
+#include "cartesiandomain/movement/cartesian_movement.hpp"
 #include "coupldyn_cvode/cvodecomms.hpp"
 #include "coupldyn_cvode/cvodedynamics.hpp"
 #include "coupldyn_cvode/initgbxs_cvode.hpp"
+#include "gridboxes/boundary_conditions.hpp"
 #include "gridboxes/gridboxmaps.hpp"
 #include "initialise/config.hpp"
 #include "initialise/init_all_supers_from_binary.hpp"
@@ -58,7 +58,8 @@ inline CoupledDynamics auto create_coupldyn(const Config &config, const unsigned
   return CvodeDynamics(config.get_cvodedynamics(), couplstep, &step2dimlesstime);
 }
 
-inline InitialConditions auto create_initconds(const Config &config) {
+template <GridboxMaps GbxMaps>
+inline InitialConditions auto create_initconds(const Config &config, const GbxMaps &gbxmaps) {
   const auto initsupers = InitAllSupersFromBinary(config.get_initsupersfrombinary());
   const auto initgbxs = InitGbxsCvode(config.get_cvodedynamics());
 
@@ -73,9 +74,9 @@ inline GridboxMaps auto create_gbxmaps(const Config &config) {
 
 inline auto create_movement(const CartesianMaps &gbxmaps) {
   const Motion<CartesianMaps> auto motion = NullMotion{};
-  const auto boundary_conditions = NullBoundaryConditions{};
+  const BoundaryConditions<CartesianMaps> auto boundary_conditions = NullBoundaryConditions{};
 
-  return MoveSupersInDomain(gbxmaps, motion, boundary_conditions);
+  return cartesian_movement(gbxmaps, motion, boundary_conditions);
 }
 
 inline MicrophysicalProcess auto create_microphysics(const Config &config,
@@ -163,15 +164,15 @@ int main(int argc, char *argv[]) {
     auto store = FSStore(config.get_zarrbasedir());
     auto dataset = Dataset(store);
 
+    /* CLEO Super-Droplet Model (excluding coupled dynamics solver) */
+    const SDMMethods sdm(create_sdm(config, tsteps, dataset));
+
     /* Create coupldyn solver and coupling between coupldyn and SDM */
     CoupledDynamics auto coupldyn(create_coupldyn(config, tsteps.get_couplstep()));
     const CouplingComms<CartesianMaps, CvodeDynamics> auto comms = CvodeComms{};
 
     /* Initial conditions for CLEO run */
-    const InitialConditions auto initconds = create_initconds(config);
-
-    /* CLEO Super-Droplet Model (excluding coupled dynamics solver) */
-    const SDMMethods sdm(create_sdm(config, tsteps, dataset));
+    const InitialConditions auto initconds = create_initconds(config, sdm.gbxmaps);
 
     /* Run CLEO (SDM coupled to dynamics solver) */
     const RunCLEO runcleo(sdm, coupldyn, comms);

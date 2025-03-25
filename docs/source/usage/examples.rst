@@ -12,7 +12,7 @@ example's Python script. There are bash scripts to help you do all this on DKRZ'
 following instructions are intended to guide you through running each example using their bash
 script.
 
-Please Note: the bash script for most of the examples chooses a build configuration which uses GPUs.
+Please Note: the bash script for some of the examples chooses a build configuration which uses GPUs.
 To execute these scripts you will therefore need to be on a node in the GPU partition of Levante
 (`see here <https://docs.dkrz.de/doc/levante/running-jobs/partitions-and-limits.html>`_
 for documentation on Levante's partitions), or change the build configuration.
@@ -22,19 +22,17 @@ for documentation on Levante's partitions), or change the build configuration.
 Configure the Bash Scripts
 --------------------------
 
-The bash script for every example provides command line arguments to ``examples/run_example.sh``. This
-script has three steps:
+The bash script for every example provides command line arguments to ``examples/run_example_levante.sh``. This
+script has two steps:
 
-1) It builds CLEO by running ``scripts/bash/build_cleo.sh``,
+1) It builds and compiles the specified exectuable(s) of CLEO by running ``scripts/levante/build_compile_cleo.sh [args]``
 
-2) It compiles the specified exectuable(s) by running ``scripts/bash/compile_cleo.sh``,
-
-3) It runs the example's Python script.
+2) It generates input files, runs the exectuable(s), and plots the results by calling the example's Python script.
 
 
-You will need to configure ```examples/run_example.sh``` in the following ways:
+You will need to configure ``examples/run_example_levante.sh`` in the following ways:
 
-* Use your Conda (or Mamba) environment:
+* Use your Conda (or Micromamba) environment:
 
   replace the path in the line stating ``cleoenv=[…]`` with the path to your environment.
 
@@ -47,7 +45,9 @@ You will need to configure ```examples/run_example.sh``` in the following ways:
   replace ``yacyaxtroot=[...]`` with the path to the directory containing your yac and yaxt
   directories, or to ``yacyaxtroot=""`` if you do not intend to run an example that requires YAC.
 
-You can optionally configure the bash script specific to each example in the following ways:
+You can optionally configure the bash script specific to each example
+(found in the relevant example's directory e.g. ``examples/boxmodelcollisions/shima2009.sh``)
+in the following ways:
 
 * Choose your build configuration:
 
@@ -80,7 +80,7 @@ the conditions for cusp bifurcation and the plots will not be exactly identical 
 a) Arabas and Shima 2017
 ########################
 
-2. :ref:`Configure the bash scripts<configurebash>`, ``examples/run_example.sh`` and
+2. :ref:`Configure the bash scripts<configurebash>`, ``examples/run_example_levante.sh`` and
 ``examples/adiabaticparcel/as2017.sh``.
 
 3. Execute the bash script ``as2017.sh``, e.g.
@@ -95,7 +95,7 @@ similar to the columns of figure 5 from Arabas and Shima 2017 :cite:`arabasshima
 b) Cusp Bifurcation
 ###################
 
-2. :ref:`Configure the bash scripts<configurebash>`, ``examples/run_example.sh`` and
+2. :ref:`Configure the bash scripts<configurebash>`, ``examples/run_example_levante.sh`` and
 ``examples/adiabaticparcel/cuspbifurc.sh``.
 
 3. Execute the bash script ``cuspbifurc.sh``, e.g.
@@ -155,7 +155,7 @@ Running the Box Model Collisions Examples
 a) Shima et al. 2009
 ####################
 
-2. :ref:`Configure the bash scripts<configurebash>`, ``examples/run_example.sh`` and
+2. :ref:`Configure the bash scripts<configurebash>`, ``examples/run_example_levante.sh`` and
 ``examples/boxmodelcollisions/shima2009.sh``.
 
 3. Execute the bash script ``shima2009.sh``, e.g.
@@ -188,7 +188,7 @@ Fig.2(b) and Fig.2(c) of Shima et al. 2009 :cite:p:`shima2009`.
 b) Breakup
 ##########
 
-2. :ref:`Configure the bash scripts<configurebash>`, ``examples/run_example.sh`` and
+2. :ref:`Configure the bash scripts<configurebash>`, ``examples/run_example_levante.sh`` and
 ``examples/boxmodelcollisions/breakup.sh``.
 
 3. Execute the bash script ``breakup.sh``, e.g.
@@ -209,7 +209,7 @@ Divergence Free Motion
 
   $ cd ~/CLEO/examples/divfreemotion/
 
-2. :ref:`Configure the bash scripts<configurebash>`, ``examples/run_example.sh`` and
+2. :ref:`Configure the bash scripts<configurebash>`, ``examples/run_example_levante.sh`` and
 ``examples/boxmodelcollisions/divfree2d.sh``.
 
 3. Execute the bash script ``divfree2d.sh``, e.g.
@@ -234,7 +234,7 @@ should remain constant over time, as shown in the plot produced and by default c
 
   $ cd ~/CLEO/examples/rainshaft1d/
 
-2. :ref:`Configure the bash scripts<configurebash>`, ``examples/run_example.sh`` and
+2. :ref:`Configure the bash scripts<configurebash>`, ``examples/run_example_levante.sh`` and
 ``examples/boxmodelcollisions/rainshaft1d.sh``.
 
 3. Execute the bash script ``rainshaft1d.sh``, e.g.
@@ -256,7 +256,7 @@ Constant 2-D Thermodynamics
 
   $ cd ~/CLEO/examples/constthermo2d/
 
-2. :ref:`Configure the bash scripts<configurebash>`, ``examples/run_example.sh`` and
+2. :ref:`Configure the bash scripts<configurebash>`, ``examples/run_example_levante.sh`` and
 ``examples/boxmodelcollisions/constthermo2d.sh``.
 
 3. Execute the bash script ``constthermo2d.sh``, e.g.
@@ -281,7 +281,7 @@ parallelism, and (3) "serial" without parallelism.
 
   $ cd ~/CLEO/examples/speedtest/
 
-2. :ref:`Configure the bash scripts<configurebash>`, ``examples/run_example.sh`` and
+2. :ref:`Configure the bash scripts<configurebash>`, ``examples/run_example_levante.sh`` and
 ``examples/boxmodelcollisions/speedtest.sh``.
 
 3. Execute the bash script ``speedtest.sh``, e.g.

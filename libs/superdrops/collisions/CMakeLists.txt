@@ -5,13 +5,14 @@ endif()
 
 # set library name and print directory of this CMakeLists.txt (source directory of library)
 set(LIBNAME "collisions")
-message("${LIBNAME} LIBRARY_SOURCE_DIR: ${CMAKE_CURRENT_SOURCE_DIR}")
+message(STATUS "CLEO using ${LIBNAME} with LIBRARY_SOURCE_DIR: ${CMAKE_CURRENT_SOURCE_DIR}")
 
 # explicitly set library executables path to /lib in top level of build tree
 set(LIB_BINARY_DIR ${CMAKE_BINARY_DIR}/lib)
 
 # Add executables and create library target
 set(SOURCES
+  "shuffle.cpp"
   "coalbure_flag.cpp"
   "coalescence.cpp"
   "collisionkinetics.cpp"

@@ -6,9 +6,9 @@
  * Project: superdrops
  * Created Date: Wednesday 25th October 2023
  * Author: Clara Bayley (CB)
- * Additional Contributors:
+ * Additional Contributors: Florian Poydenot
  * -----
- * Last Modified: Friday 21st June 2024
+ * Last Modified: Monday 24th March 2025
  * Modified By: CB
  * -----
  * License: BSD 3-Clause "New" or "Revised" License
@@ -137,5 +137,21 @@ double saturation_pressure_murphy_koop(const double temp);
  */
 KOKKOS_FUNCTION
 double diffusion_factor(const double press, const double temp, const double psat);
+
+/**
+ * @brief Calculate the ventilation factor for the condensation-diffusion growth equation.
+ *
+ * Equation for ventilation factor, $f_v$, is fit to data from Kinzer and Gunn (1951) and from
+ * Pruppacher and Rasmussen (1979) according to Florian Poydenot, whereby
+ * \f$ f_v = 1 + \frac{1}{\frac{1}{c_1R^\alpha} + \frac{1}{c_2R^\beta}} \f$
+ * where \f$ c_1 = 6.954*10^7 \f$, \f$ \alpha=1.963 \f$, \f$ c_2=1.069*10^3 \f$,
+ * \f$ \beta=0.702 \f$, and \f$R\f$ is the radius
+ * of the water droplet in [m].
+ *
+ * @param radius The droplet radius.
+ * @return The (dimensionless) ventilation factor.
+ */
+KOKKOS_FUNCTION
+double ventilation_factor(const double radius);
 
 #endif  // LIBS_SUPERDROPS_THERMODYNAMIC_EQUATIONS_HPP_

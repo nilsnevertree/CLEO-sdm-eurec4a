@@ -2,6 +2,228 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [v0.38.3](https://github.com/yoctoyotta1024/CLEO/compare/077501a990f4a7a06e0755a05bedfda095529784..v0.38.3) - 2025-03-25
+#### Bug Fixes
+- fail-safe way to use modules in bash scripts - ([077501a](https://github.com/yoctoyotta1024/CLEO/commit/077501a990f4a7a06e0755a05bedfda095529784)) - clara.bayley
+
+- - -
+
+## [v0.38.2](https://github.com/yoctoyotta1024/CLEO/compare/b17c906d030eabac61421e979bb8d4c105603444..v0.38.2) - 2025-03-24
+#### Bug Fixes
+- typo - ([b17c906](https://github.com/yoctoyotta1024/CLEO/commit/b17c906d030eabac61421e979bb8d4c105603444)) - clara.bayley
+#### Documentation
+- update info on examples - ([4588d2c](https://github.com/yoctoyotta1024/CLEO/commit/4588d2ce88d25d7c28791c1f3c7e7b1350f94651)) - clara.bayley
+- include more information in the quickstart - ([bbf0cfd](https://github.com/yoctoyotta1024/CLEO/commit/bbf0cfdab9126b425719ce0fc75248a624765ea0)) - clara.bayley
+- update requirements - ([cac5301](https://github.com/yoctoyotta1024/CLEO/commit/cac5301147c81ad783640d7f6508164471f4ecfa)) - clara.bayley
+- add title - ([7ceb73a](https://github.com/yoctoyotta1024/CLEO/commit/7ceb73ac63a2330cde88ab2c94c4e5b15915a608)) - clara.bayley
+- fix doxstring errors - ([5a02ed9](https://github.com/yoctoyotta1024/CLEO/commit/5a02ed9cf9299c686b44dc7f673a9e1a39558b8e)) - clara.bayley
+- note on installing mpi4py on levante - ([fa4d8f4](https://github.com/yoctoyotta1024/CLEO/commit/fa4d8f4fa4943bffaf1c11f58dc1a041ed69c355)) - clara.bayley
+- correct mamba/conda - ([0911c34](https://github.com/yoctoyotta1024/CLEO/commit/0911c34f901d5c29f030292fa750c99c1b27e180)) - clara.bayley
+#### Performance Improvements
+- two commands in one - ([fd8ea03](https://github.com/yoctoyotta1024/CLEO/commit/fd8ea03e500a3b76bb3853812ef515af3de69c26)) - clara.bayley
+#### Refactoring
+- cleaner env creation - ([b3f96a1](https://github.com/yoctoyotta1024/CLEO/commit/b3f96a1567729dfafb926313b7e527ad6f1b8851)) - clara.bayley
+
+- - -
+
+## [v0.38.1](https://github.com/yoctoyotta1024/CLEO/compare/107f77c58aa94206f3ba90a515f8927aec8cb980..v0.38.1) - 2025-03-24
+#### Bug Fixes
+- update openmpi package for levante when usign intel compiler - ([107f77c](https://github.com/yoctoyotta1024/CLEO/commit/107f77c58aa94206f3ba90a515f8927aec8cb980)) - clara.bayley
+
+- - -
+
+## [v0.38.0](https://github.com/yoctoyotta1024/CLEO/compare/0fe36e7ee4d460a91b8ca8ae46b1cf6a11cda008..v0.38.0) - 2025-03-21
+#### Features
+- update version number to current v0.38.0 - ([383ae3c](https://github.com/yoctoyotta1024/CLEO/commit/383ae3c0a7bb4c7fbb637afff7fcbdfbe8b08131)) - clara.bayley
+#### Performance Improvements
+- remove redundant variable - ([445a6d9](https://github.com/yoctoyotta1024/CLEO/commit/445a6d9845026abc898244b38529504f83a9f0a5)) - clara.bayley
+#### Refactoring
+- add option to color 2d motion plot - ([02b4579](https://github.com/yoctoyotta1024/CLEO/commit/02b457955d3937e82250bfe19f90985ff52d409d)) - clara.bayley
+- add option to plot 2-d motion of already chosen superdrops - ([db63f5b](https://github.com/yoctoyotta1024/CLEO/commit/db63f5bea94bb41b6987e3c9eafa4a0432e1373a)) - clara.bayley
+- add better option to plot without smoothing - ([0c64f7a](https://github.com/yoctoyotta1024/CLEO/commit/0c64f7a38f4a88155c1b2712b6c2b7ad58e4d7e4)) - clara.bayley
+- create parent directories if not already existing - ([4892b40](https://github.com/yoctoyotta1024/CLEO/commit/4892b40b923dc78b38db2f5fd80506cefe4cb9f3)) - clara.bayley
+- add option to plot on given fig,ax - ([0fe36e7](https://github.com/yoctoyotta1024/CLEO/commit/0fe36e7ee4d460a91b8ca8ae46b1cf6a11cda008)) - clara.bayley
+
+- - -
+
+## [v0.37.0](https://github.com/yoctoyotta1024/CLEO/compare/0660ceba4f48b21d60d8c5c5efd69d0bce61672e..v0.37.0) - 2025-03-20
+#### Documentation
+- clearer docstrings about urbg random number ranges - ([2468457](https://github.com/yoctoyotta1024/CLEO/commit/2468457e6e44957891f684e994332b20ed7174b8)) - clara.bayley
+- correct docstring - ([0660ceb](https://github.com/yoctoyotta1024/CLEO/commit/0660ceba4f48b21d60d8c5c5efd69d0bce61672e)) - clara.bayley
+#### Features
+- new file for shuffling superdroplets algorithm - ([82bd2a2](https://github.com/yoctoyotta1024/CLEO/commit/82bd2a254b91534e42911dc68418299cad032127)) - clara.bayley
+#### Refactoring
+- more uses KCS::team_size instead of Kokkos::AUTO - ([2a000c1](https://github.com/yoctoyotta1024/CLEO/commit/2a000c14a2a71b1c0c65342ea094306b40a0c5e5)) - clara.bayley
+- split shuffle implementations into .cpp file - ([ad01b1b](https://github.com/yoctoyotta1024/CLEO/commit/ad01b1b36091d2a3d59dcadfdfa26575018c072a)) - clara.bayley
+
+- - -
+
+## [v0.36.2](https://github.com/yoctoyotta1024/CLEO/compare/9d56849e3964350f79e5b76cf6253043199e15f6..v0.36.2) - 2025-03-14
+#### Bug Fixes
+- add cap to ventilation factor for droplet radii > ~3mm - ([9d56849](https://github.com/yoctoyotta1024/CLEO/commit/9d56849e3964350f79e5b76cf6253043199e15f6)) - clara.bayley
+
+- - -
+
+## [v0.36.1](https://github.com/yoctoyotta1024/CLEO/compare/c01d9b1dae3c71ff9cfe77d93114c7750b303dd1..v0.36.1) - 2025-03-12
+#### Bug Fixes
+- mistake in range of valid values for fisher-yates shuffle - ([0ed7d10](https://github.com/yoctoyotta1024/CLEO/commit/0ed7d10bfd96614886f1f88a6923b51ed02874d3)) - clara.bayley
+#### Performance Improvements
+- delete unused header file from examples - ([c01d9b1](https://github.com/yoctoyotta1024/CLEO/commit/c01d9b1dae3c71ff9cfe77d93114c7750b303dd1)) - clara.bayley
+#### Refactoring
+- kokkos configuration parameters in a struct - ([dd52dd7](https://github.com/yoctoyotta1024/CLEO/commit/dd52dd7157df52e482f7a062ecf1e3916632d4b5)) - clara.bayley
+- inclue ventillation coefficient in condensation.evaporation equation - ([d489a5a](https://github.com/yoctoyotta1024/CLEO/commit/d489a5a19bd244d6ece2fafa3e3b4b008eb237c8)) - clara.bayley
+
+- - -
+
+## [v0.36.0](https://github.com/yoctoyotta1024/CLEO/compare/e06bdbabbf5e0d96994d4391b1f67403a1f83bb0..v0.36.0) - 2025-03-04
+#### Bug Fixes
+- avoid casting -1, use constants instead - ([4b6b42e](https://github.com/yoctoyotta1024/CLEO/commit/4b6b42ea84bc49e2f410ed8fbc71e18bfbce803e)) - clara.bayley
+- make privacy of functions and capture of values compatible with GPUs - ([fa95f75](https://github.com/yoctoyotta1024/CLEO/commit/fa95f7573375e88a0995f41ecc901b069ce2eb81)) - clara.bayley
+#### Features
+- new concept to define acceptable structures for boundary conditions in superdroplet movement - ([3a8860b](https://github.com/yoctoyotta1024/CLEO/commit/3a8860b97fa73b0c7fddb218554231e8b9934e4e)) - clara.bayley
+- new concept to define acceptable structures for transporting superdroplets around the domain - ([feadc96](https://github.com/yoctoyotta1024/CLEO/commit/feadc9665be9e6cdf3281a8b58886945233a7a0b)) - clara.bayley
+#### Refactoring
+- update timing for speedtest example solution - ([9fb90a2](https://github.com/yoctoyotta1024/CLEO/commit/9fb90a2c133d6af5b2e7846c58bf0b210ae8c2f2)) - clara.bayley
+- faster cuda implementation with class capture - ([12fd7e1](https://github.com/yoctoyotta1024/CLEO/commit/12fd7e1599f3f88abb5d75b010d9b4b335171c7e)) - clara.bayley
+- move functors outside of DoCondensation for clearer encapsulation - ([52402d6](https://github.com/yoctoyotta1024/CLEO/commit/52402d691ef616c68936602d67de3fbcbcfaaf9c)) - clara.bayley
+- move functors outside of DoCollisions for better encapsulation and clarity - ([202bdea](https://github.com/yoctoyotta1024/CLEO/commit/202bdeaad33f9b9ec71485f0913a8f1b0d714102)) - clara.bayley
+- capture by value in single thread shuffling - ([ea3d054](https://github.com/yoctoyotta1024/CLEO/commit/ea3d05426f526c9f721d1ae4a4a97befa263e881)) - clara.bayley
+- capture by value in lambda for runcleo references - ([611cc6b](https://github.com/yoctoyotta1024/CLEO/commit/611cc6b06cd8de7cc028cc5f616a288aba82776d)) - clara.bayley
+- move functors outside of SDMMethods for clearer encapsulation - ([26fe16a](https://github.com/yoctoyotta1024/CLEO/commit/26fe16a4483710bb5705ed7cc91cd70d1e8f11b7)) - clara.bayley
+- use concepts in runcleo and examples to constrain boundary conditions and transport templates - ([02c3026](https://github.com/yoctoyotta1024/CLEO/commit/02c3026cdf2575a501b0d7a1bee61980a4b9e307)) - clara.bayley
+- move functors outside of MoveSupersInDomain for better encapsulation - ([91321a8](https://github.com/yoctoyotta1024/CLEO/commit/91321a8bde566bdf61c932a58c742ba89fe6c42b)) - clara.bayley
+- don't use set refs with team_member when not needing nested loops - ([ae6ae29](https://github.com/yoctoyotta1024/CLEO/commit/ae6ae29c7e7daac1937b09f3ffe17db688f91067)) - clara.bayley
+- don't hold subview returned as unused variable - ([14f6210](https://github.com/yoctoyotta1024/CLEO/commit/14f6210a9e01fbb09d283f5e62b2d81bf3d11bf0)) - clara.bayley
+- don't assert total nullsupers from collisions - ([e06bdba](https://github.com/yoctoyotta1024/CLEO/commit/e06bdbabbf5e0d96994d4391b1f67403a1f83bb0)) - clara.bayley
+
+- - -
+
+## [v0.35.1](https://github.com/yoctoyotta1024/CLEO/compare/41b23c3e0d0b2b55a7dfac6f1c76963b20ad2568..v0.35.1) - 2025-03-03
+#### Bug Fixes
+- export yac and yaxt root to names YAC_ROOT and YAXT_ROOT - ([1670bf3](https://github.com/yoctoyotta1024/CLEO/commit/1670bf3ee9d1d325661e75c84971a0a328e2c20a)) - clara.bayley
+- bash syntax errors - ([41b23c3](https://github.com/yoctoyotta1024/CLEO/commit/41b23c3e0d0b2b55a7dfac6f1c76963b20ad2568)) - clara.bayley
+#### Continuous Integration
+- add coupled_dynamics and domain flags to builds - ([c78e993](https://github.com/yoctoyotta1024/CLEO/commit/c78e9930e922c973836b35cd74f6de474d20f2c2)) - clara.bayley
+#### Refactoring
+- set flags in bash scripts for cleo cmake macros using CLEO_BUILD_FLAGS - ([25ecbbe](https://github.com/yoctoyotta1024/CLEO/commit/25ecbbe28b022359d687e1ec588ce07843e0678b)) - clara.bayley
+- improve build status messages - ([28eed21](https://github.com/yoctoyotta1024/CLEO/commit/28eed21e044cd281a160683b9eee10b497372ddb)) - clara.bayley
+- rename yac root flags and delete ENABLE_YAC_COUPLING redundant flag - ([ef669ca](https://github.com/yoctoyotta1024/CLEO/commit/ef669ca0104b0438d5b663c0aa665de1dedd9a9c)) - clara.bayley
+- CLEO_[XXX] macros (flags) in CMakeLists.txt to not build exmaples and/or roughpaper - ([87cb1b4](https://github.com/yoctoyotta1024/CLEO/commit/87cb1b427e1ace2cd181512b7956043cee1aa89c)) - clara.bayley
+- CLEO_[XXX] macros (flags) in CMakeLists.txt which determine coupled_dynamics and domain type - ([cd348ea](https://github.com/yoctoyotta1024/CLEO/commit/cd348eadebc579a30eab6baa458035a4e3c0a376)) - clara.bayley
+
+- - -
+
+## [v0.35.0](https://github.com/yoctoyotta1024/CLEO/compare/d5f98316f312a19b9be9fc5f754fb6786515271b..v0.35.0) - 2025-02-28
+#### Bug Fixes
+- fix missing yacyaxtroot arg to bash scripts - ([0ff84d2](https://github.com/yoctoyotta1024/CLEO/commit/0ff84d217c51086d7a012785e79ad5ad44ecc717)) - yoctoyotta1024
+#### Documentation
+- **(examples)** docstring typo fix - ([d5f9831](https://github.com/yoctoyotta1024/CLEO/commit/d5f98316f312a19b9be9fc5f754fb6786515271b)) - Sylwester Arabas
+- better file explanation - ([dd9fe6d](https://github.com/yoctoyotta1024/CLEO/commit/dd9fe6d7082a67d05d360d85a460a7962bbc0b3f)) - yoctoyotta1024
+#### Features
+- new bash script to run fromfile example on juwels - ([383343a](https://github.com/yoctoyotta1024/CLEO/commit/383343ae626afea6a3238ac66a2d5ed93867746e)) - yoctoyotta1024
+#### Miscellaneous Chores
+- correct typo in docstring - ([8ad406e](https://github.com/yoctoyotta1024/CLEO/commit/8ad406edce2487b12bc80e624868cec9f0cdd2f2)) - yoctoyotta1024
+- add TODOs - ([42ae76d](https://github.com/yoctoyotta1024/CLEO/commit/42ae76dd1b47a6f225070bfa9552b91ea41a23f6)) - yoctoyotta1024
+#### Performance Improvements
+- formatting - ([7a9dc1f](https://github.com/yoctoyotta1024/CLEO/commit/7a9dc1fe2194f2bc27cd9fc0cf371511779643af)) - clara.bayley
+- delete unwanted comment - ([28bea10](https://github.com/yoctoyotta1024/CLEO/commit/28bea10cd24acf853d3af1ed3d6e3220a55a4966)) - yoctoyotta1024
+#### Refactoring
+- file rename - ([9610dbe](https://github.com/yoctoyotta1024/CLEO/commit/9610dbe1ea413285a0cf6d43e11493ac95c0a119)) - clara.bayley
+- move levante bash scripts into levante - ([f6b0d3e](https://github.com/yoctoyotta1024/CLEO/commit/f6b0d3edcbdaf02537955f4b659b392f3cef68e6)) - clara.bayley
+- remove macros for non-gpu superdrop functions - ([81dc834](https://github.com/yoctoyotta1024/CLEO/commit/81dc834e06f94d3bde5259b347568ae52c5de431)) - yoctoyotta1024
+
+- - -
+
+## [v0.34.0](https://github.com/yoctoyotta1024/CLEO/compare/ea35ec8cbcbc24a252621ab656e15cf98f584e26..v0.34.0) - 2025-02-24
+#### Bug Fixes
+- make examples compatible with refactored movesupersindomain struct - ([dd9b56d](https://github.com/yoctoyotta1024/CLEO/commit/dd9b56d91834436d78b6f7e1915f99e8693a2d0b)) - clara.bayley
+- make examples compatible with refactored movesupersindomain struct - ([2e4de85](https://github.com/yoctoyotta1024/CLEO/commit/2e4de8517e0bec5c60fc0ffac463d78be6774098)) - yoctoyotta1024
+- fix missing dynamic libraries at runtime - ([41f32c5](https://github.com/yoctoyotta1024/CLEO/commit/41f32c54bde7c996bf804f2b881c952edeb5fabe)) - yoctoyotta1024
+- remove spack unload - ([05e9774](https://github.com/yoctoyotta1024/CLEO/commit/05e9774812f50a46045708d7bf65f687f951c04e)) - yoctoyotta1024
+- path to juwels bash folder and juwels_packages - ([b7616f1](https://github.com/yoctoyotta1024/CLEO/commit/b7616f1a02be6b2e7b1d6bca7c3552b4875b6d61)) - yoctoyotta1024
+#### Features
+- new bash script to run divfree2d on juwels - ([296ebb7](https://github.com/yoctoyotta1024/CLEO/commit/296ebb79d90aa4f813fe0860c4ae6f66d663b0ad)) - yoctoyotta1024
+- new bash scripts to run CLEO on JUWELS - ([3b4619f](https://github.com/yoctoyotta1024/CLEO/commit/3b4619fbc9f64b5e3faa67133f730db811cb9641)) - yoctoyotta1024
+#### Performance Improvements
+- linting files - ([38d1b2f](https://github.com/yoctoyotta1024/CLEO/commit/38d1b2fa7e146cb596f93317aecb333a8665085d)) - clara.bayley
+#### Refactoring
+- rename files and move into movement directory - ([c6cb78e](https://github.com/yoctoyotta1024/CLEO/commit/c6cb78e22b743a6b42b6a79874810d09f627a0f0)) - yoctoyotta1024
+- movement of superdroplets across domain in seperate structure to MoveSupersInDomain - ([b67f5d2](https://github.com/yoctoyotta1024/CLEO/commit/b67f5d2ed608dfe48bf38a055f393927832ea041)) - yoctoyotta1024
+- delete redundant file - ([78791dc](https://github.com/yoctoyotta1024/CLEO/commit/78791dc91a47751ffec81a7e77460a1a04e5bb6a)) - yoctoyotta1024
+- rename motion -> sdmotion for clarity - ([5b80779](https://github.com/yoctoyotta1024/CLEO/commit/5b8077906594a97193c834a9cca0dc26c9711d12)) - yoctoyotta1024
+- use ParaStationMPI not OpenMPI with gcc compiler - ([f0f5a98](https://github.com/yoctoyotta1024/CLEO/commit/f0f5a9880f0f69bb61d465ceb11aa70ba68d0681)) - yoctoyotta1024
+- change runtime settings - ([62c5cf5](https://github.com/yoctoyotta1024/CLEO/commit/62c5cf58bba6e08c65d24fdff15f4e09dc6935b8)) - yoctoyotta1024
+- change SLURM settings - ([89b428b](https://github.com/yoctoyotta1024/CLEO/commit/89b428baecdbe471810b11e08af96491372b6d2e)) - yoctoyotta1024
+- lower cpu count for compiling - ([3e9e954](https://github.com/yoctoyotta1024/CLEO/commit/3e9e954c086c3ee6e2779ddccd3b6c4a75783aa2)) - yoctoyotta1024
+- change default path to CLEO repo - ([6a84aa3](https://github.com/yoctoyotta1024/CLEO/commit/6a84aa34ef5b4e0c65838a7090c69aa2848bc876)) - yoctoyotta1024
+- use juwels packages for intel compilers - ([f92bf06](https://github.com/yoctoyotta1024/CLEO/commit/f92bf06d073d2ba454e0ebe5045cf5efd2cd4033)) - yoctoyotta1024
+- don't support YAC builds on JUWELS - ([4e9967e](https://github.com/yoctoyotta1024/CLEO/commit/4e9967ebc76756e0c291cc83adf8f7c150f8cf3e)) - yoctoyotta1024
+- don't support CUDA builds on JUWELS - ([43da6bf](https://github.com/yoctoyotta1024/CLEO/commit/43da6bf770f4a875d22a2696505ad05963c3f3c5)) - yoctoyotta1024
+- use juwels packages for gcc compilers - ([a32a451](https://github.com/yoctoyotta1024/CLEO/commit/a32a4519915ca38076be6e244d15b66b8be24b31)) - yoctoyotta1024
+- set team size for heirarchal parallelism - ([a5c381e](https://github.com/yoctoyotta1024/CLEO/commit/a5c381e751b2de15ecfaf6b0ee06eebe49eb6a09)) - clara.bayley
+- set number of host threads in fromfile example config - ([9d833c7](https://github.com/yoctoyotta1024/CLEO/commit/9d833c7ed961b75766ff750f6dcd08db738d7ba8)) - clara.bayley
+- fromfile takes ntasks as argument - ([ea35ec8](https://github.com/yoctoyotta1024/CLEO/commit/ea35ec8cbcbc24a252621ab656e15cf98f584e26)) - clara.bayley
+
+- - -
+
+## [v0.33.1](https://github.com/yoctoyotta1024/CLEO/compare/2b624c97d680e468a97db0e1873347cf7f8e06ec..v0.33.1) - 2025-01-30
+#### Bug Fixes
+- gcc compiler error from taking address of rvalue - ([71a58db](https://github.com/yoctoyotta1024/CLEO/commit/71a58db95c403b9a69d430ad190a6bbee5645ca3)) - clara.bayley
+#### Refactoring
+- use argparse for fromfile args - ([05cc17c](https://github.com/yoctoyotta1024/CLEO/commit/05cc17c7dea9a56bd26884f4ddd6a2102ed603b1)) - clara.bayley
+- move fromfile plotting to seperate script - ([e0e45b0](https://github.com/yoctoyotta1024/CLEO/commit/e0e45b0e3d40190d564c798a1cc9355a6257caee)) - clara.bayley
+- add booleans to fromfile example run script - ([2b624c9](https://github.com/yoctoyotta1024/CLEO/commit/2b624c97d680e468a97db0e1873347cf7f8e06ec)) - clara.bayley
+
+- - -
+
+## [v0.33.0](https://github.com/yoctoyotta1024/CLEO/compare/8f483c9f2dafc32dcd93ca2afb66a31ef97a21a9..v0.33.0) - 2025-01-28
+#### Bug Fixes
+- make GPU compatible - ([14d0562](https://github.com/yoctoyotta1024/CLEO/commit/14d0562901d321a510a5c0d6fb51880acba3f341)) - clara.bayley
+- make find_domainrefs GPU compatible - ([17bfc0d](https://github.com/yoctoyotta1024/CLEO/commit/17bfc0df4eea6aa8e60b24937c13034f088db17c)) - clara.bayley
+#### Features
+- add more plugs to profile superdroplet motion - ([accfbff](https://github.com/yoctoyotta1024/CLEO/commit/accfbff1eb3519d246a456cad45a098edee66151)) - clara.bayley
+- use gbxs in create_cumlcounts function to avoid atomic conflicts - ([aa1c31f](https://github.com/yoctoyotta1024/CLEO/commit/aa1c31fe30ede49c1aa9c0c906b4bd787a4f7447)) - clara.bayley
+- use gbxs in counting sort algorithm to reduce atomic conflicts - ([042e4f5](https://github.com/yoctoyotta1024/CLEO/commit/042e4f5fc0dc4a1c7cb6a86660f0b05c3be78849)) - clara.bayley
+#### Refactoring
+- use functor for create_cumlcounts loop - ([5140f0c](https://github.com/yoctoyotta1024/CLEO/commit/5140f0c18dd75e9864a342d003f7f59d3e24e34c)) - clara.bayley
+- remove optional extras from sorting algorithm - ([3345c04](https://github.com/yoctoyotta1024/CLEO/commit/3345c0467f8b0e66db88a58e15014f65941ed8a5)) - clara.bayley
+- use scatter view for counts summation to abstract atomics - ([efb47c5](https://github.com/yoctoyotta1024/CLEO/commit/efb47c577749b76bc95d72de1f043ddb01b63ac9)) - clara.bayley
+- use find_partition_point also in find_ref for outer level parallelism cases - ([8f483c9](https://github.com/yoctoyotta1024/CLEO/commit/8f483c9f2dafc32dcd93ca2afb66a31ef97a21a9)) - clara.bayley
+
+- - -
+
+## [v0.32.0](https://github.com/yoctoyotta1024/CLEO/compare/e3164e2e0059fb518492332850c05abf7f20c832..v0.32.0) - 2025-01-23
+#### Features
+- replace kokkos/std sorting algorithm with counting sort algorithm - ([491f841](https://github.com/yoctoyotta1024/CLEO/commit/491f841fb8af867ffbbe159d3dcff28ead91b593)) - clara.bayley
+#### Refactoring
+- assume first position in totsupers is start of in domain supers and add docstrings - ([e3164e2](https://github.com/yoctoyotta1024/CLEO/commit/e3164e2e0059fb518492332850c05abf7f20c832)) - clara.bayley
+
+- - -
+
+## [v0.31.0](https://github.com/yoctoyotta1024/CLEO/compare/1a24d6319861ff6b74b25d9d86508a6a218b3a98..v0.31.0) - 2025-01-23
+#### Bug Fixes
+- encapsulation of supers in parallel regions - ([61ed09a](https://github.com/yoctoyotta1024/CLEO/commit/61ed09ad62ad1cc2b790ca05cfecf52b9cc38a90)) - clara.bayley
+- typos in bash script - ([e61fc3d](https://github.com/yoctoyotta1024/CLEO/commit/e61fc3d0931e884e78e5ece055cfee5c81eec5e0)) - clara.bayley
+- correct initial conditions and method to get size of supers view - ([b543045](https://github.com/yoctoyotta1024/CLEO/commit/b5430452c9dcc89c53114a00548a06293e422e36)) - clara.bayley
+#### Features
+- new struct to handle domain superdroplets - ([5c62ef1](https://github.com/yoctoyotta1024/CLEO/commit/5c62ef18040daeffc44dc4ce405164d12063a782)) - clara.bayley
+#### Miscellaneous Chores
+- rename SupersInDomain object - ([d2529be](https://github.com/yoctoyotta1024/CLEO/commit/d2529be2296d99948c84b047fe875ae4203a72a1)) - clara.bayley
+- rename observers supers sub-view - ([26e2eba](https://github.com/yoctoyotta1024/CLEO/commit/26e2ebae00b38d437ff87a501583522519ea369a)) - clara.bayley
+- use auto - ([7d0fd95](https://github.com/yoctoyotta1024/CLEO/commit/7d0fd954eeabfb3ef48f9dc88502694761cc9e12)) - clara.bayley
+#### Performance Improvements
+- nicer expression to reference gbx - ([67036d3](https://github.com/yoctoyotta1024/CLEO/commit/67036d3abe282b92fbd27b06b5308d1c9fa584a5)) - clara.bayley
+#### Refactoring
+- control sorting of totsupers from inside SupersInDomain struct - ([1ac934a](https://github.com/yoctoyotta1024/CLEO/commit/1ac934afa5fcc6a1b829b1ea39516e77f1f17d81)) - clara.bayley
+- use kokkos style element access and add assert for supers size - ([68a1aed](https://github.com/yoctoyotta1024/CLEO/commit/68a1aed168e7d900021572549360f5671519e1df)) - clara.bayley
+- return totsupers after sorting - ([944fb5b](https://github.com/yoctoyotta1024/CLEO/commit/944fb5bfe83f7589bfb81c8b72ddf1b54bfdbf5c)) - clara.bayley
+- initconds use gbxmaps for nullgbxs - ([c5e0268](https://github.com/yoctoyotta1024/CLEO/commit/c5e0268e94de1fff10c19d7f7852cadbbc95364a)) - clara.bayley
+- remove supers entire view from supersingbx object - ([d8ebeb5](https://github.com/yoctoyotta1024/CLEO/commit/d8ebeb51691a72327a2ee5ba1d966aadded836f6)) - clara.bayley
+- use domainsupers to alter superdroplets during motion - ([8a9d3e9](https://github.com/yoctoyotta1024/CLEO/commit/8a9d3e91ef4c29cb7c9b8e22c51064109725ce40)) - clara.bayley
+- don't use view in predcorr deltas - ([1a24d63](https://github.com/yoctoyotta1024/CLEO/commit/1a24d6319861ff6b74b25d9d86508a6a218b3a98)) - clara.bayley
+
+- - -
+
 ## [v0.30.1](https://github.com/yoctoyotta1024/CLEO/compare/ffbd7900b9ef26749c0fb9c6b619584b83c143a6..v0.30.1) - 2024-12-21
 #### Bug Fixes
 - add spdtest results for new bash scripts - ([ffbd790](https://github.com/yoctoyotta1024/CLEO/commit/ffbd7900b9ef26749c0fb9c6b619584b83c143a6)) - clara.bayley

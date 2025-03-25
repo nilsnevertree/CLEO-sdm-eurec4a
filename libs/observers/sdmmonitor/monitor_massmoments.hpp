@@ -33,6 +33,8 @@
 #include "observers/massmoments_observer.hpp"
 #include "zarr/buffer.hpp"
 
+namespace KCS = KokkosCleoSettings;
+
 struct MonitorMassMomentViews {
   Buffer<uint64_t>::mirrorviewd_buffer d_mom0;  // view on device for monitoring 0th mass moment
   Buffer<float>::mirrorviewd_buffer d_mom1;     // view on device for monitoring 1st mass moment
@@ -166,14 +168,15 @@ struct MonitorMassMoments {
    * distribution during SDM motion.
    *
    * @param d_gbxs The view of gridboxes in device memory.
+   * @param domainsupers The view of all super-droplets (in bounds of domain).
    */
-  void monitor_motion(const viewd_constgbx d_gbxs) const {
+  void monitor_motion(const viewd_constgbx d_gbxs, const subviewd_constsupers domainsupers) const {
     const size_t ngbxs(d_gbxs.extent(0));
     Kokkos::parallel_for(
-        "monitor_motion", TeamPolicy(ngbxs, Kokkos::AUTO()),
+        "monitor_motion", TeamPolicy(ngbxs, KCS::team_size),
         KOKKOS_CLASS_LAMBDA(const TeamMember& team_member) {
           const auto ii = team_member.league_rank();
-          const auto supers(d_gbxs(ii).supersingbx.readonly());
+          const auto supers = d_gbxs(ii).supersingbx.readonly(domainsupers);
           motion_moms.fetch_massmoments(team_member, supers);
         });
   }
