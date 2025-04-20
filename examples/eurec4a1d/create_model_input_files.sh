@@ -29,9 +29,9 @@ echo "Using Python from: $(which python)"
 ### ---------------------------------------------------- ###
 
 ### ------------------ Input Parameters ---------------- ###
-# microphysics="null_microphysics"
+microphysics="null_microphysics"
 # microphysics="condensation"
-microphysics="collision_condensation"
+# microphysics="collision_condensation"
 # microphysics="coalbure_condensation_small"
 # microphysics="coalbure_condensation_large"
 # microphysics="coalbure_condensation_cke"
@@ -43,7 +43,7 @@ path2CLEO=${HOME}/CLEO/
 path2eurec4a1d=${path2CLEO}examples/eurec4a1d/
 path2sdmeurec4a=${HOME}/repositories/sdm-eurec4a/
 
-path2data=${path2CLEO}data/output_v4.2/
+path2data=${path2CLEO}data/output-CLEO_v0.39.7-input_v4.2/
 path2input=${path2sdmeurec4a}data/model/input_v4.2/
 path2output=${path2data}/${microphysics}
 
