@@ -15,27 +15,18 @@ This script is used to run the EUREC4A1D executable. It is called by the
 # %%
 
 import sys
+import secrets
 from pathlib import Path
 import ruamel.yaml
 import logging
 import datetime
 import numpy as np
+from mpi4py import MPI
 
 yaml = ruamel.yaml.YAML()
 # logging configure
 logging.basicConfig(level=logging.INFO)
 
-# === mpi4py ===
-try:
-    from mpi4py import MPI
-
-    comm = MPI.COMM_WORLD
-    rank = comm.Get_rank()  # [0,1,2,3,4,5,6,7,8,9]
-    npro = comm.Get_size()  # 10
-except Exception:
-    print("::: Warning: Proceeding without mpi4py! :::")
-    rank = 0
-    npro = 1
 
 path2CLEO = Path(__file__).resolve().parents[3]
 
@@ -46,9 +37,31 @@ path2eurec4a1d = path2CLEO / "examples/eurec4a1d"
 
 time_str = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%d-%H%M%S")
 
-log_file_dir = path2eurec4a1d / "logfiles" / f"update_config_files/{time_str}"
-log_file_dir.mkdir(exist_ok=True, parents=True)
-log_file_path = log_file_dir / f"{rank}.log"
+# create shared logging directory
+try:
+    comm = MPI.COMM_WORLD
+    rank = comm.Get_rank()  # [0,1,2,3,4,5,6,7,8,9]
+    npro = comm.Get_size()  # 10
+except Exception:
+    raise ImportError("MPI4PY not possible!")
+
+# create shared logging directory
+if rank == 0:
+    # Generate a shared directory name based on UTC time and random hex
+    time_str = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%d-%H%M%S")
+    random_hex = secrets.token_hex(4)
+    log_dir = (
+        path2eurec4a1d / "logfiles" / f"update_config_files/{time_str}-{random_hex}"
+    )
+    log_dir.mkdir(exist_ok=True, parents=True)
+else:
+    log_dir = None
+
+
+# Broadcast the shared directory name to all processes
+log_dir = comm.bcast(log_dir, root=0)
+# create individual log file
+log_file_path = log_dir / f"{rank}.log"
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
