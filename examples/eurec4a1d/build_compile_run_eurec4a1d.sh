@@ -38,7 +38,7 @@ source ${path2CLEO}/scripts/levante/bash/src/check_inputs.sh
 
 ### -------------- run CLEO parameters ------------- ###
 run_script_path=${path2CLEO}/examples/eurec4a1d/scripts/run_job_array_eurec4a1d.sh
-path2data=${path2CLEO}/data/output-CLEO_v0.39.7-input_v4.2/
+path2data=${path2CLEO}/data/output_v4.3-CLEO_v0.39.7-input_v4.2/
 subdir_pattern="cluster*"
 
 # microphysics="null_microphysics"
