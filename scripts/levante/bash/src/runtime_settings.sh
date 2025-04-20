@@ -1,7 +1,8 @@
 #!/bin/bash
 
 set -e
-bashsrc=${CLEO_PATH2CLEO}/scripts/levante/bash/src
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+bashsrc=${SCRIPT_DIR}
 
 stacksize_limit=${1} # kB
 
@@ -16,9 +17,7 @@ then
   check_args_not_empty "${CLEO_YACYAXTROOT}"
   source ${bashsrc}/levante_packages.sh
 
-  spack load ${levante_gcc_python_yac}
-  spack load ${levante_gcc_cython_yac}
-  spack load ${levante_gcc_mpi4py_yac}
+  spack load ${levante_gcc_openmpi}
 
   export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${levante_gcc_fyamllib}
   export PYTHONPATH=${PYTHONPATH}:${CLEO_YACYAXTROOT}/yac/python # path to YAC python bindings

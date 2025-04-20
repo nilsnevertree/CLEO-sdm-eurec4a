@@ -2,6 +2,75 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [v0.39.7](https://github.com/yoctoyotta1024/CLEO/compare/dbec7a4c7ea667b5241b1016a3c29f9fb9727bcd..v0.39.7) - 2025-04-19
+#### Bug Fixes
+- fix major bug in calculation of collision probability - ([dbec7a4](https://github.com/yoctoyotta1024/CLEO/commit/dbec7a4c7ea667b5241b1016a3c29f9fb9727bcd)) - clara.bayley
+
+- - -
+
+## [v0.39.6](https://github.com/yoctoyotta1024/CLEO/compare/ea79f2a57af61c360e3af46091a5971b70c0b668..v0.39.6) - 2025-04-17
+#### Bug Fixes
+- fix major bug in calculation of collision probability - ([ea79f2a](https://github.com/yoctoyotta1024/CLEO/commit/ea79f2a57af61c360e3af46091a5971b70c0b668)) - clara.bayley
+#### Documentation
+- remove no longer relevant statement - ([eb2bce7](https://github.com/yoctoyotta1024/CLEO/commit/eb2bce7a06d014f3705bb44336ada7016c440f03)) - clara.bayley
+#### Refactoring
+- initial conditions as in Shima et al. 2009 - ([ef16652](https://github.com/yoctoyotta1024/CLEO/commit/ef166525726af75bfaa89bcc170d3ec0c1b8d579)) - clara.bayley
+
+- - -
+
+## [v0.39.5](https://github.com/yoctoyotta1024/CLEO/compare/736fbcbe88438e642b358a38915a28c69970a683..v0.39.5) - 2025-04-17
+#### Bug Fixes
+- error in Long 1974 collision efficieny git status - ([3643b33](https://github.com/yoctoyotta1024/CLEO/commit/3643b333c3e5f298562b06dc66f69e600024056d)) - clara.bayley
+#### Refactoring
+- return lines not axes from figure - ([736fbcb](https://github.com/yoctoyotta1024/CLEO/commit/736fbcbe88438e642b358a38915a28c69970a683)) - clara.bayley
+
+- - -
+
+## [v0.39.4](https://github.com/yoctoyotta1024/CLEO/compare/25acc999a08780bbc2ee02a395bbfa156f50bb18..v0.39.4) - 2025-04-16
+#### Bug Fixes
+- 525da8f8c8b9c0732b97175b1b4351b5bb7ec276 need mpi at runtime when using yac - ([4d11a8a](https://github.com/yoctoyotta1024/CLEO/commit/4d11a8ac1b4f0a33780920e4ae718d39ad2d67c8)) - clara.bayley
+#### Refactoring
+- revert 37c296a4fe937281f7dd95526ed76d19edcbadb7 and add requirements - ([f7b513b](https://github.com/yoctoyotta1024/CLEO/commit/f7b513b2eff96d8ef74f3fa69f90ba2b16b3aa13)) - clara.bayley
+- use python given as argument to create YAC python bindings - ([25acc99](https://github.com/yoctoyotta1024/CLEO/commit/25acc999a08780bbc2ee02a395bbfa156f50bb18)) - clara.bayley
+
+- - -
+
+## [v0.39.3](https://github.com/yoctoyotta1024/CLEO/compare/a9dd722d8b1b24b980a851e555368e0fe4ce80be..v0.39.3) - 2025-04-16
+#### Bug Fixes
+- need mpi4py in using yac at runtime - ([525da8f](https://github.com/yoctoyotta1024/CLEO/commit/525da8f8c8b9c0732b97175b1b4351b5bb7ec276)) - clara.bayley
+#### Refactoring
+- remove spack packages from yac runtime settings - ([17a5dc5](https://github.com/yoctoyotta1024/CLEO/commit/17a5dc521a10ef5693a0a15b3d0b4fdcd9a1be8d)) - clara.bayley
+- lower python version to match than used to make python bindings on levante - ([37c296a](https://github.com/yoctoyotta1024/CLEO/commit/37c296a4fe937281f7dd95526ed76d19edcbadb7)) - clara.bayley
+- use levante_packages bash in yac installation - ([a9dd722](https://github.com/yoctoyotta1024/CLEO/commit/a9dd722d8b1b24b980a851e555368e0fe4ce80be)) - clara.bayley
+
+- - -
+
+## [v0.39.2](https://github.com/yoctoyotta1024/CLEO/compare/ff2accbdbc00d2884d9597ba8702896319b69945..v0.39.2) - 2025-04-11
+#### Bug Fixes
+- update acyronym - ([ff2accb](https://github.com/yoctoyotta1024/CLEO/commit/ff2accbdbc00d2884d9597ba8702896319b69945)) - clara.bayley
+
+- - -
+
+## [v0.39.1](https://github.com/yoctoyotta1024/CLEO/compare/f5c01a097ad62b1a5544bc19b1931dc95b0af24a..v0.39.1) - 2025-04-11
+#### Bug Fixes
+- use relative path from current script in bash directories - ([c85b4e9](https://github.com/yoctoyotta1024/CLEO/commit/c85b4e98ec11ed07478e215c438c7d6ec8b30626)) - clara.bayley
+#### Refactoring
+- allow no executables to be compiled - ([1167c0e](https://github.com/yoctoyotta1024/CLEO/commit/1167c0eb9cedc3502bd2acd631480d8bf732a667)) - clara.bayley
+- remove mail user from SLURM jobs - ([f5c01a0](https://github.com/yoctoyotta1024/CLEO/commit/f5c01a097ad62b1a5544bc19b1931dc95b0af24a)) - clara.bayley
+
+- - -
+
+## [v0.39.0](https://github.com/yoctoyotta1024/CLEO/compare/57b2f11b3c1a44bd30936477c463a28061aec4bf..v0.39.0) - 2025-03-26
+#### Bug Fixes
+- remove conflicting black and ruff python formatting - ([7adb597](https://github.com/yoctoyotta1024/CLEO/commit/7adb5976a5aac9c174e042984acb9668b1ad1970)) - clara.bayley
+#### Features
+- split thermodynamics generation into thermo and wind fields seperately - ([57b2f11](https://github.com/yoctoyotta1024/CLEO/commit/57b2f11b3c1a44bd30936477c463a28061aec4bf)) - clara.bayley
+#### Refactoring
+- use threads for constthermo2d and in speedtest builds - ([c0f4043](https://github.com/yoctoyotta1024/CLEO/commit/c0f40435c2ceaca1516aeea35efe6e9b81abe552)) - clara.bayley
+- make examples compatible with thermogen changes - ([909f471](https://github.com/yoctoyotta1024/CLEO/commit/909f471e4a18772c2b0f685c5517e7f02e607fce)) - clara.bayley
+
+- - -
+
 ## [v0.38.3](https://github.com/yoctoyotta1024/CLEO/compare/077501a990f4a7a06e0755a05bedfda095529784..v0.38.3) - 2025-03-25
 #### Bug Fixes
 - fail-safe way to use modules in bash scripts - ([077501a](https://github.com/yoctoyotta1024/CLEO/commit/077501a990f4a7a06e0755a05bedfda095529784)) - clara.bayley
