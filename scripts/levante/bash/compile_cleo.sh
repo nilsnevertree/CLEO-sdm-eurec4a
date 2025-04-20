@@ -6,8 +6,6 @@
 #SBATCH --cpus-per-task=128
 #SBATCH --mem=940M
 #SBATCH --time=00:05:00
-#SBATCH --mail-user=clara.bayley@mpimet.mpg.de
-#SBATCH --mail-type=FAIL
 #SBATCH --account=bm1183
 #SBATCH --output=./build/bin/compile_cleo_out.%j.out
 #SBATCH --error=./build/bin/compile_cleo_err.%j.out
@@ -20,9 +18,11 @@ source /etc/profile
 module purge
 spack unload --all
 
-executables=$1
+executables=$1                     # if == "NONE" only libraries built
 make_clean=$2
-bashsrc=${CLEO_PATH2CLEO}/scripts/levante/bash/src
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+bashsrc=${SCRIPT_DIR}/src
 
 ### -------------------- check inputs ------------------ ###
 source ${bashsrc}/check_inputs.sh
@@ -66,13 +66,20 @@ echo "make_clean: ${make_clean}"
 echo "### ------------------------------------------- ###"
 
 cd ${CLEO_PATH2BUILD} && pwd
+
 if [ "${make_clean}" == "true" ]
 then
   cmd="make clean"
   echo ${cmd}
   eval ${cmd}
 fi
-cmd="make -j 128 ${executables}"
+
+if [ ${executables} == "NONE" ]
+then
+  cmd="make -j 128"
+else
+  cmd="make -j 128 ${executables}"
+fi
 echo ${cmd}
 eval ${cmd}
 ### ---------------------------------------------------- ###

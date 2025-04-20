@@ -6,8 +6,6 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=940M
 #SBATCH --time=00:10:00
-#SBATCH --mail-user=clara.bayley@mpimet.mpg.de
-#SBATCH --mail-type=FAIL
 #SBATCH --account=bm1183
 #SBATCH --output=./build/bin/install_yac_out.%j.out
 #SBATCH --error=./build/bin/install_yac_err.%j.out
@@ -20,9 +18,9 @@ source /etc/profile
 module purge
 spack unload --all
 
-set -ex
-
 root4YAC=$1 # absolute path for YAC and YAXT installations
+python=$2 # name or absolute path to python to make YAC python bindngs with
+### Note: python version used to install yac must match version used to run model
 
 yaxt_tag=0.11.1
 yaxt_version=yaxt-${yaxt_tag}
@@ -33,29 +31,25 @@ yac_tag=v3.5.2
 yac_version=yac_$yac_tag
 yac_source=https://gitlab.dkrz.de/dkrz-sw/yac/-/archive/$yac_tag/$yac_version.tar.gz
 
-gcc=gcc/11.2.0-gcc-11.2.0
-openmpi=openmpi/4.1.2-gcc-11.2.0
-netcdf=netcdf-c/4.8.1-openmpi-4.1.2-gcc-11.2.0 # must match gcc and openmpi
-netcdf_root=/sw/spack-levante/netcdf-c-4.8.1-6qheqr # must match with `module show ${netcdf}`
-fyaml_root=/sw/spack-levante/libfyaml-0.7.12-fvbhgo # must match with `spack location -i libfyaml``
-python=python@3.9.9%gcc@=11.2.0/fwv
-pycython=py-cython@0.29.33%gcc@=11.2.0/j7b4fa
-pympi4py=py-mpi4py@3.1.2%gcc@=11.2.0/hdi5yl6
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+bashsrc=${SCRIPT_DIR}/src
+source ${bashsrc}/levante_packages.sh
 
-CC=/sw/spack-levante/openmpi-4.1.2-mnmady/bin/mpicc # must match gcc
-FC=/sw/spack-levante/openmpi-4.1.2-mnmady/bin/mpif90 # must match gcc
+gcc=${levante_gcc}
+openmpi=${levante_gcc_openmpi}
+netcdf=${levante_gcc_netcdf_yac}
+netcdf_root=${levante_gcc_netcdf_root}
+fyaml_root=${levante_gcc_fyaml_root}
+CC=${levante_gcc_compiler}
+FC=${levante_f90_compiler}
 
-if [ "${root4YAC}" == "" ]
+if [[ "${root4YAC}" == "" || "${python}" == "" ]]
 then
-  echo "Bad input, please specify absolute path for where you want to install YAC"
+  echo "Bad input, please specify absolute path for where you want to install YAC and python to use to make bindings"
 else
   mkdir ${root4YAC}
-  module load ${gcc} ${openmpi} ${netcdf}
-  ### ----------------- load Python ------------------------ ###
-  spack load ${python}
-  spack load ${pycython}
-  spack load ${pympi4py}
-  ### ------------------------------------------------------ ###
+  module load ${gcc} ${netcdf}
+  spack load ${openmpi}
 
   ### --------------------- install YAXT ------------------- ###
   mkdir ${root4YAC}/${yaxt_version}
@@ -87,6 +81,7 @@ else
     CFLAGS="-O0 -g -Wall" \
     FCFLAGS="-O0 -g -Wall -cpp -fimplicit-none" \
     LDFLAGS="-lm" \
+    PYTHON=${python} \
     --disable-mpi-checks \
     --with-yaxt-root=${root4YAC}/yaxt \
     --with-netcdf-root=${netcdf_root} \
