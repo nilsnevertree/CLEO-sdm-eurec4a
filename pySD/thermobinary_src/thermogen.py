@@ -936,10 +936,6 @@ class SplittedLapseRates:
         potential_temperature_lapse_rates: Union[np.ndarray, Tuple[float, float]],
         relative_humidity_lapse_rates: Union[np.ndarray, Tuple[float, float]],
         qcond: float,
-        w_maximum: float,
-        u_velocity: float,
-        v_velocity: float,
-        Wlength: float,
     ):
         self.cloud_base_height = cloud_base_height
         self.pressure_0 = pressure_0
@@ -959,10 +955,6 @@ class SplittedLapseRates:
         self.potential_temperature_lapse_rates = potential_temperature_lapse_rates
         self.relative_humidity_lapse_rates = relative_humidity_lapse_rates
         self.qcond = qcond
-        self.w_maximum = w_maximum
-        self.u_velocity = u_velocity
-        self.v_velocity = v_velocity
-        self.Wlength = Wlength
 
         inputs = thermoinputsdict(config_filename, constants_filename)
         self.Mr_ratio = inputs["Mr_ratio"]
@@ -1062,31 +1054,6 @@ class SplittedLapseRates:
             temperature=self.temperature(z=z),
             pressure=self.pressure(z=z),
         )
-
-    def wvel_profile(self, gbxbounds, ndims, ntime):
-        """returns updraught (w always >=0.0) sinusoidal
-        profile with amplitude WMAX and wavelength 2*Wlength"""
-
-        zfaces = rgrid.coords_forgridboxfaces(gbxbounds, ndims, "z")[0]
-        WVEL = self.w_maximum * np.sin(np.pi * zfaces / (2 * self.Wlength))
-
-        WVEL[WVEL < 0.0] = 0.0
-
-        return np.tile(WVEL, ntime)
-
-    def generate_winds(self, gbxbounds, ndims, ntime, THERMODATA):
-        THERMODATA = constant_winds(
-            ndims=ndims,
-            ntime=ntime,
-            THERMODATA=THERMODATA,
-            WVEL=self.w_maximum,
-            UVEL=self.u_velocity,
-            VVEL=self.v_velocity,
-        )
-        if self.Wlength > 0.0:
-            THERMODATA["WVEL"] = self.wvel_profile(gbxbounds, ndims, ntime)
-
-        return THERMODATA
 
     def generate_thermo(self, gbxbounds, ndims, ntime):
         zfulls, xfulls, yfulls = rgrid.fullcoords_forallgridboxes(gbxbounds, ndims)

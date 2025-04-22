@@ -31,6 +31,8 @@ from pySD.initsuperdropsbinary_src import read_initsuperdrops as rsupers
 from pySD.thermobinary_src import create_thermodynamics as cthermo
 from pySD.thermobinary_src import read_thermodynamics as rthermo
 from pySD.thermobinary_src import thermogen
+from pySD.thermobinary_src import windsgen
+from pySD.thermobinary_src import thermodyngen
 
 # %%
 # validate the mpi4py setup
@@ -406,16 +408,20 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
     monodryr = 1e-12  # all SDs have this same dryradius [m]
     dryradii_generator = rgens.MonoAttrGen(monodryr)
 
-    logging.info("Write gridbox binary file")
+    # wind field+
+    WVEL = 0.0  # [m/s]
+    Wlength = zgrid_cloud_base
+
     ### ----- write gridbox boundaries binary ----- ###
-    with Capturing() as grid_info:
-        cgrid.write_gridboxboundaries_binary(
-            grid_filename=grid_file_path,
-            zgrid=zgrid,
-            xgrid=xgrid,
-            ygrid=ygrid,
-            constants_filename=constants_file_path,
-        )
+    logging.info("Write gridbox binary file")
+    cgrid.write_gridboxboundaries_binary(
+        grid_filename=grid_file_path,
+        zgrid=zgrid,
+        xgrid=xgrid,
+        ygrid=ygrid,
+        constants_filename=constants_file_path,
+    )
+
     with Capturing() as grid_info:
         rgrid.print_domain_info(constants_file_path, grid_file_path)
     # extract the total number of gridboxes
@@ -427,13 +433,16 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
             )
             number_gridboxes_total = int(np.prod(grid_dimensions))
             found_number_gridboxes = True
-    if not found_number_gridboxes:
+
+    if found_number_gridboxes:
+        number_gridboxes_total = number_gridboxes_total
+    else:
+        number_gridboxes_total = 0
         raise KeyError("domain no. gridboxes not found in grid_info")
 
-    # --- THERMODYNAMICS ---
-
+    ### ----- write thermodynamics binaries ----- ###
     logging.info("Create thermodynamics generator")
-    thermodynamics_generator = thermogen.SplittedLapseRates(
+    thermo_generator = thermogen.SplittedLapseRates(
         config_filename=config_file_path,
         constants_filename=constants_file_path,
         cloud_base_height=relative_humidity_params["x_split"].values,  # type: ignore
@@ -453,17 +462,18 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
             relative_humidity_params["slope_2"].values,  # type: ignore
         ),
         qcond=0.0,
-        w_maximum=0.0,
-        u_velocity=None,
-        v_velocity=None,
-        Wlength=0.0,
     )
-
+    # create wind generator
+    winds_generator = windsgen.SinusoidalUpdraught(WVEL, None, None, Wlength)
+    thermodynamic_generator = thermodyngen.ThermodynamicsGenerator(
+        thermo_generator, winds_generator
+    )
+    # thermodynamic generator
     logging.info("Write thermodynamics binary")
     with Capturing() as thermo_info:
         cthermo.write_thermodynamics_binary(
             thermofiles=thermodynamics_file_path,
-            thermogen=thermodynamics_generator,
+            thermodyngen=thermodynamic_generator,
             config_filename=config_file_path,
             constants_filename=constants_file_path,
             grid_filename=grid_file_path,
