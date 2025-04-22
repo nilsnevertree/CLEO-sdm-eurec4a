@@ -878,14 +878,6 @@ class SplittedLapseRates:
     relative_humidity_lapse_rates : Union[np.ndarray, Tuple[float, float]]
         Tuple of relative humidity lapse rates below and above the cloud base.
         Units of 1/m. NOT in percentage / m.
-    w_maximum : float
-        Maximum vertical velocity.
-    u_velocity : float
-        U component of the wind velocity.
-    v_velocity : float
-        V component of the wind velocity.
-    Wlength : float
-        Wavelength for the vertical velocity profile.
 
     Attributes:
         cloud_base_height (float): Height of the cloud base.
@@ -895,10 +887,6 @@ class SplittedLapseRates:
         pressure_lapse_rates (Union[np.ndarray, Tuple[float, float]]): Pressure lapse rates.
         potential_temperature_lapse_rates (Union[np.ndarray, Tuple[float, float]]): Potential temperature lapse rates.
         relative_humidity_lapse_rates (Union[np.ndarray, Tuple[float, float]]): Relative humidity lapse rates.
-        w_maximum (float): Maximum vertical velocity.
-        u_velocity (float): U component of the wind velocity.
-        v_velocity (float): V component of the wind velocity.
-        Wlength (float): Wavelength for the vertical velocity profile.
         Mr_ratio (float): Mixing ratio.
         GRAVG (float): Gravitational constant.
         RGAS_DRY (float): Gas constant for dry air.
@@ -915,10 +903,6 @@ class SplittedLapseRates:
             Create the ambient temperature profile from the given input parameters.
         specific_humidity(self, z: np.ndarray) -> np.ndarray:
             Create the specific humidity profile from the given input parameters.
-        wvel_profile(self, gbxbounds, ndims, ntime):
-            Returns updraught (w always >=0.0) sinusoidal profile with amplitude WMAX and wavelength 2*Wlength.
-        generate_winds(self, gbxbounds, ndims, ntime, THERMODATA):
-            Generates wind profiles and updates the THERMODATA dictionary.
         generate_thermo(self, gbxbounds, ndims, ntime):
             Generates thermodynamic profiles and returns the THERMODATA dictionary.
             This is the main method to be called for the class.
@@ -1069,7 +1053,5 @@ class SplittedLapseRates:
             "qvap": np.tile(specific_humidity, ntime),
             "qcond": np.full(shape_cen, self.qcond),
         }
-
-        THERMODATA = self.generate_winds(gbxbounds, ndims, ntime, THERMODATA)
 
         return THERMODATA
