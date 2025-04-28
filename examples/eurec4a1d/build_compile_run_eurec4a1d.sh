@@ -38,15 +38,14 @@ source ${path2CLEO}/scripts/levante/bash/src/check_inputs.sh
 
 ### -------------- run CLEO parameters ------------- ###
 run_script_path=${path2CLEO}/examples/eurec4a1d/scripts/run_job_array_eurec4a1d.sh
-path2data=${path2CLEO}/data/output_v4.3-CLEO_v0.39.7-input_v4.2/
+path2data=${path2CLEO}/data/output_v4.4-CLEO_v0.39.7-input_v4.2/
 subdir_pattern="cluster*"
 
-# microphysics="null_microphysics"
-microphysics="condensation"
+microphysics="null_microphysics"
+# microphysics="condensation"
 # microphysics="collision_condensation"
 # microphysics="coalbure_condensation_small"
 # microphysics="coalbure_condensation_large"
-# microphysics="coalbure_condensation_cke"
 
 executable_name="eurec4a1d_${microphysics}"
 run_excutable="${path2build}/examples/eurec4a1d/stationary_${microphysics}/src/${executable_name}"
