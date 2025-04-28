@@ -429,8 +429,9 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
             isprint=False,
         )
         number_gridboxes_total = np.size(zhalf)
-    except Exception:
-        raise KeyError("domain no. gridboxes not found")
+    except Exception as e:
+        logging.info("domain no. gridboxes not found due")
+        raise e
 
     ### ----- write thermodynamics binaries ----- ###
     logging.info("Create thermodynamics generator")
@@ -535,7 +536,8 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
                 NUMCONC=0,
             )
         except Exception as e:
-            logging.error(f"{e}")
+            logging.error("Error writing initial superdroplets binary file")
+            raise e
 
     ### ---------------------------------------------------------------- ###
     ### UPDATE THE BOUNDARY CONDITIONS FOR THE CONFIG FILE ###
@@ -581,37 +583,28 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
     ### ----- show (and save) plots of binary file data ----- ###
     with Capturing() as plot_info:
         if isfigures[0]:
-            try:
-                rgrid.plot_gridboxboundaries(
-                    constants_filename=constants_file_path,
-                    grid_filename=grid_file_path,
-                    savefigpath=fig_dir,
-                    savefig=isfigures[1],
-                )
-            except Exception as e:
-                logging.error(f"Error: {type(e)}")
-            try:
-                rthermo.plot_thermodynamics(
-                    constants_filename=constants_file_path,
-                    config_filename=config_file_path,
-                    grid_filename=grid_file_path,
-                    thermofiles=thermodynamics_file_path,
-                    savefigpath=fig_dir,
-                    savefig=isfigures[1],
-                )
-            except Exception as e:
-                logging.error(f"Error: {type(e)}")
-            try:
-                rsupers.plot_initGBxs_distribs(
-                    config_filename=config_file_path,
-                    constants_filename=constants_file_path,
-                    initsupers_filename=init_superdroplets_file_path,
-                    grid_filename=grid_file_path,
-                    savefigpath=fig_dir,
-                    savefig=isfigures[1],
-                    gbxs2plt=gridbox_to_plot,
-                )
-            except Exception as e:
-                logging.error(f"Error: {type(e)}")
+            rgrid.plot_gridboxboundaries(
+                constants_filename=constants_file_path,
+                grid_filename=grid_file_path,
+                savefigpath=fig_dir,
+                savefig=isfigures[1],
+            )
+            rthermo.plot_thermodynamics(
+                constants_filename=constants_file_path,
+                config_filename=config_file_path,
+                grid_filename=grid_file_path,
+                thermofiles=thermodynamics_file_path,
+                savefigpath=fig_dir,
+                savefig=isfigures[1],
+            )
+            rsupers.plot_initGBxs_distribs(
+                config_filename=config_file_path,
+                constants_filename=constants_file_path,
+                initsupers_filename=init_superdroplets_file_path,
+                grid_filename=grid_file_path,
+                savefigpath=fig_dir,
+                savefig=isfigures[1],
+                gbxs2plt=gridbox_to_plot,
+            )
 
             plt.close("all")
