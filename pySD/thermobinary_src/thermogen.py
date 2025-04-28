@@ -938,7 +938,7 @@ class SplittedLapseRates:
         if pressure_reference is None:
             self.pressure_reference = self.pressure_0
         else:
-            pass
+            self.pressure_reference = pressure_reference
 
         if any(
             (
