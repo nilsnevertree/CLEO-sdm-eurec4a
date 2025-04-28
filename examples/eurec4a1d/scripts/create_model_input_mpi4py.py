@@ -436,7 +436,7 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
             number_gridboxes_total = np.size(vols)
         except Exception as e:
             logging.info("Number of gridboxes not found due to exception")
-            logging.error(str(e))
+            raise e
 
         ### ----- write thermodynamics binaries ----- ###
         logging.info("Create thermodynamics generator")
@@ -542,7 +542,7 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
                 )
             except Exception as e:
                 logging.error("Error writing initial superdroplets binary file")
-                logging.error(str(e))
+                raise e
 
         ### ---------------------------------------------------------------- ###
         ### UPDATE THE BOUNDARY CONDITIONS FOR THE CONFIG FILE ###
