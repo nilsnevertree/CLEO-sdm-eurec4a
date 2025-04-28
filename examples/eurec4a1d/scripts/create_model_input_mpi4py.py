@@ -422,15 +422,17 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
         constants_filename=constants_file_path,
     )
 
+    # use the gridbox boundaries binary file to get the number of gridboxes
+    logging.info("Get number of gridboxes from gridbox binary file")
     try:
-        zhalf, xhalf, yhalf = rgrid.get_gridboxboundaries(
+        vols = rgrid.get_gbxvols_from_gridfile(
             grid_filename=grid_file_path,
             constants_filename=constants_file_path,
-            isprint=False,
+            isprint=True,
         )
-        number_gridboxes_total = np.size(zhalf)
+        number_gridboxes_total = np.size(vols)
     except Exception as e:
-        logging.info("domain no. gridboxes not found due")
+        logging.info("Number of gridboxes not found due to exception")
         raise e
 
     ### ----- write thermodynamics binaries ----- ###
