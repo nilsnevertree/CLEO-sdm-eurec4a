@@ -447,6 +447,7 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
         constants_filename=constants_file_path,
         cloud_base_height=relative_humidity_params["x_split"].values,  # type: ignore
         pressure_0=pressure_params["f_0"].values,  # type: ignore
+        pressure_reference=100000,  # use 1000 hPa as reference pressure [Pa] as in AMESOC (https://glossary.ametsoc.org/wiki/Potential_temperature)
         potential_temperature_0=potential_temperature_params["f_0"].values,  # type: ignore
         relative_humidity_0=relative_humidity_params["f_0"].values,  # type: ignore
         pressure_lapse_rates=(  # type: ignore
