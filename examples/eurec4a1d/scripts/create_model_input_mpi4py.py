@@ -422,23 +422,15 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
         constants_filename=constants_file_path,
     )
 
-    with Capturing() as grid_info:
-        rgrid.print_domain_info(constants_file_path, grid_file_path)
-    # extract the total number of gridboxes
-    found_number_gridboxes = False
-    for line in grid_info:
-        if "total no. gridboxes:" in line:
-            grid_dimensions = np.array(
-                line.split(":")[-1].replace(" ", "").split("x"), dtype=int
-            )
-            number_gridboxes_total = int(np.prod(grid_dimensions))
-            found_number_gridboxes = True
-
-    if found_number_gridboxes:
-        number_gridboxes_total = number_gridboxes_total
-    else:
-        number_gridboxes_total = 0
-        raise KeyError("domain no. gridboxes not found in grid_info")
+    try:
+        zhalf, xhalf, yhalf = rgrid.get_gridboxboundaries(
+            grid_filename=grid_file_path,
+            constants_filename=constants_file_path,
+            isprint=False,
+        )
+        number_gridboxes_total = np.size(zhalf)
+    except Exception:
+        raise KeyError("domain no. gridboxes not found")
 
     ### ----- write thermodynamics binaries ----- ###
     logging.info("Create thermodynamics generator")
@@ -447,6 +439,7 @@ for step, cloud_id in enumerate(sublist_cloud_ids):
         constants_filename=constants_file_path,
         cloud_base_height=relative_humidity_params["x_split"].values,  # type: ignore
         pressure_0=pressure_params["f_0"].values,  # type: ignore
+        pressure_reference=100000,  # use 1000 hPa as reference pressure [Pa] as in AMESOC (https://glossary.ametsoc.org/wiki/Potential_temperature)
         potential_temperature_0=potential_temperature_params["f_0"].values,  # type: ignore
         relative_humidity_0=relative_humidity_params["f_0"].values,  # type: ignore
         pressure_lapse_rates=(  # type: ignore
