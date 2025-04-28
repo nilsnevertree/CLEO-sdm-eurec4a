@@ -310,6 +310,7 @@ def temperature_from_potential_temperature_pressure(
         The pressure in Pa.
     pressure_reference : float
         The reference pressure in Pa.
+        Default is 100000 Pa.
     R_over_cp : float, optional
         The ratio of the gas constant of air to the specific heat capacity at
         constant pressure. Default is 0.286.
@@ -878,6 +879,12 @@ class SplittedLapseRates:
     relative_humidity_lapse_rates : Union[np.ndarray, Tuple[float, float]]
         Tuple of relative humidity lapse rates below and above the cloud base.
         Units of 1/m. NOT in percentage / m.
+    qcond : float
+        Initial liquid water content.
+    pressure_reference : Union[float, None], optional
+        Reference pressure for air temperature calculation.
+        If None, the surface pressure ``pressure_0`` is used as reference pressure.
+        Default is 1000 hPa.
 
     Attributes:
         cloud_base_height (float): Height of the cloud base.
@@ -920,11 +927,18 @@ class SplittedLapseRates:
         potential_temperature_lapse_rates: Union[np.ndarray, Tuple[float, float]],
         relative_humidity_lapse_rates: Union[np.ndarray, Tuple[float, float]],
         qcond: float,
+        pressure_reference: Union[float, None] = 100000,  # 1000 hPa
     ):
         self.cloud_base_height = cloud_base_height
         self.pressure_0 = pressure_0
         self.potential_temperature_0 = potential_temperature_0
         self.relative_humidity_0 = relative_humidity_0
+
+        # use the surface pressure as reference pressure if None is given
+        if pressure_reference is None:
+            self.pressure_reference = self.pressure_0
+        else:
+            pass
 
         if any(
             (
@@ -933,7 +947,7 @@ class SplittedLapseRates:
                 np.size(relative_humidity_lapse_rates) != 2,
             )
         ):
-            raise ValueError("The lapse rates need to be of size 2")
+            raise ValueError("The lapse rates need to be an array of length 2")
 
         self.pressure_lapse_rates = pressure_lapse_rates
         self.potential_temperature_lapse_rates = potential_temperature_lapse_rates
@@ -1015,7 +1029,7 @@ class SplittedLapseRates:
         return temperature_from_potential_temperature_pressure(
             potential_temperature=self.potential_temperature(z=z),
             pressure=self.pressure(z=z),
-            pressure_reference=self.pressure_0,
+            pressure_reference=self.pressure_reference,
         )
 
     def specific_humidity(
